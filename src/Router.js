@@ -3,9 +3,9 @@ import { Route, Switch } from "react-router-dom";
 import { AuthProvider } from "./AuthContext";
 
 // Routes
-import Home from "./Home";
-import Login from "./Auth/Login";
-import Register from "./Auth/Register";
+import Home from "./components/Home";
+import Login from "./components/Auth/Login";
+import Register from "./components/Auth/Register";
 import Profile from "./Profile";
 
 const Router = () => {
