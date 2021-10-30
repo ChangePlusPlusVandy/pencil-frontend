@@ -5,6 +5,7 @@ import { useAuth } from "../../AuthContext";
 const Register = () => {
   const { register } = useAuth();
   const history = useHistory();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,13 +22,13 @@ const Register = () => {
     }
     try {
       setIsLoading(true);
-      await register({ name, email, password });
+      await register(name, email, password);
       history.push("/");
     } catch (error) {
       setError(error.message);
     }
     setIsLoading(false);
-  }
+  };
 
   return (
     <div>
@@ -78,4 +79,7 @@ const Register = () => {
         Already have an account? <Link to="/login">Login</Link>
       </p>
     </div>
-  )
+  );
+};
+
+export default Register;

@@ -15,12 +15,23 @@ export function AuthProvider({ children }) {
     return firebase.auth().signInWithEmailAndPassword(email, password);
   }
 
-  function register(email, password) {
-    return firebase.auth().createUserWithEmailAndPassword(email, password);
+  function register(name, email, password) {
+    return firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((cred) => {
+        return cred.user.updateProfile({
+          displayName: name,
+        });
+      });
   }
 
   function logout() {
     return firebase.auth().signOut();
+  }
+
+  function getUser() {
+    return firebase.auth().currentUser;
   }
 
   useEffect(() => {
@@ -36,6 +47,7 @@ export function AuthProvider({ children }) {
     login,
     register,
     logout,
+    getUser,
   };
 
   return (

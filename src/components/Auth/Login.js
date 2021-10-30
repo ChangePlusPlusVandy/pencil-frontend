@@ -3,13 +3,13 @@ import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 
 const Login = () => {
+  const { login } = useAuth();
+  const history = useHistory();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const history = useHistory();
-
-  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
