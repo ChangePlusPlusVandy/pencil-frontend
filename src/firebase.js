@@ -1,5 +1,5 @@
 import firebase from "firebase";
-import '@firebase/auth';
+import "@firebase/auth";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -12,7 +12,7 @@ const firebaseConfig = {
 };
 
 if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig);
 }
 
 export default firebase;
