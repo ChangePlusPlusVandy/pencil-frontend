@@ -2,6 +2,7 @@
   "name": "pencil-frontend",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3001",
   "dependencies": {
     "firebase": "^8.10.0",
     "react": "^17.0.2",
