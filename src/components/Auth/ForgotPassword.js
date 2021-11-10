@@ -2,17 +2,25 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../../AuthContext";
 import { Link } from "react-router-dom";
 
+/**
+ * Allows the user to reset their password.
+ * @return {Object} - Page to reset password
+ * */
 const ForgotPassword = () => {
   const { forgotPassword } = useAuth();
 
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
+  const [email, setEmail] = useState("");     // Email address
+  const [error, setError] = useState("");     // Error message
+  const [message, setMessage] = useState(""); // Success message
 
-  const handleSubmit = (e) => {
+  /**
+    * Handles the submission of the password reset form.
+    * @param {Object} event - Event object
+    * */
+  const handleSubmit = (event) => {
+    event.preventDefault();
     setMessage("");
     setError("");
-    e.preventDefault();
     forgotPassword(email)
       .then(() => {
         setMessage("Check your email for a reset link");
@@ -31,7 +39,7 @@ const ForgotPassword = () => {
           type="email"
           placeholder="Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(event) => setEmail(event.target.value)}
         />
         <button type="submit">Reset Password</button>
       </form>

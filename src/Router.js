@@ -10,6 +10,11 @@ import Register from "./components/Auth/Register";
 import Profile from "./components/Auth/Profile";
 import ForgotPassword from "./components/Auth/ForgotPassword";
 
+/**
+ * Router for dashboard.
+ * 
+ * @returns {Object} - Switch router for all url paths.
+ * */
 const Router = () => {
   return (
     <AuthProvider>

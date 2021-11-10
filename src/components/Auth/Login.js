@@ -2,17 +2,25 @@ import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 
+/**
+ * Allows user to log in to the application.
+ * @return {Object} - Login page.
+ * */
 const Login = () => {
   const { login } = useAuth();
   const history = useHistory();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState("");            // Email of user.
+  const [password, setPassword] = useState("");      // Password of user.
+  const [isLoading, setIsLoading] = useState(false); // Is the login process in progress?
+  const [error, setError] = useState("");            // Error message.
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  /**
+   * Handles the login process.
+   * @param {Object} event - Event object.
+   * */
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     setIsLoading(true);
     try {
       await login(email, password);
@@ -33,7 +41,7 @@ const Login = () => {
             type="email"
             id="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </div>
         <div>
@@ -42,7 +50,7 @@ const Login = () => {
             type="password"
             id="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(event) => setPassword(event.target.value)}
           />
         </div>
         <button disabled={isLoading} type="submit">
