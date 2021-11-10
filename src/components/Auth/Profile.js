@@ -2,12 +2,16 @@ import { useHistory } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../AuthContext";
 
+/**
+ * Allows user to view their profile information.
+ * @return {Object} - Profile page
+ * */
 const Profile = () => {
   const { logout, getUser } = useAuth();
   const history = useHistory();
 
-  const [user, setUser] = useState(null);
-  let [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(null);            // User object.
+  let [isLoading, setIsLoading] = useState(true);    // Loading state.
 
   useEffect(() => {
     let currentUser = getUser();
@@ -17,6 +21,9 @@ const Profile = () => {
     }
   }, []);
 
+  /**
+   * Logs user out and redirects them to home.
+   * */
   const handleLogout = () => {
     logout();
     history.push("/");

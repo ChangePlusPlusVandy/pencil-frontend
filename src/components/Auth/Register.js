@@ -2,19 +2,27 @@ import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 
+/**
+ * Allows user to register.
+ * @return {Object} - Register page.
+ * */
 const Register = () => {
   const { register } = useAuth();
   const history = useHistory();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [name, setName] = useState("");                        // name
+  const [email, setEmail] = useState("");                      // email
+  const [password, setPassword] = useState("");                // password
+  const [passwordConfirm, setPasswordConfirm] = useState("");  // password confirm
+  const [error, setError] = useState("");                      // error
+  const [isLoading, setIsLoading] = useState(false);           // is loading
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  /**
+   * Handles the registration process.
+   * @param {Object} event - Event object.
+   * */
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     setError("");
     if (password !== passwordConfirm) {
       setError("Passwords do not match");
@@ -40,7 +48,7 @@ const Register = () => {
             type="text"
             id="name"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(event) => setName(event.target.value)}
           />
         </div>
         <div>
@@ -49,7 +57,7 @@ const Register = () => {
             type="email"
             id="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </div>
         <div>
@@ -58,7 +66,7 @@ const Register = () => {
             type="password"
             id="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(event) => setPassword(event.target.value)}
           />
         </div>
         <div>
@@ -67,7 +75,7 @@ const Register = () => {
             type="password"
             id="passwordConfirm"
             value={passwordConfirm}
-            onChange={(e) => setPasswordConfirm(e.target.value)}
+            onChange={(event) => setPasswordConfirm(event.target.value)}
           />
         </div>
         <button type="submit" disabled={isLoading}>
