@@ -9,6 +9,7 @@ import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import Profile from "./components/Auth/Profile";
 import ForgotPassword from "./components/Auth/ForgotPassword";
+import Dashboard from "./components/Dashboard";
 
 /**
  * Router for dashboard.
@@ -22,8 +23,9 @@ const Router = () => {
         <PrivateRoute exact path="/" component={Home} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
-        <Route exact path="/profile" component={Profile} />
+        <PrivateRoute exact path="/profile" component={Profile} />
         <Route exact path="/forgot-password" component={ForgotPassword} />
+        <PrivateRoute exact path="/dashboard" component={Dashboard} />
       </Switch>
     </AuthProvider>
   );
