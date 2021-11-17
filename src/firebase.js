@@ -1,5 +1,6 @@
-import firebase from "firebase";
-import "@firebase/auth";
+import firebase from 'firebase/app';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import '@firebase/auth';
 
 // Firebase configuration
 const firebaseConfig = {

@@ -1,11 +1,18 @@
-import React, { useContext, useState, useEffect, createContext } from "react";
-import firebase from "./firebase";
+import PropTypes from 'prop-types';
+import React, {
+  useContext,
+  useState,
+  useEffect,
+  createContext,
+  useMemo,
+} from 'react';
+import firebase from './firebase';
 
 const AuthContext = createContext();
 
 /**
  * Allows for context to be imported in a page.
- * 
+ *
  * @returns {Object} - The context object.
  * */
 export function useAuth() {
@@ -17,7 +24,7 @@ export function useAuth() {
  * @param {Object} {children} - Children helpers/state of component.
  * @returns {Object} - Created context with children helpers/states.
  * */
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -42,11 +49,11 @@ export function AuthProvider({ children }) {
     return firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then((cred) => {
-        return cred.user.updateProfile({
+      .then((cred) =>
+        cred.user.updateProfile({
           displayName: name,
-        });
-      });
+        })
+      );
   }
 
   /**
@@ -87,19 +94,25 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, []);
 
-  
-  const value = {
-    currentUser,
-    login,
-    register,
-    logout,
-    getUser,
-    forgotPassword,
-  };
+  const value = useMemo(
+    () => ({
+      currentUser,
+      login,
+      register,
+      logout,
+      getUser,
+      forgotPassword,
+    }),
+    [currentUser, login, register, logout, getUser, forgotPassword]
+  );
 
   return (
     <AuthContext.Provider value={value}>
       {!isLoading && children}
     </AuthContext.Provider>
   );
-}
+};
+
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../../AuthContext";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../AuthContext';
 
 /**
  * Allows the user to reset their password.
@@ -9,25 +9,25 @@ import { Link } from "react-router-dom";
 const ForgotPassword = () => {
   const { forgotPassword } = useAuth();
 
-  const [email, setEmail] = useState("");     // Email address
-  const [error, setError] = useState("");     // Error message
-  const [message, setMessage] = useState(""); // Success message
+  const [email, setEmail] = useState(''); // Email address
+  const [error, setError] = useState(''); // Error message
+  const [message, setMessage] = useState(''); // Success message
 
   /**
-    * Handles the submission of the password reset form.
-    * @param {Object} event - Event object
-    * */
+   * Handles the submission of the password reset form.
+   * @param {Object} event - Event object
+   * */
   const handleSubmit = (event) => {
     event.preventDefault();
-    setMessage("");
-    setError("");
+    setMessage('');
+    setError('');
     forgotPassword(email)
       .then(() => {
-        setMessage("Check your email for a reset link");
-        setEmail("");
+        setMessage('Check your email for a reset link');
+        setEmail('');
       })
-      .catch((error) => {
-        setError(error.message);
+      .catch((err) => {
+        setError(err.message);
       });
   };
 

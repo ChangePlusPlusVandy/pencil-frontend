@@ -1,6 +1,6 @@
-import { useHistory } from "react-router-dom";
-import React, { useState, useEffect } from "react";
-import { useAuth } from "../../AuthContext";
+import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../AuthContext';
 
 /**
  * Allows user to view their profile information.
@@ -10,11 +10,11 @@ const Profile = () => {
   const { logout, getUser } = useAuth();
   const history = useHistory();
 
-  const [user, setUser] = useState(null);            // User object.
-  let [isLoading, setIsLoading] = useState(true);    // Loading state.
+  const [user, setUser] = useState(null); // User object.
+  const [isLoading, setIsLoading] = useState(true); // Loading state.
 
   useEffect(() => {
-    let currentUser = getUser();
+    const currentUser = getUser();
     if (currentUser) {
       setUser(currentUser);
       setIsLoading(false);
@@ -26,7 +26,7 @@ const Profile = () => {
    * */
   const handleLogout = () => {
     logout();
-    history.push("/");
+    history.push('/');
   };
 
   return (
@@ -42,7 +42,9 @@ const Profile = () => {
           <p>
             <strong>Email:</strong> {user.email}
           </p>
-          <button onClick={handleLogout}>Logout</button>
+          <button type="button" onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       )}
     </div>

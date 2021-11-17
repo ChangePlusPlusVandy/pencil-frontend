@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { useAuth } from "../../AuthContext";
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { useAuth } from '../../AuthContext';
 
 /**
  * Allows user to register.
@@ -10,12 +10,12 @@ const Register = () => {
   const { register } = useAuth();
   const history = useHistory();
 
-  const [name, setName] = useState("");                        // name
-  const [email, setEmail] = useState("");                      // email
-  const [password, setPassword] = useState("");                // password
-  const [passwordConfirm, setPasswordConfirm] = useState("");  // password confirm
-  const [error, setError] = useState("");                      // error
-  const [isLoading, setIsLoading] = useState(false);           // is loading
+  const [name, setName] = useState(''); // name
+  const [email, setEmail] = useState(''); // email
+  const [password, setPassword] = useState(''); // password
+  const [passwordConfirm, setPasswordConfirm] = useState(''); // password confirm
+  const [error, setError] = useState(''); // error
+  const [isLoading, setIsLoading] = useState(false); // is loading
 
   /**
    * Handles the registration process.
@@ -23,17 +23,17 @@ const Register = () => {
    * */
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError("");
+    setError('');
     if (password !== passwordConfirm) {
-      setError("Passwords do not match");
+      setError('Passwords do not match');
       return;
     }
     try {
       setIsLoading(true);
       await register(name, email, password);
-      history.push("/");
-    } catch (error) {
-      setError(error.message);
+      history.push('/');
+    } catch (err) {
+      setError(err.message);
     }
     setIsLoading(false);
   };
@@ -43,43 +43,55 @@ const Register = () => {
       <h1>Register</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-          />
+          <label htmlFor="name">
+            Name
+            <input
+              type="text"
+              id="name"
+              autoComplete="name"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+            />
+          </label>
         </div>
         <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
+          <label htmlFor="email">
+            Email
+            <input
+              type="email"
+              id="email"
+              autoComplete="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </label>
         </div>
         <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
+          <label htmlFor="password">
+            Password
+            <input
+              type="password"
+              id="password"
+              autoComplete="new-password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </label>
         </div>
         <div>
-          <label htmlFor="passwordConfirm">Confirm Password</label>
-          <input
-            type="password"
-            id="passwordConfirm"
-            value={passwordConfirm}
-            onChange={(event) => setPasswordConfirm(event.target.value)}
-          />
+          <label htmlFor="passwordConfirm">
+            Confirm Password
+            <input
+              type="password"
+              id="passwordConfirm"
+              autoComplete="new-password"
+              value={passwordConfirm}
+              onChange={(event) => setPasswordConfirm(event.target.value)}
+            />
+          </label>
         </div>
         <button type="submit" disabled={isLoading}>
-          {isLoading ? "Loading..." : "Register"}
+          {isLoading ? 'Loading...' : 'Register'}
         </button>
         {error && <p>{error}</p>}
       </form>
