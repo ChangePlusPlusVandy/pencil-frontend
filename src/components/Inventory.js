@@ -10,44 +10,9 @@ import './Inventory.css';
 const ReactList = () => {
   const [data, setData] = useState([]);
 
-  // const tempData = [
-  //   {
-  //     itemName: 'Backpacks',
-  //     itemLimit: '6',
-  //   },
-  //   {
-  //     itemName: 'Crayons (packs)',
-  //     itemLimit: '6',
-  //   },
-  //   {
-  //     itemName: '8 oz Glue',
-  //     itemLimit: '6',
-  //   },
-  //   {
-  //     itemName: 'Hand Fans',
-  //     itemLimit: '60',
-  //   },
-  //   {
-  //     itemName: 'Erasers',
-  //     itemLimit: '6',
-  //   },
-  //   {
-  //     itemName: 'Pens',
-  //     itemLimit: '200',
-  //   },
-  //   {
-  //     itemName: 'Pencils',
-  //     itemLimit: '120',
-  //   },
-  //   {
-  //     itemName: 'Posters',
-  //     itemLimit: '50',
-  //   },
-  // ];
-
   const newItem = {
     itemName: 'Generic Item #',
-    itemLimit: data.length + 1,
+    itemLimit: data.length + 1, // temporary
   };
 
   const addItem = () => {
@@ -55,12 +20,18 @@ const ReactList = () => {
     setData([...data, newItem]);
   };
 
+  const updateData = (newData) => {
+    console.log(data, newData);
+    setData([]);
+    setData(data);
+  };
+
   const dragProps = {
     onDragEnd(fromIndex, toIndex) {
       const newData = data;
       const item = newData.splice(fromIndex, 1)[0];
       newData.splice(toIndex, 0, item);
-      setData(newData);
+      updateData(newData);
     },
     nodeSelector: 'li',
     handleSelector: 'div',
@@ -97,15 +68,11 @@ const ReactList = () => {
   );
 };
 
-const Inventory = () => {
-  const a = 0;
-
-  return (
-    <div>
-      <Link to="/">Back</Link>
-      <ReactList />
-    </div>
-  );
-};
+const Inventory = () => (
+  <div>
+    <Link to="/">Back</Link>
+    <ReactList />
+  </div>
+);
 
 export default Inventory;
