@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../AuthContext';
 
@@ -45,6 +45,8 @@ const Profile = () => {
           <button type="button" onClick={handleLogout}>
             Logout
           </button>
+          <br />
+          <Link to="/">Back</Link>
         </div>
       )}
     </div>

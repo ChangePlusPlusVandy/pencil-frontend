@@ -6,6 +6,8 @@ const Home = () => (
     This is the home page
     <br />
     <Link to="/profile">Profile</Link>
+    <br />
+    <Link to="/inventory">Inventory</Link>
   </div>
 );
 
