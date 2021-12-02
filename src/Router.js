@@ -10,7 +10,7 @@ import Register from './components/Auth/Register';
 import Profile from './components/Auth/Profile';
 import ForgotPassword from './components/Auth/ForgotPassword';
 import Dashboard from './components/Dashboard';
-import Inventory from './components/Inventory';
+import Inventory from './components/Inventory/Inventory';
 
 /**
  * Router for dashboard.

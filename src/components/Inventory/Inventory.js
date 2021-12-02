@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useState, useEffect } from 'react';
-import ReactDOM, { render } from 'react-dom';
+import React, { useState } from 'react';
 import ReactDragListView from 'react-drag-listview/lib/index';
 import { Link } from 'react-router-dom';
 import { GiHamburgerMenu } from 'react-icons/gi';
@@ -35,6 +34,7 @@ const ReactList = () => {
     },
     nodeSelector: 'li',
     handleSelector: 'div',
+    lineClassName: 'dragLine',
   };
 
   return (
