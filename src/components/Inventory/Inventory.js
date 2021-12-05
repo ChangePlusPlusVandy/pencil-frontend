@@ -17,8 +17,7 @@ const ReactList = () => {
 
   const addItem = () => {
     // add popup
-    // setAddItemVisible(true);
-    setData([...data, newItem]);
+    setAddItemVisible(true);
   };
 
   const updateData = (newData) => {
@@ -59,7 +58,7 @@ const ReactList = () => {
       </div>
       <div className="itemContainer">
         <div className="containerHeader">
-          Item Name <span className="itemLimit">Item Limit</span>
+          Item Name <span className="headerItemLimit">Item Limit</span>
         </div>
         <ReactDragListView {...dragProps}>
           <ul>
