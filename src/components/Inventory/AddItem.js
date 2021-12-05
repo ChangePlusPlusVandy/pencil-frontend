@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import './AddItem.css';
 
-const AddItem = ({ setVisible, setData, data }) => {
+const AddItem = ({ setVisible, setData, data, setChanged }) => {
   const [name, setName] = useState('');
   const [limit, setLimit] = useState(0);
 
@@ -22,6 +22,7 @@ const AddItem = ({ setVisible, setData, data }) => {
 
   const handleSubmit = () => {
     setData([...data, { itemName: name, itemLimit: limit }]);
+    setChanged(true);
     setVisibleOff();
   };
 
