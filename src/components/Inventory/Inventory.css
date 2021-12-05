@@ -56,3 +56,16 @@
 .dragLine {
   border-bottom: solid 2px #95d7af !important;
 }
+
+.inventoryContainer {
+  width : 80vw;
+  min-height: 50vh;
+  display : flex;
+  flex-direction: column;
+  margin : auto;
+  padding-top : 10px;
+  padding-bottom : 10px;
+  background-color : #FFFFFF;
+  border-radius: 20px;
+  box-shadow: 0 0 10px #000000;
+}

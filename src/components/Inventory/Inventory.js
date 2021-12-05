@@ -1,11 +1,14 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
+import ReactDOM, { render } from 'react-dom';
 import ReactDragListView from 'react-drag-listview/lib/index';
 import { Link } from 'react-router-dom';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import './Inventory.css';
 import AddItem from './AddItem';
+import Item from './Item';
 
 const ReactList = () => {
   const [data, setData] = useState([]);
@@ -53,21 +56,16 @@ const ReactList = () => {
           Save
         </button>
       </div>
-      <ReactDragListView {...dragProps}>
-        <ul>
-          {data.map((item, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <li key={index}>
-              <div className="dragIcon">
-                <GiHamburgerMenu />
-              </div>
-              <div className="itemOrder">{index + 1}</div>
-              {item.itemName}
-              {item.itemLimit}
-            </li>
-          ))}
-        </ul>
-      </ReactDragListView>
+      <div className="inventoryContainer">
+        <ReactDragListView {...dragProps}>
+          <ul>
+            {data.map((item, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <Item key={index} name={item.itemName} limit={item.itemLimit} />
+            ))}
+          </ul>
+        </ReactDragListView>
+      </div>
     </div>
   );
 };

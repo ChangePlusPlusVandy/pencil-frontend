@@ -1,0 +1,10 @@
+.newItem {
+	height : 70px;
+	width : 95%;
+	margin: auto;
+	margin-top : 15px;
+	margin-bottom : 15px;
+	background-color: #E5E5E5;
+	border-radius: 20px;
+	box-shadow: 0 0 10px #484848;
+}
