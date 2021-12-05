@@ -10,12 +10,6 @@
   align-items: center;
 }
 
-.itemName {
-  width: 200px;
-  padding-left: 10px;
-  background-color: green;
-}
-
 .itemLimit {
   width: 50px;
   text-align: center;

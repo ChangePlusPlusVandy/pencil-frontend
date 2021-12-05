@@ -3,11 +3,10 @@ import React from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { GrClose } from 'react-icons/gr';
 import './Item.css';
+import EditableText from './EditableText';
 
 const Item = ({ number, name, limit }) => {
-  const handleTextClick = () => {
-    console.log('im clicked!');
-  };
+  const a = 0;
 
   return (
     <li className="newItem">
@@ -15,15 +14,12 @@ const Item = ({ number, name, limit }) => {
         <GiHamburgerMenu />
       </div>
       <div className="itemOrder">{number + 1}</div>
-      <div
+      <EditableText
         className="itemName"
-        onClick={handleTextClick}
-        onKeyDown={handleTextClick}
         role="button"
         tabIndex="-1"
-      >
-        {name}
-      </div>
+        initValue={name}
+      />
       <div className="itemLimit">{limit}</div>
       <div className="itemDelete">
         <GrClose />
