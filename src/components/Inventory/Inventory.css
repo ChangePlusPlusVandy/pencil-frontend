@@ -1,12 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap');
+
+.inventoryContainer {
+  width : 80vw;
+  padding : 0 10vw;
+  font-size: 18px;
+}
+
+.inventoryContainer ul {
+  list-style-type: none;
+}
+
 .inventoryHeader {
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding : 0 10px;
+  font-family: 'Roboto', sans-serif;
 }
 
 .inventoryButton {
   font-size: 14px;
-  margin-left: 20px;
+  margin-left: 25px;
+  margin-right: 8px;
   opacity: 75%;
   text-decoration: underline;
 }
@@ -26,15 +41,6 @@
 
 .saveButton:hover {
   cursor: pointer;
-}
-
-.reactList {
-  margin: 20px;
-  font-size: 18px;
-}
-
-.reactList ul {
-  list-style-type: none;
 }
 
 .dragIcon {
@@ -57,15 +63,28 @@
   border-bottom: solid 2px #95d7af !important;
 }
 
-.inventoryContainer {
-  width : 80vw;
+.itemContainer {
+  width : 100%;
   min-height: 50vh;
   display : flex;
   flex-direction: column;
   margin : auto;
-  padding-top : 10px;
-  padding-bottom : 10px;
+  padding : 10px 0;
   background-color : #FFFFFF;
   border-radius: 20px;
-  box-shadow: 0 0 10px #000000;
+  box-shadow: 0 0 5px #000000;
+}
+
+.containerHeader {
+  height : 40px;
+  margin-top : 10px;
+  padding-left : 12%;
+  padding-right : 12%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color : #8A8A8A;
+}
+
+.itemLimit {
+  float : right;
 }
