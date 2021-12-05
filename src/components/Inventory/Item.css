@@ -1,10 +1,35 @@
 .newItem {
-	height : 70px;
-	width : 95%;
-	margin: auto;
-	margin-top : 15px;
-	margin-bottom : 15px;
-	background-color: #E5E5E5;
-	border-radius: 20px;
-	box-shadow: 0 0 10px #484848;
+  height: 70px;
+  width: 95%;
+  margin: auto;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  background-color: #e5e5e5;
+  border-radius: 20px;
+  box-shadow: 0 0 10px #484848;
+  display: flex;
+  align-items: center;
+}
+
+.itemName {
+  width: 200px;
+  padding-left: 10px;
+  background-color: green;
+}
+
+.itemLimit {
+  width: 50px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: 20px;
+  background-color: greenyellow;
+}
+
+.itemName:hover,
+.itemLimit:hover {
+  cursor: text;
+}
+
+.itemDelete {
+  margin-right: 20px;
 }

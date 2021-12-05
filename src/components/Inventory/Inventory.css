@@ -63,10 +63,11 @@
   border-bottom: solid 2px #95d7af !important;
 }
 
+
 .itemContainer {
   width : 100%;
   min-height: 50vh;
-  display : flex;
+  display: flex;
   flex-direction: column;
   margin : auto;
   padding : 10px 0;
