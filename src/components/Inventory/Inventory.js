@@ -5,7 +5,6 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM, { render } from 'react-dom';
 import ReactDragListView from 'react-drag-listview/lib/index';
 import { Link } from 'react-router-dom';
-import { GiHamburgerMenu } from 'react-icons/gi';
 import './Inventory.css';
 import AddItem from './AddItem';
 import Item from './Item';

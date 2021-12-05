@@ -58,14 +58,14 @@
 }
 
 .inventoryContainer {
-  width : 80vw;
+  width: 80vw;
   min-height: 50vh;
-  display : flex;
+  display: flex;
   flex-direction: column;
-  margin : auto;
-  padding-top : 10px;
-  padding-bottom : 10px;
-  background-color : #FFFFFF;
+  margin: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #ffffff;
   border-radius: 20px;
   box-shadow: 0 0 10px #000000;
 }
