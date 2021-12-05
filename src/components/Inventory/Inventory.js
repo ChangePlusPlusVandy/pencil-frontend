@@ -14,11 +14,6 @@ const ReactList = () => {
   const [data, setData] = useState([]);
   const [isAddItemVisible, setAddItemVisible] = useState(false);
 
-  const newItem = {
-    itemName: 'Generic Item #',
-    itemLimit: data.length + 1, // temporary
-  };
-
   const addItem = () => {
     // add popup
     setAddItemVisible(true);
@@ -31,6 +26,7 @@ const ReactList = () => {
     setData(data);
   };
 
+  // Properties to pass to ReactDragListView package
   const dragProps = {
     onDragEnd(fromIndex, toIndex) {
       const newData = data;
@@ -45,7 +41,9 @@ const ReactList = () => {
 
   return (
     <div className="reactList">
-      {isAddItemVisible && <AddItem setVisible={setAddItemVisible} />}
+      {isAddItemVisible && (
+        <AddItem setVisible={setAddItemVisible} setData={setData} data={data} />
+      )}
       <div className="inventoryHeader">
         <h2>Inventory ({data.length})</h2>
         <div className="inventoryButton">Print Inventory</div>
@@ -61,7 +59,11 @@ const ReactList = () => {
           <ul>
             {data.map((item, index) => (
               // eslint-disable-next-line react/no-array-index-key
-              <Item key={index} name={item.itemName} limit={item.itemLimit} />
+              <Item
+                number={index}
+                name={item.itemName}
+                limit={item.itemLimit}
+              />
             ))}
           </ul>
         </ReactDragListView>

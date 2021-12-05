@@ -3,15 +3,15 @@ import React from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import './Item.css';
 
-const Item = ({ key, name, limit }) => (
-  <div className="newItem">
+const Item = ({ number, name, limit }) => (
+  <li className="newItem">
     <div className="dragIcon">
       <GiHamburgerMenu />
     </div>
-    <div className="itemOrder">{key + 1}</div>
+    <div className="itemOrder">{number + 1}</div>
     {name}
     {limit}
-  </div>
+  </li>
 );
 
 export default Item;
