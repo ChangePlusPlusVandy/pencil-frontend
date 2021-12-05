@@ -5,6 +5,8 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM, { render } from 'react-dom';
 import ReactDragListView from 'react-drag-listview/lib/index';
 import { Link } from 'react-router-dom';
+import { AiFillPrinter } from 'react-icons/ai';
+import { GrFormAdd } from 'react-icons/gr';
 import './Inventory.css';
 import AddItem from './AddItem';
 import Item from './Item';
@@ -15,8 +17,8 @@ const ReactList = () => {
 
   const addItem = () => {
     // add popup
-    setAddItemVisible(true);
-    // setData([...data, newItem]);
+    // setAddItemVisible(true);
+    setData([...data, newItem]);
   };
 
   const updateData = (newData) => {
@@ -39,21 +41,26 @@ const ReactList = () => {
   };
 
   return (
-    <div className="reactList">
+    <div className="inventoryContainer">
       {isAddItemVisible && (
         <AddItem setVisible={setAddItemVisible} setData={setData} data={data} />
       )}
       <div className="inventoryHeader">
         <h2>Inventory ({data.length})</h2>
         <div className="inventoryButton">Print Inventory</div>
+        <AiFillPrinter />
         <div className="inventoryButton" onClick={addItem}>
           Add Item
         </div>
+        <GrFormAdd />
         <button type="button" className="saveButton">
           Save
         </button>
       </div>
-      <div className="inventoryContainer">
+      <div className="itemContainer">
+        <div className="containerHeader">
+          Item Name <span className="itemLimit">Item Limit</span>
+        </div>
         <ReactDragListView {...dragProps}>
           <ul>
             {data.map((item, index) => (
