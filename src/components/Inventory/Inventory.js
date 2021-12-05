@@ -1,15 +1,18 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+
 import React, { useState, useEffect } from 'react';
 import ReactDOM, { render } from 'react-dom';
 import ReactDragListView from 'react-drag-listview/lib/index';
 import { Link } from 'react-router-dom';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import './Inventory.css';
+import AddItem from './AddItem';
 import Item from './Item';
 
 const ReactList = () => {
   const [data, setData] = useState([]);
+  const [isAddItemVisible, setAddItemVisible] = useState(false);
 
   const newItem = {
     itemName: 'Generic Item #',
@@ -18,7 +21,8 @@ const ReactList = () => {
 
   const addItem = () => {
     // add popup
-    setData([...data, newItem]);
+    setAddItemVisible(true);
+    // setData([...data, newItem]);
   };
 
   const updateData = (newData) => {
@@ -36,10 +40,12 @@ const ReactList = () => {
     },
     nodeSelector: 'li',
     handleSelector: 'div',
+    lineClassName: 'dragLine',
   };
 
   return (
     <div className="reactList">
+      {isAddItemVisible && <AddItem setVisible={setAddItemVisible} />}
       <div className="inventoryHeader">
         <h2>Inventory ({data.length})</h2>
         <div className="inventoryButton">Print Inventory</div>
