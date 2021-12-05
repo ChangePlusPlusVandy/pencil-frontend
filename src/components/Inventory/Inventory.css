@@ -36,11 +36,21 @@
   height: 32px;
   border-radius: 50px;
   border-style: none;
+  background-color: #E5E5E5;
+}
+
+.saveButtonChanged{
+  margin-left: auto;
+  width: 105px;
+  height: 32px;
+  border-radius: 50px;
+  border-style: none;
   background-color: #71c3e7;
 }
 
 .saveButton:hover {
   cursor: pointer;
+  background-color: #71c3e7;
 }
 
 .dragIcon {
@@ -63,7 +73,6 @@
   border-bottom: solid 2px #95d7af !important;
 }
 
-
 .itemContainer {
   width : 100%;
   min-height: 50vh;
@@ -76,8 +85,12 @@
   box-shadow: 0 0 5px #000000;
 }
 
+.dragList {
+  padding: 0 0;
+}
+
 .containerHeader {
-  height : 40px;
+  height : 20px;
   margin-top : 10px;
   padding-left : 12%;
   padding-right : 12%;
@@ -86,6 +99,6 @@
   color : #8A8A8A;
 }
 
-.itemLimit {
+.headerItemLimit {
   float : right;
 }

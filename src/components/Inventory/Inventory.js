@@ -14,11 +14,11 @@ import Item from './Item';
 const ReactList = () => {
   const [data, setData] = useState([]);
   const [isAddItemVisible, setAddItemVisible] = useState(false);
+  const [changed, setChanged] = useState(false);
 
   const addItem = () => {
     // add popup
-    // setAddItemVisible(true);
-    setData([...data, newItem]);
+    setAddItemVisible(true);
   };
 
   const updateData = (newData) => {
@@ -40,10 +40,21 @@ const ReactList = () => {
     lineClassName: 'dragLine',
   };
 
+  useEffect(() => {
+    if (changed) {
+      document.getElementById('saveButton').className = 'saveButtonChanged';
+    }
+  }, [changed]);
+
   return (
     <div className="inventoryContainer">
       {isAddItemVisible && (
-        <AddItem setVisible={setAddItemVisible} setData={setData} data={data} />
+        <AddItem
+          setVisible={setAddItemVisible}
+          setData={setData}
+          data={data}
+          setChanged={setChanged}
+        />
       )}
       <div className="inventoryHeader">
         <h2>Inventory ({data.length})</h2>
@@ -53,16 +64,16 @@ const ReactList = () => {
           Add Item
         </div>
         <GrFormAdd />
-        <button type="button" className="saveButton">
+        <button type="button" className="saveButton" id="saveButton">
           Save
         </button>
       </div>
       <div className="itemContainer">
         <div className="containerHeader">
-          Item Name <span className="itemLimit">Item Limit</span>
+          Item Name <span className="headerItemLimit">Item Limit</span>
         </div>
         <ReactDragListView {...dragProps}>
-          <ul>
+          <ul className="dragList">
             {data.map((item, index) => (
               // eslint-disable-next-line react/no-array-index-key
               <Item
