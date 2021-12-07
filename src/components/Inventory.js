@@ -5,19 +5,26 @@ import ReactDOM, { render } from 'react-dom';
 import ReactDragListView from 'react-drag-listview/lib/index';
 import { Link } from 'react-router-dom';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import ItemPopup from './ItemPopup';
 import './Inventory.css';
 
 const ReactList = () => {
   const [data, setData] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
 
-  const newItem = {
-    itemName: 'Generic Item #',
-    itemLimit: data.length + 1, // temporary
-  };
-
-  const addItem = () => {
+  const addItem = (e, formInfo) => {
+    e.preventDefault();
+    const newItem = {
+      itemName: formInfo.itemName,
+      itemLimit: formInfo.itemLimit,
+    };
     // add popup
     setData([...data, newItem]);
+    setShowPopup(false);
+  };
+
+  const handleClose = () => {
+    setShowPopup(false);
   };
 
   const updateData = (newData) => {
@@ -42,7 +49,7 @@ const ReactList = () => {
       <div className="inventoryHeader">
         <h2>Inventory ({data.length})</h2>
         <div className="inventoryButton">Print Inventory</div>
-        <div className="inventoryButton" onClick={addItem}>
+        <div className="inventoryButton" onClick={() => setShowPopup(true)}>
           Add Item
         </div>
         <button type="button" className="saveButton">
@@ -64,6 +71,7 @@ const ReactList = () => {
           ))}
         </ul>
       </ReactDragListView>
+      <ItemPopup show={showPopup} onClose={handleClose} onSubmit={addItem} />
     </div>
   );
 };
