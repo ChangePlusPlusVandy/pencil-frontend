@@ -74,7 +74,13 @@
 }
 
 .dragLine {
-  border-bottom: solid 2px #95d7af !important;
+  margin-left: -1vw;
+  border-bottom: solid 3px #95d7af !important;
+}
+
+.dragLine::before {
+  content: "   ";
+  background-color: #95d7af;
 }
 
 .itemContainer {
@@ -96,8 +102,8 @@
 .containerHeader {
   height: 20px;
   margin-top: 10px;
-  padding-left: 12%;
-  padding-right: 12%;
+  padding-left : 17.5%;
+  padding-right : 15%;
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   color: #8a8a8a;
