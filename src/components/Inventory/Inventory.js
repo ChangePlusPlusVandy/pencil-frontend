@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
 import React, { useState, useEffect } from 'react';
-import ReactDOM, { render } from 'react-dom';
 import ReactDragListView from 'react-drag-listview/lib/index';
 import { Link } from 'react-router-dom';
 import { AiFillPrinter } from 'react-icons/ai';
@@ -25,6 +24,16 @@ const ReactList = () => {
     console.log(data, newData);
     setData([]);
     setData(data);
+  };
+
+  const handleDelete = () => {
+    const newData = data.splice(
+      data.indexOf(data.find((x) => x.name === '')),
+      1
+    );
+    setData([]);
+    setData(newData);
+    console.log(data);
   };
 
   // Properties to pass to ReactDragListView package
@@ -80,6 +89,9 @@ const ReactList = () => {
                 number={index}
                 name={item.itemName}
                 limit={item.itemLimit}
+                inventory={data}
+                updateInventory={setData}
+                handleDelete={handleDelete}
               />
             ))}
           </ul>

@@ -36,10 +36,10 @@
   height: 32px;
   border-radius: 50px;
   border-style: none;
-  background-color: #E5E5E5;
+  background-color: #e5e5e5;
 }
 
-.saveButtonChanged{
+.saveButtonChanged {
   margin-left: auto;
   width: 105px;
   height: 32px;
@@ -48,8 +48,12 @@
   background-color: #71c3e7;
 }
 
-.saveButton:hover {
+.saveButton:hover,
+.saveButtonChanged:hover {
   cursor: pointer;
+}
+
+.saveButton:hover {
   background-color: #71c3e7;
 }
 
@@ -96,8 +100,8 @@
 }
 
 .containerHeader {
-  height : 20px;
-  margin-top : 10px;
+  height: 20px;
+  margin-top: 10px;
   padding-left : 17.5%;
   padding-right : 15%;
   font-family: 'Roboto', sans-serif;
@@ -106,5 +110,5 @@
 }
 
 .headerItemLimit {
-  float : right;
+  float: right;
 }

@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Field from './FieldText';
 import './EditableText.css';
 
-const EditableText = (props) => {
+const EditableText = ({ initValue, inventory, updateInventory }) => {
   // eslint-disable-next-line react/prop-types
-  const { initValue } = props;
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState('');
 
@@ -18,14 +18,21 @@ const EditableText = (props) => {
     console.log('blurring boi');
     setEdit(false);
     setValue(event.target.value);
+    // update the data object in inventory
+    // eslint-disable-next-line no-param-reassign
+    inventory.find((x) => x.itemName === value).itemName = event.target.value;
+    updateInventory(inventory);
   };
 
   // when user presses Enter
   const handleEnter = (event) => {
-    console.log('ENTERED');
     if (event.code === 'Enter' || event.charCode === 13 || event.which === 13) {
       setEdit(false);
       setValue(event.target.value);
+      // update the data object in inventory
+      // eslint-disable-next-line no-param-reassign
+      inventory.find((x) => x.itemName === value).itemName = event.target.value;
+      updateInventory(inventory);
     }
   };
 
@@ -57,3 +64,10 @@ const EditableText = (props) => {
 };
 
 export default EditableText;
+
+EditableText.propTypes = {
+  initValue: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  inventory: PropTypes.array.isRequired,
+  updateInventory: PropTypes.func.isRequired,
+};
