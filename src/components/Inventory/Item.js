@@ -5,7 +5,7 @@ import { GrClose } from 'react-icons/gr';
 import './Item.css';
 import EditableText from './EditableText';
 
-const Item = ({ number, name, limit }) => {
+const Item = ({ number, name, limit, inventory, updateInventory }) => {
   const a = 0;
 
   return (
@@ -19,6 +19,8 @@ const Item = ({ number, name, limit }) => {
         role="button"
         tabIndex="-1"
         initValue={name}
+        inventory={inventory}
+        updateInventory={updateInventory}
       />
       <div className="itemLimit">{limit}</div>
       <div className="itemDelete">

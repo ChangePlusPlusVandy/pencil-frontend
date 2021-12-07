@@ -80,6 +80,8 @@ const ReactList = () => {
                 number={index}
                 name={item.itemName}
                 limit={item.itemLimit}
+                inventory={data}
+                updateInventory={setData}
               />
             ))}
           </ul>
