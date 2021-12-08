@@ -10,6 +10,7 @@ import { GrFormAdd } from 'react-icons/gr';
 import './Inventory.css';
 import ItemPopup from './ItemPopup';
 import Item from './Item';
+import { getInventory, postInventory } from './api-inventory';
 
 const ReactList = () => {
   const [data, setData] = useState([]);
@@ -19,15 +20,21 @@ const ReactList = () => {
   const addItem = (e, formInfo) => {
     e.preventDefault();
     const newItem = {
+      itemId: Math.floor(Math.random() * 1000),
       itemName: formInfo.itemName,
-      itemLimit: formInfo.itemLimit,
+      maxLimit: formInfo.maxLimit,
+      itemOrder: data.length,
     };
     // add popup
     setData([...data, newItem]);
+
+    console.log(data);
     setAddItemVisible(false);
+    setChanged(true);
   };
 
   const handleClose = () => {
+    console.log(data);
     setAddItemVisible(false);
   };
 
@@ -38,11 +45,24 @@ const ReactList = () => {
   };
 
   const handleDelete = (name) => {
+    console.log(name);
     const newData = data.filter((item) => item.itemName !== name);
     console.log(newData);
     setData([]);
     setData(newData);
     console.log(data);
+  };
+
+  const handleSave = () => {
+    const toSubmit = data;
+    postInventory(toSubmit).then((result) => {
+      console.log(result);
+      // if (result.error) {
+      //   console.log(result.error);
+      // } else {
+      //   setData(result);
+      // }
+    });
   };
 
   // Properties to pass to ReactDragListView package
@@ -67,6 +87,17 @@ const ReactList = () => {
     }
   }, [changed]);
 
+  useEffect(() => {
+    getInventory().then((result) => {
+      console.log(result);
+      if (result.error) {
+        console.log(result.error);
+      } else {
+        setData(result);
+      }
+    });
+  }, []);
+
   return (
     <div className="inventoryContainer">
       <ItemPopup
@@ -85,7 +116,12 @@ const ReactList = () => {
           Add Item
         </div>
         <GrFormAdd />
-        <button type="button" className="saveButton" id="saveButton">
+        <button
+          type="button"
+          className="saveButton"
+          id="saveButton"
+          onClick={handleSave}
+        >
           Save
         </button>
       </div>
@@ -100,7 +136,7 @@ const ReactList = () => {
               <Item
                 number={index}
                 name={item.itemName}
-                limit={item.itemLimit}
+                limit={item.maxLimit}
                 inventory={data}
                 updateInventory={setData}
                 handleDelete={handleDelete}

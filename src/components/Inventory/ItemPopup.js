@@ -7,7 +7,7 @@ const ItemPopup = ({ show, onClose, onSubmit }) => {
 
   const [formInfo, setFormInfo] = useState({
     itemName: '',
-    itemLimit: undefined,
+    maxLimit: undefined,
   });
   return (
     <div className="modal">
@@ -35,11 +35,11 @@ const ItemPopup = ({ show, onClose, onSubmit }) => {
                 type="number"
                 variant="outlined"
                 name="itemLimit"
-                value={formInfo.itemLimit}
+                value={formInfo.maxLimit}
                 className="input-field"
                 autoComplete="off"
                 onChange={(event) =>
-                  setFormInfo({ ...formInfo, itemLimit: event.target.value })
+                  setFormInfo({ ...formInfo, maxLimit: event.target.value })
                 }
               />
             </div>
