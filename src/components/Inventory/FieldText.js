@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-const Field = ({ defaultValue, autoFocus, onBlur, onKeyPress }) => {
+const Field = ({ widthSize, defaultValue, autoFocus, onBlur, onKeyPress }) => {
   const useFocus = () => {
     const htmlElRef = useRef(null);
     const setFocus = () => {
@@ -20,6 +20,7 @@ const Field = ({ defaultValue, autoFocus, onBlur, onKeyPress }) => {
   return (
     <input
       type="text"
+      size={widthSize}
       ref={inputRef}
       defaultValue={defaultValue}
       onBlur={onBlur}
@@ -31,6 +32,7 @@ const Field = ({ defaultValue, autoFocus, onBlur, onKeyPress }) => {
 export default Field;
 
 Field.propTypes = {
+  widthSize: PropTypes.string.isRequired,
   defaultValue: PropTypes.string.isRequired,
   autoFocus: PropTypes.bool.isRequired,
   onBlur: PropTypes.func.isRequired,
