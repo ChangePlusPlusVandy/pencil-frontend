@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap');
+
+.inventoryContainer {
+  width: 80vw;
+  padding: 0 10vw;
+  font-size: 18px;
+}
+
+.inventoryContainer ul {
+  list-style-type: none;
+}
+
+.inventoryHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 10px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.inventoryButton {
+  font-size: 14px;
+  margin-left: 25px;
+  margin-right: 8px;
+  opacity: 75%;
+  text-decoration: underline;
+}
+
+.inventoryButton:hover {
+  cursor: pointer;
+}
+
+.saveButton {
+  margin-left: auto;
+  width: 105px;
+  height: 32px;
+  border-radius: 50px;
+  border-style: none;
+  background-color: #e5e5e5;
+}
+
+.saveButtonChanged {
+  margin-left: auto;
+  width: 105px;
+  height: 32px;
+  border-radius: 50px;
+  border-style: none;
+  background-color: #71c3e7;
+}
+
+.saveButton:hover,
+.saveButtonChanged:hover {
+  cursor: pointer;
+}
+
+.saveButton:hover {
+  background-color: #71c3e7;
+}
+
+.dragIcon {
+  display: inline;
+  margin-right: 10px;
+}
+
+.dragIcon:hover {
+  cursor: move;
+}
+
+.itemOrder {
+  display: inline;
+  margin-left: 20px;
+  margin-right: 20px;
+  color: gray;
+}
+
+.dragLine {
+  margin-left: -1vw;
+  border-bottom: solid 3px #95d7af !important;
+}
+
+.dragLine::before {
+  content: '   ';
+  background-color: #95d7af;
+}
+
+.itemContainer {
+  width: 100%;
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  padding: 10px 0;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 0 5px #000000;
+}
+
+.dragList {
+  padding: 0 0;
+}
+
+.containerHeader {
+  height: 20px;
+  margin-top: 10px;
+  padding-left: 17.5%;
+  padding-right: 15%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: #8a8a8a;
+}
+
+.headerItemLimit {
+  float: right;
+  margin-right: 70px;
+}
