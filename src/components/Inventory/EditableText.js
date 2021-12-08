@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 import Field from './FieldText';
 import './EditableText.css';
 
-const EditableText = ({ initValue, inventory, updateInventory }) => {
+const EditableText = ({
+  widthSize,
+  initValue,
+  inventory,
+  updateInventory,
+  keyToUpdate,
+}) => {
   // eslint-disable-next-line react/prop-types
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState('');
@@ -20,7 +26,8 @@ const EditableText = ({ initValue, inventory, updateInventory }) => {
     setValue(event.target.value);
     // update the data object in inventory
     // eslint-disable-next-line no-param-reassign
-    inventory.find((x) => x.itemName === value).itemName = event.target.value;
+    inventory.find((x) => x[keyToUpdate] === value)[keyToUpdate] =
+      event.target.value;
     updateInventory(inventory);
   };
 
@@ -31,7 +38,8 @@ const EditableText = ({ initValue, inventory, updateInventory }) => {
       setValue(event.target.value);
       // update the data object in inventory
       // eslint-disable-next-line no-param-reassign
-      inventory.find((x) => x.itemName === value).itemName = event.target.value;
+      inventory.find((x) => x[keyToUpdate] === value)[keyToUpdate] =
+        event.target.value;
       updateInventory(inventory);
     }
   };
@@ -42,11 +50,13 @@ const EditableText = ({ initValue, inventory, updateInventory }) => {
   };
 
   return (
-    <div className="editableText">
+    // eslint-disable-next-line no-useless-concat
+    <div className={`${'editableText' + ' '}${keyToUpdate}`}>
       {edit ? (
         // edit mode
         <Field
           autoFocus
+          widthSize={widthSize}
           defaultValue={value}
           onBlur={handleBlur}
           onKeyPress={handleEnter}
@@ -66,8 +76,10 @@ const EditableText = ({ initValue, inventory, updateInventory }) => {
 export default EditableText;
 
 EditableText.propTypes = {
+  widthSize: PropTypes.string.isRequired,
   initValue: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   inventory: PropTypes.array.isRequired,
   updateInventory: PropTypes.func.isRequired,
+  keyToUpdate: PropTypes.string.isRequired,
 };

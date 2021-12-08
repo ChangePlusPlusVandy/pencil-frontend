@@ -25,11 +25,22 @@ const Item = ({
         className="itemName"
         role="button"
         tabIndex="-1"
+        widthSize="20"
         initValue={name}
         inventory={inventory}
         updateInventory={updateInventory}
+        keyToUpdate="itemName"
       />
-      <div className="itemLimit">{limit}</div>
+      <EditableText
+        className="itemLimit"
+        role="button"
+        tabIndex="-1"
+        widthSize="5"
+        initValue={limit}
+        inventory={inventory}
+        updateInventory={updateInventory}
+        keyToUpdate="itemLimit"
+      />
       <div
         className="itemDelete"
         role="button"
