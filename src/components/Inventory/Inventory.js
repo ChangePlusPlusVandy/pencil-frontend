@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import { AiFillPrinter } from 'react-icons/ai';
 import { GrFormAdd } from 'react-icons/gr';
 import './Inventory.css';
-import AddItem from './AddItem';
 import ItemPopup from './ItemPopup';
 import Item from './Item';
 
