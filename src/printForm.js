@@ -16,45 +16,6 @@ const {
     ImageRun
 } = docx;
 
-const dummyData = [
-    {
-        itemId: 13,
-        itemName: "Pencils",
-        maxLimit: 12,
-        itemOrder: 0
-    },
-    {
-        itemId: 13,
-        itemName: "Clipboards",
-        maxLimit: 1,
-        itemOrder: 2
-    },
-    {
-        itemId: 13,
-        itemName: "Pens",
-        maxLimit: 203,
-        itemOrder: 1
-    },
-    {
-        itemId: 13,
-        itemName: "Markers",
-        maxLimit: 15,
-        itemOrder: 3
-    },
-    {
-        itemId: 13,
-        itemName: "Paper",
-        maxLimit: 120,
-        itemOrder: 10
-    },
-    {
-        itemId: 13,
-        itemName: "Sharpies",
-        maxLimit: 120,
-        itemOrder: 11
-    },
-];
-
 function sortFunction(a,b){
     if (a.itemOrder < b.itemOrder){
         return -1;
@@ -70,17 +31,17 @@ function sortFunction(a,b){
 
 function splitArr(data){
     let splitItems = [];
-    let halfway = parseInt(dummyData.length / 2);
-    if (dummyData.length % 2 == 0){
+    let halfway = parseInt(data.length / 2);
+    if (data.length % 2 == 0){
         for (let i = 0, j = halfway; i < j; i += 1) {
-            splitItems.push([dummyData[i], dummyData[i + halfway]])
+            splitItems.push([data[i], data[i + halfway]])
         }
     } else {
         for (let i = 0, j = halfway; i <= j; i += 1){
-            if (i + halfway < dummyData.length - 1){
-                splitItems.push([dummyData[i], dummyData[i + halfway + 1]])
+            if (i + halfway < data.length - 1){
+                splitItems.push([data[i], dummyData[i + halfway + 1]])
             } else {
-                splitItems.push([dummyData[i]]);
+                splitItems.push([data[i]]);
             }
         }
     };
@@ -257,7 +218,7 @@ function createFile(){
 
 function printForm(data) {
     data.sort(sortFunction);
-    var splitItems = splitArr(dummyData);
+    var splitItems = splitArr(data);
     pushRowArr(splitItems);
     createFile();
 }
