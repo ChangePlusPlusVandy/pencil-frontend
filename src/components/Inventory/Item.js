@@ -45,7 +45,7 @@ const Item = ({
         className="itemDelete"
         role="button"
         tabIndex="-1"
-        onClick={handleDelete}
+        onClick={() => handleDelete(name)}
         onKeyPress={() => {}}
       >
         <GrClose />

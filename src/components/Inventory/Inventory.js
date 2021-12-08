@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable import/no-unresolved */
 
 import React, { useState, useEffect } from 'react';
 import ReactDragListView from 'react-drag-listview/lib/index';
@@ -22,15 +23,13 @@ const ReactList = () => {
 
   const updateData = (newData) => {
     console.log(data, newData);
-    setData([]);
-    setData(data);
+    setData([]); // for some reason react is not rendering when there is only setData(newData)
+    setData(newData);
   };
 
-  const handleDelete = () => {
-    const newData = data.splice(
-      data.indexOf(data.find((x) => x.name === '')),
-      1
-    );
+  const handleDelete = (name) => {
+    const newData = data.filter((item) => item.itemName !== name);
+    console.log(newData);
     setData([]);
     setData(newData);
     console.log(data);
@@ -40,6 +39,7 @@ const ReactList = () => {
   const dragProps = {
     onDragEnd(fromIndex, toIndex) {
       const newData = data;
+      // reorders the item
       const item = newData.splice(fromIndex, 1)[0];
       newData.splice(toIndex, 0, item);
       updateData(newData);
@@ -52,6 +52,8 @@ const ReactList = () => {
   useEffect(() => {
     if (changed) {
       document.getElementById('saveButton').className = 'saveButtonChanged';
+    } else {
+      document.getElementById('saveButton').className = 'saveButton';
     }
   }, [changed]);
 
