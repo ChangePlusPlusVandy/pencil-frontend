@@ -67,26 +67,26 @@ function sortFunction(a,b){
     }
 }
 
-dummyData.sort(sortFunction);
 
-let splitItems = [];
-let halfway = parseInt(dummyData.length / 2);
-
-if (dummyData.length % 2 == 0){
-    for (let i = 0, j = halfway; i < j; i += 1) {
-        splitItems.push([dummyData[i], dummyData[i + halfway]])
-    }
-} else {
-    for (let i = 0, j = halfway; i <= j; i += 1){
-        if (i + halfway < dummyData.length - 1){
-            splitItems.push([dummyData[i], dummyData[i + halfway + 1]])
-        } else {
-            splitItems.push([dummyData[i]]);
+function splitArr(data){
+    let splitItems = [];
+    let halfway = parseInt(dummyData.length / 2);
+    if (dummyData.length % 2 == 0){
+        for (let i = 0, j = halfway; i < j; i += 1) {
+            splitItems.push([dummyData[i], dummyData[i + halfway]])
         }
-    }
+    } else {
+        for (let i = 0, j = halfway; i <= j; i += 1){
+            if (i + halfway < dummyData.length - 1){
+                splitItems.push([dummyData[i], dummyData[i + halfway + 1]])
+            } else {
+                splitItems.push([dummyData[i]]);
+            }
+        }
+    };
+    return splitItems;
 };
 
-const buffer = fs.readFileSync("./LPPencil.jpg");
 
 const columnTitles = [["Name:", 2, 27], ["School:", 1, 25], ["Shop Time:", 1, 10], ["LPPBID:", 1, 15]];
 let columnCells = columnTitles.map((title) => {
@@ -107,6 +107,7 @@ let columnCells = columnTitles.map((title) => {
       columnSpan: title[1],
     });
   });
+
 columnCells.unshift(new TableCell({
     width: { size: 20, type: WidthType.PERCENTAGE },
     children: [new Paragraph({
@@ -154,97 +155,111 @@ let rowsArr = [
     })
 ];
 
-for (const itemArr of splitItems){
-    let singleRow = [];
-    for (let item of itemArr){
-        
-        singleRow.push(new TableCell({
-            children: [new Paragraph({
-                children: [
-                    new TextRun({
-                        text: item.itemName,
-                        bold: true, 
-                        font: "Calibri", 
-                        size: 22,
-                    })
-                ]
-            })], 
-            //width: { size: 100 / 8 * 2, type: WidthType.PERCENTAGE }
-        }));
-        singleRow.push(new TableCell({
-            children: [new Paragraph({
-                children: [
-                    new TextRun({
-                        text: item.maxLimit.toString(),
-                        bold: true, 
-                        font: "Calibri", 
-                        size: 22,
-                    })
-                ],
-                alignment: AlignmentType.CENTER
-            })],
-            //width: { size: 100 / 8 * 1, type: WidthType.PERCENTAGE }
-        }));
-        singleRow.push(new TableCell({
-            children: [new Paragraph('      ')], 
-            //width: { size: 100 / 8 * 1, type: WidthType.PERCENTAGE }
-        }));
-    };
-    rowsArr.push(
-        new TableRow({
-            children: singleRow,
-            height: {value: 300, rule: HeightRule.EXACT },
-            //width: { size: 100 / newTitles.length, type: WidthType.PERCENTAGE }
-        })
-    );
+function pushRowArr(splitItems){
+    for (const itemArr of splitItems){
+        let singleRow = [];
+        for (let item of itemArr){
+            
+            singleRow.push(new TableCell({
+                children: [new Paragraph({
+                    children: [
+                        new TextRun({
+                            text: item.itemName,
+                            bold: true, 
+                            font: "Calibri", 
+                            size: 22,
+                        })
+                    ]
+                })], 
+                //width: { size: 100 / 8 * 2, type: WidthType.PERCENTAGE }
+            }));
+            singleRow.push(new TableCell({
+                children: [new Paragraph({
+                    children: [
+                        new TextRun({
+                            text: item.maxLimit.toString(),
+                            bold: true, 
+                            font: "Calibri", 
+                            size: 22,
+                        })
+                    ],
+                    alignment: AlignmentType.CENTER
+                })],
+                //width: { size: 100 / 8 * 1, type: WidthType.PERCENTAGE }
+            }));
+            singleRow.push(new TableCell({
+                children: [new Paragraph('      ')], 
+                //width: { size: 100 / 8 * 1, type: WidthType.PERCENTAGE }
+            }));
+        };
+        rowsArr.push(
+            new TableRow({
+                children: singleRow,
+                height: {value: 300, rule: HeightRule.EXACT },
+                //width: { size: 100 / newTitles.length, type: WidthType.PERCENTAGE }
+            })
+        );
+    }
+};
+
+function createFile(){
+    const table = new Table({
+        rows: rowsArr
+    })
+    
+    const doc = new Document({
+        sections: [{
+            children: [
+                table,
+                new Paragraph(' '),
+                new Paragraph({
+                    children: [
+                        new TextRun({
+                            text: 'I understand that these items are for classroom use only and may not be sold, bartered, traded, or used for personal use, per IRS regulations. ',
+                            bold: false, 
+                            font: "Calibri", 
+                            size: 22,
+                        })
+                    ],
+                    alignment: AlignmentType.CENTER
+                }),
+                new Paragraph(' '),
+                new Paragraph(' '),
+                new Paragraph(' '),
+                new Paragraph({
+                    children: [
+                        new TextRun({
+                            text: '\nSignature: __________________________________________		Date: ________10/2/2021____',
+                            bold: false, 
+                            font: "Calibri", 
+                            size: 22,
+                        })
+                    ],
+                    alignment: AlignmentType.CENTER
+                })
+            ],
+            properties:{
+                page: {
+                    margin: {
+                        right: 800,
+                        left: 800,
+                    },
+                }
+            }
+        }],
+    });
+    
+    Packer.toBuffer(doc).then((buffer) => {
+        fs.writeFileSync("tableDoc.docx", buffer);
+    })
 }
 
-const table = new Table({
-    rows: rowsArr
-})
 
-const doc = new Document({
-    sections: [{
-        children: [
-            table,
-            new Paragraph(' '),
-            new Paragraph({
-                children: [
-                    new TextRun({
-                        text: 'I understand that these items are for classroom use only and may not be sold, bartered, traded, or used for personal use, per IRS regulations. ',
-                        bold: false, 
-                        font: "Calibri", 
-                        size: 22,
-                    })
-                ],
-                alignment: AlignmentType.CENTER
-            }),
-            new Paragraph(' '),
-            new Paragraph(' '),
-            new Paragraph(' '),
-            new Paragraph({
-                children: [
-                    new TextRun({
-                        text: '\nSignature: __________________________________________		Date: ________10/2/2021____',
-                        bold: false, 
-                        font: "Calibri", 
-                        size: 22,
-                    })
-                ],
-                alignment: AlignmentType.CENTER
-            })
-        ],
-        properties:{
-            page: {
-                margin: {
-                    right: 800,
-                    left: 800,
-                },
-            }
-        }
-    }],
-});
+function printForm(data) {
+    data.sort(sortFunction);
+    var splitItems = splitArr(dummyData);
+    pushRowArr(splitItems);
+    createFile();
+}
 
-Packer.toBuffer(doc).then((buffer) => {
-    fs.writeFileSync("tableDoc.docx", buffer);
-})
+export { printForm };
