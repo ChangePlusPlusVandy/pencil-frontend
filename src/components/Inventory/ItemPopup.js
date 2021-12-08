@@ -17,6 +17,7 @@ const ItemPopup = ({ show, onClose, onSubmit }) => {
             <div className="name-area">
               <div className="modal-title">Item Name</div>
               <input
+                type="text"
                 variant="outlined"
                 name="itemName"
                 value={formInfo.itemName}
@@ -31,6 +32,7 @@ const ItemPopup = ({ show, onClose, onSubmit }) => {
             <div className="limit-area">
               <div className="modal-title">Item Limit</div>
               <input
+                type="number"
                 variant="outlined"
                 name="itemLimit"
                 value={formInfo.itemLimit}

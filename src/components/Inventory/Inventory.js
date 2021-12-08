@@ -9,6 +9,7 @@ import { AiFillPrinter } from 'react-icons/ai';
 import { GrFormAdd } from 'react-icons/gr';
 import './Inventory.css';
 import AddItem from './AddItem';
+import ItemPopup from './ItemPopup';
 import Item from './Item';
 
 const ReactList = () => {
@@ -16,9 +17,19 @@ const ReactList = () => {
   const [isAddItemVisible, setAddItemVisible] = useState(false);
   const [changed, setChanged] = useState(false);
 
-  const addItem = () => {
+  const addItem = (e, formInfo) => {
+    e.preventDefault();
+    const newItem = {
+      itemName: formInfo.itemName,
+      itemLimit: formInfo.itemLimit,
+    };
     // add popup
-    setAddItemVisible(true);
+    setData([...data, newItem]);
+    setAddItemVisible(false);
+  };
+
+  const handleClose = () => {
+    setAddItemVisible(false);
   };
 
   const updateData = (newData) => {
@@ -59,19 +70,19 @@ const ReactList = () => {
 
   return (
     <div className="inventoryContainer">
-      {isAddItemVisible && (
-        <AddItem
-          setVisible={setAddItemVisible}
-          setData={setData}
-          data={data}
-          setChanged={setChanged}
-        />
-      )}
+      <ItemPopup
+        show={isAddItemVisible}
+        onClose={handleClose}
+        onSubmit={addItem}
+      />
       <div className="inventoryHeader">
         <h2>Inventory ({data.length})</h2>
         <div className="inventoryButton">Print Inventory</div>
         <AiFillPrinter />
-        <div className="inventoryButton" onClick={addItem}>
+        <div
+          className="inventoryButton"
+          onClick={() => setAddItemVisible(true)}
+        >
           Add Item
         </div>
         <GrFormAdd />
