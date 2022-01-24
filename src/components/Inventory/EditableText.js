@@ -1,6 +1,5 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import Field from './FieldText';
 import './EditableText.css';
 
@@ -25,10 +24,10 @@ const EditableText = ({
     setEdit(false);
     setValue(event.target.value);
     // update the data object in inventory
-    // eslint-disable-next-line no-param-reassign
-    inventory.find((x) => x[keyToUpdate] === value)[keyToUpdate] =
+    const tempInventory = inventory;
+    tempInventory.find((x) => x[keyToUpdate] === value)[keyToUpdate] =
       event.target.value;
-    updateInventory(inventory);
+    updateInventory(tempInventory);
   };
 
   // when user presses Enter
@@ -50,8 +49,7 @@ const EditableText = ({
   };
 
   return (
-    // eslint-disable-next-line no-useless-concat
-    <div className={`${'editableText' + ' '}${keyToUpdate}`}>
+    <div className={`editableText ${keyToUpdate}`}>
       {edit ? (
         // edit mode
         <Field
@@ -74,12 +72,3 @@ const EditableText = ({
 };
 
 export default EditableText;
-
-EditableText.propTypes = {
-  widthSize: PropTypes.string.isRequired,
-  initValue: PropTypes.string.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  inventory: PropTypes.array.isRequired,
-  updateInventory: PropTypes.func.isRequired,
-  keyToUpdate: PropTypes.string.isRequired,
-};

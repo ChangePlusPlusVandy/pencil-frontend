@@ -14,7 +14,6 @@ const Item = ({
   handleDelete,
 }) => {
   const a = 0;
-
   return (
     <li className="newItem">
       <div className="dragIcon">
