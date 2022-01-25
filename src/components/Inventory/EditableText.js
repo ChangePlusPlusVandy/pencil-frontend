@@ -10,7 +10,6 @@ const EditableText = ({
   updateInventory,
   keyToUpdate,
 }) => {
-  // eslint-disable-next-line react/prop-types
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState('');
 
@@ -25,8 +24,9 @@ const EditableText = ({
     setValue(event.target.value);
     // update the data object in inventory
     const tempInventory = inventory;
-    tempInventory.find((x) => x[keyToUpdate] === value)[keyToUpdate] =
-      event.target.value;
+    tempInventory.find((x) => x[keyToUpdate].toString() === value)[
+      keyToUpdate
+    ] = event.target.value;
     updateInventory(tempInventory);
   };
 
@@ -36,10 +36,11 @@ const EditableText = ({
       setEdit(false);
       setValue(event.target.value);
       // update the data object in inventory
-      // eslint-disable-next-line no-param-reassign
-      inventory.find((x) => x[keyToUpdate] === value)[keyToUpdate] =
-        event.target.value;
-      updateInventory(inventory);
+      const tempInventory = inventory;
+      tempInventory.find((x) => x[keyToUpdate].toString() === value)[
+        keyToUpdate
+      ] = event.target.value;
+      updateInventory(tempInventory);
     }
   };
 

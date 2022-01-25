@@ -31,14 +31,14 @@ const Item = ({
         keyToUpdate="itemName"
       />
       <EditableText
-        className="itemLimit"
+        className="maxLimit"
         role="button"
         tabIndex="-1"
         widthSize="5"
         initValue={limit.toString()}
         inventory={inventory}
         updateInventory={updateInventory}
-        keyToUpdate="itemLimit"
+        keyToUpdate="maxLimit"
       />
       <div
         className="itemDelete"
