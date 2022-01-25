@@ -29,6 +29,7 @@ const Item = ({
         inventory={inventory}
         updateInventory={updateInventory}
         keyToUpdate="itemName"
+        isNumber={false}
       />
       <EditableText
         className="maxLimit"
@@ -39,6 +40,7 @@ const Item = ({
         inventory={inventory}
         updateInventory={updateInventory}
         keyToUpdate="maxLimit"
+        isNumber
       />
       <div
         className="itemDelete"

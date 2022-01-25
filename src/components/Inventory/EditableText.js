@@ -9,6 +9,7 @@ const EditableText = ({
   inventory,
   updateInventory,
   keyToUpdate,
+  isNumber,
 }) => {
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState('');
@@ -17,30 +18,44 @@ const EditableText = ({
     setValue(initValue);
   }, []);
 
+  const isPositiveInteger = (string) => {
+    if (typeof string !== 'string') {
+      return false;
+    }
+    const num = Number(string);
+    if (Number.isInteger(num) && num > 0) {
+      return true;
+    }
+    return false;
+  };
+
   // when user clicks out of text
   const handleBlur = (event) => {
-    console.log('blurring boi');
     setEdit(false);
-    setValue(event.target.value);
-    // update the data object in inventory
-    const tempInventory = inventory;
-    tempInventory.find((x) => x[keyToUpdate].toString() === value)[
-      keyToUpdate
-    ] = event.target.value;
-    updateInventory(tempInventory);
+    if (!isNumber || isPositiveInteger(event.target.value)) {
+      setValue(event.target.value);
+      // update the data object in inventory
+      const tempInventory = inventory;
+      tempInventory.find((x) => x[keyToUpdate].toString() === value)[
+        keyToUpdate
+      ] = isNumber ? Number(event.target.value) : event.target.value;
+      updateInventory(tempInventory);
+    }
   };
 
   // when user presses Enter
   const handleEnter = (event) => {
     if (event.code === 'Enter' || event.charCode === 13 || event.which === 13) {
       setEdit(false);
-      setValue(event.target.value);
-      // update the data object in inventory
-      const tempInventory = inventory;
-      tempInventory.find((x) => x[keyToUpdate].toString() === value)[
-        keyToUpdate
-      ] = event.target.value;
-      updateInventory(tempInventory);
+      if (!isNumber || isPositiveInteger(event.target.value)) {
+        setValue(event.target.value);
+        // update the data object in inventory
+        const tempInventory = inventory;
+        tempInventory.find((x) => x[keyToUpdate].toString() === value)[
+          keyToUpdate
+        ] = isNumber ? Number(event.target.value) : event.target.value;
+        updateInventory(tempInventory);
+      }
     }
   };
 
