@@ -14,7 +14,6 @@ const Item = ({
   handleDelete,
 }) => {
   const a = 0;
-
   return (
     <li className="newItem">
       <div className="dragIcon">
@@ -30,16 +29,18 @@ const Item = ({
         inventory={inventory}
         updateInventory={updateInventory}
         keyToUpdate="itemName"
+        isNumber={false}
       />
       <EditableText
-        className="itemLimit"
+        className="maxLimit"
         role="button"
         tabIndex="-1"
         widthSize="5"
-        initValue={limit}
+        initValue={limit.toString()}
         inventory={inventory}
         updateInventory={updateInventory}
-        keyToUpdate="itemLimit"
+        keyToUpdate="maxLimit"
+        isNumber
       />
       <div
         className="itemDelete"

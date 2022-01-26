@@ -10,7 +10,7 @@
   align-items: center;
 }
 
-.itemLimit {
+.maxLimit {
   width: 80px;
   text-align: center;
   margin-left: auto;
@@ -18,7 +18,7 @@
 }
 
 .itemName:hover,
-.itemLimit:hover {
+.maxLimit:hover {
   cursor: text;
 }
 

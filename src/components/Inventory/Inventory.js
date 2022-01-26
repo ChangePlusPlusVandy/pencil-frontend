@@ -132,8 +132,8 @@ const ReactList = () => {
         <ReactDragListView {...dragProps}>
           <ul className="dragList">
             {data.map((item, index) => (
-              // eslint-disable-next-line react/no-array-index-key
               <Item
+                key={item.itemName}
                 number={index}
                 name={item.itemName}
                 limit={item.maxLimit}
