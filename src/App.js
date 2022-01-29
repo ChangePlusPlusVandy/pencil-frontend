@@ -8,6 +8,7 @@ import Menu from './components/Menu/Menu';
  *
  * @returns {Object} - BrowserRouter with Router component.
  * */
+
 const App = () => (
   <BrowserRouter>
     <AuthProvider>
