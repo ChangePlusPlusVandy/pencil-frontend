@@ -1,16 +1,8 @@
 import React from 'react';
+// import Menu from './Menu/Menu';
 import { Link } from 'react-router-dom';
+import './Menu/Menu.css';
 
-const Home = () => (
-  <div>
-    This is the home page
-    <br />
-    <Link to="/profile">Profile</Link>
-    <br />
-    <Link to="/inventory">Inventory</Link>
-    <br />
-    <Link to="/transactions">Transactions</Link>
-  </div>
-);
+const Home = () => <div>This is the home page</div>;
 
 export default Home;
