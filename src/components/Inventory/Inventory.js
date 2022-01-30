@@ -19,6 +19,22 @@ const ReactList = () => {
 
   const addItem = (e, formInfo) => {
     e.preventDefault();
+    console.log('Adding item: ', data);
+    if (
+      formInfo.itemName === '' ||
+      formInfo.itemName === undefined ||
+      formInfo.maxLimit === 0
+    ) {
+      // TODO: add alert dialog
+      console.log('Cant have empty entries!');
+      return;
+    }
+    if (data.some((item) => item.itemName === formInfo.itemName)) {
+      // TODO: add alert dialog
+      console.log('Cant have duplicate entries!');
+      return;
+    }
+
     const newItem = {
       itemId: Math.floor(Math.random() * 1000),
       itemName: formInfo.itemName,
