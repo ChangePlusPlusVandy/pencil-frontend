@@ -44,6 +44,11 @@ const ReactList = () => {
     setData(newData);
   };
 
+  const handleItemChange = (item) => {
+    setChanged(true);
+    setData(item);
+  };
+
   const handleDelete = (name) => {
     console.log(name);
     const newData = data.filter((item) => item.itemName !== name);
@@ -142,7 +147,7 @@ const ReactList = () => {
                 name={item.itemName}
                 limit={item.maxLimit}
                 inventory={data}
-                updateInventory={setData}
+                updateInventory={handleItemChange}
                 handleDelete={handleDelete}
               />
             ))}
