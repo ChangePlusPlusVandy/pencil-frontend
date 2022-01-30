@@ -39,7 +39,7 @@ const ReactList = () => {
   };
 
   const updateData = (newData) => {
-    console.log(data, newData);
+    setChanged(true);
     setData([]); // for some reason react is not rendering when there is only setData(newData)
     setData(newData);
   };
@@ -63,6 +63,7 @@ const ReactList = () => {
       //   setData(result);
       // }
     });
+    setChanged(false);
   };
 
   // Properties to pass to ReactDragListView package
@@ -72,6 +73,10 @@ const ReactList = () => {
       // reorders the item
       const item = newData.splice(fromIndex, 1)[0];
       newData.splice(toIndex, 0, item);
+      // swap the itemOrder parameter of fromIndex with toIndex
+      const tempItemOrder = newData[fromIndex].itemOrder;
+      newData[fromIndex].itemOrder = newData[toIndex].itemOrder;
+      newData[toIndex].itemOrder = tempItemOrder;
       updateData(newData);
     },
     nodeSelector: 'li',
@@ -89,7 +94,6 @@ const ReactList = () => {
 
   useEffect(() => {
     getInventory().then((result) => {
-      console.log(result);
       if (result.error) {
         console.log(result.error);
       } else {
