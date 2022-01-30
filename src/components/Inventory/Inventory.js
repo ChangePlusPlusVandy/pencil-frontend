@@ -56,6 +56,7 @@ const ReactList = () => {
     setData([]);
     setData(newData);
     console.log(data);
+    setChanged(true);
   };
 
   const handleSave = () => {
