@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Home = () => (
-  <div>
+  <div style={{ backgroundColor: '#f6f6f6' }}>
     This is the home page
     <br />
     <Link to="/profile">Profile</Link>

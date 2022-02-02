@@ -1,5 +1,6 @@
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './AuthContext';
+import Header from './components/Header/Header';
 
 import Router from './Router';
 
@@ -11,6 +12,7 @@ import Router from './Router';
 const App = () => (
   <BrowserRouter>
     <AuthProvider>
+      <Header />
       <Router />
     </AuthProvider>
   </BrowserRouter>
