@@ -1,6 +1,6 @@
 /**
  * Retrieves all transactions from Transaction database from Backend
- * 
+ *
  * @returns {Object} - All transaction objects with information about transaction
  */
 const getAllTransactions = async () => {
@@ -12,15 +12,14 @@ const getAllTransactions = async () => {
     if (!response.json().body.error) {
       return response.json();
     }
-    else {
-      console.log("Error retrieving transactions");
-      return { error: "Error retrieving transactions"}
-    }
-  }
-  catch (err) {
+
+    console.log('Error retrieving transactions');
+    return { error: 'Error retrieving transactions' };
+  } catch (err) {
     console.log(err);
     return { error: 'Teacher not found' };
   }
 };
 
-export { getAllTransactions }
+// eslint-disable-next-line import/prefer-default-export
+export { getAllTransactions };
