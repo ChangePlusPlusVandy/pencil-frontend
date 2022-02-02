@@ -26,3 +26,7 @@
     src: local('Roboto'),
          url('./fonts/Roboto/Roboto-Light.ttf') format('truetype');
   }
+
+html {
+     background-color: #f6f6f6;
+}
