@@ -1,0 +1,32 @@
+@font-face {
+    font-family: 'Bitter';
+    src: local('Bitter'),
+         url('./fonts/Bitter/static/Bitter-Regular.ttf') format('truetype');
+  }
+
+  @font-face {
+     font-family: 'Bitter';
+     font-weight: medium;
+     src: local('Bitter'),
+          url('./fonts/Bitter/static/Bitter-Medium.ttf') format('truetype');
+   }
+
+
+  @font-face {
+    font-family: 'Roboto';
+    font-weight: normal;
+    src: local('Roboto'),
+         url('./fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'Roboto';
+    /* font-style: normal; */
+    font-weight: 200;
+    src: local('Roboto'),
+         url('./fonts/Roboto/Roboto-Light.ttf') format('truetype');
+  }
+
+html {
+     background-color: #f6f6f6;
+}

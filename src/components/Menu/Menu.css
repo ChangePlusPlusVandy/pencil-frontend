@@ -1,0 +1,20 @@
+.button {
+    width: 204px;
+    height: 60px;
+    background: #ffffff8a;
+    border-width: 0px;
+    border-radius: 15px;
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+
+.menu {
+    display: flex;
+}
+
+.link {
+    text-decoration: none;
+    color: #707070;
+    font-family: 'Roboto';
+    
+}
