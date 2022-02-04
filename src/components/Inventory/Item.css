@@ -1,5 +1,5 @@
 .newItem {
-  height: 50px;
+  height: 60px;
   width: 80%;
   margin: 15px auto;
   padding: 0 20px;
@@ -7,13 +7,15 @@
   border-radius: 10px;
   display: flex;
   align-items: center;
+  transform: translate(0, 0)
 }
 
 .maxLimit {
-  width: 80px;
+  width: 40px;
   text-align: center;
   margin-left: auto;
-  margin-right: 20px;
+  margin-right: 35px;
+  color: #4B4B4B;
 }
 
 .itemName:hover,
@@ -22,9 +24,22 @@
 }
 
 .itemDelete {
-  margin-right: 20px;
+  margin-right: 15px;
 }
 
 .itemDelete:hover {
   cursor: pointer;
+}
+
+.itemOrder {
+  font-size: 14px;
+}
+
+.itemName {
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.setColorBlue {
+  background-color: #E7F5FB;
 }

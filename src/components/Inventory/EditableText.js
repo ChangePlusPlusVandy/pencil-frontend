@@ -10,6 +10,7 @@ const EditableText = ({
   updateInventory,
   keyToUpdate,
   isNumber,
+  setActive,
 }) => {
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState('');
@@ -32,6 +33,7 @@ const EditableText = ({
   // when user clicks out of text
   const handleBlur = (event) => {
     setEdit(false);
+    setActive(false);
     if (!isNumber || isPositiveInteger(event.target.value)) {
       setValue(event.target.value);
       // update the data object in inventory
@@ -47,6 +49,7 @@ const EditableText = ({
   const handleEnter = (event) => {
     if (event.code === 'Enter' || event.charCode === 13 || event.which === 13) {
       setEdit(false);
+      setActive(false);
       if (!isNumber || isPositiveInteger(event.target.value)) {
         setValue(event.target.value);
         // update the data object in inventory
@@ -62,6 +65,7 @@ const EditableText = ({
   // when user clicks on text
   const handleClick = () => {
     setEdit(true);
+    setActive(true);
   };
 
   return (
@@ -74,6 +78,8 @@ const EditableText = ({
           defaultValue={value}
           onBlur={handleBlur}
           onKeyPress={handleEnter}
+          isNumber={isNumber}
+          setActive={setActive}
         />
       ) : (
         // view mode

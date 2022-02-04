@@ -2,6 +2,7 @@
   width: 80vw;
   padding: 0 10vw;
   font-size: 18px;
+  font-family: 'Roboto';
 }
 
 .inventoryContainer ul {
@@ -13,7 +14,6 @@
   flex-direction: row;
   align-items: center;
   padding: 0 10px;
-  font-family: 'Roboto';
 }
 
 .inventoryButton {
@@ -36,6 +36,7 @@
   border-radius: 50px;
   border-style: none;
   background-color: #e5e5e5;
+  font-family: 'Roboto';
 }
 
 .saveButtonChanged {
@@ -65,10 +66,10 @@
   cursor: move;
 }
 
+
 .itemOrder {
   display: inline;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin: 0 15px;
   color: gray;
 }
 
@@ -103,12 +104,12 @@
   margin-top: 10px;
   padding-left: 17.5%;
   padding-right: 15%;
-  font-family: 'Roboto';
   font-size: 16px;
   color: #8a8a8a;
 }
 
 .headerItemLimit {
+  text-align: center;
   float: right;
   margin-right: 70px;
 }

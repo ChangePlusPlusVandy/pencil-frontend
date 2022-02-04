@@ -1,7 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import './FieldText.css';
 
-const Field = ({ widthSize, defaultValue, autoFocus, onBlur, onKeyPress }) => {
+const Field = ({
+  widthSize,
+  defaultValue,
+  autoFocus,
+  onBlur,
+  onKeyPress,
+  isNumber,
+  setActive,
+}) => {
   const useFocus = () => {
     const htmlElRef = useRef(null);
     const setFocus = () => {
@@ -20,6 +29,9 @@ const Field = ({ widthSize, defaultValue, autoFocus, onBlur, onKeyPress }) => {
   return (
     <input
       type="text"
+      className={`input-text ${
+        isNumber ? 'input-text-number' : 'input-text-text'
+      }`}
       size={widthSize}
       ref={inputRef}
       defaultValue={defaultValue}
@@ -37,4 +49,6 @@ Field.propTypes = {
   autoFocus: PropTypes.bool.isRequired,
   onBlur: PropTypes.func.isRequired,
   onKeyPress: PropTypes.func.isRequired,
+  isNumber: PropTypes.bool.isRequired,
+  setActive: PropTypes.func.isRequired,
 };
