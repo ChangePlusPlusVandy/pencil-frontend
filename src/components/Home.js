@@ -14,3 +14,5 @@ const Home = () => (
     <Link to="/transactions">Transactions</Link>
   </div>
 );
+
+export default Home;
