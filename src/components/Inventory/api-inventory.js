@@ -10,7 +10,11 @@ const getInventory = async () => {
 
 const postInventory = async (data) => {
   try {
-    console.log(data);
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < data.length; i++) {
+      // eslint-disable-next-line no-param-reassign
+      data[i].itemOrder = i;
+    }
     const response = await fetch(
       'http://localhost:8080/api/form/updateSupply',
       {

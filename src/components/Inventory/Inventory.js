@@ -94,13 +94,7 @@ const ReactList = () => {
       const newData = data;
       // reorders the item
       const item = newData.splice(fromIndex, 1)[0];
-      console.log(item);
       newData.splice(toIndex, 0, item);
-      // swap the itemOrder parameter of fromIndex with toIndex
-      const tempItemOrder = newData[fromIndex].itemOrder;
-      newData[fromIndex].itemOrder = newData[toIndex].itemOrder;
-      newData[toIndex].itemOrder = tempItemOrder;
-      console.log(fromIndex, toIndex, newData);
       updateData(newData);
     },
     nodeSelector: 'li',
