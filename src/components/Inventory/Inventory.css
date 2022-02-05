@@ -74,13 +74,21 @@
 }
 
 .dragLine {
-  margin-left: -1vw;
-  border-bottom: solid 3px #95d7af !important;
+  /* margin-left: -1vw; */
+  /* border-bottom: solid 3px #95d7af !important; */
+  border-bottom: hidden;
+  background-image: url('../../assets/DragComponent.png') !important;
+  background-repeat: no-repeat !important;
+  background-color: #95d7af !important;
+  /* margin: 5px !important; */
+  /* transform */
+  padding: 1px !important;
 }
 
 .dragLine::before {
   content: '   ';
   background-color: #95d7af;
+  /* margin: 5px !important; */
 }
 
 .itemContainer {
