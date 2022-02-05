@@ -4,7 +4,7 @@ const getInventory = async () => {
     const response = await fetch('http://localhost:8080/api/form/getShopForm');
     return await response.json();
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
