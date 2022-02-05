@@ -1,17 +1,13 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { Link } from "react-router-dom";
+import './Menu.css';
 
 const Menu = () => (
 	<div className="menu">
     <Link to="/dashboard" className="link">
 		  <button type="button" className="button">
         Dashboard
-      </button>
-    </Link>
-    <Link to="/profile" className="link">
-      <button type="button" className="button">
-        Profile
       </button>
     </Link>
     <Link to="/inventory" className="link">

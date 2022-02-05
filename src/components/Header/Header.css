@@ -3,12 +3,12 @@
 .header {
 	top : 0;
 	left : 0;
-	margin-bottom: 2px;
 	padding-left : 7vw;
 	padding-right : 10vw;
 	width : 100vw;
 	height : 12.5vh;
 	box-shadow: 0 4px 7px -7px gray;
+	background: #C8C8C8;
 }
 
 .header_left {

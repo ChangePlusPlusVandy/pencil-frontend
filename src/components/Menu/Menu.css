@@ -1,15 +1,21 @@
 .button {
-    width: 204px;
-    height: 60px;
-    background: #ffffff8a;
+    width: 15vw;
+    height: 4vw;
+    background: #D3D3D3;
     border-width: 0px;
-    border-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
     margin-right: 5px;
     margin-left: 5px;
   }
+button:hover {
+    background: #C8C8C8;
+}
 
 .menu {
     display: flex;
+    width: 100vw;
+    justify-content: center;
 }
 
 .link {
