@@ -151,7 +151,6 @@ const ReactList = () => {
 
 const Inventory = () => (
   <div>
-    <Link to="/">Back</Link>
     <ReactList />
   </div>
 );
