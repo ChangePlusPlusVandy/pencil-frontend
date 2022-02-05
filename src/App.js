@@ -1,5 +1,6 @@
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './AuthContext';
+import Header from './components/Header/Header';
 
 import Router from './Router';
 import Menu from './components/Menu/Menu';
@@ -12,6 +13,7 @@ import Menu from './components/Menu/Menu';
 const App = () => (
   <BrowserRouter>
     <AuthProvider>
+      <Header />
       <Menu />
       <Router />
     </AuthProvider>

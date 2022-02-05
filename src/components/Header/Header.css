@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@500&display=swap');
+
+.header {
+	top : 0;
+	left : 0;
+	margin-bottom: 2px;
+	padding-left : 7vw;
+	padding-right : 10vw;
+	width : 100vw;
+	height : 12.5vh;
+	box-shadow: 0 4px 7px -7px gray;
+}
+
+.header_left {
+	float : left;
+	display : flex;
+	flex-direction: row;
+}
+
+.header_logo {
+	width : 2.5vw;
+	height: 8vh;
+	margin-right: 10px;
+	padding: 10px 0;
+	background: url(../../img/pencil-logo-crop.png) no-repeat center center;
+	background-size: cover;
+	
+}
+
+.header_title {
+	font-size: 28px;
+	font-family: 'Bitter', serif;
+}
