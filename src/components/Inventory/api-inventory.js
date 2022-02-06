@@ -10,7 +10,6 @@ const getInventory = async () => {
 
 const postInventory = async (data) => {
   try {
-    console.log(data);
     const response = await fetch(
       'http://localhost:8080/api/form/updateSupply',
       {
