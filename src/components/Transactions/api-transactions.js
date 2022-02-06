@@ -35,7 +35,7 @@ const getAllTransactions = async () => {
 const approveTransaction = async (data) => {
   try {
     const response = await fetch(
-      'http://localhost:8080/api/form/transaction/approve',
+      `http://localhost:8080/api/form/transaction/approve/${data.transactionId}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ const denyTransaction = async (data) => {
   // TODO: fix the URI here
   try {
     const response = await fetch(
-      'http://localhost:8080/api/form/transaction/deny',
+      `http://localhost:8080/api/form/transaction/deny/${data.transactionId}`,
       {
         headers: {
           'Content-Type': 'application/json',
