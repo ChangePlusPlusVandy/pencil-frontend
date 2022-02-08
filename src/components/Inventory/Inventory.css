@@ -75,20 +75,18 @@
 
 .dragLine {
   /* margin-left: -1vw; */
-  /* border-bottom: solid 3px #95d7af !important; */
-  border-bottom: hidden;
-  background-image: url('../../assets/DragComponent.png') !important;
-  background-repeat: no-repeat !important;
-  background-color: #95d7af !important;
-  /* margin: 5px !important; */
-  /* transform */
-  padding: 1px !important;
+  border-top: hidden !important;
+  /* border-image: url('../../assets/DragComponent.png') 30 round !important; */
+  /* background-repeat: no-repeat !important; */
+  /* background-color: #95d7af !important;
+  margin: -5px 0 !important;
+  padding: 10px !important; */
 }
 
 .dragLine::before {
   content: '   ';
   background-color: #95d7af;
-  /* margin: 5px !important; */
+  margin: 5px !important;
 }
 
 .itemContainer {
@@ -114,10 +112,4 @@
   padding-right: 15%;
   font-size: 16px;
   color: #8a8a8a;
-}
-
-.headerItemLimit {
-  text-align: center;
-  float: right;
-  margin-right: 70px;
 }
