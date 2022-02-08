@@ -61,3 +61,20 @@
   font-size: 16px;
   color: #8a8a8a;
 }
+
+.containerHeader span {
+  width: 300px;
+}
+
+.scheduleItem {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 70px;
+  background-color: #f6f6f6;
+  border-radius: 20px;
+  margin: 20px 50px;
+}
+
+.scheduleItem div {
+  width: 300px;
+}
