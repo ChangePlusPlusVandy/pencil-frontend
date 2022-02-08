@@ -112,8 +112,11 @@ const ReactList = () => {
 
   useEffect(() => {
     getInventory().then((result) => {
-      if (result.error) {
-        console.log(result.error);
+      if (result instanceof Error) {
+        // eslint-disable-next-line no-alert
+        alert(
+          'Something went wrong in the backend Server. Please contact the developer team.'
+        );
       } else {
         setData(result);
         console.log('getting inventory', result);
@@ -174,7 +177,6 @@ const ReactList = () => {
 
 const Inventory = () => (
   <div>
-    <Link to="/">Back</Link>
     <ReactList />
   </div>
 );

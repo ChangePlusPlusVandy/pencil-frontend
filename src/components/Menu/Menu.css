@@ -1,19 +1,32 @@
 .button {
-    width: 204px;
-    height: 60px;
-    background: #F5F5F5;
+    width: 15vw;
+    height: 4vw;
+    background: #D3D3D3;
     border-width: 0px;
-    border-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
     margin-right: 5px;
     margin-left: 5px;
   }
+button:hover {
+    background: #C8C8C8;
+}
 
 .menu {
     display: flex;
+    width: 100vw;
+    justify-content: center;
 }
 
 .link {
     text-decoration: none;
-    color: #707070;
-    
+}
+
+text {
+    font-size: 1.4vw;
+    font-family: Roboto;
+}
+
+.dark-button {
+    background-color: #C8C8C8;
 }
