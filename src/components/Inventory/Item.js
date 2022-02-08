@@ -1,7 +1,9 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 /* eslint-disable react/prop-types */
-import React from 'react';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { GrClose } from 'react-icons/gr';
+import React, { useState, useEffect } from 'react';
+import { ReactComponent as HamburgerIcon } from '../../assets/HamburgerIcon.svg';
+import { ReactComponent as DeleteItem } from '../../assets/DeleteItem.svg';
 import './Item.css';
 import EditableText from './EditableText';
 
@@ -13,11 +15,26 @@ const Item = ({
   updateInventory,
   handleDelete,
 }) => {
-  const a = 0;
+  const [active, setActive] = useState(false);
+  useEffect(() => {
+    document.addEventListener('dragend', () => {
+      setActive(false);
+    });
+    return () => {
+      document.removeEventListener('dragend', () => {
+        setActive(false);
+      });
+    };
+  }, []);
+
   return (
-    <li className="newItem">
-      <div className="dragIcon">
-        <GiHamburgerMenu />
+    <li className={`newItem${active ? ' setColorBlue' : ''}`}>
+      <div
+        className="dragIcon"
+        onMouseDown={() => setActive(true)}
+        onMouseUp={() => setActive(false)}
+      >
+        <HamburgerIcon className="dragIcon" />
       </div>
       <div className="itemOrder">{number + 1}</div>
       <EditableText
@@ -30,6 +47,7 @@ const Item = ({
         updateInventory={updateInventory}
         keyToUpdate="itemName"
         isNumber={false}
+        setActive={setActive}
       />
       <EditableText
         className="maxLimit"
@@ -40,6 +58,7 @@ const Item = ({
         inventory={inventory}
         updateInventory={updateInventory}
         keyToUpdate="maxLimit"
+        setActive={setActive}
         isNumber
       />
       <div
@@ -49,7 +68,7 @@ const Item = ({
         onClick={() => handleDelete(name)}
         onKeyPress={() => {}}
       >
-        <GrClose />
+        <DeleteItem />
       </div>
     </li>
   );

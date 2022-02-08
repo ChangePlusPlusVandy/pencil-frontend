@@ -2,7 +2,7 @@
   width: 80vw;
   padding: 0 10vw;
   font-size: 18px;
-  background-color: #f6f6f6;
+  font-family: 'Roboto';
 }
 
 .inventoryContainer ul {
@@ -14,7 +14,6 @@
   flex-direction: row;
   align-items: center;
   padding: 0 10px;
-  font-family: 'Roboto';
 }
 
 .inventoryButton {
@@ -37,6 +36,7 @@
   border-radius: 50px;
   border-style: none;
   background-color: #e5e5e5;
+  font-family: 'Roboto';
 }
 
 .saveButtonChanged {
@@ -66,21 +66,29 @@
   cursor: move;
 }
 
+
 .itemOrder {
   display: inline;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin: 0 15px;
   color: gray;
 }
 
 .dragLine {
-  margin-left: -1vw;
-  border-bottom: solid 3px #95d7af !important;
+  /* margin-left: -1vw; */
+  /* border-bottom: solid 3px #95d7af !important; */
+  border-bottom: hidden;
+  background-image: url('../../assets/DragComponent.png') !important;
+  background-repeat: no-repeat !important;
+  background-color: #95d7af !important;
+  /* margin: 5px !important; */
+  /* transform */
+  padding: 1px !important;
 }
 
 .dragLine::before {
   content: '   ';
   background-color: #95d7af;
+  /* margin: 5px !important; */
 }
 
 .itemContainer {
@@ -104,12 +112,12 @@
   margin-top: 10px;
   padding-left: 17.5%;
   padding-right: 15%;
-  font-family: 'Roboto';
   font-size: 16px;
   color: #8a8a8a;
 }
 
 .headerItemLimit {
+  text-align: center;
   float: right;
   margin-right: 70px;
 }
