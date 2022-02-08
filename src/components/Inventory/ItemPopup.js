@@ -7,7 +7,7 @@ const ItemPopup = ({ show, onClose, onSubmit }) => {
 
   const [formInfo, setFormInfo] = useState({
     itemName: '',
-    maxLimit: undefined,
+    maxLimit: 0,
   });
   return (
     <div className="modal">

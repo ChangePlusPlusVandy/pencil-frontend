@@ -34,6 +34,19 @@ const EditableText = ({
   const handleBlur = (event) => {
     setEdit(false);
     setActive(false);
+    if (!isNumber) {
+      console.log('leaving blur', inventory);
+      const newArr = inventory.filter(
+        (item) => item.itemName === event.target.value
+      );
+
+      console.log(newArr);
+
+      if (newArr.length > 1) {
+        console.log('Cant have duplicate entries!');
+        return;
+      }
+    }
     if (!isNumber || isPositiveInteger(event.target.value)) {
       setValue(event.target.value);
       // update the data object in inventory
@@ -42,6 +55,7 @@ const EditableText = ({
         keyToUpdate
       ] = isNumber ? Number(event.target.value) : event.target.value;
       updateInventory(tempInventory);
+      console.log('UPDATED INVENTORY');
     }
   };
 
