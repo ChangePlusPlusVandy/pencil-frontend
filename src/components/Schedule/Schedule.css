@@ -1,7 +1,7 @@
 .scheduleContainer {
   width: 80vw;
   padding: 0 10vw;
-  font-size: 18px;
+  font-size: 14px;
   font-family: 'Roboto';
 }
 
@@ -47,6 +47,7 @@
   display: flex;
   flex-direction: column;
   margin: auto;
+  margin-bottom: 50px;
   padding: 10px 0;
   background-color: #ffffff;
   border-radius: 20px;
@@ -77,4 +78,8 @@
 
 .scheduleItem div {
   width: 300px;
+}
+
+.scheduleList {
+  padding: 0;
 }

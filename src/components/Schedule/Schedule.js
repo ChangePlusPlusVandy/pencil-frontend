@@ -25,6 +25,7 @@ const Schedule = () => {
           },
         ],
       },
+      // entry 2
       {
         startdate: 1644777000,
         enddate: 1644777900,
@@ -40,7 +41,127 @@ const Schedule = () => {
           },
         ],
       },
-      // entry 2
+      // entry 3
+      {
+        startdate: 1644777000,
+        enddate: 1644777900,
+        email: 'intiser@gmail.com',
+        firstname: 'Intiser',
+        lastname: 'Mr Microsoft',
+        phone: '12341234222',
+        customfields: [
+          {
+            customfieldid: 3865500,
+            id: 3865500,
+            value: 'Harvard Elementary School for Bangladesh Scholars',
+          },
+        ],
+      },
+      {
+        startdate: 1644777000,
+        enddate: 1644777900,
+        email: 'intiser@gmail.com',
+        firstname: 'Intiser',
+        lastname: 'Mr Microsoft',
+        phone: '12341234222',
+        customfields: [
+          {
+            customfieldid: 3865500,
+            id: 3865500,
+            value: 'Harvard Elementary School for Bangladesh Scholars',
+          },
+        ],
+      },
+      {
+        startdate: 1644777000,
+        enddate: 1644777900,
+        email: 'intiser@gmail.com',
+        firstname: 'Intiser',
+        lastname: 'Mr Microsoft',
+        phone: '12341234222',
+        customfields: [
+          {
+            customfieldid: 3865500,
+            id: 3865500,
+            value: 'Harvard Elementary School for Bangladesh Scholars',
+          },
+        ],
+      },
+      {
+        startdate: 1644777000,
+        enddate: 1644777900,
+        email: 'intiser@gmail.com',
+        firstname: 'Intiser',
+        lastname: 'Mr Microsoft',
+        phone: '12341234222',
+        customfields: [
+          {
+            customfieldid: 3865500,
+            id: 3865500,
+            value: 'Harvard Elementary School for Bangladesh Scholars',
+          },
+        ],
+      },
+      {
+        startdate: 1644777000,
+        enddate: 1644777900,
+        email: 'intiser@gmail.com',
+        firstname: 'Intiser',
+        lastname: 'Mr Microsoft',
+        phone: '12341234222',
+        customfields: [
+          {
+            customfieldid: 3865500,
+            id: 3865500,
+            value: 'Harvard Elementary School for Bangladesh Scholars',
+          },
+        ],
+      },
+      {
+        startdate: 1644777000,
+        enddate: 1644777900,
+        email: 'intiser@gmail.com',
+        firstname: 'Intiser',
+        lastname: 'Mr Microsoft',
+        phone: '12341234222',
+        customfields: [
+          {
+            customfieldid: 3865500,
+            id: 3865500,
+            value: 'Harvard Elementary School for Bangladesh Scholars',
+          },
+        ],
+      },
+      {
+        startdate: 1644777000,
+        enddate: 1644777900,
+        email: 'intiser@gmail.com',
+        firstname: 'Intiser',
+        lastname: 'Mr Microsoft',
+        phone: '12341234222',
+        customfields: [
+          {
+            customfieldid: 3865500,
+            id: 3865500,
+            value: 'Harvard Elementary School for Bangladesh Scholars',
+          },
+        ],
+      },
+      {
+        startdate: 1644777000,
+        enddate: 1644777900,
+        email: 'intiser@gmail.com',
+        firstname: 'Intiser',
+        lastname: 'Mr Microsoft',
+        phone: '12341234222',
+        customfields: [
+          {
+            customfieldid: 3865500,
+            id: 3865500,
+            value: 'Harvard Elementary School for Bangladesh Scholars',
+          },
+        ],
+      },
     ]);
   }, []);
 
@@ -66,7 +187,7 @@ const Schedule = () => {
           <span>Phone</span>
           <span>School</span>
         </div>
-        <ul className="dragList">
+        <ul className="scheduleList">
           {scheduleData.map((item, index) => {
             const startDate = new Date(item.startdate * 1000);
             const endDate = new Date(item.enddate * 1000);
