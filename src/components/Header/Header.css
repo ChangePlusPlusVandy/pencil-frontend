@@ -3,11 +3,10 @@
 .header {
 	width: 100vw;
 	height: 12.5vh;
-	margin-bottom: 2px;
 	padding-left : 6vw; 
 	padding-right : 10vw;
 	box-shadow: 0 4px 7px -7px gray;
-	background: #C8C8C8;
+	background-color: white;
 }
 
 .header_left {
