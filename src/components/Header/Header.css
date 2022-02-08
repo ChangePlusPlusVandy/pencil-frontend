@@ -4,7 +4,7 @@
 	width: 100vw;
 	height: 12.5vh;
 	margin-bottom: 2px;
-	padding-left : 6vw;
+	padding-left : 6vw; 
 	padding-right : 10vw;
 	box-shadow: 0 4px 7px -7px gray;
 	background: #C8C8C8;
@@ -15,6 +15,7 @@
 	height : 100%;
 	display : flex;
 	flex-direction: row;
+	height: 100%;
 }
 
 .header_logo {
@@ -24,7 +25,7 @@
 }
 
 .header_title {
-	font-size: 28px;
+	font-size: 2vw;
 	font-family: 'Bitter', serif;
 	margin : auto 0;
 }
