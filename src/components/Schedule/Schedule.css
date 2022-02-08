@@ -1,0 +1,18 @@
+.scheduleContainer {
+  width: 80vw;
+  padding: 0 10vw;
+  font-size: 18px;
+  font-family: 'Roboto';
+}
+
+.scheduleHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.dropdownButton {
+  margin-left: auto;
+  width: 195px;
+}
