@@ -89,9 +89,11 @@ const ReactList = () => {
 
   useEffect(() => {
     getInventory().then((result) => {
-      console.log(result);
-      if (result.error) {
-        console.log(result.error);
+      if (result instanceof Error) {
+        // eslint-disable-next-line no-alert
+        alert(
+          'Something went wrong in the backend Server. Please contact the developer team.'
+        );
       } else {
         setData(result);
       }
