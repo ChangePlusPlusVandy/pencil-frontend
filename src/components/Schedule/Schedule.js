@@ -14,7 +14,7 @@ const Schedule = () => {
     <div className="scheduleContainer">
       <div className="scheduleHeader">
         <h2>Schedule ({scheduleData.length})</h2>
-        <div className="inventoryButton">Print Schedule</div>
+        <div className="scheduleButton">Print Schedule</div>
         <AiFillPrinter />
 
         <select onChange={handleDropdown} className="dropdownButton">

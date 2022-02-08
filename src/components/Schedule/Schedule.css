@@ -12,7 +12,52 @@
   padding: 0 10px;
 }
 
+.inventoryHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.scheduleButton {
+  font-size: 14px;
+  margin-left: 25px;
+  margin-right: 8px;
+  opacity: 75%;
+  text-decoration: underline;
+}
+
+.scheduleButton:hover {
+  cursor: pointer;
+}
+
 .dropdownButton {
   margin-left: auto;
   width: 195px;
+}
+
+.containerHeader {
+  display: flex;
+  flex-direction: row;
+}
+
+.itemContainer {
+  width: 100%;
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  padding: 10px 0;
+  background-color: #ffffff;
+  border-radius: 20px;
+  /* box-shadow: 0 0 5px #000000; */
+}
+
+.containerHeader {
+  height: 20px;
+  margin-top: 10px;
+  padding-left: 17.5%;
+  padding-right: 15%;
+  font-size: 16px;
+  color: #8a8a8a;
 }
