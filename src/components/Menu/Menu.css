@@ -1,15 +1,17 @@
 .button {
     width: 15vw;
     height: 4vw;
-    background: #D3D3D3;
+    background: #ffffff69;
+    color: #00000069;
     border-width: 0px;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
     margin-right: 5px;
     margin-left: 5px;
+    cursor: pointer;
   }
 button:hover {
-    background: #C8C8C8;
+    background: #dadada69;
 }
 
 .menu {
@@ -28,5 +30,10 @@ text {
 }
 
 .dark-button {
-    background-color: #C8C8C8;
+    color: #000000b9 !important;
+    background-color: white;
+}
+
+.dark-button:hover {
+    background-color: white;
 }
