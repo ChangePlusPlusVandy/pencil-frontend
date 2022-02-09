@@ -2,7 +2,7 @@ import React from 'react';
 import './Header.css';
 import PencilLogo from '../../img/pencil-logo-crop.png';
 
-import HeaderProfile from './HeaderProfile';
+import HeaderDropdown from './HeaderDropdown';
 
 const Header = () => (
   <div className="header">
@@ -10,7 +10,7 @@ const Header = () => (
       <img src={PencilLogo} alt="Pencil Logo" className="header_logo" />
       <p className="header_title">PENCIL-Nashville</p>
     </div>
-    <HeaderProfile />
+    <HeaderDropdown />
   </div>
 );
 

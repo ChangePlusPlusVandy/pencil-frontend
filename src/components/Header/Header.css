@@ -1,36 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Bitter:wght@500&display=swap');
 
 .header {
-	width: 100vw;
-	height: 90px;
-	box-shadow: 0 4px 7px -7px gray;
-	background-color: white;
+  height: 100px;
+  box-shadow: 0 4px 7px -7px gray;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5rem;
 }
 
 .header_left {
-	float : left;
-	display : flex;
-	flex-direction: row;
-	height: 100%;
-	margin-left: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .header_logo {
-	height : 46px;
-	width : 30px;
-	margin : auto 10px;
+  height: 46px;
+  width: 30px;
+  margin-right: 1rem;
 }
 
 .header_title {
-	font-size: 28px;
-	font-family: 'Bitter', serif;
-	margin: auto 0 auto 10px;
+  font-size: 28px;
+  font-family: 'Bitter', serif;
 }
 
-.header_profile {
-	float : right;
-	/* width : 20px; */
-	margin-top : 35px;
-	margin-right: 50px;
-	font-family: Roboto;
+.header_dropdown {
+  font-family: Roboto;
+  padding: 10px 30px;
+  /* text-decoration: none; */
+}
+
+.header_dropdown:hover {
+  cursor: pointer;
+  border: 1px solid #71c3e7;
+  border-radius: 100px;
 }
