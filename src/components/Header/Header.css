@@ -2,7 +2,7 @@
 
 .header {
 	width: 100vw;
-	height: 100px;
+	height: 90px;
 	box-shadow: 0 4px 7px -7px gray;
 	background-color: white;
 }
@@ -22,7 +22,7 @@
 }
 
 .header_title {
-	font-size: 30px;
+	font-size: 28px;
 	font-family: 'Bitter', serif;
 	margin: auto 0 auto 10px;
 }
@@ -30,7 +30,7 @@
 .header_profile {
 	float : right;
 	/* width : 20px; */
-	margin-top : 40px;
+	margin-top : 35px;
 	margin-right: 50px;
 	font-family: Roboto;
 }

@@ -1,6 +1,5 @@
 .button {
     width: 15vw;
-    height: 50px;
     background: #ffffff69;
     color: #00000069;
     border-width: 0px;
@@ -9,6 +8,8 @@
     margin-right: 5px;
     margin-left: 5px;
     cursor: pointer;
+    padding-top: 10px;
+    padding-bottom: 13px;
   }
 button:hover {
     background: #dadada69;
@@ -24,13 +25,13 @@ button:hover {
     text-decoration: none;
 }
 
-text {
-    font-size: 1.4em;
-    font-family: Roboto;
+
+.menuOptionText {
+    font-size: 16px;
 }
 
 .dark-button {
-    color: #000000b9 !important;
+    color: #000000d0 !important;
     background-color: white;
 }
 

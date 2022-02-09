@@ -14,7 +14,7 @@ const Menu = () => {
           className={`button ${menu === 0 ? 'dark-button' : ''}`}
           onClick={() => setMenu(0)}
         >
-          <text>Dashboard</text>
+          <text className="menuOptionText">Dashboard</text>
         </button>
       </Link>
       <Link to="/inventory" className="link">
@@ -23,7 +23,7 @@ const Menu = () => {
           className={`button ${menu === 1 ? 'dark-button' : ''}`}
           onClick={() => setMenu(1)}
         >
-          <text>Inventory</text>
+          <text className="menuOptionText">Inventory</text>
         </button>
       </Link>
       <Link to="/reports" className="link">
@@ -32,7 +32,7 @@ const Menu = () => {
           className={`button ${menu === 2 ? 'dark-button' : ''}`}
           onClick={() => setMenu(2)}
         >
-          <text>Reports</text>
+          <text className="menuOptionText">Reports</text>
         </button>
       </Link>
       <Link to="/schedule" className="link">
@@ -41,7 +41,7 @@ const Menu = () => {
           className={`button ${menu === 3 ? 'dark-button' : ''}`}
           onClick={() => setMenu(3)}
         >
-          <text>Schedule</text>
+          <text className="menuOptionText">Schedule</text>
         </button>
       </Link>
       <Link to="/transactions" className="link">
@@ -50,7 +50,7 @@ const Menu = () => {
           className={`button ${menu === 4 ? 'dark-button' : ''}`}
           onClick={() => setMenu(4)}
         >
-          <text>Transactions</text>
+          <text className="menuOptionText">Transactions</text>
         </button>
       </Link>
     </div>
