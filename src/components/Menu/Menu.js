@@ -1,10 +1,33 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Menu.css';
 
 const Menu = () => {
   const [menu, setMenu] = useState(0);
+
+  useEffect(() => {
+    console.log('change');
+    switch (window.location.href.split('/')[3]) {
+      case 'dashboard':
+        setMenu(0);
+        break;
+      case 'inventory':
+        setMenu(1);
+        break;
+      case 'reports':
+        setMenu(2);
+        break;
+      case 'schedule':
+        setMenu(3);
+        break;
+      case 'transactions':
+        setMenu(4);
+        break;
+      default:
+        setMenu(-1);
+    }
+  }, [window.location.href]);
 
   return (
     <div className="menu">
@@ -14,7 +37,7 @@ const Menu = () => {
           className={`button ${menu === 0 ? 'dark-button' : ''}`}
           onClick={() => setMenu(0)}
         >
-          <text className="menuOptionText">Dashboard</text>
+          <text className="menuOptionText">Dashboard</text>{' '}
         </button>
       </Link>
       <Link to="/inventory" className="link" tabindex="-1">
