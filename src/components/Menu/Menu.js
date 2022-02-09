@@ -7,7 +7,6 @@ const Menu = () => {
   const [menu, setMenu] = useState(0);
 
   useEffect(() => {
-    console.log('change');
     switch (window.location.href.split('/')[3]) {
       case 'dashboard':
         setMenu(0);
@@ -27,7 +26,7 @@ const Menu = () => {
       default:
         setMenu(-1);
     }
-  }, [window.location.href]);
+  }, []);
 
   return (
     <div className="menu">
