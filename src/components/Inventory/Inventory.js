@@ -152,8 +152,11 @@ const ReactList = () => {
         </button>
       </div>
       <div className="itemContainer">
-        <div className="containerHeader">
-          Item Name <span className="headerItemLimit">Item Limit</span>
+        <div className="dragList">
+          <div className="containerHeader">
+            <div className="headerName">Item Name</div>
+            <div className="headerItemLimit editableText">Item Limit</div>
+          </div>
         </div>
         <ReactDragListView {...dragProps}>
           <ul className="dragList">

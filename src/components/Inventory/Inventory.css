@@ -14,7 +14,7 @@
   flex-direction: row;
   align-items: center;
   padding: 0 10px;
-}
+} 
 
 .inventoryButton {
   font-size: 14px;
@@ -107,9 +107,26 @@
 
 .containerHeader {
   height: 20px;
-  margin-top: 10px;
-  padding-left: 17.5%;
-  padding-right: 15%;
+  width: 80%;
+  margin: auto;
+  margin-top: 20px;
+  padding: 0 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #8a8a8a;
+}
+.headerName {
+  margin-left: 88px;
+}
+
+.headerItemLimit {
+
+  width: 40px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: 62px;
   font-size: 16px;
   color: #8a8a8a;
 }

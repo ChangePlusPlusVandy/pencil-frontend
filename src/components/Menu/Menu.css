@@ -1,6 +1,6 @@
 .button {
     width: 15vw;
-    height: 4vw;
+    height: 50px;
     background: #ffffff69;
     color: #00000069;
     border-width: 0px;
@@ -25,7 +25,7 @@ button:hover {
 }
 
 text {
-    font-size: 1.4vw;
+    font-size: 1.4em;
     font-family: Roboto;
 }
 
