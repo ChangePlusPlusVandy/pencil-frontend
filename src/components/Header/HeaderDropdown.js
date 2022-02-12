@@ -3,9 +3,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { DownOutlined } from '@ant-design/icons';
-import { Menu, Dropdown } from 'antd';
+import { Dropdown } from 'antd';
+import { FaChevronDown } from 'react-icons/fa';
 import { useAuth } from '../../AuthContext';
+import 'antd/dist/antd.css';
 
 const HeaderDropdown = () => {
   const { logout, getUser } = useAuth();
@@ -25,25 +26,19 @@ const HeaderDropdown = () => {
   };
 
   const menu = (
-    <Menu>
-      <Menu.Item key="0">
-        <a href="https://www.antgroup.com">Profile</a>
-      </Menu.Item>
-      <Menu.Item key="1">
-        <a href={handleLogout}>Log Out</a>
-      </Menu.Item>
-    </Menu>
+    <div className="dropdown_menu">
+      <a href="https://www.antgroup.com">Profile</a>
+      <a href={handleLogout}>Log Out</a>
+    </div>
   );
 
   return (
-    <div className="header_dropdown">
-      <Dropdown overlay={menu} trigger={['click']}>
-        <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-          {user && user.displayName}
-          <DownOutlined />
-        </a>
-      </Dropdown>
-    </div>
+    <Dropdown overlay={menu} trigger={['click']}>
+      <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+        {user && user.displayName}
+        <FaChevronDown />
+      </a>
+    </Dropdown>
   );
 };
 
