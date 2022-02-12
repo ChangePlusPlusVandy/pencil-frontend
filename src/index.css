@@ -27,6 +27,7 @@
          url('./fonts/Roboto/Roboto-Light.ttf') format('truetype');
   }
 
-html {
+html, body {
      background-color: #f6f6f6;
+     margin: 0;
 }
