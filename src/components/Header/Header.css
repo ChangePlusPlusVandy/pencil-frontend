@@ -29,6 +29,11 @@
   margin-top: 1em;
 }
 
+.header_right {
+  display: flex;
+  flex-direction: row;
+}
+
 .ant-dropdown-link {
   color: #000000;
   display: flex;
