@@ -128,20 +128,21 @@ const titleCells = newTitles.map(
     })
 );
 
-const rowsArr = [
-  new TableRow({
-    children: columnCells,
-    width: { size: 100, type: WidthType.PERCENTAGE },
-    height: { value: 900, rule: HeightRule.EXACT },
-  }),
-  new TableRow({
-    children: titleCells,
-    width: { size: 100, type: WidthType.PERCENTAGE },
-    height: { value: 300, rule: HeightRule.EXACT },
-  }),
-];
+let rowsArr = [];
 
 function pushRowArr(splitItems) {
+  rowsArr = [
+    new TableRow({
+      children: columnCells,
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      height: { value: 900, rule: HeightRule.EXACT },
+    }),
+    new TableRow({
+      children: titleCells,
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      height: { value: 300, rule: HeightRule.EXACT },
+    }),
+  ];
   for (const itemArr of splitItems) {
     const singleRow = [];
     for (const item of itemArr) {

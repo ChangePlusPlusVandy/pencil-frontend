@@ -29,9 +29,7 @@ const ReactList = () => {
     today = `${mm}-${dd}-${yyyy}`;
 
     Packer.toBlob(doc).then((blob) => {
-      console.log(blob);
       saveAs(blob, `PencilForm.${today}.docx`);
-      console.log('Document created!');
     });
   };
 
