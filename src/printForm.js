@@ -1,6 +1,5 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-undef */
-import * as fs from 'fs';
 import {
   WidthType,
   Table,
@@ -226,7 +225,7 @@ function createFile() {
           new Paragraph({
             children: [
               new TextRun({
-                text: '\nSignature: __________________________________________		Date: ________10/2/2021____',
+                text: '\nSignature: __________________________________________		Date: ________________',
                 bold: false,
                 font: 'Calibri',
                 size: 22,
