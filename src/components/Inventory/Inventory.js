@@ -8,14 +8,27 @@ import { Link } from 'react-router-dom';
 import { AiFillPrinter } from 'react-icons/ai';
 import { GrFormAdd } from 'react-icons/gr';
 import './Inventory.css';
+import { Packer } from 'docx';
+import { saveAs } from 'file-saver';
 import ItemPopup from './ItemPopup';
 import Item from './Item';
 import { getInventory, postInventory } from './api-inventory';
+import printForm from '../../printForm';
 
 const ReactList = () => {
   const [data, setData] = useState([]);
   const [isAddItemVisible, setAddItemVisible] = useState(false);
   const [changed, setChanged] = useState(false);
+
+  const generate = () => {
+    const doc = printForm(data);
+
+    Packer.toBlob(doc).then((blob) => {
+      console.log(blob);
+      saveAs(blob, 'PencilForm.docx');
+      console.log('Document created!');
+    });
+  };
 
   const addItem = (e, formInfo) => {
     e.preventDefault();
@@ -109,7 +122,9 @@ const ReactList = () => {
       />
       <div className="inventoryHeader">
         <h2>Inventory ({data.length})</h2>
-        <div className="inventoryButton">Print Inventory</div>
+        <div className="inventoryButton" onClick={generate}>
+          Print Inventory
+        </div>
         <AiFillPrinter />
         <div
           className="inventoryButton"
