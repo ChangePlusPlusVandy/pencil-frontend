@@ -42,6 +42,9 @@ const Profile = () => {
           <p>
             <strong>Email:</strong> {user.email}
           </p>
+          <p>
+            <string>Change Password</string>
+          </p>
           <button type="button" onClick={handleLogout}>
             Logout
           </button>

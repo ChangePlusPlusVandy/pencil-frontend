@@ -81,6 +81,20 @@ export const AuthProvider = ({ children }) => {
     return firebase.auth().sendPasswordResetEmail(email);
   }
 
+  function changePassword(newPassword) {
+    return firebase
+      .auth()
+      .currentUser.updatePassword(newPassword)
+      .then(
+        () => {
+          console.log('Changed password');
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
   useEffect(() => {
     /**
      * Updates user information in different parts of authentication.
@@ -102,6 +116,7 @@ export const AuthProvider = ({ children }) => {
       logout,
       getUser,
       forgotPassword,
+      changePassword,
     }),
     [currentUser, login, register, logout, getUser, forgotPassword]
   );

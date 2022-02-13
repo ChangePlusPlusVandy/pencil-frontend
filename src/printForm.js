@@ -1,5 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-undef */
+/* eslint-disable import/no-unresolved */
 import {
   WidthType,
   Table,
