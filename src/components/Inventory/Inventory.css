@@ -73,8 +73,8 @@
 
 .dragLine {
   border-top: hidden !important;
-  border-color: #95d7af !important;
-  border-bottom-style: solid !important;
+  border-bottom: 3px solid #95d7af  !important;
+  
 }
 
 .dragLine::before {
