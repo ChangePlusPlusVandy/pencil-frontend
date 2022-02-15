@@ -85,14 +85,9 @@ export const AuthProvider = ({ children }) => {
     return firebase
       .auth()
       .currentUser.updatePassword(newPassword)
-      .then(
-        () => {
-          console.log('Changed password');
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+      .then(() => {
+        console.log('Changed password');
+      });
   }
 
   useEffect(() => {

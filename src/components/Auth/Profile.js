@@ -1,5 +1,6 @@
 import { Link, useHistory } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+// eslint-disable-next-line import/named
 import { useAuth } from '../../AuthContext';
 
 /**
@@ -7,11 +8,15 @@ import { useAuth } from '../../AuthContext';
  * @return {Object} - Profile page
  * */
 const Profile = () => {
-  const { logout, getUser } = useAuth();
+  const { logout, getUser, changePassword } = useAuth();
   const history = useHistory();
+  const firstPassword = useRef(null);
+  const secondPassword = useRef(null);
 
   const [user, setUser] = useState(null); // User object.
-  const [isLoading, setIsLoading] = useState(true); // Loading state.
+  const [canConfirm, setConfirm] = useState(false);
+  const [error, setError] = useState(''); // error
+  const [isLoading, setIsLoading] = useState(true); // is loading
 
   useEffect(() => {
     const currentUser = getUser();
@@ -20,6 +25,26 @@ const Profile = () => {
       setIsLoading(false);
     }
   }, []);
+
+  const change = () => {
+    if (firstPassword.current.value === secondPassword.current.value) {
+      setConfirm(true);
+    } else {
+      setConfirm(false);
+    }
+  };
+
+  const changeThePassword = async (event) => {
+    event.preventDefault();
+    setError('');
+    try {
+      setIsLoading(true);
+      await changePassword(firstPassword.current.value);
+    } catch (err) {
+      setError(err.message);
+    }
+    setIsLoading(false);
+  };
 
   /**
    * Logs user out and redirects them to home.
@@ -42,9 +67,35 @@ const Profile = () => {
           <p>
             <strong>Email:</strong> {user.email}
           </p>
-          <p>
-            <string>Change Password</string>
-          </p>
+          <form onSubmit={changeThePassword}>
+            <p>Change password</p>
+            <input
+              type="text"
+              id="changepassword"
+              name="changepassword"
+              onChange={change}
+              ref={firstPassword}
+            />
+            <br />
+            <p>Confirm password:</p>
+            <input
+              type="text"
+              id="confirmpassword"
+              name="confirmpassword"
+              onChange={change}
+              ref={secondPassword}
+            />
+            <br />
+            {canConfirm ? (
+              <button type="submit">Change Password</button>
+            ) : (
+              <button type="submit" disabled>
+                {isLoading ? 'Loading...' : 'Change Password'}
+              </button>
+            )}
+          </form>
+          <br />
+          {error && <p>{error}</p>}
           <button type="button" onClick={handleLogout}>
             Logout
           </button>
