@@ -10,6 +10,7 @@ const MiniTransaction = ({
   createdAt,
   approveClick,
   denyClick,
+  isChecked,
 }) => {
   const [teacherName, setTeacherName] = useState([]);
   //   console.log(createdAt);

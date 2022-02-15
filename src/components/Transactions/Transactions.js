@@ -36,23 +36,35 @@ const PendingTransactions = () => {
   }, []);
 
   return (
-    <div className="scrollingTransactions">
-      {data.map((item, index) => (
-        <MiniTransaction
-          transaction={item}
-          teacher={item.teacherId}
-          createdAt={item.createdAt}
-          approveClick={approveClick}
-          denyClick={denyClick}
-        />
-      ))}
+    <div className="transactions">
+      <h1>Transactions</h1>
+      <p id="date">Date/Time</p>
+      <p id="name">Name</p>
+      <p id="status">Status</p>
+      <select name="options" id="options">
+        <option value="pending">Pending</option>
+        <option value="accepted">Accepted</option>
+        <option value="denied">Denied</option>
+        <option value="all">All</option>
+      </select>
+      <div className="scrollingTransactions">
+        {data.map((item, index) => (
+          <MiniTransaction
+            transaction={item}
+            teacher={item.teacherId}
+            createdAt={item.createdAt}
+            approveClick={approveClick}
+            denyClick={denyClick}
+            isChecked={false}
+          />
+        ))}
+      </div>
     </div>
   );
 };
 
 const Transactions = () => (
   <div>
-    <h1>Transactions</h1>
     <PendingTransactions />
   </div>
 );
