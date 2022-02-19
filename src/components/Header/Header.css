@@ -9,6 +9,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 5rem;
+  cursor: url('../../img/pencil-cursor.png'), auto;
 }
 
 .header_left {
@@ -21,6 +22,7 @@
   height: 46px;
   width: 30px;
   margin-right: 1rem;
+  cursor: pointer;
 }
 
 .header_title {
@@ -77,14 +79,14 @@
   border-top: none;
   border-radius: 0px 0px 20px 20px;
   padding: 0px 18px 14px 18px;
-  margin-top: -5px;
+  margin-top: -10px;
   display: flex;
   flex-direction: column;
 }
 
 .dropdown_menu > a {
   text-decoration: none;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 400;
   color: rgba(0, 0, 0, 0.7);
   margin-bottom: 5px;
@@ -92,4 +94,19 @@
 
 .dropdown_menu > a:hover {
   color: #71c3e7;
+}
+
+.horizontal_line {
+  width: 100%;
+  height: 1px;
+  background-color: #e8e8e8;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.addLocationButton {
+  opacity: 75%;
+  text-decoration: underline !important;
+  display: flex;
+  align-items: center;
 }

@@ -4,8 +4,9 @@
 /* eslint-disable import/no-unresolved */
 
 import React, { useEffect, useState } from 'react';
-import { Dropdown } from 'antd';
+import { Dropdown, Menu } from 'antd';
 import { FaChevronDown } from 'react-icons/fa';
+import { TiPlus } from 'react-icons/ti';
 import { useAuth } from '../../AuthContext';
 import 'antd/dist/antd.css';
 
@@ -25,10 +26,18 @@ const LocationDropdown = () => {
     updateLocation(e.target.innerText);
   };
 
+  const handleAddLocation = () => {
+    console.log('Add location');
+  };
+
   const menu = (
     <div className="dropdown_menu">
       <a onClick={handleClick}>Nashville</a>
       <a onClick={handleClick}>Antioch</a>
+      <div className="horizontal_line" />
+      <a className="addLocationButton" onClick={handleAddLocation}>
+        Add Location <TiPlus style={{ marginLeft: '2px' }} />
+      </a>
     </div>
   );
 
