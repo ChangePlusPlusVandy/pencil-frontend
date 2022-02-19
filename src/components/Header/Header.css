@@ -26,15 +26,31 @@
 .header_title {
   font-size: 28px;
   font-family: 'Bitter', serif;
+  margin-top: 1em;
 }
 
-.header_dropdown {
-  font-family: Roboto;
-  padding: 10px 30px;
-  /* text-decoration: none; */
+.header_right {
+  display: flex;
+  flex-direction: row;
 }
 
-.header_dropdown:hover {
+.ant-dropdown-link {
+  color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 18px 0px 18px;
+  border: 1.5px solid transparent;
+  border-radius: 20px 20px;
+  width: 200px;
+  height: 50px;
+  font-family: 'Roboto', serif;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease-in-out !important;
+}
+
+.ant-dropdown-link:hover {
   cursor: pointer;
   border-color: #71c3e7;
   color: black;

@@ -1,11 +1,13 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable import/no-unresolved */
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FaChevronDown } from 'react-icons/fa';
 import { Menu, Dropdown } from 'antd';
 import { useAuth } from '../../AuthContext';
+import 'antd/dist/antd.css';
 
 const HeaderDropdown = () => {
   const { logout, getUser } = useAuth();
@@ -25,14 +27,10 @@ const HeaderDropdown = () => {
   };
 
   const menu = (
-    <Menu>
-      <Menu.Item key="0">
-        <a href="https://www.antgroup.com">Profile</a>
-      </Menu.Item>
-      <Menu.Item key="1">
-        <a href={handleLogout}>Log Out</a>
-      </Menu.Item>
-    </Menu>
+    <div className="dropdown_menu">
+      <a href="https://www.antgroup.com">Profile</a>
+      <a href={handleLogout}>Log Out</a>
+    </div>
   );
 
   return (
