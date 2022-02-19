@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { DownOutlined } from '@ant-design/icons';
+import { FaChevronDown } from 'react-icons/fa';
 import { Menu, Dropdown } from 'antd';
 import { useAuth } from '../../AuthContext';
 
@@ -36,14 +36,12 @@ const HeaderDropdown = () => {
   );
 
   return (
-    <div className="header_dropdown">
-      <Dropdown overlay={menu} trigger={['click']}>
-        <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-          {user && user.displayName}
-          <DownOutlined />
-        </a>
-      </Dropdown>
-    </div>
+    <Dropdown overlay={menu} trigger={['click']}>
+      <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+        {user && user.displayName}
+        <FaChevronDown className="dropdown_arrow" />
+      </a>
+    </Dropdown>
   );
 };
 

@@ -36,6 +36,44 @@
 
 .header_dropdown:hover {
   cursor: pointer;
-  border: 1px solid #71c3e7;
-  border-radius: 100px;
+  border-color: #71c3e7;
+  color: black;
+}
+
+.ant-dropdown-open {
+  border-color: #71c3e7;
+  border-radius: 20px 20px 0px 0px;
+  border-bottom: none;
+}
+
+.ant-dropdown-open > .dropdown_arrow {
+  transform: rotate(180deg);
+}
+
+.ant-dropdown-link > .dropdown_arrow {
+  transition: all 0.3s ease-in-out;
+}
+
+.dropdown_menu {
+  background-color: white;
+  width: 200px;
+  border: 1.5px solid #71c3e7;
+  border-top: none;
+  border-radius: 0px 0px 20px 20px;
+  padding: 0px 18px 14px 18px;
+  margin-top: -5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown_menu > a {
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.7);
+  margin-bottom: 5px;
+}
+
+.dropdown_menu > a:hover {
+  color: #71c3e7;
 }
