@@ -20,10 +20,34 @@
 //   }
 // };
 
-const getAllTransactions = async () => {
+const getPendingTransactions = async () => {
   try {
     const response = await fetch(
-      'http://localhost:8080/api/form/transaction/transactions'
+      'http://localhost:8080/api/form/transaction/pendingTransactions'
+    );
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+const getApprovedTransactions = async () => {
+  try {
+    const response = await fetch(
+      'http://localhost:8080/api/form/transaction/approvedTransactions'
+    );
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+const getDeniedTransactions = async () => {
+  try {
+    const response = await fetch(
+      'http://localhost:8080/api/form/transaction/deniedTransactions'
     );
     return await response.json();
   } catch (err) {
@@ -85,8 +109,10 @@ const getTeacherByID = async (id) => {
 
 // eslint-disable-next-line import/prefer-default-export
 export {
-  getAllTransactions,
+  getPendingTransactions,
   approveTransaction,
   denyTransaction,
   getTeacherByID,
+  getApprovedTransactions,
+  getDeniedTransactions,
 };
