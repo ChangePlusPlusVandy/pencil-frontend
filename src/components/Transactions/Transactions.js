@@ -9,6 +9,7 @@ import {
   denyTransaction,
   getTeacherByID,
 } from './api-transactions';
+import './Transactions.css';
 
 const dateConverter = (date) => {
   const year = date.slice(0, 4);
@@ -146,7 +147,11 @@ const PendingTransactions = () => {
       key: 'approve',
       dataIndex: 'approve',
       render: (text, record) => (
-        <button type="button" onClick={(e) => approveClick(e, record)}>
+        <button
+          type="button"
+          onClick={(e) => approveClick(e, record)}
+          hidden={!(typeData === 'pending')}
+        >
           ✓
         </button>
       ),
@@ -156,7 +161,11 @@ const PendingTransactions = () => {
       key: 'deny',
       dataIndex: 'deny',
       render: (text, record) => (
-        <button type="button" onClick={(e) => denyClick(e, record)}>
+        <button
+          type="button"
+          onClick={(e) => denyClick(e, record)}
+          hidden={!(typeData === 'pending')}
+        >
           ✖
         </button>
       ),
@@ -239,7 +248,7 @@ const PendingTransactions = () => {
           console.log('Data loaded!');
         }
       });
-    } else if (event.target.value === 'accepted') {
+    } else if (event.target.value === 'approved') {
       setSelectedData([]);
       getApprovedTransactions().then((transactions) => {
         if (transactions.error) {
@@ -312,40 +321,53 @@ const PendingTransactions = () => {
 
   return (
     <div className="transactions">
-      <h1>Transactions</h1>
-      <button
-        type="button"
-        onClick={approveSelected}
-        hidden={!selectedData.length}
-      >
-        Approve
-      </button>
-      <button
-        type="button"
-        onClick={approveSelected}
-        hidden={!selectedData.length}
-      >
-        ✓
-      </button>
-      <button
-        type="button"
-        onClick={denySelected}
-        hidden={!selectedData.length}
-      >
-        Deny
-      </button>
-      <button
-        type="button"
-        onClick={denySelected}
-        hidden={!selectedData.length}
-      >
-        ✖
-      </button>
-      <select name="options" id="options" onChange={changeLoadedData}>
-        <option value="pending">Pending</option>
-        <option value="accepted">Accepted</option>
-        <option value="denied">Denied</option>
-      </select>
+      <div className="titleArea">
+        <h1 className="transactionTitle">Transactions</h1>
+        <button
+          type="button"
+          className="borderlessButton"
+          id="wordButton"
+          onClick={approveSelected}
+          hidden={!selectedData.length}
+        >
+          Approve
+        </button>
+        <button
+          className="borderlessButton"
+          type="button"
+          onClick={approveSelected}
+          hidden={!selectedData.length}
+        >
+          ✓
+        </button>
+        <button
+          id="wordButton"
+          className="borderlessButton"
+          type="button"
+          onClick={denySelected}
+          hidden={!selectedData.length}
+        >
+          Deny
+        </button>
+        <button
+          className="borderlessButton"
+          type="button"
+          onClick={denySelected}
+          hidden={!selectedData.length}
+        >
+          ✕
+        </button>
+        <select
+          className="chooseData"
+          name="options"
+          id="options"
+          onChange={changeLoadedData}
+        >
+          <option value="pending">Pending</option>
+          <option value="approved">Approved</option>
+          <option value="denied">Denied</option>
+        </select>
+      </div>
       <div className="scrollingTransactions">
         <Space align="center" style={{ marginBottom: 16 }} />
         {typeData === 'pending' ? (

@@ -3,9 +3,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Menu = () => (
-	<div className="menu">
+  <div className="menu">
     <Link to="/dashboard" className="link">
-		  <button type="button" className="button">
+      <button type="button" className="button">
         Dashboard
       </button>
     </Link>
@@ -34,7 +34,7 @@ const Menu = () => (
         Transactions
       </button>
     </Link>
-	</div>
+  </div>
 );
 
 export default Menu;

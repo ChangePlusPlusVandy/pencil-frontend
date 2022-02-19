@@ -1,9 +1,52 @@
-.scrollingTransactions{
-    position: relative;
-    box-shadow: 5px;
-    background-color: red;
-    width: 50vw;
-    height: 50vh;
-    overflow-y: scroll;
-    scroll-behavior: smooth;
+body {
+    background-color: #E5E5E5;
+    height: 100%;
+}   
+
+.transactions {
+    margin: 2em 7em;
+}
+
+.transactionTitle {
+    font-family: Roboto;
+    font-style: bold;
+    font-weight: 500;
+    font-size: 32px;
+}
+
+.borderlessButton {
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    margin-top: -1em;
+}
+
+#wordButton {
+    margin: -1em 1em 0em 3em;
+    text-decoration: underline;
+}
+
+.titleArea {
+    display: flex;
+}
+
+.chooseData {
+    margin-top: 0.75em;
+    border: 1.5px solid #E5E5E5;
+    box-sizing: border-box;
+    border-radius: 15px;
+    margin-left: auto;
+    height: 2em;
+    padding-left: 1em;
+    padding-right: 1em;
+    width: 10em;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.chooseData:hover {
+    border-color: #71C3E7;
 }
