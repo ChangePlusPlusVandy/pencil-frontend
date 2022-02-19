@@ -72,13 +72,9 @@
 }
 
 .dragLine {
-  /* margin-left: -1vw; */
   border-top: hidden !important;
-  /* border-image: url('../../assets/DragComponent.png') 30 round !important; */
-  /* background-repeat: no-repeat !important; */
-  /* background-color: #95d7af !important;
-  margin: -5px 0 !important;
-  padding: 10px !important; */
+  border-bottom: 3px solid #95d7af  !important;
+  
 }
 
 .dragLine::before {
