@@ -10,7 +10,7 @@ const Schedule = () => {
   // TEMP: Dummy data for schedule
   useEffect(() => {
     getSchedules('Nashville').then((items) => {
-      console.log(items);
+      console.log('HERE again', items);
       setScheduleData(items);
     });
   }, []);
@@ -38,7 +38,7 @@ const Schedule = () => {
           <th>School</th>
         </tr>
         <tr className="scheduleList">
-          {/* {scheduleData.map((item, index) => {
+          {scheduleData.map((item, index) => {
             // const createdAt = new Date(item.created_at);
             const fullName = item.name;
             const phoneNumber = item.phone;
@@ -51,7 +51,7 @@ const Schedule = () => {
                 <td>{schoolName}</td>
               </div>
             );
-          })} */}
+          })}
         </tr>
       </table>
     </div>
