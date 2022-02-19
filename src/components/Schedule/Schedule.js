@@ -9,158 +9,23 @@ const Schedule = () => {
   // TEMP: Dummy data for schedule
   useEffect(() => {
     setScheduleData([
-      // entry 1
       {
-        startdate: 1644775200,
-        enddate: 1644776100,
-        email: 'zi@gmail.com',
-        firstname: 'Zi',
-        lastname: 'T',
-        phone: '6155555555',
-        customfields: [
-          {
-            customfieldid: 3865500,
-            id: 3865500,
-            value: 'Vanderbilt High School for Rock Climbing Enthusiasts',
-          },
-        ],
-      },
-      // entry 2
-      {
-        startdate: 1644777000,
-        enddate: 1644777900,
-        email: 'intiser@gmail.com',
-        firstname: 'Intiser',
-        lastname: 'Mr Microsoft',
-        phone: '12341234222',
-        customfields: [
-          {
-            customfieldid: 3865500,
-            id: 3865500,
-            value: 'Harvard Elementary School for Bangladesh Scholars',
-          },
-        ],
-      },
-      // entry 3
-      {
-        startdate: 1644777000,
-        enddate: 1644777900,
-        email: 'intiser@gmail.com',
-        firstname: 'Intiser',
-        lastname: 'Mr Microsoft',
-        phone: '12341234222',
-        customfields: [
-          {
-            customfieldid: 3865500,
-            id: 3865500,
-            value: 'Harvard Elementary School for Bangladesh Scholars',
-          },
-        ],
+        name: 'ziiii',
+        email: 'zii@gmaill.com',
+        uri: 'https://api.calendly.com/scheduled_events/47d95d12-ccb4-48f5-a0fe-4be771121cc1/invitees/c9ac5221-b9cd-4466-9980-e0b786a3fa57',
+        school: 'some school',
+        phone: '+1 615-888-8888',
+        start_time: '2022-02-21T15:15:00.000000Z',
+        end_time: '2022-02-21T15:30:00.000000Z',
       },
       {
-        startdate: 1644777000,
-        enddate: 1644777900,
-        email: 'intiser@gmail.com',
-        firstname: 'Intiser',
-        lastname: 'Mr Microsoft',
-        phone: '12341234222',
-        customfields: [
-          {
-            customfieldid: 3865500,
-            id: 3865500,
-            value: 'Harvard Elementary School for Bangladesh Scholars',
-          },
-        ],
-      },
-      {
-        startdate: 1644777000,
-        enddate: 1644777900,
-        email: 'intiser@gmail.com',
-        firstname: 'Intiser',
-        lastname: 'Mr Microsoft',
-        phone: '12341234222',
-        customfields: [
-          {
-            customfieldid: 3865500,
-            id: 3865500,
-            value: 'Harvard Elementary School for Bangladesh Scholars',
-          },
-        ],
-      },
-      {
-        startdate: 1644777000,
-        enddate: 1644777900,
-        email: 'intiser@gmail.com',
-        firstname: 'Intiser',
-        lastname: 'Mr Microsoft',
-        phone: '12341234222',
-        customfields: [
-          {
-            customfieldid: 3865500,
-            id: 3865500,
-            value: 'Harvard Elementary School for Bangladesh Scholars',
-          },
-        ],
-      },
-      {
-        startdate: 1644777000,
-        enddate: 1644777900,
-        email: 'intiser@gmail.com',
-        firstname: 'Intiser',
-        lastname: 'Mr Microsoft',
-        phone: '12341234222',
-        customfields: [
-          {
-            customfieldid: 3865500,
-            id: 3865500,
-            value: 'Harvard Elementary School for Bangladesh Scholars',
-          },
-        ],
-      },
-      {
-        startdate: 1644777000,
-        enddate: 1644777900,
-        email: 'intiser@gmail.com',
-        firstname: 'Intiser',
-        lastname: 'Mr Microsoft',
-        phone: '12341234222',
-        customfields: [
-          {
-            customfieldid: 3865500,
-            id: 3865500,
-            value: 'Harvard Elementary School for Bangladesh Scholars',
-          },
-        ],
-      },
-      {
-        startdate: 1644777000,
-        enddate: 1644777900,
-        email: 'intiser@gmail.com',
-        firstname: 'Intiser',
-        lastname: 'Mr Microsoft',
-        phone: '12341234222',
-        customfields: [
-          {
-            customfieldid: 3865500,
-            id: 3865500,
-            value: 'Harvard Elementary School for Bangladesh Scholars',
-          },
-        ],
-      },
-      {
-        startdate: 1644777000,
-        enddate: 1644777900,
-        email: 'intiser@gmail.com',
-        firstname: 'Intiser',
-        lastname: 'Mr Microsoft',
-        phone: '12341234222',
-        customfields: [
-          {
-            customfieldid: 3865500,
-            id: 3865500,
-            value: 'Harvard Elementary School for Bangladesh Scholars',
-          },
-        ],
+        name: 'kevin jin',
+        email: 'kevin@gmaill.com',
+        uri: 'https://api.calendly.com/scheduled_events/47d95d12-ccb4-48f5-a0fe-4be771121cc1/invitees/c9ac5221-b9cd-4466-9980-e0b786a3fa57',
+        school: 'harvard college',
+        phone: '+1 615-555-5555',
+        start_time: '2022-02-21T15:35:00.000000Z',
+        end_time: '2022-02-21T15:45:00.000000Z',
       },
     ]);
   }, []);
@@ -189,26 +54,15 @@ const Schedule = () => {
         </div>
         <ul className="scheduleList">
           {scheduleData.map((item, index) => {
-            const startDate = new Date(item.startdate * 1000);
-            const endDate = new Date(item.enddate * 1000);
-            const fullName = `${item.firstname} ${item.lastname}`;
+            // const createdAt = new Date(item.created_at);
+            const fullName = item.name;
             const phoneNumber = item.phone;
-            const schoolName = item.customfields[0].value;
+            const schoolName = item.school;
             return (
               <div className="scheduleItem">
                 <div className="scheduleTime">
-                  <div>{startDate.toDateString()}</div>
-                  <div>
-                    {startDate
-                      .toLocaleTimeString()
-                      .replace(/(.*)\D\d+/, '$1')
-                      .toLowerCase()}{' '}
-                    -{' '}
-                    {endDate
-                      .toLocaleTimeString()
-                      .replace(/(.*)\D\d+/, '$1')
-                      .toLowerCase()}
-                  </div>
+                  {/* <div>{createdAt.toDateString()}</div> */}
+                  {/* <div>{createdAt.toLocaleTimeString()}</div> */}
                 </div>
                 <div>{fullName}</div>
                 <div>{phoneNumber}</div>
