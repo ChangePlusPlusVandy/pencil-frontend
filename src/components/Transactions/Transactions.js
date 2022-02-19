@@ -1,6 +1,10 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
-import { Table, Switch, Space } from 'antd';
+import { FaChevronDown } from 'react-icons/fa';
+import { Table, Space, Dropdown } from 'antd';
 import {
   getPendingTransactions,
   getApprovedTransactions,
@@ -74,7 +78,7 @@ function capitalizeFirstLetter(string) {
 const PendingTransactions = () => {
   const [loadedData, setLoadedData] = useState([]);
   const [rawData, setRawData] = useState([]);
-  const [typeData, setTypeData] = useState('pending');
+  const [typeData, setTypeData] = useState('Pending');
   const [selectedData, setSelectedData] = useState([]);
 
   const rowSelection = {
@@ -150,7 +154,7 @@ const PendingTransactions = () => {
         <button
           type="button"
           onClick={(e) => approveClick(e, record)}
-          hidden={!(typeData === 'pending')}
+          hidden={!(typeData === 'Pending')}
         >
           ✓
         </button>
@@ -164,7 +168,7 @@ const PendingTransactions = () => {
         <button
           type="button"
           onClick={(e) => denyClick(e, record)}
-          hidden={!(typeData === 'pending')}
+          hidden={!(typeData === 'Pending')}
         >
           ✖
         </button>
@@ -234,41 +238,41 @@ const PendingTransactions = () => {
   };
 
   const changeLoadedData = (event) => {
-    if (event.target.value === typeData) {
+    if (event.target.innerText === typeData) {
       console.log('no change');
-    } else if (event.target.value === 'pending') {
+    } else if (event.target.innerText === 'Pending') {
       setSelectedData([]);
       getPendingTransactions().then((transactions) => {
         if (transactions.error) {
           console.log(transactions.error);
         } else {
           setLoadedData([]);
-          setTypeData(event.target.value);
-          formatData(transactions, event.target.value);
+          setTypeData(event.target.innerText);
+          formatData(transactions, event.target.innerText);
           console.log('Data loaded!');
         }
       });
-    } else if (event.target.value === 'approved') {
+    } else if (event.target.innerText === 'Approved') {
       setSelectedData([]);
       getApprovedTransactions().then((transactions) => {
         if (transactions.error) {
           console.log(transactions.error);
         } else {
           setLoadedData([]);
-          setTypeData(event.target.value);
-          formatData(transactions, event.target.value);
+          setTypeData(event.target.innerText);
+          formatData(transactions, event.target.innerText);
           console.log(transactions);
         }
       });
-    } else if (event.target.value === 'denied') {
+    } else if (event.target.innerText === 'Denied') {
       setSelectedData([]);
       getDeniedTransactions().then((transactions) => {
         if (transactions.error) {
           console.log(transactions.error);
         } else {
           setLoadedData([]);
-          setTypeData(event.target.value);
-          formatData(transactions, event.target.value);
+          setTypeData(event.target.innerText);
+          formatData(transactions, event.target.innerText);
           console.log('Data loaded!');
         }
       });
@@ -314,10 +318,18 @@ const PendingTransactions = () => {
       if (transactions.error) {
         console.log(transactions.error);
       } else {
-        formatData(transactions, 'pending');
+        formatData(transactions, 'Pending');
       }
     });
   }, []);
+
+  const menu = (
+    <div className="dropdown_menu">
+      <a onClick={changeLoadedData}>Pending</a>
+      <a onClick={changeLoadedData}>Approved</a>
+      <a onClick={changeLoadedData}>Denied</a>
+    </div>
+  );
 
   return (
     <div className="transactions">
@@ -357,23 +369,25 @@ const PendingTransactions = () => {
         >
           ✕
         </button>
-        <select
-          className="chooseData"
-          name="options"
-          id="options"
-          onChange={changeLoadedData}
-        >
-          <option value="pending">Pending</option>
-          <option value="approved">Approved</option>
-          <option value="denied">Denied</option>
-        </select>
+        <div className="dropdown">
+          <Dropdown overlay={menu} trigger={['click']}>
+            <a
+              className="ant-dropdown-link"
+              onClick={(e) => e.preventDefault()}
+            >
+              {typeData}
+              <FaChevronDown className="dropdown_arrow" />
+            </a>
+          </Dropdown>
+        </div>
       </div>
       <div className="scrollingTransactions">
         <Space align="center" style={{ marginBottom: 16 }} />
-        {typeData === 'pending' ? (
+        {typeData === 'Pending' ? (
           <Table
             rowKey="key"
             columns={columns}
+            className="bigTable"
             rowSelection={{ ...rowSelection }}
             dataSource={loadedData}
             expandable={{
