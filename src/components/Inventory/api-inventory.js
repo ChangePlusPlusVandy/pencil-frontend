@@ -1,21 +1,22 @@
 /* eslint-disable consistent-return */
-const getInventory = async () => {
+
+const getInventory = async (location) => {
   try {
-    const response = await fetch(`/api/form/getShopForm`);
+    const response = await fetch(`/api/${location}/form/getShopForm`);
     return await response.json();
   } catch (err) {
     return err;
   }
 };
 
-const postInventory = async (data) => {
+const postInventory = async (data, location) => {
   try {
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < data.length; i++) {
       // eslint-disable-next-line no-param-reassign
       data[i].itemOrder = i;
     }
-    const response = await fetch(`/api/form/updateSupply`, {
+    const response = await fetch(`/api/${location}/form/updateSupply`, {
       headers: {
         'Content-Type': 'application/json',
       },
