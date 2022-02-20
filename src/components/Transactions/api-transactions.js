@@ -3,9 +3,9 @@
  *
  * @returns {Object} - All transaction objects with information about transaction
  */
-const getAllTransactions = async () => {
+const getAllTransactions = async (location) => {
   try {
-    const response = await fetch(`/api/transaction/transactions`);
+    const response = await fetch(`/api/${location}/transaction/transactions`);
 
     if (!response.json().body.error) {
       return response.json();

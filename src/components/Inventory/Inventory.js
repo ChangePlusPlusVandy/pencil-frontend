@@ -4,18 +4,19 @@
 
 import React, { useState, useEffect } from 'react';
 import ReactDragListView from 'react-drag-listview/lib/index';
-import { Link } from 'react-router-dom';
 import { AiFillPrinter } from 'react-icons/ai';
 import { GrFormAdd } from 'react-icons/gr';
 import './Inventory.css';
 import ItemPopup from './ItemPopup';
 import Item from './Item';
 import { getInventory, postInventory } from './api-inventory';
+import { useAuth } from '../../AuthContext';
 
 const ReactList = () => {
   const [data, setData] = useState([]);
   const [isAddItemVisible, setAddItemVisible] = useState(false);
   const [changed, setChanged] = useState(false);
+  const { getCurrentLocation } = useAuth();
 
   const addItem = (e, formInfo) => {
     e.preventDefault();
@@ -77,7 +78,8 @@ const ReactList = () => {
 
   const handleSave = () => {
     const toSubmit = data;
-    postInventory(toSubmit).then((result) => {
+    const location = getCurrentLocation();
+    postInventory(toSubmit, location).then((result) => {
       console.log(result);
       // if (result.error) {
       //   console.log(result.error);
@@ -111,7 +113,8 @@ const ReactList = () => {
   }, [changed]);
 
   useEffect(() => {
-    getInventory().then((result) => {
+    const location = getCurrentLocation();
+    getInventory(location).then((result) => {
       if (result instanceof Error) {
         // eslint-disable-next-line no-alert
         alert(
