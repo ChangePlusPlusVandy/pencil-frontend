@@ -33,8 +33,15 @@ const LocationDropdown = () => {
   };
 
   useEffect(() => {
-    getAllLocations().then((res) => {
-      setAllLocations(res);
+    getAllLocations().then((result) => {
+      if (result instanceof Error) {
+        // eslint-disable-next-line no-alert
+        alert(
+          'Something went wrong in the backend Server. Please contact the developer team.'
+        );
+      } else {
+        setAllLocations(result);
+      }
     });
     const currentLocation = getCurrentLocation();
     if (currentLocation) {
