@@ -9,7 +9,9 @@ import { useAuth } from '../../AuthContext';
 
 const Header = () => {
   const { getCurrentLocation } = useAuth();
-  const location = `PENCIL-${getCurrentLocation()}`;
+  const location = getCurrentLocation()
+    ? `PENCIL-${getCurrentLocation()}`
+    : 'PENCIL';
 
   return (
     <div className="header">

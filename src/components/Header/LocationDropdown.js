@@ -4,22 +4,17 @@
 /* eslint-disable import/no-unresolved */
 
 import React, { useEffect, useState } from 'react';
-import { Dropdown, Menu } from 'antd';
+import { Dropdown } from 'antd';
 import { FaChevronDown } from 'react-icons/fa';
 import { TiPlus } from 'react-icons/ti';
 import { useAuth } from '../../AuthContext';
+import { getAllLocations } from './api-locations';
 import 'antd/dist/antd.css';
 
 const LocationDropdown = () => {
   const { getCurrentLocation, updateLocation } = useAuth();
-  const [location, setLocation] = useState(null); // User object.
-
-  useEffect(() => {
-    const currentLocation = getCurrentLocation();
-    if (currentLocation) {
-      setLocation(currentLocation);
-    }
-  }, []);
+  const [location, setLocation] = useState();
+  const [allLocations, setAllLocations] = useState([{ name: 'Location' }]);
 
   const handleClick = (e) => {
     setLocation(e.target.innerText);
@@ -30,10 +25,21 @@ const LocationDropdown = () => {
     console.log('Add location');
   };
 
+  useEffect(() => {
+    getAllLocations().then((res) => {
+      setAllLocations(res);
+    });
+    const currentLocation = getCurrentLocation();
+    if (currentLocation) {
+      setLocation(currentLocation);
+    }
+  }, []);
+
   const menu = (
     <div className="dropdown_menu">
-      <a onClick={handleClick}>Nashville</a>
-      <a onClick={handleClick}>Antioch</a>
+      {allLocations.map((loc) => (
+        <a onClick={handleClick}>{loc.name}</a>
+      ))}
       <div className="horizontal_line" />
       <a className="addLocationButton" onClick={handleAddLocation}>
         Add Location <TiPlus style={{ marginLeft: '2px' }} />
