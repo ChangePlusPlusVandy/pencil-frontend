@@ -27,16 +27,24 @@ const HeaderDropdown = () => {
   };
 
   const menu = (
-    <div className="dropdown_menu">
-      <a href="https://www.antgroup.com">Profile</a>
-      <a href={handleLogout}>Log Out</a>
+    <div className="dropdown_menu pencil-cursor">
+      <a className="pencil-cursor" href="https://www.antgroup.com">
+        Settings
+      </a>
+      <a className="pencil-cursor" href={handleLogout}>
+        Log Out
+      </a>
     </div>
   );
 
   return (
-    <Dropdown overlay={menu} trigger={['click']}>
+    <Dropdown
+      className="custom-dropdown pencil-cursor"
+      overlay={menu}
+      trigger={['click']}
+    >
       <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-        {user && user.displayName}
+        {user && user.displayName.split(' ')[0]}
         <FaChevronDown className="dropdown_arrow" />
       </a>
     </Dropdown>

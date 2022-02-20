@@ -9,12 +9,14 @@ import { FaChevronDown } from 'react-icons/fa';
 import { TiPlus } from 'react-icons/ti';
 import { useAuth } from '../../AuthContext';
 import { getAllLocations } from './api-locations';
+import AddLocation from './AddLocation';
 import 'antd/dist/antd.css';
 
 const LocationDropdown = () => {
   const { getCurrentLocation, updateLocation } = useAuth();
   const [location, setLocation] = useState();
   const [allLocations, setAllLocations] = useState([{ name: 'Location' }]);
+  const [isAddLocationVisible, setAddLocationVisible] = useState(false);
 
   const handleClick = (e) => {
     setLocation(e.target.innerText);
@@ -22,7 +24,12 @@ const LocationDropdown = () => {
   };
 
   const handleAddLocation = () => {
-    console.log('Add location');
+    setAddLocationVisible(true);
+  };
+
+  const handleClose = () => {
+    console.log();
+    setAddLocationVisible(false);
   };
 
   useEffect(() => {
@@ -36,24 +43,36 @@ const LocationDropdown = () => {
   }, []);
 
   const menu = (
-    <div className="dropdown_menu">
+    <div className="dropdown_menu pencil-cursor">
       {allLocations.map((loc) => (
-        <a onClick={handleClick}>{loc.name}</a>
+        <a className="pencil-cursor" onClick={handleClick}>
+          {loc.name}
+        </a>
       ))}
       <div className="horizontal_line" />
-      <a className="addLocationButton" onClick={handleAddLocation}>
+      <a
+        className="addLocationButton pencil-cursor"
+        onClick={handleAddLocation}
+      >
         Add Location <TiPlus style={{ marginLeft: '2px' }} />
       </a>
     </div>
   );
 
   return (
-    <Dropdown overlay={menu} trigger={['click']}>
-      <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-        {location || 'Location'}
-        <FaChevronDown className="dropdown_arrow" />
-      </a>
-    </Dropdown>
+    <div>
+      <AddLocation show={isAddLocationVisible} onClose={handleClose} />
+      <Dropdown
+        className="custom-dropdown location-dropdown pencil-cursor"
+        overlay={menu}
+        trigger={['click']}
+      >
+        <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+          {location || 'Location'}
+          <FaChevronDown className="dropdown_arrow" />
+        </a>
+      </Dropdown>
+    </div>
   );
 };
 
