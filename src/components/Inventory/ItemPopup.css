@@ -1,102 +1,100 @@
 .modal {
-    position: fixed;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;  
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
-    background-color: #f7f7f7;
-    border-radius: 25px;
-    padding: 30px 15px;
-    width: 660px;
+  background-color: #f7f7f7;
+  border-radius: 25px;
+  padding: 30px 15px;
+  width: 660px;
 }
 
-
 .modal-title {
-    margin: 0;
-    color: #6b6a6a;
-    margin-bottom: 10px;
-    font-size: 1.1em;
-    margin-top: 10px;
+  margin: 0;
+  color: #6b6a6a;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+  margin-top: 10px;
 }
 
 .modal-body {
-    padding: 10px;
+  padding: 10px;
 }
 
 .name-area {
-    display: inline-block;
-    padding-right: 80px;
-    width: 380px;
+  display: inline-block;
+  padding-right: 80px;
+  width: 380px;
 }
 
 .name-area input {
-    width: inherit;
+  width: inherit;
 }
 
 .inline-block {
-    margin-left: 17px;
+  margin-left: 17px;
 }
 
 .limit-area {
-    display: inline-block;
-    /* height: 100%; */
-    width: 143px;
+  display: inline-block;
+  /* height: 100%; */
+  width: 143px;
 }
 
 .limit-area input {
-    width: inherit;
+  width: inherit;
 }
 
 .action-button {
-    margin-left: auto;
-    margin-right: 20px;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    font-size: .9em;
+  margin-left: auto;
+  margin-right: 20px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 16px;
 }
 
 .button-group {
-    margin-top: 15px;
-    text-align: right;
+  margin-top: 15px;
+  text-align: right;
 }
 
 .input-field {
-    height: 30px;
-    border-radius: 10px;
-    border: 1px solid #6b6a6a;
-    padding: 0 8px;
-    color: #464545;
+  height: 30px;
+  border-radius: 10px;
+  border: 1px solid #6b6a6a;
+  padding: 0 8px;
+  color: #464545;
 }
 
 .close {
-    border: none;
-    background-color: transparent;
-    color: #6b6a6a;
-    cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: #6b6a6a;
+  cursor: pointer;
 }
 
 .close:active {
-    color: #353434;
+  color: #353434;
 }
 
 .submit {
-    border: none;
-    background-color: #71c3e7;
-    height: 35px;
-    border-radius: 20px;
-    padding: 0 40px;
-    cursor: pointer;
-    margin-right: 20px;
+  border: none;
+  background-color: #71c3e7;
+  height: 35px;
+  border-radius: 20px;
+  padding: 0 40px;
+  cursor: pointer;
+  margin-right: 20px;
 }
 
 .submit:active {
-    background-color: #2babe2;
+  background-color: #2babe2;
 }
-
