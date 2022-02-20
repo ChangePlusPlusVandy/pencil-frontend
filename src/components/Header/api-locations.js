@@ -8,4 +8,19 @@ const getAllLocations = async () => {
   }
 };
 
-export { getAllLocations };
+const createNewLocation = async (req) => {
+  try {
+    const response = await fetch('/api/location/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(req),
+    });
+    return await response.json();
+  } catch (err) {
+    return err;
+  }
+};
+
+export { getAllLocations, createNewLocation };
