@@ -27,7 +27,7 @@ export function useAuth() {
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [currentLocation, setCurrentLocation] = useState('Nashville');
+  const [currentLocation, setCurrentLocation] = useState();
 
   /**
    * Logs the user in with Firebase auth.
