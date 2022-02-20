@@ -14,7 +14,7 @@ const Header = () => {
     : 'PENCIL';
 
   return (
-    <div className="header">
+    <div className="header pencil-cursor">
       <div className="header_left">
         <img src={PencilLogo} alt="Pencil Logo" className="header_logo" />
         <p className="header_title">{location}</p>
