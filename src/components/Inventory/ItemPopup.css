@@ -13,88 +13,73 @@
 .modal-content {
   background-color: #f7f7f7;
   border-radius: 25px;
-  padding: 30px 15px;
+  padding: 30px 40px;
   width: 660px;
 }
 
 .modal-title {
   margin: 0;
-  color: #6b6a6a;
+  color: rgba(0, 0, 0, 0.75);
   margin-bottom: 10px;
-  font-size: 1.1em;
+  font-size: 16px;
+  font-weight: 500;
   margin-top: 10px;
-}
-
-.modal-body {
-  padding: 10px;
 }
 
 .name-area {
   display: inline-block;
-  padding-right: 80px;
-  width: 380px;
-}
-
-.name-area input {
-  width: inherit;
-}
-
-.inline-block {
-  margin-left: 17px;
+  width: 360px;
 }
 
 .limit-area {
   display: inline-block;
-  /* height: 100%; */
-  width: 143px;
+  width: 180px;
+  margin-left: 40px;
 }
 
-.limit-area input {
-  width: inherit;
-}
-
-.action-button {
-  margin-left: auto;
-  margin-right: 20px;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  font-size: 16px;
-}
-
-.button-group {
+.add-button-group {
   margin-top: 15px;
   text-align: right;
 }
 
-.input-field {
-  height: 30px;
-  border-radius: 10px;
-  border: 1px solid #6b6a6a;
-  padding: 0 8px;
-  color: #464545;
+.add-item-input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 0 10px;
+  margin-bottom: 10px;
 }
 
-.close {
+.add-item-input:focus {
+  outline: #71c3e7 auto 2px;
+}
+
+.add-item-cancel {
   border: none;
   background-color: transparent;
   color: #6b6a6a;
   cursor: pointer;
-}
-
-.close:active {
-  color: #353434;
-}
-
-.submit {
-  border: none;
-  background-color: #71c3e7;
-  height: 35px;
-  border-radius: 20px;
-  padding: 0 40px;
-  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease-in-out;
   margin-right: 20px;
 }
 
-.submit:active {
-  background-color: #2babe2;
+.add-item-add {
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.75);
+  border: none;
+  background-color: #fafafa;
+  border: #71c3e7 1px solid;
+  border-radius: 20px;
+  height: 40px;
+  width: 100px;
+  border-radius: 20px;
+  padding: 0 25px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.add-item-add:hover {
+  background-color: #71c3e7;
 }
