@@ -9,6 +9,7 @@
   justify-content: center;
   align-items: center;
   cursor: default !important;
+  z-index: 100;
 }
 
 .location-modal-content {
