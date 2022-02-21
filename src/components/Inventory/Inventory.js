@@ -11,11 +11,13 @@ import ItemPopup from './ItemPopup';
 import Item from './Item';
 import { getInventory, postInventory } from './api-inventory';
 import { useAuth } from '../../AuthContext';
+import InventoryToggle from './InventoryToggle';
 
 const ReactList = () => {
   const [data, setData] = useState([]);
   const [isAddItemVisible, setAddItemVisible] = useState(false);
   const [changed, setChanged] = useState(false);
+  const [inventory, setInventory] = useState('Active');
   const { getCurrentLocation } = useAuth();
 
   const addItem = (e, formInfo) => {
@@ -145,6 +147,7 @@ const ReactList = () => {
           Add Item
         </div>
         <GrFormAdd />
+        <InventoryToggle onChange={setInventory} />
         <button
           type="button"
           className="saveButton"
