@@ -31,13 +31,13 @@ const Schedule = () => {
         </select>
       </div>
       <table className="itemContainer">
-        <tr className="containerHeader">
-          <th>Time</th>
-          <th>Name</th>
-          <th>Phone</th>
-          <th>School</th>
+        <tr className="scheduleItem" id="headerContainer">
+          <td className="headerCell">Time</td>
+          <td className="headerCell">Name</td>
+          <td className="headerCell">Phone</td>
+          <td className="headerCell">School</td>
         </tr>
-        <tr className="scheduleList">
+        <tr>
           {scheduleData.map((item, index) => {
             // const createdAt = new Date(item.created_at);
             const fullName = item.name;
@@ -45,10 +45,10 @@ const Schedule = () => {
             const schoolName = item.school;
             return (
               <div className="scheduleItem">
-                <div className="scheduleTime">hi</div>
-                <td>{fullName}</td>
-                <td>{phoneNumber}</td>
-                <td>{schoolName}</td>
+                <td className="itemCell">hi</td>
+                <td className="itemCell">{fullName}</td>
+                <td className="itemCell">{phoneNumber}</td>
+                <td className="itemCell">{schoolName}</td>
               </div>
             );
           })}
