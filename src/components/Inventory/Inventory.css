@@ -1,5 +1,5 @@
 .inventoryContainer {
-  width: 80vw;
+  width: 100vw;
   padding: 0 10vw;
   font-size: 18px;
   font-family: 'Roboto';
@@ -22,7 +22,6 @@
   margin-right: 8px;
   opacity: 75%;
   text-decoration: underline;
-  
 }
 
 .inventoryButton:hover {
@@ -66,7 +65,6 @@
   cursor: move;
 }
 
-
 .itemOrder {
   display: inline;
   margin: 0 15px;
@@ -74,21 +72,15 @@
 }
 
 .dragLine {
-  /* margin-left: -1vw; */
-  /* border-bottom: solid 3px #95d7af !important; */
-  border-bottom: hidden;
-  background-image: url('../../assets/DragComponent.png') !important;
-  background-repeat: no-repeat !important;
-  background-color: #95d7af !important;
-  /* margin: 5px !important; */
-  /* transform */
-  padding: 1px !important;
+  border-top: hidden !important;
+  border-bottom: 3px solid #95d7af  !important;
+  
 }
 
 .dragLine::before {
   content: '   ';
   background-color: #95d7af;
-  /* margin: 5px !important; */
+  margin: 5px !important;
 }
 
 .itemContainer {
@@ -109,15 +101,25 @@
 
 .containerHeader {
   height: 20px;
-  margin-top: 10px;
-  padding-left: 17.5%;
-  padding-right: 15%;
+  width: 80%;
+  margin: auto;
+  margin-top: 20px;
+  padding: 0 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
   font-size: 16px;
   color: #8a8a8a;
 }
+.headerName {
+  margin-left: 88px;
+}
 
 .headerItemLimit {
+  width: 40px;
   text-align: center;
-  float: right;
-  margin-right: 70px;
+  margin-left: auto;
+  margin-right: 62px;
+  font-size: 16px;
+  color: #8a8a8a;
 }
