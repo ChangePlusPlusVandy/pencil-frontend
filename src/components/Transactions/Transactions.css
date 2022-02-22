@@ -7,10 +7,17 @@ body {
     margin: 2em 7em;
 }
 
+.scrollingTransactions {
+    height: 27em;
+    overflow-y: scroll;
+    background-color: white;
+    padding: 2em;
+}
+
 .transactionTitle {
     font-family: Roboto;
     font-style: bold;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 32px;
 }
 
@@ -29,6 +36,11 @@ body {
 
 .titleArea {
     display: flex;
+}
+
+.bigTable {
+    font-family: Roboto;
+    background: white;
 }
 
 .ant-dropdown-link {

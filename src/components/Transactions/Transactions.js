@@ -76,6 +76,7 @@ function capitalizeFirstLetter(string) {
 }
 
 const PendingTransactions = () => {
+  const [numItems, setNumItems] = useState(10);
   const [loadedData, setLoadedData] = useState([]);
   const [rawData, setRawData] = useState([]);
   const [typeData, setTypeData] = useState('Pending');
@@ -237,6 +238,10 @@ const PendingTransactions = () => {
     }
   };
 
+  const loadMore = () => {
+    setNumItems(numItems + 50);
+  };
+
   const changeLoadedData = (event) => {
     if (event.target.innerText === typeData) {
       console.log('no change');
@@ -311,6 +316,10 @@ const PendingTransactions = () => {
       setLoadedData(tempArr);
     }
     setSelectedData([]);
+  };
+
+  const locale = {
+    emptyText: 'Loading...',
   };
 
   useEffect(() => {
@@ -396,6 +405,7 @@ const PendingTransactions = () => {
                 return record?.childNodes?.length;
               },
             }}
+            pagination={{ pageSize: numItems }}
           />
         ) : (
           <Table
@@ -407,8 +417,12 @@ const PendingTransactions = () => {
                 return record.childNodes.length;
               },
             }}
+            pagination={{ pageSize: numItems }}
           />
         )}
+        <button onClick={loadMore} className="loadMore" type="button">
+          Load 50
+        </button>
       </div>
     </div>
   );
