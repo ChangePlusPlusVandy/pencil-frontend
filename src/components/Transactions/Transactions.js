@@ -3,7 +3,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaChevronDown, FaChevronUp, FaCheck } from 'react-icons/fa';
+import { ImCross } from 'react-icons/im';
 import { Table, Space, Dropdown } from 'antd';
 import {
   getPendingTransactions,
@@ -155,13 +156,13 @@ const PendingTransactions = () => {
       key: 'approve',
       dataIndex: 'approve',
       render: (text, record) => (
-        <button
-          type="button"
+        <div
+          className="approve-button"
           onClick={(e) => approveClick(e, record)}
           hidden={!(typeData === 'Pending')}
         >
-          ✓
-        </button>
+          <FaCheck />
+        </div>
       ),
     },
     {
@@ -169,13 +170,13 @@ const PendingTransactions = () => {
       key: 'deny',
       dataIndex: 'deny',
       render: (text, record) => (
-        <button
-          type="button"
+        <div
+          className="deny-button"
           onClick={(e) => denyClick(e, record)}
           hidden={!(typeData === 'Pending')}
         >
-          ✖
-        </button>
+          <ImCross />
+        </div>
       ),
     },
   ];
@@ -449,9 +450,9 @@ const PendingTransactions = () => {
             pagination={{ pageSize: numItems }}
           />
         )}
-        <button onClick={loadMore} className="loadMore" type="button">
+        <div onClick={loadMore} className="load-more" type="button">
           Load 50
-        </button>
+        </div>
       </div>
     </div>
   );
