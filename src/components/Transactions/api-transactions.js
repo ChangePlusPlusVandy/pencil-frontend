@@ -22,9 +22,7 @@
 
 const getAllTransactions = async () => {
   try {
-    const response = await fetch(
-      'http://localhost:8080/api/form/transaction/transactions'
-    );
+    const response = await fetch(`/api/transaction/transactions`);
     return await response.json();
   } catch (err) {
     console.log(err);

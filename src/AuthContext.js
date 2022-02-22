@@ -27,6 +27,7 @@ export function useAuth() {
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const [currentLocation, setCurrentLocation] = useState('Nashville');
 
   /**
    * Logs the user in with Firebase auth.
@@ -89,6 +90,21 @@ export const AuthProvider = ({ children }) => {
         console.log('Changed password');
       });
   }
+  /**
+   * Updates current location.
+   * @param string - name of new location.
+   */
+  function updateLocation(location) {
+    setCurrentLocation(location);
+  }
+
+  /**
+   * returns current location.
+   * @returns string - current location.
+   */
+  function getCurrentLocation() {
+    return currentLocation;
+  }
 
   useEffect(() => {
     /**
@@ -112,8 +128,19 @@ export const AuthProvider = ({ children }) => {
       getUser,
       forgotPassword,
       changePassword,
+      updateLocation,
+      getCurrentLocation,
     }),
-    [currentUser, login, register, logout, getUser, forgotPassword]
+    [
+      currentUser,
+      login,
+      register,
+      logout,
+      getUser,
+      forgotPassword,
+      updateLocation,
+      getCurrentLocation,
+    ]
   );
 
   return (

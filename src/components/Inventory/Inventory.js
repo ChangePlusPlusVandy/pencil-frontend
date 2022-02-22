@@ -35,6 +35,22 @@ const ReactList = () => {
 
   const addItem = (e, formInfo) => {
     e.preventDefault();
+    console.log('Adding item: ', data);
+    if (
+      formInfo.itemName === '' ||
+      formInfo.itemName === undefined ||
+      formInfo.maxLimit === 0
+    ) {
+      // TODO: add alert dialog
+      console.log('Cant have empty entries!');
+      return;
+    }
+    if (data.some((item) => item.itemName === formInfo.itemName)) {
+      // TODO: add alert dialog
+      console.log('Cant have duplicate entries!');
+      return;
+    }
+
     const newItem = {
       itemId: Math.floor(Math.random() * 1000),
       itemName: formInfo.itemName,
@@ -55,9 +71,14 @@ const ReactList = () => {
   };
 
   const updateData = (newData) => {
-    console.log(data, newData);
+    setChanged(true);
     setData([]); // for some reason react is not rendering when there is only setData(newData)
     setData(newData);
+  };
+
+  const handleItemChange = (item) => {
+    setChanged(true);
+    setData(item);
   };
 
   const handleDelete = (name) => {
@@ -67,6 +88,7 @@ const ReactList = () => {
     setData([]);
     setData(newData);
     console.log(data);
+    setChanged(true);
   };
 
   const handleSave = () => {
@@ -79,6 +101,7 @@ const ReactList = () => {
       //   setData(result);
       // }
     });
+    setChanged(false);
   };
 
   // Properties to pass to ReactDragListView package
@@ -112,6 +135,7 @@ const ReactList = () => {
         );
       } else {
         setData(result);
+        console.log('getting inventory', result);
       }
     });
   }, []);
@@ -146,8 +170,11 @@ const ReactList = () => {
         </button>
       </div>
       <div className="itemContainer">
-        <div className="containerHeader">
-          Item Name <span className="headerItemLimit">Item Limit</span>
+        <div className="dragList">
+          <div className="containerHeader">
+            <div className="headerName">Item Name</div>
+            <div className="headerItemLimit editableText">Item Limit</div>
+          </div>
         </div>
         <ReactDragListView {...dragProps}>
           <ul className="dragList">
@@ -158,7 +185,7 @@ const ReactList = () => {
                 name={item.itemName}
                 limit={item.maxLimit}
                 inventory={data}
-                updateInventory={setData}
+                updateInventory={handleItemChange}
                 handleDelete={handleDelete}
               />
             ))}
