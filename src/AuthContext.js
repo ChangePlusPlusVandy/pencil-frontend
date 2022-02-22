@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [currentLocation, setCurrentLocation] = useState();
+  const [isSettings, setIsSettings] = useState(false);
 
   /**
    * Logs the user in with Firebase auth.
@@ -96,6 +97,22 @@ export const AuthProvider = ({ children }) => {
    */
   function getCurrentLocation() {
     return currentLocation;
+  }
+
+  /**
+   * When "Settings" button is pressed on the header,
+   * set the isSettings state to true.
+   */
+  function turnOnSettings() {
+    setIsSettings(true);
+  }
+
+  /**
+   * When "Back to Dashboard" is pressed on Settings.js,
+   * set the isSettings state to false.
+   */
+  function turnOffSettings() {
+    setIsSettings(false);
   }
 
   useEffect(() => {
