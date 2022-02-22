@@ -36,7 +36,6 @@
   width: 195px;
 }
 
-
 .itemContainer {
   width: 100%;
   min-height: 50vh;
@@ -90,6 +89,9 @@
   width: 25%;
 }
 
+.timeCell {
+  width: 100%
+}
 .cellText {
   margin-left: 0;
   margin-right:50%;
@@ -97,4 +99,10 @@
 
 .scheduleItem div {
   width: 300px;
+}
+
+.timeBox {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
