@@ -7,7 +7,6 @@ import { useAuth } from '../../AuthContext';
 
 const Menu = () => {
   const [menu, setMenu] = useState(0);
-  const { isSettings } = useAuth();
 
   useEffect(() => {
     switch (window.location.href.split('/')[3]) {
@@ -33,55 +32,53 @@ const Menu = () => {
 
   return (
     <div className="menu">
-      {!isSettings && (
-        <div>
-          <Link to="/dashboard" className="link" tabindex="-1">
-            <button
-              type="button"
-              className={`button ${menu === 0 ? 'dark-button' : ''}`}
-              onClick={() => setMenu(0)}
-            >
-              <text className="menuOptionText">Dashboard</text>{' '}
-            </button>
-          </Link>
-          <Link to="/inventory" className="link" tabindex="-1">
-            <button
-              type="button"
-              className={`button ${menu === 1 ? 'dark-button' : ''}`}
-              onClick={() => setMenu(1)}
-            >
-              <text className="menuOptionText">Inventory</text>
-            </button>
-          </Link>
-          <Link to="/reports" className="link" tabindex="-1">
-            <button
-              type="button"
-              className={`button ${menu === 2 ? 'dark-button' : ''}`}
-              onClick={() => setMenu(2)}
-            >
-              <text className="menuOptionText">Reports</text>
-            </button>
-          </Link>
-          <Link to="/schedule" className="link" tabindex="-1">
-            <button
-              type="button"
-              className={`button ${menu === 3 ? 'dark-button' : ''}`}
-              onClick={() => setMenu(3)}
-            >
-              <text className="menuOptionText">Schedule</text>
-            </button>
-          </Link>
-          <Link to="/transactions" className="link" tabindex="-1">
-            <button
-              type="button"
-              className={`button ${menu === 4 ? 'dark-button' : ''}`}
-              onClick={() => setMenu(4)}
-            >
-              <text className="menuOptionText">Transactions</text>
-            </button>
-          </Link>
-        </div>
-      )}
+      <div>
+        <Link to="/dashboard" className="link" tabindex="-1">
+          <button
+            type="button"
+            className={`button ${menu === 0 ? 'dark-button' : ''}`}
+            onClick={() => setMenu(0)}
+          >
+            <text className="menuOptionText">Dashboard</text>{' '}
+          </button>
+        </Link>
+        <Link to="/inventory" className="link" tabindex="-1">
+          <button
+            type="button"
+            className={`button ${menu === 1 ? 'dark-button' : ''}`}
+            onClick={() => setMenu(1)}
+          >
+            <text className="menuOptionText">Inventory</text>
+          </button>
+        </Link>
+        <Link to="/reports" className="link" tabindex="-1">
+          <button
+            type="button"
+            className={`button ${menu === 2 ? 'dark-button' : ''}`}
+            onClick={() => setMenu(2)}
+          >
+            <text className="menuOptionText">Reports</text>
+          </button>
+        </Link>
+        <Link to="/schedule" className="link" tabindex="-1">
+          <button
+            type="button"
+            className={`button ${menu === 3 ? 'dark-button' : ''}`}
+            onClick={() => setMenu(3)}
+          >
+            <text className="menuOptionText">Schedule</text>
+          </button>
+        </Link>
+        <Link to="/transactions" className="link" tabindex="-1">
+          <button
+            type="button"
+            className={`button ${menu === 4 ? 'dark-button' : ''}`}
+            onClick={() => setMenu(4)}
+          >
+            <text className="menuOptionText">Transactions</text>
+          </button>
+        </Link>
+      </div>
     </div>
   );
 };
