@@ -2,6 +2,7 @@ import React, { useState, Component, useEffect } from 'react';
 import { AiFillPrinter } from 'react-icons/ai';
 
 import Menu from '../Menu/Menu';
+import Header from '../Header/Header';
 import './Schedule.css';
 
 const Schedule = () => {
@@ -37,6 +38,7 @@ const Schedule = () => {
 
   return (
     <>
+      <Header />
       <Menu />
       <div className="scheduleContainer">
         <div className="scheduleHeader">

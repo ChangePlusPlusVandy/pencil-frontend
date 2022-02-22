@@ -13,6 +13,7 @@ import { getInventory, postInventory } from './api-inventory';
 import { useAuth } from '../../AuthContext';
 import InventoryToggle from './InventoryToggle';
 import Menu from '../Menu/Menu';
+import Header from '../Header/Header';
 
 const ReactList = () => {
   const [data, setData] = useState([]);
@@ -132,6 +133,7 @@ const ReactList = () => {
 
   return (
     <>
+      <Header />
       <Menu />
       <div className="inventoryContainer">
         <ItemPopup
@@ -169,7 +171,7 @@ const ReactList = () => {
           </div>
           <ReactDragListView {...dragProps}>
             <ul className="dragList">
-              {data.map((item, index) => (
+              {/* {data.map((item, index) => (
                 <Item
                   key={item.itemName}
                   number={index}
@@ -179,7 +181,7 @@ const ReactList = () => {
                   updateInventory={handleItemChange}
                   handleDelete={handleDelete}
                 />
-              ))}
+              ))} */}
             </ul>
           </ReactDragListView>
         </div>

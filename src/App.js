@@ -13,7 +13,6 @@ import Router from './Router';
 const App = () => (
   <BrowserRouter>
     <AuthProvider>
-      <Header />
       <Router />
     </AuthProvider>
   </BrowserRouter>

@@ -10,7 +10,7 @@ import { useAuth } from '../../AuthContext';
 import 'antd/dist/antd.css';
 
 const HeaderDropdown = () => {
-  const { logout, getUser, turnOnSettings } = useAuth();
+  const { logout, getUser } = useAuth();
   const history = useHistory();
   const [user, setUser] = useState(null); // User object.
 
@@ -26,14 +26,9 @@ const HeaderDropdown = () => {
     history.push('/');
   };
 
-  const handleToSettings = () => {
-    console.log('You clicked');
-    turnOnSettings();
-  };
-
   const menu = (
     <div className="dropdown_menu pencil-cursor">
-      <Link to="/settings" className="pencil-cursor" onClick={handleToSettings}>
+      <Link to="/settings" className="pencil-cursor">
         Settings
       </Link>
       <a className="pencil-cursor" onClick={handleLogout}>

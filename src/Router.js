@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 
 // Routes
@@ -21,7 +21,9 @@ import Reports from './components/Reports/Reports';
  * */
 const Router = () => (
   <Switch>
-    <PrivateRoute exact path="/" component={Dashboard} />
+    <PrivateRoute exact path="/" component={Dashboard}>
+      <Redirect to="/dashboard" />
+    </PrivateRoute>
     <Route exact path="/login" component={Login} />
     <Route exact path="/register" component={Register} />
     <PrivateRoute exact path="/profile" component={Profile} />
