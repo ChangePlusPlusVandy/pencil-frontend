@@ -12,13 +12,13 @@
 }
 
 .inventory-toggle-item:hover {
-  color: #45a5cf;
+  color: #50b9e8;
 }
 
 .toggle-item-active {
-  color: #45a5cf;
+  color: #50b9e8;
   background-color: rgba(113, 195, 231, 0.15);
-  border: 1px solid #45a5cf !important;
+  border: 1px solid #50b9e8 !important;
 }
 
 .toggle-item-inactive {
@@ -29,10 +29,10 @@
 
 .toggle-item-left {
   border-radius: 5px 0 0 5px;
-  border-right: 0.5px solid #45a5cf;
+  border-right: 0.5px solid #50b9e8;
 }
 
 .toggle-item-right {
   border-radius: 0 5px 5px 0;
-  border-left: 0.5px solid #45a5cf;
+  border-left: 0.5px solid #50b9e8;
 }
