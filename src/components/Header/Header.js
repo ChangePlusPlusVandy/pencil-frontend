@@ -8,7 +8,7 @@ import LocationDropdown from './LocationDropdown';
 import { useAuth } from '../../AuthContext';
 
 const Header = () => {
-  const { getCurrentLocation } = useAuth();
+  const { getCurrentLocation, isSettings } = useAuth();
   const location = getCurrentLocation()
     ? `PENCIL-${getCurrentLocation()}`
     : 'PENCIL';
@@ -19,10 +19,12 @@ const Header = () => {
         <img src={PencilLogo} alt="Pencil Logo" className="header_logo" />
         <p className="header_title">{location}</p>
       </div>
-      <div className="header_right">
-        <LocationDropdown />
-        <HeaderDropdown />
-      </div>
+      {!isSettings && (
+        <div className="header_right">
+          <LocationDropdown />
+          <HeaderDropdown />
+        </div>
+      )}
     </div>
   );
 };

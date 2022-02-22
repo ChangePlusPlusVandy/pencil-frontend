@@ -140,6 +140,7 @@ export const AuthProvider = ({ children }) => {
       getCurrentLocation,
       turnOnSettings,
       turnOffSettings,
+      isSettings,
     }),
     [
       currentUser,
@@ -152,6 +153,7 @@ export const AuthProvider = ({ children }) => {
       getCurrentLocation,
       turnOnSettings,
       turnOffSettings,
+      isSettings,
     ]
   );
 
