@@ -7,6 +7,8 @@ import './Settings.css';
 import { HiUser } from 'react-icons/hi';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { AiFillHome } from 'react-icons/ai';
+import SettingsHeader from './SettingsHeader';
+import LocationManager from './LocationManager';
 
 const Settings = () => {
   const [selected, setSelected] = useState('Profile');
@@ -17,6 +19,7 @@ const Settings = () => {
 
   return (
     <div>
+      <SettingsHeader />
       <h2 className="settingsTitle">
         <b>Settings</b>
       </h2>
@@ -49,6 +52,7 @@ const Settings = () => {
             </Link>
           </div>
         </div>
+        <LocationManager />
       </div>
     </div>
   );

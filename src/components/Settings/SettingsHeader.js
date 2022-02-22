@@ -1,14 +1,10 @@
 import React from 'react';
-import './Header.css';
 import { useHistory } from 'react-router-dom';
 import PencilLogo from '../../img/pencil-logo-crop.png';
 
-import HeaderDropdown from './HeaderDropdown';
-import LocationDropdown from './LocationDropdown';
-
 import { useAuth } from '../../AuthContext';
 
-const Header = () => {
+const SettingsHeader = () => {
   const { getCurrentLocation, isSettings } = useAuth();
   const history = useHistory();
   const location = getCurrentLocation()
@@ -32,14 +28,8 @@ const Header = () => {
         <img src={PencilLogo} alt="Pencil Logo" className="header_logo" />
         <p className="header_title">{location}</p>
       </div>
-      {!isSettings && (
-        <div className="header_right">
-          <LocationDropdown />
-          <HeaderDropdown />
-        </div>
-      )}
     </div>
   );
 };
 
-export default Header;
+export default SettingsHeader;

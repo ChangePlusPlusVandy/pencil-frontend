@@ -12,6 +12,7 @@
 	margin-bottom: 10vh;
   font-size: 18px;
   font-family: 'Roboto';
+  display: flex;
 	flex-direction: row;
 }
 
@@ -54,4 +55,56 @@
 .link {
 	font-size: 16px !important;
 	color: #696969 !important;
+}
+.locationManager {
+  width: 90%;
+  background-color: white;
+  padding: 40px;
+  border-radius: 20px;
+  margin: auto;
+  margin-left: 3vw;
+}
+
+.locationManagerHeader {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+}
+
+.locationButton {
+  display: flex;
+  font-size: 14px;
+  margin-left: 25px;
+  margin-right: 8px;
+  opacity: 75%;
+  text-decoration: underline;
+}
+
+.locationButton:hover {
+  cursor: pointer;
+}
+
+.locationButton > p {
+  padding-right: 10px;
+}
+
+.locationManager > ul {
+  margin: 0;
+  padding: 0;
+}
+
+.locationRow {
+  display: flex;
+  background-color: #f6f6f6;
+  margin: auto;
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.locationName {
+  font-weight: 600;
+  width: 200px;
+  padding-left: 20px;
 }

@@ -1,16 +1,15 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable import/no-unresolved */
 import React, { useEffect, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { FaChevronDown } from 'react-icons/fa';
-import { Menu, Dropdown } from 'antd';
+import { Dropdown } from 'antd';
 import { useAuth } from '../../AuthContext';
 import 'antd/dist/antd.css';
 
 const HeaderDropdown = () => {
-  const { logout, getUser, turnOnSettings } = useAuth();
+  const { logout, getUser } = useAuth();
   const history = useHistory();
   const [user, setUser] = useState(null); // User object.
 
@@ -26,14 +25,9 @@ const HeaderDropdown = () => {
     history.push('/');
   };
 
-  const handleToSettings = () => {
-    console.log('You clicked');
-    turnOnSettings();
-  };
-
   const menu = (
     <div className="dropdown_menu pencil-cursor">
-      <Link to="/settings" className="pencil-cursor" onClick={handleToSettings}>
+      <Link to="/settings" className="pencil-cursor">
         Settings
       </Link>
       <a className="pencil-cursor" onClick={handleLogout}>
