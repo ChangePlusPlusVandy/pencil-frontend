@@ -48,12 +48,13 @@
   font-size: 16px;
   font-weight: 500;
   transition: all 0.3s ease-in-out !important;
+  background-color: #ffffff;
 }
 
 .ant-dropdown-link:hover {
   cursor: pointer;
-  border-color: #71c3e7;
   color: black;
+  border-color: #71c3e7;
 }
 
 .ant-dropdown-open {

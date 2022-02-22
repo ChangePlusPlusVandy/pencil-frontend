@@ -3,29 +3,24 @@ import { AiFillPrinter } from 'react-icons/ai';
 import { getSchedules } from './api-schedule';
 import './Schedule.css';
 import 'antd/dist/antd.css';
+import ScheduleDropdown from './ScheduleDropdown';
 
 const Schedule = () => {
   const [scheduleData, setScheduleData] = useState([]);
+  const [filter, setFilter] = useState('Today');
 
   // TEMP: Dummy data for schedule
   useEffect(() => {
     getSchedules('Nashville').then((items) => {
-      console.log('HERE again', items);
       setScheduleData(items);
     });
   }, []);
 
-  const handleDropdown = () => {
-    // handle dropdown between 'upcoming', ''
-  };
-
-  const dateConverter = (date) => {
+  const getDate = (date) => {
     const year = date.slice(0, 4);
     let month = parseInt(date.slice(5, 7), 10);
     const day = date.slice(8, 10);
-    let hours = date.slice(11, 13);
-    const minutes = date.slice(14, 16);
-    let suffix = 'am';
+
     // eslint-disable-next-line default-case
     switch (month) {
       case 1:
@@ -65,23 +60,40 @@ const Schedule = () => {
         month = 'Dec';
         break;
     }
+    const finalDate = `${day} ${month} ${year}`;
+    return finalDate;
+  };
+
+  const getTime = (date, end) => {
+    let hours = date.slice(11, 13);
+    let hours2 = end.slice(11, 13);
+    const minutes = date.slice(14, 16);
+    const minutes2 = end.slice(14, 16);
+    let suffix = 'am';
+    let suffix2 = 'am';
     if (hours > 12) {
       suffix = 'pm';
       hours -= 12;
     }
-    return `${day} ${month} ${year}\n${hours}:${minutes} ${suffix}`;
+    if (hours2 > 12) {
+      suffix2 = 'pm';
+      hours2 -= 12;
+    }
+    const finalTime = `${hours}:${minutes} ${suffix} - ${hours2}:${minutes2} ${suffix2}`;
+    return finalTime;
   };
 
   return (
     <div className="scheduleContainer">
       <div className="scheduleHeader">
-        <h2>Schedule ({scheduleData.length})</h2>
+        <h2 className="bold">Schedule ({scheduleData.length})</h2>
         <div className="scheduleButton">Print Schedule</div>
         <AiFillPrinter />
 
-        <select onChange={handleDropdown} className="dropdownButton">
+        {/* <select onChange={handleDropdown} className="dropdownButton">
           <option name="upcoming">Upcoming</option>
-        </select>
+        </select> */}
+        <ScheduleDropdown className="schedule-dropdown" onChange={setFilter} />
       </div>
       <table className="itemContainer">
         <tr className="scheduleItem" id="headerContainer">
@@ -96,15 +108,15 @@ const Schedule = () => {
             const fullName = item.name;
             const phoneNumber = item.phone;
             const schoolName = item.school;
-            const startTime = dateConverter(item.start_time);
-            const endTime = dateConverter(item.end_time);
+            const date = getDate(item.start_time);
+            const time = getTime(item.end_time, item.end_time);
             return (
               <div className="scheduleItem">
                 <div className="timeBox">
-                  <td className="timeCell">{startTime}</td>
-                  <td className="timeCell">{endTime}</td>
+                  <td className="timeCell">{date}</td>
+                  <td className="timeCell bold">{time}</td>
                 </div>
-                <td className="itemCell">{fullName}</td>
+                <td className="itemCell bold">{fullName}</td>
                 <td className="itemCell">{phoneNumber}</td>
                 <td className="itemCell">{schoolName}</td>
               </div>
