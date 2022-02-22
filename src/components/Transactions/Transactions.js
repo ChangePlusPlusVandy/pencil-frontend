@@ -336,7 +336,7 @@ const PendingTransactions = () => {
   }, []);
 
   const menu = (
-    <div className="dropdown_menu">
+    <div className="dropdown_menu_transaction">
       <a onClick={changeLoadedData}>Pending</a>
       <a onClick={changeLoadedData}>Approved</a>
       <a onClick={changeLoadedData}>Denied</a>

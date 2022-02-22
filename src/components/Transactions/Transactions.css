@@ -4,11 +4,13 @@ body {
 }
 
 .transactions {
-  margin: 2em 7em;
+  margin: auto 7em;
+  /* height is should full viewport except 2 rem margin at bottom */
+  height: 65vh;
 }
 
 .scrollingTransactions {
-  height: 27em;
+  height: 100%;
   overflow-y: scroll;
   background-color: white;
   padding: 0em 2em;
@@ -136,6 +138,8 @@ th.ant-table-cell::before {
 
 .titleArea {
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .bigTable {
@@ -143,69 +147,61 @@ th.ant-table-cell::before {
   background: white;
 }
 
-.ant-dropdown-link {
-  color: #71c3e7;
+.titleArea .ant-dropdown-link {
+  color: #000000;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0px 18px 0px 25px;
-  margin-top: 8px;
-  border: 1.5px solid transparent;
+  padding: 0 20px;
+  border: 1.5px solid #71c3e7;
   border-radius: 20px 20px;
-  width: 200px;
-  height: 30px;
+  width: 170px;
+  height: 32px;
   font-family: 'Roboto', serif;
-  font-size: 14px;
-  font-weight: 500;
-  font-style: bold;
+  font-size: 16px;
   transition: all 0.3s ease-in-out !important;
   background-color: white;
 }
 
-.ant-dropdown-link:hover {
+.titleArea .ant-dropdown-link:hover {
   cursor: pointer;
-  border-color: #71c3e7;
-  color: #71c3e7;
 }
 
-.ant-dropdown-open {
+.titleArea .ant-dropdown-open {
   border-color: #71c3e7;
   border-radius: 20px 20px 0px 0px;
   border-bottom: none;
 }
 
-.ant-dropdown-open > .dropdown_arrow {
+.titleArea .ant-dropdown-open > .dropdown_arrow {
   transform: rotate(180deg);
 }
 
-.ant-dropdown-link > .dropdown_arrow {
+.titleArea .ant-dropdown-link > .dropdown_arrow {
   transition: all 0.3s ease-in-out;
 }
 
-.dropdown_menu {
+.dropdown_menu_transaction {
   background-color: white;
-  width: 200px;
+  width: 170px;
   border: 1.5px solid #71c3e7;
   border-top: none;
   border-radius: 0px 0px 20px 20px;
-  padding: 2px 18px 5px 18px;
+  padding: 5px 20px;
   margin-top: -8px;
   display: flex;
   flex-direction: column;
 }
 
-.dropdown_menu > a {
+.dropdown_menu_transaction > a {
   text-decoration: none;
   font-family: 'Roboto', serif;
-  font-size: 14px;
-  font-weight: 500;
-  font-style: bold;
+  font-size: 16px;
   color: rgba(0, 0, 0, 0.7);
   margin-bottom: 3px;
-  margin-left: 7px;
 }
 
-.dropdown_menu > a:hover {
+.dropdown_menu_transaction > a:hover {
   color: #71c3e7;
 }
 
