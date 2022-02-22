@@ -10,6 +10,7 @@ import ForgotPassword from './components/Auth/ForgotPassword';
 import Dashboard from './components/Dashboard';
 import Inventory from './components/Inventory/Inventory';
 import Transactions from './components/Transactions/Transactions';
+import Schedule from './components/Schedule/Schedule';
 
 /**
  * Router for dashboard.
@@ -25,6 +26,7 @@ const Router = () => (
     <PrivateRoute exact path="/transactions" component={Transactions} />
     <Route exact path="/forgot-password" component={ForgotPassword} />
     <PrivateRoute exact path="/dashboard" component={Dashboard} />
+    <PrivateRoute exact path="/schedule" component={Schedule} />
   </Switch>
 );
 

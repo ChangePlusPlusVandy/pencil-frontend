@@ -4,7 +4,6 @@
 
 import React, { useState, useEffect } from 'react';
 import ReactDragListView from 'react-drag-listview/lib/index';
-import { Link } from 'react-router-dom';
 import { AiFillPrinter } from 'react-icons/ai';
 import { GrFormAdd } from 'react-icons/gr';
 import './Inventory.css';
@@ -14,11 +13,15 @@ import ItemPopup from './ItemPopup';
 import Item from './Item';
 import { getInventory, postInventory } from './api-inventory';
 import printForm from '../../printForm';
+import { useAuth } from '../../AuthContext';
+import InventoryToggle from './InventoryToggle';
 
 const ReactList = () => {
   const [data, setData] = useState([]);
   const [isAddItemVisible, setAddItemVisible] = useState(false);
   const [changed, setChanged] = useState(false);
+  const [inventory, setInventory] = useState('Active');
+  const { getCurrentLocation } = useAuth();
 
   const generate = () => {
     const doc = printForm(data);
@@ -93,7 +96,8 @@ const ReactList = () => {
 
   const handleSave = () => {
     const toSubmit = data;
-    postInventory(toSubmit).then((result) => {
+    const location = getCurrentLocation();
+    postInventory(toSubmit, location).then((result) => {
       console.log(result);
       // if (result.error) {
       //   console.log(result.error);
@@ -127,7 +131,8 @@ const ReactList = () => {
   }, [changed]);
 
   useEffect(() => {
-    getInventory().then((result) => {
+    const location = getCurrentLocation();
+    getInventory(location).then((result) => {
       if (result instanceof Error) {
         // eslint-disable-next-line no-alert
         alert(
@@ -160,6 +165,7 @@ const ReactList = () => {
           Add Item
         </div>
         <GrFormAdd />
+        <InventoryToggle onChange={setInventory} />
         <button
           type="button"
           className="saveButton"

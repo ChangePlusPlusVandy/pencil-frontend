@@ -20,9 +20,9 @@
 //   }
 // };
 
-const getAllTransactions = async () => {
+const getAllTransactions = async (location) => {
   try {
-    const response = await fetch(`/api/transaction/transactions`);
+    const response = await fetch(`/api/${location}/transaction/transactions`);
     return await response.json();
   } catch (err) {
     console.log(err);
