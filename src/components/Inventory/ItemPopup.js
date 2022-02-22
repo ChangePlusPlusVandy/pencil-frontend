@@ -7,53 +7,45 @@ const ItemPopup = ({ show, onClose, onSubmit }) => {
 
   const [formInfo, setFormInfo] = useState({
     itemName: '',
-    maxLimit: undefined,
+    maxLimit: 0,
   });
   return (
     <div className="modal">
       <div className="modal-content">
         <form onSubmit={(e) => onSubmit(e, formInfo)}>
-          <div className="inline-block">
-            <div className="name-area">
-              <div className="modal-title">Item Name</div>
-              <input
-                type="text"
-                variant="outlined"
-                name="itemName"
-                value={formInfo.itemName}
-                className="input-field"
-                autoComplete="off"
-                onChange={(event) =>
-                  setFormInfo({ ...formInfo, itemName: event.target.value })
-                }
-              />
-            </div>
-
-            <div className="limit-area">
-              <div className="modal-title">Item Limit</div>
-              <input
-                type="number"
-                variant="outlined"
-                name="itemLimit"
-                value={formInfo.maxLimit}
-                className="input-field"
-                autoComplete="off"
-                onChange={(event) =>
-                  setFormInfo({ ...formInfo, maxLimit: event.target.value })
-                }
-              />
-            </div>
+          <div className="name-area">
+            <div className="modal-title">Item Name</div>
+            <input
+              type="text"
+              name="itemName"
+              value={formInfo.itemName}
+              className="add-item-input"
+              autoComplete="off"
+              onChange={(event) =>
+                setFormInfo({ ...formInfo, itemName: event.target.value })
+              }
+            />
           </div>
-          <div className="button-group">
-            <button
-              type="button"
-              className="action-button close"
-              onClick={onClose}
-            >
+
+          <div className="limit-area">
+            <div className="modal-title">Item Limit</div>
+            <input
+              type="number"
+              name="itemLimit"
+              value={formInfo.maxLimit}
+              className="add-item-input"
+              autoComplete="off"
+              onChange={(event) =>
+                setFormInfo({ ...formInfo, maxLimit: event.target.value })
+              }
+            />
+          </div>
+          <div className="add-button-group">
+            <button type="button" className="add-item-cancel" onClick={onClose}>
               <u>Cancel</u>
             </button>
-            <button type="submit" className="action-button submit">
-              Save
+            <button type="submit" className="add-item-add">
+              Add
             </button>
           </div>
         </form>
