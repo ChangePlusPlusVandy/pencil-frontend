@@ -1,29 +1,6 @@
-/**
- * Retrieves all transactions from Transaction database from Backend
- *
- * @returns {Object} - All transaction objects with information about transaction
- */
-
-// const getAllTransactions = async (location) => {
-//   try {
-//     const response = await fetch(
-//       `/api/${location}/form/transaction/transactions`
-//     );
-
-//     if (!response.json().body.error) {
-//       return await response.json();
-//     }
-//     console.log('Error retrieving transactions');
-//     return { error: 'Error retrieving transactions' };
-//   } catch (err) {
-//     console.log(err);
-//     return { error: 'Teacher not found' };
-//   }
-// };
-
 const getPendingTransactions = async (location) => {
   try {
-    const response = await fetch(`/api/${location}/transaction/transactions`);
+    const response = await fetch(`/api/${location}/transaction/pending`);
     return await response.json();
   } catch (err) {
     console.log(err);
@@ -33,9 +10,7 @@ const getPendingTransactions = async (location) => {
 
 const getApprovedTransactions = async (location) => {
   try {
-    const response = await fetch(
-      `/api/${location}/form/transaction/approvedTransactions`
-    );
+    const response = await fetch(`/api/${location}/transaction/approved`);
     return await response.json();
   } catch (err) {
     console.log(err);
@@ -45,9 +20,7 @@ const getApprovedTransactions = async (location) => {
 
 const getDeniedTransactions = async (location) => {
   try {
-    const response = await fetch(
-      `/api/${location}/form/transaction/deniedTransactions`
-    );
+    const response = await fetch(`/api/${location}/transaction/denied`);
     return await response.json();
   } catch (err) {
     console.log(err);
@@ -58,7 +31,7 @@ const getDeniedTransactions = async (location) => {
 const approveTransaction = async (location, data) => {
   try {
     const response = await fetch(
-      `/api/${location}/form/transaction/approve/${data.transactionId}`,
+      `/api/${location}/transaction/approve/${data.transactionId}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -78,7 +51,7 @@ const denyTransaction = async (location, data) => {
   // TODO: fix the URI here
   try {
     const response = await fetch(
-      `/api/${location}/form/transaction/deny/${data.transactionId}`,
+      `/api/${location}/transaction/deny/${data.transactionId}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -113,3 +86,20 @@ export {
   getApprovedTransactions,
   getDeniedTransactions,
 };
+
+// const getAllTransactions = async (location) => {
+//   try {
+//     const response = await fetch(
+//       `/api/${location}/form/transaction/transactions`
+//     );
+
+//     if (!response.json().body.error) {
+//       return await response.json();
+//     }
+//     console.log('Error retrieving transactions');
+//     return { error: 'Error retrieving transactions' };
+//   } catch (err) {
+//     console.log(err);
+//     return { error: 'Teacher not found' };
+//   }
+// };
