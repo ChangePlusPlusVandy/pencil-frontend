@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable import/no-unresolved */
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { FaChevronDown } from 'react-icons/fa';
 import { Menu, Dropdown } from 'antd';
 import { useAuth } from '../../AuthContext';
@@ -33,9 +33,9 @@ const HeaderDropdown = () => {
 
   const menu = (
     <div className="dropdown_menu pencil-cursor">
-      <a className="pencil-cursor" onClick={handleToSettings}>
+      <Link to="/settings" className="pencil-cursor" onClick={handleToSettings}>
         Settings
-      </a>
+      </Link>
       <a className="pencil-cursor" onClick={handleLogout}>
         Log Out
       </a>
