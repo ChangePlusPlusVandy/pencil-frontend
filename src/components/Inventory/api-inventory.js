@@ -29,4 +29,22 @@ const postInventory = async (data, location) => {
   }
 };
 
-export { getInventory, postInventory };
+const getMasterInv = async () => {
+  try {
+    // FIXME: WILL HAVE TO ADAPT THIS TO LOCATIONS
+    const response = await fetch('api/masterInventory/getAllItems', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'GET',
+      body: JSON.stringify(data),
+    });
+
+    return await response.json();
+  }
+  catch (err) {
+    console.log(err);
+  }
+}
+
+export { getInventory, postInventory, getMasterInv };
