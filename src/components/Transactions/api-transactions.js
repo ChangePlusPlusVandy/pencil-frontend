@@ -7,7 +7,7 @@
 // const getAllTransactions = async (location) => {
 //   try {
 //     const response = await fetch(
-//       `http://localhost:8080/api/${location}/form/transaction/transactions`
+//       `/api/${location}/form/transaction/transactions`
 //     );
 
 //     if (!response.json().body.error) {
@@ -23,9 +23,7 @@
 
 const getPendingTransactions = async (location) => {
   try {
-    const response = await fetch(
-      `http://localhost:8080/api/${location}/form/transaction/pendingTransactions`
-    );
+    const response = await fetch(`/api/${location}/transaction/transactions`);
     return await response.json();
   } catch (err) {
     console.log(err);
@@ -36,7 +34,7 @@ const getPendingTransactions = async (location) => {
 const getApprovedTransactions = async (location) => {
   try {
     const response = await fetch(
-      `http://localhost:8080/api/${location}/form/transaction/approvedTransactions`
+      `/api/${location}/form/transaction/approvedTransactions`
     );
     return await response.json();
   } catch (err) {
@@ -48,7 +46,7 @@ const getApprovedTransactions = async (location) => {
 const getDeniedTransactions = async (location) => {
   try {
     const response = await fetch(
-      `http://localhost:8080/api/${location}/form/transaction/deniedTransactions`
+      `/api/${location}/form/transaction/deniedTransactions`
     );
     return await response.json();
   } catch (err) {
@@ -60,7 +58,7 @@ const getDeniedTransactions = async (location) => {
 const approveTransaction = async (location, data) => {
   try {
     const response = await fetch(
-      `http://localhost:8080/api/${location}/form/transaction/approve/${data.transactionId}`,
+      `/api/${location}/form/transaction/approve/${data.transactionId}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -80,7 +78,7 @@ const denyTransaction = async (location, data) => {
   // TODO: fix the URI here
   try {
     const response = await fetch(
-      `http://localhost:8080/api/${location}/form/transaction/deny/${data.transactionId}`,
+      `/api/${location}/form/transaction/deny/${data.transactionId}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -98,9 +96,7 @@ const denyTransaction = async (location, data) => {
 
 const getTeacherByID = async (location, id) => {
   try {
-    const response = await fetch(
-      `http://localhost:8080/api/${location}/form/teacher/${id}`
-    );
+    const response = await fetch(`/api/${location}/form/teacher/${id}`);
     return await response.json();
   } catch (err) {
     console.log(err);
