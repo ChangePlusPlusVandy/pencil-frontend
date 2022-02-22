@@ -1,10 +1,12 @@
 import React from 'react';
+import Menu from '../Menu/Menu';
 
 const Transactions = () => (
-  <div>
+  <>
+    <Menu />
     <h1>Transactions</h1>
     <p>This is the Transactions page</p>
-  </div>
+  </>
 );
 
 export default Transactions;

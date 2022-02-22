@@ -12,6 +12,7 @@ import Item from './Item';
 import { getInventory, postInventory } from './api-inventory';
 import { useAuth } from '../../AuthContext';
 import InventoryToggle from './InventoryToggle';
+import Menu from '../Menu/Menu';
 
 const ReactList = () => {
   const [data, setData] = useState([]);
@@ -130,57 +131,60 @@ const ReactList = () => {
   }, []);
 
   return (
-    <div className="inventoryContainer">
-      <ItemPopup
-        show={isAddItemVisible}
-        onClose={handleClose}
-        onSubmit={addItem}
-      />
-      <div className="inventoryHeader">
-        <h2>Inventory ({data.length})</h2>
-        <div className="inventoryButton">Print Inventory</div>
-        <AiFillPrinter />
-        <div
-          className="inventoryButton"
-          onClick={() => setAddItemVisible(true)}
-        >
-          Add Item
-        </div>
-        <GrFormAdd />
-        <InventoryToggle onChange={setInventory} />
-        <button
-          type="button"
-          className="saveButton"
-          id="saveButton"
-          onClick={handleSave}
-        >
-          Save
-        </button>
-      </div>
-      <div className="itemContainer">
-        <div className="dragList">
-          <div className="containerHeader">
-            <div className="headerName">Item Name</div>
-            <div className="headerItemLimit editableText">Item Limit</div>
+    <>
+      <Menu />
+      <div className="inventoryContainer">
+        <ItemPopup
+          show={isAddItemVisible}
+          onClose={handleClose}
+          onSubmit={addItem}
+        />
+        <div className="inventoryHeader">
+          <h2>Inventory ({data.length})</h2>
+          <div className="inventoryButton">Print Inventory</div>
+          <AiFillPrinter />
+          <div
+            className="inventoryButton"
+            onClick={() => setAddItemVisible(true)}
+          >
+            Add Item
           </div>
+          <GrFormAdd />
+          <InventoryToggle onChange={setInventory} />
+          <button
+            type="button"
+            className="saveButton"
+            id="saveButton"
+            onClick={handleSave}
+          >
+            Save
+          </button>
         </div>
-        <ReactDragListView {...dragProps}>
-          <ul className="dragList">
-            {data.map((item, index) => (
-              <Item
-                key={item.itemName}
-                number={index}
-                name={item.itemName}
-                limit={item.maxLimit}
-                inventory={data}
-                updateInventory={handleItemChange}
-                handleDelete={handleDelete}
-              />
-            ))}
-          </ul>
-        </ReactDragListView>
+        <div className="itemContainer">
+          <div className="dragList">
+            <div className="containerHeader">
+              <div className="headerName">Item Name</div>
+              <div className="headerItemLimit editableText">Item Limit</div>
+            </div>
+          </div>
+          <ReactDragListView {...dragProps}>
+            <ul className="dragList">
+              {data.map((item, index) => (
+                <Item
+                  key={item.itemName}
+                  number={index}
+                  name={item.itemName}
+                  limit={item.maxLimit}
+                  inventory={data}
+                  updateInventory={handleItemChange}
+                  handleDelete={handleDelete}
+                />
+              ))}
+            </ul>
+          </ReactDragListView>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

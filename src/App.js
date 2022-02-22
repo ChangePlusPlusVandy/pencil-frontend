@@ -3,7 +3,7 @@ import { AuthProvider } from './AuthContext';
 import Header from './components/Header/Header';
 
 import Router from './Router';
-import Menu from './components/Menu/Menu';
+
 /**
  * Root component of application.
  *
@@ -14,7 +14,6 @@ const App = () => (
   <BrowserRouter>
     <AuthProvider>
       <Header />
-      <Menu />
       <Router />
     </AuthProvider>
   </BrowserRouter>

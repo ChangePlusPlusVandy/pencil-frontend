@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import LocationManager from './LocationManager';
 import './Settings.css';
 
 const Settings = () => {
@@ -14,7 +15,7 @@ const Settings = () => {
       <div className="settingsColumn">
         <div className="settingsItemContainer settingsNavigator">
           <div>Profile</div>
-          <div>Location Manager</div>
+          <LocationManager />
         </div>
         <div className="settingsItemContainer settingsView">Hi</div>
       </div>
