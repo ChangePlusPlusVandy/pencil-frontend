@@ -19,6 +19,7 @@ const ReactList = () => {
   const [data, setData] = useState([]);
   const [isAddItemVisible, setAddItemVisible] = useState(false);
   const [changed, setChanged] = useState(false);
+  const [locationSelected, setLocationSelected] = useState(false);
   const [inventory, setInventory] = useState('Active');
   const { getCurrentLocation } = useAuth();
 
@@ -118,17 +119,25 @@ const ReactList = () => {
 
   useEffect(() => {
     const location = getCurrentLocation();
-    getInventory(location).then((result) => {
-      if (result instanceof Error) {
-        // eslint-disable-next-line no-alert
-        alert(
-          'Something went wrong in the backend Server. Please contact the developer team.'
-        );
-      } else {
-        setData(result);
-        console.log('getting inventory', result);
-      }
-    });
+    getInventory(location)
+      .then((result) => {
+        if (result instanceof Error) {
+          // eslint-disable-next-line no-alert
+          alert(
+            'Something went wrong in the backend Server. Please contact the developer team.'
+          );
+        } else if ('error' in result) {
+          // eslint-disable-next-line no-alert
+          alert('No location is selected. Please select a location');
+        } else {
+          setData(result);
+          console.log('getting inventory', result);
+          setLocationSelected(true);
+        }
+      })
+      .catch((err) => {
+        console.log('ERROR', err);
+      });
   }, []);
 
   return (
@@ -142,16 +151,21 @@ const ReactList = () => {
           onSubmit={addItem}
         />
         <div className="inventoryHeader">
-          <h2>Inventory ({data.length})</h2>
-          <div className="inventoryButton">Print Inventory</div>
-          <AiFillPrinter />
-          <div
-            className="inventoryButton"
-            onClick={() => setAddItemVisible(true)}
-          >
-            Add Item
-          </div>
-          <GrFormAdd />
+          <h2>Inventory ({locationSelected ? data.length : 0})</h2>
+          {locationSelected && (
+            <>
+              <div className="inventoryButton">Print Inventory</div>
+              <AiFillPrinter />
+              <div
+                className="inventoryButton"
+                onClick={() => setAddItemVisible(true)}
+              >
+                Add Item
+              </div>
+              <GrFormAdd />
+            </>
+          )}
+
           <InventoryToggle onChange={setInventory} />
           <button
             type="button"
@@ -171,17 +185,21 @@ const ReactList = () => {
           </div>
           <ReactDragListView {...dragProps}>
             <ul className="dragList">
-              {/* {data.map((item, index) => (
-                <Item
-                  key={item.itemName}
-                  number={index}
-                  name={item.itemName}
-                  limit={item.maxLimit}
-                  inventory={data}
-                  updateInventory={handleItemChange}
-                  handleDelete={handleDelete}
-                />
-              ))} */}
+              {locationSelected && (
+                <>
+                  {data.map((item, index) => (
+                    <Item
+                      key={item.itemName}
+                      number={index}
+                      name={item.itemName}
+                      limit={item.maxLimit}
+                      inventory={data}
+                      updateInventory={handleItemChange}
+                      handleDelete={handleDelete}
+                    />
+                  ))}
+                </>
+              )}
             </ul>
           </ReactDragListView>
         </div>
