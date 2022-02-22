@@ -7,9 +7,12 @@ import ReactDragListView from 'react-drag-listview/lib/index';
 import { AiFillPrinter } from 'react-icons/ai';
 import { GrFormAdd } from 'react-icons/gr';
 import './Inventory.css';
+import { Packer } from 'docx';
+import { saveAs } from 'file-saver';
 import ItemPopup from './ItemPopup';
 import Item from './Item';
 import { getInventory, postInventory } from './api-inventory';
+import printForm from '../../printForm';
 import { useAuth } from '../../AuthContext';
 import InventoryToggle from './InventoryToggle';
 import Menu from '../Menu/Menu';
@@ -22,6 +25,19 @@ const ReactList = () => {
   const [locationSelected, setLocationSelected] = useState(false);
   const [inventory, setInventory] = useState('Active');
   const { getCurrentLocation } = useAuth();
+
+  const generate = () => {
+    const doc = printForm(data);
+    let today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    today = `${mm}-${dd}-${yyyy}`;
+
+    Packer.toBlob(doc).then((blob) => {
+      saveAs(blob, `PencilForm.${today}.docx`);
+    });
+  };
 
   const addItem = (e, formInfo) => {
     e.preventDefault();

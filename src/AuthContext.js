@@ -82,6 +82,14 @@ export const AuthProvider = ({ children }) => {
     return firebase.auth().sendPasswordResetEmail(email);
   }
 
+  function changePassword(newPassword) {
+    return firebase
+      .auth()
+      .currentUser.updatePassword(newPassword)
+      .then(() => {
+        console.log('Changed password');
+      });
+  }
   /**
    * Updates current location.
    * @param string - name of new location.
@@ -119,6 +127,7 @@ export const AuthProvider = ({ children }) => {
       logout,
       getUser,
       forgotPassword,
+      changePassword,
       updateLocation,
       getCurrentLocation,
     }),
