@@ -10,7 +10,7 @@ import { useAuth } from '../../AuthContext';
 import 'antd/dist/antd.css';
 
 const HeaderDropdown = () => {
-  const { logout, getUser, toggleSettings: turnOnSettings } = useAuth();
+  const { logout, getUser, turnOnSettings } = useAuth();
   const history = useHistory();
   const [user, setUser] = useState(null); // User object.
 
