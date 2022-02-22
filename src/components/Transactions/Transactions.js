@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
-import { FaChevronDown } from 'react-icons/fa';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { Table, Space, Dropdown } from 'antd';
 import {
   getPendingTransactions,
@@ -18,24 +18,24 @@ import './Transactions.css';
 const dateConverter = (date) => {
   const year = date.slice(0, 4);
   let month = parseInt(date.slice(5, 7), 10);
-  const day = date.slice(8, 10);
-  let hours = date.slice(11, 13);
+  const day = parseInt(date.slice(8, 10), 10);
+  let hours = parseInt(date.slice(11, 13), 10);
   const minutes = date.slice(14, 16);
   let suffix = 'am';
 
   // eslint-disable-next-line default-case
   switch (month) {
     case 1:
-      month = 'January';
+      month = 'Jan';
       break;
     case 2:
-      month = 'February';
+      month = 'Feb';
       break;
     case 3:
-      month = 'March';
+      month = 'Mar';
       break;
     case 4:
-      month = 'April';
+      month = 'Apr';
       break;
     case 5:
       month = 'May';
@@ -44,22 +44,22 @@ const dateConverter = (date) => {
       month = 'June';
       break;
     case 7:
-      month = 'July';
+      month = 'Jul';
       break;
     case 8:
-      month = 'August';
+      month = 'Aug';
       break;
     case 9:
-      month = 'September';
+      month = 'Sept';
       break;
     case 10:
-      month = 'October';
+      month = 'Oct';
       break;
     case 11:
-      month = 'November';
+      month = 'Nov';
       break;
     case 12:
-      month = 'December';
+      month = 'Dec';
       break;
   }
 
@@ -134,17 +134,18 @@ const PendingTransactions = () => {
       title: 'Date/Time',
       dataIndex: 'date',
       key: 'date',
+      width: '15%',
     },
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      width: '12%',
+      width: '30%',
     },
     {
       title: 'Status',
       dataIndex: 'status',
-      width: '30%',
+      width: '40%',
       key: 'status',
     },
     {
@@ -212,6 +213,7 @@ const PendingTransactions = () => {
         columns={itemColumns}
         dataSource={record.childNodes}
         pagination={false}
+        className="expandedData"
       />
     );
   };
@@ -318,10 +320,6 @@ const PendingTransactions = () => {
     setSelectedData([]);
   };
 
-  const locale = {
-    emptyText: 'Loading...',
-  };
-
   useEffect(() => {
     getPendingTransactions().then((transactions) => {
       if (transactions.error) {
@@ -339,6 +337,31 @@ const PendingTransactions = () => {
       <a onClick={changeLoadedData}>Denied</a>
     </div>
   );
+
+  const customExpandIcon = (fun) => {
+    if (fun.expanded) {
+      return (
+        <a
+          style={{ color: 'black' }}
+          onClick={(e) => {
+            fun.onExpand(fun.record, e);
+          }}
+        >
+          <FaChevronUp />
+        </a>
+      );
+    }
+    return (
+      <a
+        style={{ color: 'black' }}
+        onClick={(e) => {
+          fun.onExpand(fun.record, e);
+        }}
+      >
+        <FaChevronDown />
+      </a>
+    );
+  };
 
   return (
     <div className="transactions">
@@ -394,6 +417,7 @@ const PendingTransactions = () => {
         <Space align="center" style={{ marginBottom: 16 }} />
         {typeData === 'Pending' ? (
           <Table
+            expandIcon={(props) => customExpandIcon(props)}
             rowKey="key"
             columns={columns}
             className="bigTable"
@@ -409,6 +433,7 @@ const PendingTransactions = () => {
           />
         ) : (
           <Table
+            expandIcon={(props) => customExpandIcon(props)}
             columns={columns}
             dataSource={loadedData}
             expandable={{

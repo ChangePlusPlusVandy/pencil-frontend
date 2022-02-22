@@ -11,13 +11,73 @@ body {
     height: 27em;
     overflow-y: scroll;
     background-color: white;
-    padding: 2em;
+    padding: 0em 2em;
+    border-radius: 20px;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    border-collapse: separate;
 }
+
+.scrollingTransactions::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollingTransactions td:nth-child(5) {
+    color: #71c3e7;
+}
+
+tr.ant-table-row {
+    background-color: #F6F6F6;
+    margin: 20px;
+}
+
+tr.ant-table-row td:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+tr.ant-table-row td:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.ant-pagination {
+    visibility: hidden;
+}
+
+th.ant-table-cell {
+    background-color: white;
+}
+
+.ant-table table {
+    border-spacing: 0 20px;
+    border-radius: 30px;
+}
+
+.ant-table-thead > tr > th {
+    background-color: white;
+    color: #8A8A8A;
+}
+
+th.ant-table-cell::before {
+    visibility: hidden;
+}
+
+.ant-table-cell {
+    background-color: transparent;
+}
+
+.ant-table-tbody > tr > td {
+    height: 15px;
+    padding: 10px;
+    font-weight: 400;
+    font-style: bold;
+  }
 
 .transactionTitle {
     font-family: Roboto;
     font-style: bold;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 32px;
 }
 
@@ -57,6 +117,7 @@ height: 30px;
 font-family: 'Roboto', serif;
 font-size: 14px;
 font-weight: 500;
+font-style: bold;
 transition: all 0.3s ease-in-out !important;
 background-color: white;
 }
@@ -87,18 +148,21 @@ width: 200px;
 border: 1.5px solid #71c3e7;
 border-top: none;
 border-radius: 0px 0px 20px 20px;
-padding: 0px 18px 14px 18px;
-margin-top: -10px;
+padding: 2px 18px 5px 18px;
+margin-top: -8px;
 display: flex;
 flex-direction: column;
 }
 
 .dropdown_menu > a {
 text-decoration: none;
-font-size: 16px;
-font-weight: 400;
+font-family: 'Roboto', serif;
+font-size: 14px;
+font-weight: 500;
+font-style: bold;
 color: rgba(0, 0, 0, 0.7);
-margin-bottom: 5px;
+margin-bottom: 3px;
+margin-left: 7px;
 }
 
 .dropdown_menu > a:hover {
@@ -107,4 +171,7 @@ color: #71c3e7;
 
 .dropdown {
     margin-left: auto;
+}
+
+.expandedData  {
 }

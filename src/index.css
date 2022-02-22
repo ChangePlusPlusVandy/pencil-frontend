@@ -27,6 +27,39 @@
          url('./fonts/Roboto/Roboto-Light.ttf') format('truetype');
   }
 
+  @font-face {
+     font-family: 'Roboto';
+     /* font-style: normal; */
+     font-weight: 400;
+     src: local('Roboto'),
+          url('./fonts/Roboto/Roboto-Light.ttf') format('truetype');
+   }
+
+   @font-face {
+     font-family: 'Roboto';
+     font-style: bold;
+     font-weight: 400;
+     src: local('Roboto'),
+          url('./fonts/Roboto/Roboto-Medium.ttf') format('truetype');
+   }
+
+   @font-face {
+     font-family: 'Roboto';
+     /* font-style: normal; */
+     font-weight: 500;
+     src: local('Roboto'),
+          url('./fonts/Roboto/Roboto-Medium.ttf') format('truetype');
+   }
+
+   @font-face {
+     font-family: 'Roboto';
+     font-weight: 500;
+     font-style: bold;
+     src: local('Roboto'),
+          url('./fonts/Roboto/Roboto-Bold.ttf') format('truetype');
+   }
+   
+
 html {
      background-color: #f6f6f6;
 }
