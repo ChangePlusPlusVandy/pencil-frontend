@@ -14,6 +14,7 @@ import {
   getTeacherByID,
 } from './api-transactions';
 import './Transactions.css';
+import { useAuth } from '../../AuthContext';
 
 const dateConverter = (date) => {
   const year = date.slice(0, 4);
@@ -81,6 +82,7 @@ const PendingTransactions = () => {
   const [rawData, setRawData] = useState([]);
   const [typeData, setTypeData] = useState('Pending');
   const [selectedData, setSelectedData] = useState([]);
+  const { getCurrentLocation } = useAuth();
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -108,7 +110,7 @@ const PendingTransactions = () => {
         toDelete = rawData[j];
       }
     }
-    approveTransaction(toDelete);
+    approveTransaction(getCurrentLocation(), toDelete);
     const tempArr = [...loadedData];
     tempArr.splice(tempArr.indexOf(transaction), 1);
     setLoadedData(tempArr);
@@ -123,7 +125,7 @@ const PendingTransactions = () => {
         toDelete = rawData[j];
       }
     }
-    denyTransaction(toDelete);
+    denyTransaction(getCurrentLocation(), toDelete);
     const tempArr = [...loadedData];
     tempArr.splice(tempArr.indexOf(transaction), 1);
     setLoadedData(tempArr);
@@ -222,21 +224,23 @@ const PendingTransactions = () => {
     const formattedData = [];
     for (let i = 0; i < transactions.length; i += 1) {
       // eslint-disable-next-line no-loop-func
-      getTeacherByID(transactions[i].teacherId).then((teacher) => {
-        const formattedObj = {
-          date: dateConverter(transactions[i].createdAt),
-          name: `${teacher.firstName} ${teacher.lastName}`,
-          childNodes: formatItemData(transactions[i].items),
-          status: capitalizeFirstLetter(status),
-          key: transactions[i].transactionId,
-        };
-        formattedData.push(formattedObj);
-        if (i + 1 === transactions.length) {
-          setRawData(transactions);
-          setLoadedData(formattedData);
-          console.log(formattedData);
+      getTeacherByID(getCurrentLocation(), transactions[i].teacherId).then(
+        (teacher) => {
+          const formattedObj = {
+            date: dateConverter(transactions[i].createdAt),
+            name: `${teacher.firstName} ${teacher.lastName}`,
+            childNodes: formatItemData(transactions[i].items),
+            status: capitalizeFirstLetter(status),
+            key: transactions[i].transactionId,
+          };
+          formattedData.push(formattedObj);
+          if (i + 1 === transactions.length) {
+            setRawData(transactions);
+            setLoadedData(formattedData);
+            console.log(formattedData);
+          }
         }
-      });
+      );
     }
   };
 
@@ -249,7 +253,7 @@ const PendingTransactions = () => {
       console.log('no change');
     } else if (event.target.innerText === 'Pending') {
       setSelectedData([]);
-      getPendingTransactions().then((transactions) => {
+      getPendingTransactions(getCurrentLocation()).then((transactions) => {
         if (transactions.error) {
           console.log(transactions.error);
         } else {
@@ -261,7 +265,7 @@ const PendingTransactions = () => {
       });
     } else if (event.target.innerText === 'Approved') {
       setSelectedData([]);
-      getApprovedTransactions().then((transactions) => {
+      getApprovedTransactions(getCurrentLocation()).then((transactions) => {
         if (transactions.error) {
           console.log(transactions.error);
         } else {
@@ -273,7 +277,7 @@ const PendingTransactions = () => {
       });
     } else if (event.target.innerText === 'Denied') {
       setSelectedData([]);
-      getDeniedTransactions().then((transactions) => {
+      getDeniedTransactions(getCurrentLocation()).then((transactions) => {
         if (transactions.error) {
           console.log(transactions.error);
         } else {
@@ -295,7 +299,7 @@ const PendingTransactions = () => {
           toDelete = rawData[j];
         }
       }
-      denyTransaction(toDelete);
+      denyTransaction(getCurrentLocation(), toDelete);
       const tempArr = [...loadedData];
       tempArr.splice(tempArr.indexOf(selectedData[i]), 1);
       setLoadedData(tempArr);
@@ -312,7 +316,7 @@ const PendingTransactions = () => {
           toDelete = transaction;
         }
       }
-      approveTransaction(toDelete);
+      approveTransaction(getCurrentLocation(), toDelete);
       const tempArr = [...loadedData];
       tempArr.splice(tempArr.indexOf(selectedData[i]), 1);
       setLoadedData(tempArr);
@@ -321,7 +325,7 @@ const PendingTransactions = () => {
   };
 
   useEffect(() => {
-    getPendingTransactions().then((transactions) => {
+    getPendingTransactions(getCurrentLocation()).then((transactions) => {
       if (transactions.error) {
         console.log(transactions.error);
       } else {

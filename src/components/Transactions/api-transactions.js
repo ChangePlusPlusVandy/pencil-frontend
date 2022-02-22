@@ -96,10 +96,10 @@ const denyTransaction = async (location, data) => {
   }
 };
 
-const getTeacherByID = async (id) => {
+const getTeacherByID = async (location, id) => {
   try {
     const response = await fetch(
-      `http://localhost:8080/api/form/teacher/${id}`
+      `http://localhost:8080/api/${location}/form/teacher/${id}`
     );
     return await response.json();
   } catch (err) {
