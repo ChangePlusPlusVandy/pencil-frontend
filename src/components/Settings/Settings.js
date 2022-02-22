@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import LocationManager from './LocationManager';
 import './Settings.css';
-import Header from '../Header/Header';
+import SettingsHeader from './SettingsHeader';
 
 const Settings = () => {
   const a = 0;
@@ -10,7 +10,7 @@ const Settings = () => {
 
   return (
     <>
-      <Header />
+      <SettingsHeader />
       <div className="settingsContainer">
         <div className="settingsHeader">
           <h2>Settings</h2>
