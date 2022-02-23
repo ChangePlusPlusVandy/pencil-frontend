@@ -11,13 +11,20 @@ import { Packer } from 'docx';
 import { saveAs } from 'file-saver';
 import ItemPopup from './ItemPopup';
 import Item from './Item';
-import { getInventory, postInventory } from './api-inventory';
+import {
+  getInventory,
+  postInventory,
+  getMasterInv,
+  postMasterInv,
+} from './api-inventory';
 import printForm from '../../printForm';
 import { useAuth } from '../../AuthContext';
 import InventoryToggle from './InventoryToggle';
+import MasterInventory from './MasterInventory';
 
 const ReactList = () => {
   const [data, setData] = useState([]);
+  const [masterInventoryData, setMasterInventoryData] = useState([]);
   const [isAddItemVisible, setAddItemVisible] = useState(false);
   const [changed, setChanged] = useState(false);
   const [inventory, setInventory] = useState('Active');
@@ -95,17 +102,13 @@ const ReactList = () => {
   };
 
   const handleSave = () => {
-    const toSubmit = data;
-    const location = getCurrentLocation();
-    postInventory(toSubmit, location).then((result) => {
-      console.log(result);
-      // if (result.error) {
-      //   console.log(result.error);
-      // } else {
-      //   setData(result);
-      // }
-    });
-    setChanged(false);
+    if (inventory === 'Active') {
+      postInventory(data, getCurrentLocation());
+    } else if (inventory === 'Master') {
+      postMasterInv(masterInventoryData, getCurrentLocation());
+    } else {
+      console.log('Error: invalid inventory type');
+    }
   };
 
   // Properties to pass to ReactDragListView package
@@ -123,10 +126,12 @@ const ReactList = () => {
   };
 
   useEffect(() => {
-    if (changed) {
+    if (changed && inventory === 'Active') {
       document.getElementById('saveButton').className = 'saveButtonChanged';
-    } else {
+    } else if (inventory === 'Active') {
       document.getElementById('saveButton').className = 'saveButton';
+    } else {
+      // Do nothing
     }
   }, [changed]);
 
@@ -176,28 +181,38 @@ const ReactList = () => {
         </button>
       </div>
       <div className="itemContainer">
-        <div className="dragList">
-          <div className="containerHeader">
-            <div className="headerName">Item Name</div>
-            <div className="headerItemLimit editableText">Item Limit</div>
-          </div>
-        </div>
-        <ReactDragListView {...dragProps}>
-          <ul className="dragList">
-            {data.map((item, index) => (
-              <Item
-                key={item.itemName}
-                number={index}
-                name={item.itemName}
-                limit={item.maxLimit}
-                inventory={data}
-                updateInventory={handleItemChange}
-                handleDelete={handleDelete}
-              />
-            ))}
-          </ul>
-        </ReactDragListView>
+        {inventory === 'Active' ? (
+          <>
+            <div className="dragList">
+              <div className="containerHeader">
+                <div className="headerName">Item Name</div>
+                <div className="headerItemLimit">Item Limit</div>
+              </div>
+            </div>
+            <ReactDragListView {...dragProps}>
+              <ul className="dragList">
+                {data.map((item, index) => (
+                  <Item
+                    key={item.itemName}
+                    number={index}
+                    name={item.itemName}
+                    limit={item.maxLimit}
+                    inventory={data}
+                    updateInventory={handleItemChange}
+                    handleDelete={handleDelete}
+                  />
+                ))}
+              </ul>
+            </ReactDragListView>
+          </>
+        ) : (
+          <MasterInventory
+            data={masterInventoryData}
+            setData={setMasterInventoryData}
+          />
+        )}
       </div>
+      <div />
     </div>
   );
 };

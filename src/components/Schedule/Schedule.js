@@ -36,7 +36,7 @@ const Schedule = () => {
 
   return (
     <div className="scheduleContainer">
-      <div className="scheduleHeader">
+      <div className="scheduleContainerHeader">
         <h2>Schedule ({scheduleData.length})</h2>
         <div className="scheduleButton">Print Schedule</div>
         <AiFillPrinter />
@@ -45,8 +45,8 @@ const Schedule = () => {
           <option name="upcoming">Upcoming</option>
         </select>
       </div>
-      <div className="itemContainer">
-        <div className="containerHeader">
+      <div className="scheduleItemContainer">
+        <div className="scheduleContainerHeader">
           <span>Time</span>
           <span>Name</span>
           <span>Phone</span>

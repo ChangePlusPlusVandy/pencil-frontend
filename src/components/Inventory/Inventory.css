@@ -7,6 +7,8 @@
 
 .inventoryContainer ul {
   list-style-type: none;
+  padding: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .inventoryHeader {
@@ -35,7 +37,9 @@
   border-radius: 50px;
   border-style: none;
   background-color: #e5e5e5;
+  color: #b6b1b1;
   font-family: 'Roboto';
+  transition: all 0.3s ease-in-out;
 }
 
 .saveButtonChanged {
@@ -45,15 +49,13 @@
   border-radius: 50px;
   border-style: none;
   background-color: #71c3e7;
+  font-family: 'Roboto';
+  transition: all 0.3s ease-in-out;
 }
 
-.saveButton:hover,
 .saveButtonChanged:hover {
   cursor: pointer;
-}
-
-.saveButton:hover {
-  background-color: #71c3e7;
+  background-color: #50b9e8;
 }
 
 .dragIcon {
@@ -73,8 +75,7 @@
 
 .dragLine {
   border-top: hidden !important;
-  border-bottom: 3px solid #95d7af  !important;
-  
+  border-bottom: 3px solid #95d7af !important;
 }
 
 .dragLine::before {
@@ -85,14 +86,13 @@
 
 .itemContainer {
   width: 100%;
-  min-height: 50vh;
+  min-height: 65vh;
   display: flex;
   flex-direction: column;
   margin: auto;
-  padding: 10px 0;
+  padding: 30px 0;
   background-color: #ffffff;
   border-radius: 20px;
-  /* box-shadow: 0 0 5px #000000; */
 }
 
 .dragList {
@@ -100,11 +100,8 @@
 }
 
 .containerHeader {
-  height: 20px;
-  width: 80%;
-  margin: auto;
-  margin-top: 20px;
-  padding: 0 20px;
+  width: 85%;
+  margin: 0 auto;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -112,14 +109,11 @@
   color: #8a8a8a;
 }
 .headerName {
-  margin-left: 88px;
+  margin-left: 9%;
+  width: 40%;
 }
 
 .headerItemLimit {
-  width: 40px;
-  text-align: center;
   margin-left: auto;
-  margin-right: 62px;
-  font-size: 16px;
-  color: #8a8a8a;
+  margin-right: 8%;
 }
