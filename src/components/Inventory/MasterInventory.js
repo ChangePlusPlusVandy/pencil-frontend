@@ -1,13 +1,13 @@
-import React, { useState, Component, useEffect } from 'react';
-import { AiFillPrinter } from 'react-icons/ai';
+import React, { useState, useEffect } from 'react';
 import { getMasterInv } from './api-inventory';
+import { useAuth } from '../../AuthContext';
 
 const MasterInventory = () => {
+  const { getCurrentLocation } = useAuth();
   const [scheduleData, setScheduleData] = useState([]);
 
-  // TEMP: Dummy data for schedule
   useEffect(() => {
-    getMasterInv().then((result) => {
+    getMasterInv(getCurrentLocation()).then((result) => {
       if (result instanceof Error) {
         // eslint-disable-next-line no-alert
         alert(

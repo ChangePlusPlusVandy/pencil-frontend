@@ -9,14 +9,13 @@ import { GrFormAdd } from 'react-icons/gr';
 import './Inventory.css';
 import ItemPopup from './ItemPopup';
 import Item from './Item';
-import { getInventory, postInventory, getMasterInv } from './api-inventory';
+import { getInventory, postInventory } from './api-inventory';
 import { useAuth } from '../../AuthContext';
 import InventoryToggle from './InventoryToggle';
 import MasterInventory from './MasterInventory';
 
 const ReactList = () => {
   const [data, setData] = useState([]);
-  const [masterInv, setMasterInv] = useState([]);
   const [isAddItemVisible, setAddItemVisible] = useState(false);
   const [changed, setChanged] = useState(false);
   const [inventory, setInventory] = useState('Active');
