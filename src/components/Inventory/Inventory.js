@@ -9,13 +9,19 @@ import { GrFormAdd } from 'react-icons/gr';
 import './Inventory.css';
 import ItemPopup from './ItemPopup';
 import Item from './Item';
-import { getInventory, postInventory } from './api-inventory';
+import {
+  getInventory,
+  postInventory,
+  getMasterInv,
+  postMasterInv,
+} from './api-inventory';
 import { useAuth } from '../../AuthContext';
 import InventoryToggle from './InventoryToggle';
 import MasterInventory from './MasterInventory';
 
 const ReactList = () => {
   const [data, setData] = useState([]);
+  const [masterInventoryData, setMasterInventoryData] = useState([]);
   const [isAddItemVisible, setAddItemVisible] = useState(false);
   const [changed, setChanged] = useState(false);
   const [inventory, setInventory] = useState('Active');
@@ -80,17 +86,13 @@ const ReactList = () => {
   };
 
   const handleSave = () => {
-    const toSubmit = data;
-    const location = getCurrentLocation();
-    postInventory(toSubmit, location).then((result) => {
-      console.log(result);
-      // if (result.error) {
-      //   console.log(result.error);
-      // } else {
-      //   setData(result);
-      // }
-    });
-    setChanged(false);
+    if (inventory === 'Active') {
+      postInventory(data, getCurrentLocation());
+    } else if (inventory === 'Master') {
+      postMasterInv(masterInventoryData, getCurrentLocation());
+    } else {
+      console.log('Error: invalid inventory type');
+    }
   };
 
   // Properties to pass to ReactDragListView package
@@ -134,39 +136,39 @@ const ReactList = () => {
 
   return (
     <div className="inventoryContainer">
-      {inventory === 'Active' ? (
-        <>
-          <ItemPopup
-            show={isAddItemVisible}
-            onClose={handleClose}
-            onSubmit={addItem}
-          />
-          <div className="inventoryHeader">
-            <h2>Inventory ({data.length})</h2>
-            <div className="inventoryButton">Print Inventory</div>
-            <AiFillPrinter />
-            <div
-              className="inventoryButton"
-              onClick={() => setAddItemVisible(true)}
-            >
-              Add Item
-            </div>
-            <GrFormAdd />
-            <InventoryToggle onChange={setInventory} />
-            <button
-              type="button"
-              className="saveButton"
-              id="saveButton"
-              onClick={handleSave}
-            >
-              Save
-            </button>
-          </div>
-          <div className="itemContainer">
+      <ItemPopup
+        show={isAddItemVisible}
+        onClose={handleClose}
+        onSubmit={addItem}
+      />
+      <div className="inventoryHeader">
+        <h2>Inventory ({data.length})</h2>
+        <div className="inventoryButton">Print Inventory</div>
+        <AiFillPrinter />
+        <div
+          className="inventoryButton"
+          onClick={() => setAddItemVisible(true)}
+        >
+          Add Item
+        </div>
+        <GrFormAdd />
+        <InventoryToggle onChange={setInventory} />
+        <button
+          type="button"
+          className="saveButton"
+          id="saveButton"
+          onClick={handleSave}
+        >
+          Save
+        </button>
+      </div>
+      <div className="itemContainer">
+        {inventory === 'Active' ? (
+          <>
             <div className="dragList">
               <div className="containerHeader">
                 <div className="headerName">Item Name</div>
-                <div className="headerItemLimit editableText">Item Limit</div>
+                <div className="headerItemLimit">Item Limit</div>
               </div>
             </div>
             <ReactDragListView {...dragProps}>
@@ -184,11 +186,15 @@ const ReactList = () => {
                 ))}
               </ul>
             </ReactDragListView>
-          </div>
-        </>
-      ) : (
-        <MasterInventory />
-      )}
+          </>
+        ) : (
+          <MasterInventory
+            data={masterInventoryData}
+            setData={setMasterInventoryData}
+          />
+        )}
+      </div>
+      <div />
     </div>
   );
 };

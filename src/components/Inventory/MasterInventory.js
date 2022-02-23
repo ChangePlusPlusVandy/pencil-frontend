@@ -1,10 +1,12 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { getMasterInv } from './api-inventory';
 import { useAuth } from '../../AuthContext';
+import './MasterInventory.css';
 
-const MasterInventory = () => {
+const MasterInventory = ({ data, setData }) => {
   const { getCurrentLocation } = useAuth();
-  const [scheduleData, setScheduleData] = useState([]);
 
   useEffect(() => {
     getMasterInv(getCurrentLocation()).then((result) => {
@@ -15,40 +17,33 @@ const MasterInventory = () => {
         );
         console.log(result);
       } else {
-        setScheduleData(result);
+        setData(result);
       }
     });
   }, []);
 
-  const handleDropdown = () => {
-    // handle dropdown between 'upcoming', ''
-  };
-
   return (
-    <div className="inventoryContainer">
-      <div className="masterInventoryHeader">
-        <h2>Number of items ({2})</h2>
-        <span>Item</span>
-        <span>Item Price</span>
+    <div>
+      <div className="containerHeader">
+        <div className="headerName">Item Name</div>
+        <div className="headerItemLimit">Item Price </div>
       </div>
-      <div className="itemContainer">
-        <ul className="scheduleList">
-          {scheduleData.map((item, index) => {
-            console.log('THIS IS THE DATA ', item);
-            // const createdAt = new Date(item.created_at);
-            const { itemName } = item;
-            const { itemPrice } = item;
-            return (
-              <div className="scheduleItem">
-                <div>{itemName}</div>
-                <div>{itemPrice}</div>
-              </div>
-            );
-          })}
-        </ul>
-      </div>
+      <ul className="master-inventory-list">
+        {data.map((item, index) => (
+          <div className="master-inventory-item">
+            <div className="itemOrder">{index + 1}</div>
+            <div id="master-inventory-name">{item.itemName}</div>
+            <div id="master-inventory-price">{item.itemPrice}</div>
+          </div>
+        ))}
+      </ul>
     </div>
   );
 };
 
 export default MasterInventory;
+
+MasterInventory.propType = {
+  data: PropTypes.array.isRequired,
+  setData: PropTypes.func.isRequired,
+};
