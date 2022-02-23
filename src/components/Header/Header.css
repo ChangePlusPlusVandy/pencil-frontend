@@ -52,11 +52,13 @@
   font-size: 16px;
   font-weight: 500;
   transition: all 0.3s ease-in-out !important;
+  background-color: #ffffff;
 }
 
 .custom-dropdown:hover {
   border-color: #71c3e7;
   color: black;
+  border-color: #71c3e7;
 }
 
 .location-dropdown {
