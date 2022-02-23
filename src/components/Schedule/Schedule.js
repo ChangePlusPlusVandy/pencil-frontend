@@ -89,17 +89,13 @@ const Schedule = () => {
         <h2 className="bold">Schedule ({scheduleData.length})</h2>
         <div className="scheduleButton">Print Schedule</div>
         <AiFillPrinter />
-
-        {/* <select onChange={handleDropdown} className="dropdownButton">
-          <option name="upcoming">Upcoming</option>
-        </select> */}
-        <ScheduleDropdown className="schedule-dropdown" onChange={setFilter} />
+        {/* <ScheduleDropdown className="schedule-dropdown" onChange={setFilter} /> */}
       </div>
       <table className="itemContainer">
         <tr className="scheduleItem" id="headerContainer">
           <td className="headerCell">Time</td>
           <td className="headerCell">Name</td>
-          <td className="headerCell">Phone</td>
+          <td className="headerCell">Pencil ID</td>
           <td className="headerCell">School</td>
         </tr>
         <tr>
@@ -110,6 +106,7 @@ const Schedule = () => {
             const schoolName = item.school;
             const date = getDate(item.start_time);
             const time = getTime(item.end_time, item.end_time);
+            const pencilId = item.teacherId;
             return (
               <div className="scheduleItem">
                 <div className="timeBox">
@@ -117,7 +114,7 @@ const Schedule = () => {
                   <td className="timeCell bold">{time}</td>
                 </div>
                 <td className="itemCell bold">{fullName}</td>
-                <td className="itemCell">{phoneNumber}</td>
+                <td className="itemCell">{pencilId}</td>
                 <td className="itemCell">{schoolName}</td>
               </div>
             );
