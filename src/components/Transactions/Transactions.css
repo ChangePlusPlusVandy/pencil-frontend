@@ -5,7 +5,6 @@ body {
 
 .transactions {
   margin: auto 7em;
-  /* height is should full viewport except 2 rem margin at bottom */
   height: 65vh;
 }
 
@@ -54,6 +53,14 @@ th.ant-table-cell {
 .ant-table table {
   border-spacing: 0 20px;
   border-radius: 30px;
+}
+
+.scrollingTransactions .ant-checkbox-wrapper {
+  border-spacing: 0;
+}
+
+.ant-table-selection-column {
+  border-spacing: none !important;
 }
 
 .ant-table-thead > tr > th {
