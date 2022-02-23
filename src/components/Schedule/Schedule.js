@@ -1,6 +1,9 @@
 import React, { useState, Component, useEffect } from 'react';
 import { AiFillPrinter } from 'react-icons/ai';
 import { getSchedules } from './api-schedule';
+
+import Menu from '../Menu/Menu';
+import Header from '../Header/Header';
 import './Schedule.css';
 import 'antd/dist/antd.css';
 import ScheduleDropdown from './ScheduleDropdown';
@@ -84,43 +87,47 @@ const Schedule = () => {
   };
 
   return (
-    <div className="scheduleContainer">
-      <div className="scheduleHeader">
-        <h2 className="bold">Schedule ({scheduleData.length})</h2>
-        <div className="scheduleButton">Print Schedule</div>
-        <AiFillPrinter />
-        {/* <ScheduleDropdown className="schedule-dropdown" onChange={setFilter} /> */}
-      </div>
-      <table className="itemContainer">
-        <tr className="scheduleItem" id="headerContainer">
-          <td className="headerCell">Time</td>
-          <td className="headerCell">Name</td>
-          <td className="headerCell">Pencil ID</td>
-          <td className="headerCell">School</td>
-        </tr>
-        <tr>
-          {scheduleData.map((item, index) => {
-            // const createdAt = new Date(item.created_at);
-            const fullName = item.name;
-            const phoneNumber = item.phone;
-            const schoolName = item.school;
-            const date = getDate(item.start_time);
-            const time = getTime(item.end_time, item.end_time);
-            const pencilId = item.teacherId;
-            return (
-              <div className="scheduleItem">
-                <div className="timeBox">
-                  <td className="timeCell">{date}</td>
-                  <td className="timeCell bold">{time}</td>
+    <div>
+      <Header />
+      <Menu />
+      <div className="scheduleContainer">
+        <div className="scheduleHeader">
+          <h2 className="bold">Schedule ({scheduleData.length})</h2>
+          <div className="scheduleButton">Print Schedule</div>
+          <AiFillPrinter />
+          {/* <ScheduleDropdown className="schedule-dropdown" onChange={setFilter} /> */}
+        </div>
+        <table className="itemContainer">
+          <tr className="scheduleItem" id="headerContainer">
+            <td className="headerCell">Time</td>
+            <td className="headerCell">Name</td>
+            <td className="headerCell">Pencil ID</td>
+            <td className="headerCell">School</td>
+          </tr>
+          <tr>
+            {scheduleData.map((item, index) => {
+              // const createdAt = new Date(item.created_at);
+              const fullName = item.name;
+              const phoneNumber = item.phone;
+              const schoolName = item.school;
+              const date = getDate(item.start_time);
+              const time = getTime(item.end_time, item.end_time);
+              const pencilId = item.teacherId;
+              return (
+                <div className="scheduleItem">
+                  <div className="timeBox">
+                    <td className="timeCell">{date}</td>
+                    <td className="timeCell bold">{time}</td>
+                  </div>
+                  <td className="itemCell bold">{fullName}</td>
+                  <td className="itemCell">{pencilId}</td>
+                  <td className="itemCell">{schoolName}</td>
                 </div>
-                <td className="itemCell bold">{fullName}</td>
-                <td className="itemCell">{pencilId}</td>
-                <td className="itemCell">{schoolName}</td>
-              </div>
-            );
-          })}
-        </tr>
-      </table>
+              );
+            })}
+          </tr>
+        </table>
+      </div>
     </div>
   );
 };

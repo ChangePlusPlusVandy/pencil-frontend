@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../../AuthContext';
+import Header from '../Header/Header';
 
 /**
  * Allows user to log in to the application.
@@ -33,6 +34,7 @@ const Login = () => {
 
   return (
     <div>
+      <Header />
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <div>

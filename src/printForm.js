@@ -1,20 +1,19 @@
-import fs from 'fs';
-import docx from 'docx';
-const {
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-undef */
+/* eslint-disable import/no-unresolved */
+import {
   WidthType,
   Table,
   TableRow,
   TableCell,
   Paragraph,
   Document,
-  Packer,
   HeightRule,
   AlignmentType,
   TextRun,
-  bold,
-  font,
   ImageRun,
-} = docx;
+} from 'docx';
+import LPPencil from './img/LPPencil.jpg';
 
 function sortFunction(a, b) {
   if (a.itemOrder < b.itemOrder) {
@@ -23,22 +22,23 @@ function sortFunction(a, b) {
   if (a.itemOrder > b.itemOrder) {
     return 1;
   }
-  if (a.itemOrder == b.itemOrder) {
+  if (a.itemOrder === b.itemOrder) {
     return 0;
   }
+  return 0;
 }
 
 function splitArr(data) {
-  let splitItems = [];
-  let halfway = parseInt(data.length / 2);
-  if (data.length % 2 == 0) {
+  const splitItems = [];
+  const halfway = parseInt(data.length / 2, 10);
+  if (data.length % 2 === 0) {
     for (let i = 0, j = halfway; i < j; i += 1) {
       splitItems.push([data[i], data[i + halfway]]);
     }
   } else {
     for (let i = 0, j = halfway; i <= j; i += 1) {
       if (i + halfway < data.length - 1) {
-        splitItems.push([data[i], dummyData[i + halfway + 1]]);
+        splitItems.push([data[i], data[i + halfway + 1]]);
       } else {
         splitItems.push([data[i]]);
       }
@@ -53,91 +53,99 @@ const columnTitles = [
   ['Shop Time:', 1, 10],
   ['LPPBID:', 1, 15],
 ];
-let columnCells = columnTitles.map((title) => {
-  return new TableCell({
-    // Make all cells the same with over 100% of the available page width
-    width: { size: title[2], type: WidthType.PERCENTAGE },
-    children: [
-      new Paragraph({
-        children: [
-          new TextRun({
-            text: title[0],
-            bold: true,
-            size: 22,
-            font: 'Calibri',
-          }),
-        ],
-        alignment: AlignmentType.CENTER,
-      }),
-    ],
-    columnSpan: title[1],
-  });
-});
-
-columnCells.unshift(
-  new TableCell({
-    width: { size: 20, type: WidthType.PERCENTAGE },
-    children: [
-      new Paragraph({
-        children: [
-          new ImageRun({
-            data: fs.readFileSync('./LPPencil.jpg'),
-            transformation: {
-              width: 100,
-              height: 50,
-            },
-          }),
-        ],
-      }),
-    ],
-  })
+const columnCells = columnTitles.map(
+  (title) =>
+    new TableCell({
+      // Make all cells the same with over 100% of the available page width
+      width: { size: title[2], type: WidthType.PERCENTAGE },
+      children: [
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: title[0],
+              bold: true,
+              size: 22,
+              font: 'Calibri',
+            }),
+          ],
+          alignment: AlignmentType.CENTER,
+        }),
+      ],
+      columnSpan: title[1],
+    })
 );
 
-let newTitles = [
-  ['Item', 2],
-  ['Limit', 1],
-  ['Quantity', 1],
-  ['Item', 2],
-  ['Limit', 1],
-  ['Quantity', 1],
-];
-let titleCells = newTitles.map((title) => {
-  return new TableCell({
-    children: [
-      new Paragraph({
-        children: [
-          new TextRun({
-            text: title[0],
-            alignment: AlignmentType.CENTER,
-            bold: true,
-            font: 'Calibri',
-            size: 22,
-          }),
-        ],
-        alignment: AlignmentType.CENTER,
-      }),
-    ],
-    //width: { size: 100 / 8 * title[1], type: WidthType.PERCENTAGE }
-  });
-});
+const funct = async () => {
+  const imageHead = await fetch(LPPencil);
+  columnCells.unshift(
+    new TableCell({
+      width: { size: 20, type: WidthType.PERCENTAGE },
+      children: [
+        new Paragraph({
+          children: [
+            new ImageRun({
+              data: await imageHead.blob(),
+              transformation: {
+                width: 100,
+                height: 50,
+              },
+            }),
+          ],
+        }),
+      ],
+    })
+  );
+};
 
-let rowsArr = [
-  new TableRow({
-    children: columnCells,
-    width: { size: 100, type: WidthType.PERCENTAGE },
-    height: { value: 900, rule: HeightRule.EXACT },
-  }),
-  new TableRow({
-    children: titleCells,
-    width: { size: 100, type: WidthType.PERCENTAGE },
-    height: { value: 300, rule: HeightRule.EXACT },
-  }),
+funct();
+
+const newTitles = [
+  ['Item', 2],
+  ['Limit', 1],
+  ['Quantity', 1],
+  ['Item', 2],
+  ['Limit', 1],
+  ['Quantity', 1],
 ];
+const titleCells = newTitles.map(
+  (title) =>
+    new TableCell({
+      children: [
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: title[0],
+              alignment: AlignmentType.CENTER,
+              bold: true,
+              font: 'Calibri',
+              size: 22,
+            }),
+          ],
+          alignment: AlignmentType.CENTER,
+        }),
+      ],
+      // width: { size: 100 / 8 * title[1], type: WidthType.PERCENTAGE }
+    })
+);
+
+let rowsArr = [];
 
 function pushRowArr(splitItems) {
+  rowsArr = [
+    new TableRow({
+      children: columnCells,
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      height: { value: 900, rule: HeightRule.EXACT },
+    }),
+    new TableRow({
+      children: titleCells,
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      height: { value: 300, rule: HeightRule.EXACT },
+    }),
+  ];
   for (const itemArr of splitItems) {
-    let singleRow = [];
-    for (let item of itemArr) {
+    const singleRow = [];
+    for (const item of itemArr) {
       singleRow.push(
         new TableCell({
           children: [
@@ -152,7 +160,7 @@ function pushRowArr(splitItems) {
               ],
             }),
           ],
-          //width: { size: 100 / 8 * 2, type: WidthType.PERCENTAGE }
+          // width: { size: 100 / 8 * 2, type: WidthType.PERCENTAGE }
         })
       );
       singleRow.push(
@@ -170,13 +178,13 @@ function pushRowArr(splitItems) {
               alignment: AlignmentType.CENTER,
             }),
           ],
-          //width: { size: 100 / 8 * 1, type: WidthType.PERCENTAGE }
+          // width: { size: 100 / 8 * 1, type: WidthType.PERCENTAGE }
         })
       );
       singleRow.push(
         new TableCell({
           children: [new Paragraph('      ')],
-          //width: { size: 100 / 8 * 1, type: WidthType.PERCENTAGE }
+          // width: { size: 100 / 8 * 1, type: WidthType.PERCENTAGE }
         })
       );
     }
@@ -184,7 +192,7 @@ function pushRowArr(splitItems) {
       new TableRow({
         children: singleRow,
         height: { value: 300, rule: HeightRule.EXACT },
-        //width: { size: 100 / newTitles.length, type: WidthType.PERCENTAGE }
+        // width: { size: 100 / newTitles.length, type: WidthType.PERCENTAGE }
       })
     );
   }
@@ -218,7 +226,7 @@ function createFile() {
           new Paragraph({
             children: [
               new TextRun({
-                text: '\nSignature: __________________________________________		Date: ________10/2/2021____',
+                text: '\nSignature: __________________________________________		Date: ________________',
                 bold: false,
                 font: 'Calibri',
                 size: 22,
@@ -239,16 +247,12 @@ function createFile() {
     ],
   });
 
-  Packer.toBuffer(doc).then((buffer) => {
-    fs.writeFileSync('tableDoc.docx', buffer);
-  });
+  return doc;
 }
 
-function printForm(data) {
+export default function printForm(data) {
   data.sort(sortFunction);
-  var splitItems = splitArr(data);
+  const splitItems = splitArr(data);
   pushRowArr(splitItems);
-  createFile();
+  return createFile();
 }
-
-export { printForm };

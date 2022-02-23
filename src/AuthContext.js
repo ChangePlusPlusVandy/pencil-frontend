@@ -27,7 +27,9 @@ export function useAuth() {
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [currentLocation, setCurrentLocation] = useState('Nashville');
+  const [currentLocation, setCurrentLocation] = useState(
+    sessionStorage.getItem('location')
+  );
 
   /**
    * Logs the user in with Firebase auth.
@@ -82,12 +84,22 @@ export const AuthProvider = ({ children }) => {
     return firebase.auth().sendPasswordResetEmail(email);
   }
 
+  function changePassword(newPassword) {
+    return firebase
+      .auth()
+      .currentUser.updatePassword(newPassword)
+      .then(() => {
+        console.log('Changed password');
+      });
+  }
+
   /**
    * Updates current location.
    * @param string - name of new location.
    */
   function updateLocation(location) {
     setCurrentLocation(location);
+    sessionStorage.setItem('location', location);
   }
 
   /**
@@ -119,6 +131,7 @@ export const AuthProvider = ({ children }) => {
       logout,
       getUser,
       forgotPassword,
+      changePassword,
       updateLocation,
       getCurrentLocation,
     }),

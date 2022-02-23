@@ -1,0 +1,9 @@
+.scrollingTransactions{
+    position: relative;
+    box-shadow: 5px;
+    background-color: red;
+    width: 50vw;
+    height: 50vh;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}

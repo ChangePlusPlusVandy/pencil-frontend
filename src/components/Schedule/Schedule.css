@@ -35,7 +35,12 @@
   width: 195px;
 }
 
-.itemContainer {
+.scheduleContainerHeader {
+  display: flex;
+  flex-direction: row;
+}
+
+.scheduleItemContainer {
   width: 100%;
   min-height: 50vh;
   display: flex;
@@ -48,7 +53,7 @@
   /* box-shadow: 0 0 5px #000000; */
 }
 
-.headerItem {
+.scheduleContainerHeader {
   height: 20px;
   margin-top: 10px;
   padding-left: 0;
