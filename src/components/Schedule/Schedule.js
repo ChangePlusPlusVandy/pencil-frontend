@@ -41,7 +41,7 @@ const Schedule = () => {
       <Header />
       <Menu />
       <div className="scheduleContainer">
-        <div className="scheduleHeader">
+        <div className="scheduleContainerHeader">
           <h2>Schedule ({scheduleData.length})</h2>
           <div className="scheduleButton">Print Schedule</div>
           <AiFillPrinter />
@@ -50,32 +50,40 @@ const Schedule = () => {
             <option name="upcoming">Upcoming</option>
           </select>
         </div>
-        <div className="itemContainer">
-          <div className="containerHeader">
+        <div className="scheduleItemContainer">
+          <div className="scheduleContainerHeader">
             <span>Time</span>
             <span>Name</span>
             <span>Phone</span>
             <span>School</span>
           </div>
-          <ul className="scheduleList">
-            {scheduleData.map((item, index) => {
-              // const createdAt = new Date(item.created_at);
-              const fullName = item.name;
-              const phoneNumber = item.phone;
-              const schoolName = item.school;
-              return (
-                <div className="scheduleItem">
-                  <div className="scheduleTime">
-                    {/* <div>{createdAt.toDateString()}</div> */}
-                    {/* <div>{createdAt.toLocaleTimeString()}</div> */}
+          <div className="itemContainer">
+            <div className="containerHeader">
+              <span>Time</span>
+              <span>Name</span>
+              <span>Phone</span>
+              <span>School</span>
+            </div>
+            <ul className="scheduleList">
+              {scheduleData.map((item, index) => {
+                // const createdAt = new Date(item.created_at);
+                const fullName = item.name;
+                const phoneNumber = item.phone;
+                const schoolName = item.school;
+                return (
+                  <div className="scheduleItem">
+                    <div className="scheduleTime">
+                      {/* <div>{createdAt.toDateString()}</div> */}
+                      {/* <div>{createdAt.toLocaleTimeString()}</div> */}
+                    </div>
+                    <div>{fullName}</div>
+                    <div>{phoneNumber}</div>
+                    <div>{schoolName}</div>
                   </div>
-                  <div>{fullName}</div>
-                  <div>{phoneNumber}</div>
-                  <div>{schoolName}</div>
-                </div>
-              );
-            })}
-          </ul>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </div>
     </>
