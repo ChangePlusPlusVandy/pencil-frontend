@@ -1,0 +1,143 @@
+.settingsTitle {
+  margin-top: 4vh;
+  margin-left: 9vw;
+  font-size: 28px;
+  font-family: 'Roboto';
+}
+
+.settingsContainer {
+  width: 100vw;
+  padding: 0 9vw;
+  margin-top: 1vh;
+  margin-bottom: 10vh;
+  font-size: 18px;
+  font-family: 'Roboto';
+  display: flex;
+  flex-direction: row;
+}
+
+.settingNav {
+  height: 65vh;
+  width: 30%;
+  background-color: white;
+  border-radius: 20px;
+  padding: 2% 2%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.settingNavRow {
+  height: 6vh;
+  padding: 1vh 1vw;
+  margin-bottom: 2vh;
+  font-size: 18px;
+  font-family: 'Roboto';
+  border-radius: 8px;
+}
+
+.navRow-active {
+  color: #45a5cf;
+  background-color: rgba(113, 195, 231, 0.3);
+  border: 2px solid rgba(113, 195, 231, 0.7) !important;
+}
+
+.navRow-inactive {
+  color: #696969;
+  background-color: none;
+}
+
+.backToDash {
+  color: #696969;
+  margin-bottom: 0;
+}
+
+.link {
+  font-size: 16px !important;
+  color: #696969 !important;
+}
+.settingsBody {
+  width: 90%;
+  height: 65vh;
+  background-color: white;
+  padding: 40px;
+  border-radius: 20px;
+  margin: auto;
+  margin-left: 3vw;
+}
+
+.locationManagerHeader {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+}
+
+.editButton {
+  display: flex;
+  font-size: 14px;
+  margin-left: 25px;
+  margin-right: 8px;
+  opacity: 75%;
+  text-decoration: underline;
+  align-items: baseline;
+}
+
+.editButton:hover {
+  cursor: pointer;
+}
+
+.editButton > p {
+  padding-right: 10px;
+}
+
+.settingsBody > ul {
+  margin: 0;
+  padding: 0;
+}
+
+.locationRow {
+  display: flex;
+  background-color: #f6f6f6;
+  margin: auto;
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.locationName {
+  font-weight: 600;
+  width: 200px;
+  padding-left: 20px;
+}
+
+.profileBody {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profileCol {
+  width: 100%;
+}
+
+.profileCol:first-child {
+  padding-right: 50px;
+}
+
+.profileColHeader {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.profileEntryTitle {
+  display: flex;
+  flex-direction: column;
+  margin: 20px auto;
+  opacity: 50%;
+}
+
+.profileEntryTitle > p {
+  margin: 0;
+}

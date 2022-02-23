@@ -14,6 +14,8 @@ import {
   denyTransaction,
   getTeacherByID,
 } from './api-transactions';
+import Header from '../Header/Header';
+import Menu from '../Menu/Menu';
 import './Transactions.css';
 import { useAuth } from '../../AuthContext';
 
@@ -459,9 +461,12 @@ const PendingTransactions = () => {
 };
 
 const Transactions = () => (
-  <div>
+  <>
+    <Header />
+    <Menu />
+    <h1>Transactions</h1>
     <PendingTransactions />
-  </div>
+  </>
 );
 
 export default Transactions;

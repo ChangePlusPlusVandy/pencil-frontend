@@ -1,11 +1,10 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable import/no-unresolved */
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { FaChevronDown } from 'react-icons/fa';
-import { Menu, Dropdown } from 'antd';
+import { Dropdown } from 'antd';
 import { useAuth } from '../../AuthContext';
 import 'antd/dist/antd.css';
 
@@ -28,10 +27,10 @@ const HeaderDropdown = () => {
 
   const menu = (
     <div className="dropdown_menu pencil-cursor">
-      <a className="pencil-cursor" href="https://www.antgroup.com">
+      <Link to="/settings" className="pencil-cursor">
         Settings
-      </a>
-      <a className="pencil-cursor" href={handleLogout}>
+      </Link>
+      <a className="pencil-cursor" onClick={handleLogout}>
         Log Out
       </a>
     </div>

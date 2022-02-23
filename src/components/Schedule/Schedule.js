@@ -1,6 +1,8 @@
 import React, { useState, Component, useEffect } from 'react';
 import { AiFillPrinter } from 'react-icons/ai';
 
+import Menu from '../Menu/Menu';
+import Header from '../Header/Header';
 import './Schedule.css';
 
 const Schedule = () => {
@@ -35,44 +37,56 @@ const Schedule = () => {
   };
 
   return (
-    <div className="scheduleContainer">
-      <div className="scheduleContainerHeader">
-        <h2>Schedule ({scheduleData.length})</h2>
-        <div className="scheduleButton">Print Schedule</div>
-        <AiFillPrinter />
-
-        <select onChange={handleDropdown} className="dropdownButton">
-          <option name="upcoming">Upcoming</option>
-        </select>
-      </div>
-      <div className="scheduleItemContainer">
+    <>
+      <Header />
+      <Menu />
+      <div className="scheduleContainer">
         <div className="scheduleContainerHeader">
-          <span>Time</span>
-          <span>Name</span>
-          <span>Phone</span>
-          <span>School</span>
+          <h2>Schedule ({scheduleData.length})</h2>
+          <div className="scheduleButton">Print Schedule</div>
+          <AiFillPrinter />
+
+          <select onChange={handleDropdown} className="dropdownButton">
+            <option name="upcoming">Upcoming</option>
+          </select>
         </div>
-        <ul className="scheduleList">
-          {scheduleData.map((item, index) => {
-            // const createdAt = new Date(item.created_at);
-            const fullName = item.name;
-            const phoneNumber = item.phone;
-            const schoolName = item.school;
-            return (
-              <div className="scheduleItem">
-                <div className="scheduleTime">
-                  {/* <div>{createdAt.toDateString()}</div> */}
-                  {/* <div>{createdAt.toLocaleTimeString()}</div> */}
-                </div>
-                <div>{fullName}</div>
-                <div>{phoneNumber}</div>
-                <div>{schoolName}</div>
-              </div>
-            );
-          })}
-        </ul>
+        <div className="scheduleItemContainer">
+          <div className="scheduleContainerHeader">
+            <span>Time</span>
+            <span>Name</span>
+            <span>Phone</span>
+            <span>School</span>
+          </div>
+          <div className="itemContainer">
+            <div className="containerHeader">
+              <span>Time</span>
+              <span>Name</span>
+              <span>Phone</span>
+              <span>School</span>
+            </div>
+            <ul className="scheduleList">
+              {scheduleData.map((item, index) => {
+                // const createdAt = new Date(item.created_at);
+                const fullName = item.name;
+                const phoneNumber = item.phone;
+                const schoolName = item.school;
+                return (
+                  <div className="scheduleItem">
+                    <div className="scheduleTime">
+                      {/* <div>{createdAt.toDateString()}</div> */}
+                      {/* <div>{createdAt.toLocaleTimeString()}</div> */}
+                    </div>
+                    <div>{fullName}</div>
+                    <div>{phoneNumber}</div>
+                    <div>{schoolName}</div>
+                  </div>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 export default Schedule;
