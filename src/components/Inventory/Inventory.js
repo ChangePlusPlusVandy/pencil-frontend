@@ -11,12 +11,7 @@ import { Packer } from 'docx';
 import { saveAs } from 'file-saver';
 import ItemPopup from './ItemPopup';
 import Item from './Item';
-import {
-  getInventory,
-  postInventory,
-  getMasterInv,
-  postMasterInv,
-} from './api-inventory';
+import { getInventory, postInventory, postMasterInv } from './api-inventory';
 import printForm from '../../printForm';
 import { useAuth } from '../../AuthContext';
 import InventoryToggle from './InventoryToggle';
@@ -162,7 +157,7 @@ const ReactList = () => {
   }, []);
 
   return (
-    <>
+    <div>
       <Header />
       <Menu />
       <div className="inventoryContainer">
@@ -210,7 +205,7 @@ const ReactList = () => {
       </div>
       <div className="itemContainer">
         {inventory === 'Active' ? (
-          <>
+          <div>
             <div className="dragList">
               <div className="containerHeader">
                 <div className="headerName">Item Name</div>
@@ -232,7 +227,7 @@ const ReactList = () => {
                 ))}
               </ul>
             </ReactDragListView>
-          </>
+          </div>
         ) : (
           <MasterInventory
             data={masterInventoryData}
@@ -240,7 +235,6 @@ const ReactList = () => {
           />
         )}
       </div>
-      <div />
     </div>
   );
 };
