@@ -7,6 +7,8 @@ import ReactDragListView from 'react-drag-listview/lib/index';
 import { AiFillPrinter } from 'react-icons/ai';
 import { GrFormAdd } from 'react-icons/gr';
 import './Inventory.css';
+import { Packer } from 'docx';
+import { saveAs } from 'file-saver';
 import ItemPopup from './ItemPopup';
 import Item from './Item';
 import {
@@ -15,6 +17,7 @@ import {
   getMasterInv,
   postMasterInv,
 } from './api-inventory';
+import printForm from '../../printForm';
 import { useAuth } from '../../AuthContext';
 import InventoryToggle from './InventoryToggle';
 import MasterInventory from './MasterInventory';
@@ -26,6 +29,19 @@ const ReactList = () => {
   const [changed, setChanged] = useState(false);
   const [inventory, setInventory] = useState('Active');
   const { getCurrentLocation } = useAuth();
+
+  const generate = () => {
+    const doc = printForm(data);
+    let today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    today = `${mm}-${dd}-${yyyy}`;
+
+    Packer.toBlob(doc).then((blob) => {
+      saveAs(blob, `PencilForm.${today}.docx`);
+    });
+  };
 
   const addItem = (e, formInfo) => {
     e.preventDefault();
@@ -143,7 +159,9 @@ const ReactList = () => {
       />
       <div className="inventoryHeader">
         <h2>Inventory ({data.length})</h2>
-        <div className="inventoryButton">Print Inventory</div>
+        <div className="inventoryButton" onClick={generate}>
+          Print Inventory
+        </div>
         <AiFillPrinter />
         <div
           className="inventoryButton"
