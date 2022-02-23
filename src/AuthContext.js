@@ -27,7 +27,9 @@ export function useAuth() {
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [currentLocation, setCurrentLocation] = useState();
+  const [currentLocation, setCurrentLocation] = useState(
+    sessionStorage.getItem('location')
+  );
 
   /**
    * Logs the user in with Firebase auth.
@@ -96,6 +98,7 @@ export const AuthProvider = ({ children }) => {
    */
   function updateLocation(location) {
     setCurrentLocation(location);
+    sessionStorage.setItem('location', location);
   }
 
   /**
