@@ -104,9 +104,8 @@ const ReactList = () => {
       postInventory(data, getCurrentLocation());
     } else if (inventory === 'Master') {
       postMasterInv(masterInventoryData, getCurrentLocation());
-    } else {
-      console.log('Error: invalid inventory type');
     }
+    setChanged(false);
   };
 
   // Properties to pass to ReactDragListView package
@@ -192,16 +191,6 @@ const ReactList = () => {
             Save
           </button>
         </div>
-        <GrFormAdd />
-        <InventoryToggle onChange={setInventory} />
-        <button
-          type="button"
-          className="saveButton"
-          id="saveButton"
-          onClick={handleSave}
-        >
-          Save
-        </button>
       </div>
       <div className="itemContainer">
         {inventory === 'Active' ? (

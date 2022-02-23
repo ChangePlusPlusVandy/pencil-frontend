@@ -464,7 +464,6 @@ const Transactions = () => (
   <>
     <Header />
     <Menu />
-    <h1>Transactions</h1>
     <PendingTransactions />
   </>
 );
