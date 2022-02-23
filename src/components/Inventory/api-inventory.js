@@ -50,4 +50,22 @@ const getMasterInv = async (location) => {
   }
 };
 
-export { getInventory, postInventory, getMasterInv };
+const postMasterInv = async (data, location) => {
+  try {
+    const response = await fetch(
+      `/api/${location}/masterInventory/updateMasterInventory`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'PUT',
+        body: JSON.stringify(data),
+      }
+    );
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export { getInventory, postInventory, getMasterInv, postMasterInv };
