@@ -15,10 +15,10 @@ const LocationManager = () => {
   }, []);
 
   return (
-    <div className="locationManager">
+    <div className="settingsBody">
       <div className="locationManagerHeader">
-        <h2>Current Locations</h2>
-        <div className="locationButton">
+        <h3>Current Locations</h3>
+        <div className="editButton">
           <p>Edit</p>
           <HiPencil />
         </div>

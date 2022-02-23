@@ -9,6 +9,7 @@ import { FaMapMarkerAlt } from 'react-icons/fa';
 import { AiFillHome } from 'react-icons/ai';
 import SettingsHeader from './SettingsHeader';
 import LocationManager from './LocationManager';
+import Profile from './Profile';
 
 const Settings = () => {
   const [selected, setSelected] = useState('Profile');
@@ -52,7 +53,8 @@ const Settings = () => {
             </Link>
           </div>
         </div>
-        <LocationManager />
+        {selected === 'Profile' && <Profile />}
+        {selected === 'Location' && <LocationManager />}
       </div>
     </div>
   );
