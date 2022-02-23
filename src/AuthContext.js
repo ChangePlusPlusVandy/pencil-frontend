@@ -92,6 +92,7 @@ export const AuthProvider = ({ children }) => {
         console.log('Changed password');
       });
   }
+
   /**
    * Updates current location.
    * @param string - name of new location.

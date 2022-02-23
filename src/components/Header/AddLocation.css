@@ -42,7 +42,7 @@
   outline: #50b9e8 auto 2px;
 }
 
-.ant-checkbox-wrapper {
+.copy-checkbox-area .ant-checkbox-wrapper {
   margin-top: 20px;
   font-size: 16px;
   color: rgba(0, 0, 0, 0.75);
