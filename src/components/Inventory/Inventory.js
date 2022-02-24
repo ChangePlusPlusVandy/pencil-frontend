@@ -165,8 +165,10 @@ const ReactList = () => {
           onClose={handleClose}
           onSubmit={addItem}
         />
-        <div className="inventoryHeader">
-          <h2>Inventory ({locationSelected ? data.length : 0})</h2>
+        <div className="tableHeaderArea">
+          <h1 className="tableHeaderTitle">
+            Inventory ({locationSelected ? data.length : 0})
+          </h1>
           {locationSelected && (
             <>
               <div className="inventoryButton">Print Inventory</div>
@@ -191,38 +193,38 @@ const ReactList = () => {
             Save
           </button>
         </div>
-      </div>
-      <div className="itemContainer">
-        {inventory === 'Active' ? (
-          <div>
-            <div className="dragList">
-              <div className="containerHeader">
-                <div className="headerName">Item Name</div>
-                <div className="headerItemLimit">Item Limit</div>
+        <div className="itemContainer">
+          {inventory === 'Active' ? (
+            <div>
+              <div className="dragList">
+                <div className="containerHeader">
+                  <div className="headerName">Item Name</div>
+                  <div className="headerItemLimit">Item Limit</div>
+                </div>
               </div>
+              <ReactDragListView {...dragProps}>
+                <ul className="dragList">
+                  {data.map((item, index) => (
+                    <Item
+                      key={item.itemName}
+                      number={index}
+                      name={item.itemName}
+                      limit={item.maxLimit}
+                      inventory={data}
+                      updateInventory={handleItemChange}
+                      handleDelete={handleDelete}
+                    />
+                  ))}
+                </ul>
+              </ReactDragListView>
             </div>
-            <ReactDragListView {...dragProps}>
-              <ul className="dragList">
-                {data.map((item, index) => (
-                  <Item
-                    key={item.itemName}
-                    number={index}
-                    name={item.itemName}
-                    limit={item.maxLimit}
-                    inventory={data}
-                    updateInventory={handleItemChange}
-                    handleDelete={handleDelete}
-                  />
-                ))}
-              </ul>
-            </ReactDragListView>
-          </div>
-        ) : (
-          <MasterInventory
-            data={masterInventoryData}
-            setData={setMasterInventoryData}
-          />
-        )}
+          ) : (
+            <MasterInventory
+              data={masterInventoryData}
+              setData={setMasterInventoryData}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

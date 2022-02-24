@@ -3,7 +3,7 @@ body {
   height: 100%;
 }
 
-.transactions {
+.transactionsContainer {
   margin: auto 7em;
   height: 65vh;
 }
@@ -83,11 +83,12 @@ th.ant-table-cell::before {
   font-style: bold;
 }
 
-.transactionTitle {
+.tableHeaderTitle {
   font-family: Roboto;
   font-style: bold;
   font-weight: 500;
   font-size: 32px;
+  margin-bottom: 0;
 }
 
 .borderlessButton {
@@ -143,10 +144,11 @@ th.ant-table-cell::before {
   text-decoration: underline;
 }
 
-.titleArea {
+.tableHeaderArea {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 1rem 0;
 }
 
 .bigTable {
@@ -154,7 +156,7 @@ th.ant-table-cell::before {
   background: white;
 }
 
-.titleArea .ant-dropdown-link {
+.tableHeaderArea .ant-dropdown-link {
   color: #000000;
   display: flex;
   align-items: center;
@@ -170,21 +172,21 @@ th.ant-table-cell::before {
   background-color: white;
 }
 
-.titleArea .ant-dropdown-link:hover {
+.tableHeaderArea .ant-dropdown-link:hover {
   cursor: pointer;
 }
 
-.titleArea .ant-dropdown-open {
+.tableHeaderArea .ant-dropdown-open {
   border-color: #71c3e7;
   border-radius: 20px 20px 0px 0px;
   border-bottom: none;
 }
 
-.titleArea .ant-dropdown-open > .dropdown_arrow {
+.tableHeaderArea .ant-dropdown-open > .dropdown_arrow {
   transform: rotate(180deg);
 }
 
-.titleArea .ant-dropdown-link > .dropdown_arrow {
+.tableHeaderArea .ant-dropdown-link > .dropdown_arrow {
   transition: all 0.3s ease-in-out;
 }
 

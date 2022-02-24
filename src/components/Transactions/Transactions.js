@@ -371,9 +371,9 @@ const PendingTransactions = () => {
   };
 
   return (
-    <div className="transactions">
-      <div className="titleArea">
-        <h1 className="transactionTitle">Transactions</h1>
+    <div className="transactionsContainer">
+      <div className="tableHeaderArea">
+        <h1 className="tableHeaderTitle">Transactions</h1>
         <button
           type="button"
           className="borderlessButton"

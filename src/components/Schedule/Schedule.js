@@ -1,16 +1,20 @@
-import React, { useState, Component, useEffect } from 'react';
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useState, useEffect } from 'react';
 import { AiFillPrinter } from 'react-icons/ai';
+import { Dropdown } from 'antd';
+import { FaChevronDown } from 'react-icons/fa';
 import { getSchedules } from './api-schedule';
-
 import Menu from '../Menu/Menu';
 import Header from '../Header/Header';
 import './Schedule.css';
 import 'antd/dist/antd.css';
-import ScheduleDropdown from './ScheduleDropdown';
 
 const Schedule = () => {
   const [scheduleData, setScheduleData] = useState([]);
   const [filter, setFilter] = useState('Today');
+  const [loadedData, setLoadedData] = useState([]);
 
   // TEMP: Dummy data for schedule
   useEffect(() => {
@@ -86,16 +90,40 @@ const Schedule = () => {
     return finalTime;
   };
 
+  const changeLoadedData = (event) => {
+    // TODO: Change this to use the filter
+    setFilter(event.target.innerText);
+  };
+
+  const menu = (
+    <div className="dropdown_menu_transaction">
+      <a onClick={changeLoadedData}>Today</a>
+      <a onClick={changeLoadedData}>Upcoming</a>
+      <a onClick={changeLoadedData}>Past</a>
+    </div>
+  );
+
   return (
     <div>
       <Header />
       <Menu />
       <div className="scheduleContainer">
-        <div className="scheduleHeader">
-          <h2 className="bold">Schedule ({scheduleData.length})</h2>
+        <div className="tableHeaderArea">
+          <h2 className="tableHeaderTitle">Schedule ({scheduleData.length})</h2>
           <div className="scheduleButton">Print Schedule</div>
           <AiFillPrinter />
           {/* <ScheduleDropdown className="schedule-dropdown" onChange={setFilter} /> */}
+          <div className="dropdown">
+            <Dropdown overlay={menu} trigger={['click']}>
+              <a
+                className="ant-dropdown-link"
+                onClick={(e) => e.preventDefault()}
+              >
+                {filter}
+                <FaChevronDown className="dropdown_arrow" />
+              </a>
+            </Dropdown>
+          </div>
         </div>
         <table className="itemContainer">
           <tr className="scheduleItem" id="headerContainer">

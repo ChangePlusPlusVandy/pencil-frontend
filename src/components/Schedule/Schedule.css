@@ -1,17 +1,15 @@
 .scheduleContainer {
-  width: 100vw;
-  padding: 0 10vw;
-  font-size: 14px;
-  font-family: 'Roboto';
+  margin: auto 7em;
+  height: 65vh;
 }
 
 .scheduleHeader {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: baseline;
 }
 
-.inventoryHeader {
+.scheduleHeader {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -42,7 +40,7 @@
 
 .scheduleItemContainer {
   width: 100%;
-  min-height: 50vh;
+  min-height: 65vh;
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -87,18 +85,17 @@
   margin-bottom: 0;
 }
 
-
 .itemCell {
   width: 25%;
 }
 
 .timeCell {
-  width: 100%
+  width: 100%;
 }
 
 .cellText {
   margin-left: 0;
-  margin-right:50%;
+  margin-right: 50%;
 }
 
 .scheduleItem div {
@@ -119,7 +116,6 @@
   background-color: #ffffff!;
   color: #ffffff;
 }
-
 
 .schedule-dropdown {
   border-color: #71c3e7;
