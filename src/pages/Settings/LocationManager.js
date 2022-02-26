@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { HiPencil } from 'react-icons/hi';
-import { getAllLocations } from '../Header/api-locations';
+import { getAllLocations } from '../../components/Header/api-locations';
 
 const LocationManager = () => {
   const [locations, setLocations] = useState([]);
