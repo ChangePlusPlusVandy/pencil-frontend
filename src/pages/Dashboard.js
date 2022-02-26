@@ -1,12 +1,7 @@
 import React from 'react';
-import Menu from './Menu/Menu';
-import Header from './Header/Header';
 
-const Dashboard = () => (
-  <div>
-    <Header />
-    <Menu />
-  </div>
-);
+import PageContainer from '../components/PageContainer/PageContainer';
+
+const Dashboard = () => <PageContainer />;
 
 export default Dashboard;

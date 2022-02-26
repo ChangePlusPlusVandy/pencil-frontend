@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Header from '../Header/Header';
 import Menu from '../Menu/Menu';
 
 const PageContainer = ({ children }) => (
   <>
-    {/* <Header /> */}
+    <Header />
     <Menu />
     <div className="pageContainer">{children}</div>
   </>
