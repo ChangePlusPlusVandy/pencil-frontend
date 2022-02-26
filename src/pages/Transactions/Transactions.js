@@ -191,6 +191,7 @@ const PendingTransactions = () => {
         itemName2 = items[i + 1].itemName;
       }
       let itemsTaken2 = '';
+
       if (items[i + 1]) {
         itemsTaken2 = String(items[i + 1].itemCount);
       }
@@ -205,27 +206,29 @@ const PendingTransactions = () => {
     return formattedData;
   };
 
-  const expandedRowRender = (record) => {
-    const itemColumns = [
-      { title: 'Item', dataIndex: 'itemName1', key: 'itemName1' },
-      { title: 'Qty', dataIndex: 'itemsTaken1', key: 'itemsTaken1' },
-      { title: 'Item', dataIndex: 'itemName2', key: 'itemName2' },
-      { title: 'Qty', dataIndex: 'itemsTaken2', key: 'itemsTaken2' },
-    ];
-
-    return (
-      <Table
-        columns={itemColumns}
-        dataSource={record.childNodes}
-        pagination={false}
-        className="expandedData"
-      />
-    );
-  };
+  const expandedRowRender = (record) => (
+    <table className="expandedData">
+      <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Item</th>
+        <th>Qty</th>
+      </tr>
+      {record.childNodes.map((item) => (
+        <tr>
+          <td>{item.itemName1}</td>
+          <td>{item.itemsTaken1}</td>
+          <td>{item.itemName2}</td>
+          <td>{item.itemsTaken2}</td>
+        </tr>
+      ))}
+    </table>
+  );
 
   const formatData = (transactions, status) => {
     const formattedData = [];
     for (let i = 0; i < transactions.length; i += 1) {
+      console.log(transactions[i].items);
       // eslint-disable-next-line no-loop-func
       getTeacherByID(getCurrentLocation(), transactions[i].teacherId).then(
         (teacher) => {

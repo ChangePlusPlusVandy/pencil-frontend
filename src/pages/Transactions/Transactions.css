@@ -218,9 +218,6 @@ th.ant-table-cell::before {
   margin-left: auto;
 }
 
-.expandedData {
-}
-
 .load-more {
   display: flex;
   justify-content: center;
@@ -239,4 +236,42 @@ th.ant-table-cell::before {
 
 .load-more:hover {
   background-color: #50b9e8;
+}
+
+.ant-table-expanded-row .ant-table-cell {
+  position: relative;
+  top: -30px;
+  background-color: #f6f6f6;
+  margin: 0;
+  padding-top: 0;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.expandedData{
+  margin: 0;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  box-sizing: border-box;
+}
+
+.expandedData th {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  border-top: 1px solid rgba(0, 0, 0, 0.25);
+  padding: 10px 0;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.expandedData td {
+  padding: 0;
+  margin: 0;
+}
+
+.expandedData td, .expandedData th {
+  padding-left: 100px;
+}
+
+.expandedData tr {
+  margin: 0;
+  padding: 0;
 }
