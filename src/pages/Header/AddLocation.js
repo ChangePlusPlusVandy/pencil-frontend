@@ -10,6 +10,7 @@ const AddLocation = ({ show, onClose }) => {
   if (!show) return null;
 
   const onSubmit = (e, formInfo) => {
+    console.log('THIS IS THE FORM INFO ', formInfo);
     e.preventDefault();
     console.log('Adding location: ', formInfo);
     createNewLocation(formInfo).then((res) => {
