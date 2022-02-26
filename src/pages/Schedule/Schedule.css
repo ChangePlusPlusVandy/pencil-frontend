@@ -1,8 +1,3 @@
-.scheduleContainer {
-  margin: auto 7em;
-  height: 65vh;
-}
-
 .scheduleHeader {
   display: flex;
   flex-direction: row;
