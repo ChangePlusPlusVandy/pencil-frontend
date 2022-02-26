@@ -155,7 +155,7 @@ const ReactList = () => {
   }, []);
 
   return (
-    <div className="inventoryContainer">
+    <>
       <ItemPopup
         show={isAddItemVisible}
         onClose={handleClose}
@@ -221,7 +221,7 @@ const ReactList = () => {
           />
         )}
       </div>
-    </div>
+    </>
   );
 };
 
