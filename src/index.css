@@ -1,21 +1,21 @@
 @font-face {
   font-family: 'Bitter';
   src: local('Bitter'),
-    url('./fonts/Bitter/static/Bitter-Regular.ttf') format('truetype');
+    url('./assets/fonts/Bitter/static/Bitter-Regular.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Bitter';
   font-weight: medium;
   src: local('Bitter'),
-    url('./fonts/Bitter/static/Bitter-Medium.ttf') format('truetype');
+    url('./assets/fonts/Bitter/static/Bitter-Medium.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Roboto';
   font-weight: normal;
   src: local('Roboto'),
-    url('./fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+    url('./assets/fonts/Roboto/Roboto-Regular.ttf') format('truetype');
 }
 
 @font-face {
@@ -23,7 +23,7 @@
   /* font-style: normal; */
   font-weight: 200;
   src: local('Roboto'),
-    url('./fonts/Roboto/Roboto-Light.ttf') format('truetype');
+    url('./assets/fonts/Roboto/Roboto-Light.ttf') format('truetype');
 }
 
 @font-face {
@@ -31,7 +31,7 @@
   /* font-style: normal; */
   font-weight: 400;
   src: local('Roboto'),
-    url('./fonts/Roboto/Roboto-Light.ttf') format('truetype');
+    url('./assets/fonts/Roboto/Roboto-Light.ttf') format('truetype');
 }
 
 @font-face {
@@ -39,7 +39,7 @@
   font-style: bold;
   font-weight: 400;
   src: local('Roboto'),
-    url('./fonts/Roboto/Roboto-Medium.ttf') format('truetype');
+    url('./assets/fonts/Roboto/Roboto-Medium.ttf') format('truetype');
 }
 
 @font-face {
@@ -47,14 +47,15 @@
   /* font-style: normal; */
   font-weight: 500;
   src: local('Roboto'),
-    url('./fonts/Roboto/Roboto-Medium.ttf') format('truetype');
+    url('./assets/fonts/Roboto/Roboto-Medium.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Roboto';
   font-weight: 500;
   font-style: bold;
-  src: local('Roboto'), url('./fonts/Roboto/Roboto-Bold.ttf') format('truetype');
+  src: local('Roboto'),
+    url('./assets/fonts/Roboto/Roboto-Bold.ttf') format('truetype');
 }
 
 html,

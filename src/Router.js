@@ -1,18 +1,18 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import PrivateRoute from './components/PrivateRoute';
+import PrivateRoute from './pages/PrivateRoute';
 
 // Routes
-import Login from './components/Auth/Login';
-import Register from './components/Auth/Register';
-import Profile from './components/Auth/Profile';
-import ForgotPassword from './components/Auth/ForgotPassword';
-import Dashboard from './components/Dashboard';
-import Inventory from './components/Inventory/Inventory';
-import Transactions from './components/Transactions/Transactions';
-import Schedule from './components/Schedule/Schedule';
-import Settings from './components/Settings/Settings';
-import Reports from './components/Reports/Reports';
+import Login from './pages/Auth/Login';
+import Register from './pages/Auth/Register';
+import Profile from './pages/Auth/Profile';
+import ForgotPassword from './pages/Auth/ForgotPassword';
+import Dashboard from './pages/Dashboard';
+import Inventory from './pages/Inventory/Inventory';
+import Transactions from './pages/Transactions/Transactions';
+import Schedule from './pages/Schedule/Schedule';
+import Settings from './pages/Settings/Settings';
+import Reports from './pages/Reports/Reports';
 
 /**
  * Router for dashboard.

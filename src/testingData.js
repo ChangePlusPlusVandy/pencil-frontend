@@ -1,4 +1,4 @@
-import { printForm } from './printForm.js';
+import printForm from './printForm';
 
 const dummyData = [
   {

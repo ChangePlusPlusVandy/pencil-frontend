@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import PencilLogo from '../../img/pencil-logo-crop.png';
+import PencilLogo from '../../assets/pencil-logo-crop.png';
 
 import { useAuth } from '../../AuthContext';
 

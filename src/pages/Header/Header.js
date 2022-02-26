@@ -1,7 +1,7 @@
 import React from 'react';
 import './Header.css';
 import { useHistory } from 'react-router-dom';
-import PencilLogo from '../../img/pencil-logo-crop.png';
+import PencilLogo from '../../assets/pencil-logo-crop.png';
 
 import HeaderDropdown from './HeaderDropdown';
 import LocationDropdown from './LocationDropdown';

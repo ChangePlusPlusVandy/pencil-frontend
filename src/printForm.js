@@ -13,7 +13,7 @@ import {
   TextRun,
   ImageRun,
 } from 'docx';
-import LPPencil from './img/LPPencil.jpg';
+import LPPencil from './assets/LPPencil.jpg';
 
 function sortFunction(a, b) {
   if (a.itemOrder < b.itemOrder) {
