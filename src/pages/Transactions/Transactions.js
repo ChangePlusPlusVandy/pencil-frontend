@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import { FaChevronDown, FaChevronUp, FaCheck } from 'react-icons/fa';
 import { ImCross } from 'react-icons/im';
 import { Table, Space, Dropdown } from 'antd';
+import { useAuth } from '../../AuthContext';
 import {
   getPendingTransactions,
   getApprovedTransactions,
@@ -14,10 +14,8 @@ import {
   denyTransaction,
   getTeacherByID,
 } from './api-transactions';
-import Header from '../Header/Header';
-import Menu from '../Menu/Menu';
+import PageContainer from '../../components/PageContainer/PageContainer';
 import './Transactions.css';
-import { useAuth } from '../../AuthContext';
 
 const dateConverter = (date) => {
   const year = date.slice(0, 4);
@@ -27,7 +25,6 @@ const dateConverter = (date) => {
   const minutes = date.slice(14, 16);
   let suffix = 'am';
 
-  // eslint-disable-next-line default-case
   switch (month) {
     case 1:
       month = 'Jan';
@@ -65,6 +62,7 @@ const dateConverter = (date) => {
     case 12:
       month = 'Dec';
       break;
+    default:
   }
 
   if (hours > 12) {
@@ -339,39 +337,47 @@ const PendingTransactions = () => {
 
   const menu = (
     <div className="dropdown_menu_transaction">
-      <a onClick={changeLoadedData}>Pending</a>
-      <a onClick={changeLoadedData}>Approved</a>
-      <a onClick={changeLoadedData}>Denied</a>
+      <button type="button" onClick={changeLoadedData}>
+        Pending
+      </button>
+      <button type="button" onClick={changeLoadedData}>
+        Approved
+      </button>
+      <button type="button" onClick={changeLoadedData}>
+        Denied
+      </button>
     </div>
   );
 
   const customExpandIcon = (fun) => {
     if (fun.expanded) {
       return (
-        <a
+        <button
+          type="button"
           style={{ color: 'black' }}
           onClick={(e) => {
             fun.onExpand(fun.record, e);
           }}
         >
           <FaChevronUp />
-        </a>
+        </button>
       );
     }
     return (
-      <a
+      <button
+        type="button"
         style={{ color: 'black' }}
         onClick={(e) => {
           fun.onExpand(fun.record, e);
         }}
       >
         <FaChevronDown />
-      </a>
+      </button>
     );
   };
 
   return (
-    <div className="transactionsContainer">
+    <>
       <div className="tableHeaderArea">
         <h1 className="tableHeaderTitle">Transactions</h1>
         <button
@@ -410,13 +416,14 @@ const PendingTransactions = () => {
         </button>
         <div className="dropdown">
           <Dropdown overlay={menu} trigger={['click']}>
-            <a
+            <button
+              type="button"
               className="ant-dropdown-link"
               onClick={(e) => e.preventDefault()}
             >
               {typeData}
               <FaChevronDown className="dropdown_arrow" />
-            </a>
+            </button>
           </Dropdown>
         </div>
       </div>
@@ -456,16 +463,14 @@ const PendingTransactions = () => {
           Load 50
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
 const Transactions = () => (
-  <>
-    <Header />
-    <Menu />
+  <PageContainer>
     <PendingTransactions />
-  </>
+  </PageContainer>
 );
 
 export default Transactions;
