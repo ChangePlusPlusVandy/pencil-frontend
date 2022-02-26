@@ -1,13 +1,3 @@
-body {
-  background-color: #e5e5e5;
-  height: 100%;
-}
-
-.transactionsContainer {
-  margin: auto 7em;
-  height: 65vh;
-}
-
 .scrollingTransactions {
   height: 100%;
   overflow-y: scroll;
@@ -202,15 +192,23 @@ th.ant-table-cell::before {
   flex-direction: column;
 }
 
-.dropdown_menu_transaction > a {
+.dropdown_menu_transaction > button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
   text-decoration: none;
+  text-align: left;
   font-family: 'Roboto', serif;
   font-size: 16px;
   color: rgba(0, 0, 0, 0.7);
   margin-bottom: 3px;
 }
 
-.dropdown_menu_transaction > a:hover {
+.dropdown_menu_transaction > button:hover {
   color: #71c3e7;
 }
 
