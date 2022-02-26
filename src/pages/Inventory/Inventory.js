@@ -12,7 +12,7 @@ import { saveAs } from 'file-saver';
 import ItemPopup from './ItemPopup';
 import Item from './Item';
 import { getInventory, postInventory, postMasterInv } from './api-inventory';
-import printForm from '../../printForm';
+import printForm from '../../utils/printForm';
 import { useAuth } from '../../AuthContext';
 import InventoryToggle from './InventoryToggle';
 import Menu from '../Menu/Menu';
