@@ -103,7 +103,6 @@ const PendingTransactions = () => {
   const approveClick = (e, transaction) => {
     e.preventDefault();
     let toDelete = {};
-    // eslint-disable-next-line no-restricted-syntax
     for (let j = 0; j < rawData.length; j += 1) {
       if (rawData[j].transactionId === transaction.key) {
         toDelete = rawData[j];
@@ -118,7 +117,6 @@ const PendingTransactions = () => {
   const denyClick = (e, transaction) => {
     e.preventDefault();
     let toDelete = {};
-    // eslint-disable-next-line no-restricted-syntax
     for (let j = 0; j < rawData.length; j += 1) {
       if (rawData[j].transactionId === transaction.key) {
         toDelete = rawData[j];
@@ -228,7 +226,6 @@ const PendingTransactions = () => {
   const formatData = (transactions, status) => {
     const formattedData = [];
     for (let i = 0; i < transactions.length; i += 1) {
-      // eslint-disable-next-line no-loop-func
       getTeacherByID(getCurrentLocation(), transactions[i].teacherId).then(
         (teacher) => {
           const formattedObj = {
@@ -298,7 +295,6 @@ const PendingTransactions = () => {
   const denySelected = () => {
     for (let i = 0; i < selectedData.length; i += 1) {
       let toDelete = {};
-      // eslint-disable-next-line no-restricted-syntax
       for (let j = 0; j < rawData.length; j += 1) {
         if (rawData[j].transactionId === selectedData[i].key) {
           toDelete = rawData[j];
@@ -315,10 +311,9 @@ const PendingTransactions = () => {
   const approveSelected = () => {
     for (let i = 0; i < selectedData.length; i += 1) {
       let toDelete = {};
-      // eslint-disable-next-line no-restricted-syntax
-      for (const transaction in rawData) {
-        if (transaction.transactionId === selectedData[i].key) {
-          toDelete = transaction;
+      for (let j = 0; j < rawData.length; j += 1) {
+        if (rawData[j].transactionId === selectedData[i].key) {
+          toDelete = rawData[j];
         }
       }
       approveTransaction(getCurrentLocation(), toDelete);
