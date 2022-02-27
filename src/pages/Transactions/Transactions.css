@@ -165,38 +165,6 @@ th.ant-table-cell::before {
   transition: all 0.3s ease-in-out;
 }
 
-.dropdown_menu_transaction {
-  background-color: white;
-  width: 170px;
-  border: 1.5px solid #71c3e7;
-  border-top: none;
-  border-radius: 0px 0px 20px 20px;
-  padding: 5px 20px;
-  margin-top: -8px;
-  display: flex;
-  flex-direction: column;
-}
-
-.dropdown_menu_transaction > button {
-  background: none;
-  color: inherit;
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit;
-  text-decoration: none;
-  text-align: left;
-  font-family: 'Roboto', serif;
-  font-size: 16px;
-  color: rgba(0, 0, 0, 0.7);
-  margin-bottom: 3px;
-}
-
-.dropdown_menu_transaction > button:hover {
-  color: #71c3e7;
-}
-
 .dropdown {
   margin-left: auto;
 }
