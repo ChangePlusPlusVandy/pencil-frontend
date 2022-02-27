@@ -1,7 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable import/no-unresolved */
-
 import React, { useState, useEffect } from 'react';
 import ReactDragListView from 'react-drag-listview/lib/index';
 import { AiFillPrinter } from 'react-icons/ai';
@@ -17,6 +13,7 @@ import { useAuth } from '../../AuthContext';
 import InventoryToggle from './InventoryToggle';
 import MasterInventory from './MasterInventory';
 import PageContainer from '../../components/PageContainer/PageContainer';
+import TableHeader from '../../components/TableHeader/TableHeader';
 
 const ReactList = () => {
   const [data, setData] = useState([]);
@@ -161,34 +158,38 @@ const ReactList = () => {
         onClose={handleClose}
         onSubmit={addItem}
       />
-      <div className="tableHeaderArea">
-        <h1 className="tableHeaderTitle">
-          Inventory ({locationSelected ? data.length : 0})
-        </h1>
-        {locationSelected && (
+      <TableHeader
+        title={`Inventory (${locationSelected ? data.length : 0})`}
+        leftArea={
           <>
-            <div className="inventoryButton">Print Inventory</div>
+            <div className="secondaryButton">Print Inventory</div>
             <AiFillPrinter />
             <div
-              className="inventoryButton"
+              className="secondaryButton"
+              role="button"
+              tabIndex={0}
               onClick={() => setAddItemVisible(true)}
+              onKeyDown={() => {}}
             >
               Add Item
             </div>
             <GrFormAdd />
           </>
-        )}
-
-        <InventoryToggle onChange={setInventory} />
-        <button
-          type="button"
-          className="saveButton"
-          id="saveButton"
-          onClick={handleSave}
-        >
-          Save
-        </button>
-      </div>
+        }
+        rightArea={
+          <>
+            <InventoryToggle onChange={setInventory} />
+            <button
+              type="button"
+              className="saveButton"
+              id="saveButton"
+              onClick={handleSave}
+            >
+              Save
+            </button>
+          </>
+        }
+      />
       <div className="itemContainer">
         {inventory === 'Active' ? (
           <div>
