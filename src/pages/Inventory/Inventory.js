@@ -205,7 +205,7 @@ const ReactList = () => {
                   <Item
                     key={item.itemName}
                     number={index}
-                    name={item.itemName}
+                    itemName={item.itemName}
                     limit={item.maxLimit}
                     inventory={data}
                     updateInventory={handleItemChange}
