@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import { FaChevronDown, FaChevronUp, FaCheck } from 'react-icons/fa';
@@ -158,8 +156,11 @@ const PendingTransactions = () => {
       render: (text, record) => (
         <div
           className="approve-button"
-          onClick={(e) => approveClick(e, record)}
           hidden={!(typeData === 'Pending')}
+          onClick={(e) => approveClick(e, record)}
+          onKeyDown={() => {}}
+          role="button"
+          tabIndex={0}
         >
           <FaCheck />
         </div>
@@ -172,8 +173,11 @@ const PendingTransactions = () => {
       render: (text, record) => (
         <div
           className="deny-button"
-          onClick={(e) => denyClick(e, record)}
           hidden={!(typeData === 'Pending')}
+          onClick={(e) => denyClick(e, record)}
+          onKeyDown={() => {}}
+          role="button"
+          tabIndex={0}
         >
           <ImCross />
         </div>
@@ -459,7 +463,14 @@ const PendingTransactions = () => {
             pagination={{ pageSize: numItems }}
           />
         )}
-        <div onClick={loadMore} className="load-more" type="button">
+        <div
+          type="button"
+          className="load-more"
+          onClick={loadMore}
+          onKeyDown={() => {}}
+          role="button"
+          tabIndex={0}
+        >
           Load 50
         </div>
       </div>
