@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ReactComponent as HamburgerIcon } from '../../assets/HamburgerIcon.svg';
@@ -33,6 +31,8 @@ const Item = ({
         className="dragIcon"
         onMouseDown={() => setActive(true)}
         onMouseUp={() => setActive(false)}
+        role="button"
+        tabIndex={0}
       >
         <HamburgerIcon className="dragIcon" />
       </div>
