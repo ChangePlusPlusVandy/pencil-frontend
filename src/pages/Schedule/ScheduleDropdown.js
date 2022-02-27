@@ -1,13 +1,9 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable import/no-unresolved */
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { Dropdown } from 'antd';
 import { FaChevronDown } from 'react-icons/fa';
 import 'antd/dist/antd.css';
 
-// eslint-disable-next-line react/prop-types
 const ScheduleDropdown = ({ onChange }) => {
   const [selected, setSelected] = useState('Today');
 
@@ -17,23 +13,34 @@ const ScheduleDropdown = ({ onChange }) => {
 
   const menu = (
     <div className="dropdown_menu">
-      <a onClick={() => setSelected('Today')}>Today</a>
-      <a onClick={() => setSelected('Upcoming')}>Upcoming</a>
-      <a onClick={setSelected('Past')}>Past</a>
+      <button type="button" onClick={() => setSelected('Today')}>
+        Today
+      </button>
+      <button type="button" onClick={() => setSelected('Upcoming')}>
+        Upcoming
+      </button>
+      <button type="button" onClick={setSelected('Past')}>
+        Past
+      </button>
     </div>
   );
 
   return (
     <Dropdown overlay={menu} trigger={['click']}>
-      <a
+      <button
+        type="button"
         className="ant-dropdown-link schedule-dropdown"
         onClick={(e) => e.preventDefault()}
       >
         {selected}
         <FaChevronDown />
-      </a>
+      </button>
     </Dropdown>
   );
+};
+
+ScheduleDropdown.propTypes = {
+  onChange: PropTypes.func.isRequired,
 };
 
 export default ScheduleDropdown;
