@@ -7,3 +7,27 @@ html {
 *:after {
   box-sizing: inherit;
 }
+
+.secondaryButton {
+  font-size: 14px;
+  margin-left: 25px;
+  margin-right: 8px;
+  opacity: 75%;
+  text-decoration: underline;
+}
+
+.secondaryButton:hover {
+  cursor: pointer;
+}
+
+.saveButton {
+  margin-left: 30px;
+  width: 105px;
+  height: 32px;
+  border-radius: 50px;
+  border-style: none;
+  background-color: #e5e5e5;
+  color: #b6b1b1;
+  font-family: 'Roboto';
+  transition: all 0.3s ease-in-out;
+}
