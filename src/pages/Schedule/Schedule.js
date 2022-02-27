@@ -109,7 +109,7 @@ const Schedule = () => {
     <PageContainer>
       <div className="tableHeaderArea">
         <h2 className="tableHeaderTitle">Schedule ({scheduleData.length})</h2>
-        <div className="scheduleButton">Print Schedule</div>
+        <div className="secondaryButton">Print Schedule</div>
         <AiFillPrinter />
         {/* <ScheduleDropdown className="schedule-dropdown" onChange={setFilter} /> */}
         <div className="dropdown">
