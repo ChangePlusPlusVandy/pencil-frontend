@@ -73,14 +73,6 @@ th.ant-table-cell::before {
   font-style: bold;
 }
 
-.tableHeaderTitle {
-  font-family: Roboto;
-  font-style: bold;
-  font-weight: 500;
-  font-size: 32px;
-  margin-bottom: 0;
-}
-
 .borderlessButton {
   padding: 0;
   border: none;
@@ -132,13 +124,6 @@ th.ant-table-cell::before {
 #wordButton {
   margin: -1em 1em 0em 3em;
   text-decoration: underline;
-}
-
-.tableHeaderArea {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 1rem 0;
 }
 
 .bigTable {
