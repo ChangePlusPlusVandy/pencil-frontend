@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Field from './FieldText';
 import './EditableText.css';
 
@@ -105,6 +105,16 @@ const EditableText = ({
       )}
     </div>
   );
+};
+
+EditableText.propTypes = {
+  widthSize: PropTypes.number.isRequired,
+  initValue: PropTypes.string.isRequired,
+  inventory: PropTypes.shape.isRequired,
+  updateInventory: PropTypes.func.isRequired,
+  keyToUpdate: PropTypes.string.isRequired,
+  isNumber: PropTypes.bool.isRequired,
+  setActive: PropTypes.func.isRequired,
 };
 
 export default EditableText;
