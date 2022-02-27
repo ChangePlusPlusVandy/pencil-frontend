@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import './InventoryToggle.css';
@@ -19,6 +17,9 @@ const InventoryToggle = ({ onChange }) => {
           selected === 'Active' ? 'active' : 'inactive'
         }`}
         onClick={() => handleClick('Active')}
+        onKeyDown={() => {}}
+        role="button"
+        tabIndex={0}
       >
         Active
       </div>
@@ -27,6 +28,9 @@ const InventoryToggle = ({ onChange }) => {
           selected === 'Master' ? 'active' : 'inactive'
         }`}
         onClick={() => handleClick('Master')}
+        onKeyDown={() => {}}
+        role="button"
+        tabIndex={0}
       >
         Master
       </div>
