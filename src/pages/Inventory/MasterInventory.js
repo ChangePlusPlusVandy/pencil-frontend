@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { getMasterInv } from './api-inventory';
@@ -41,9 +40,9 @@ const MasterInventory = ({ data, setData }) => {
   );
 };
 
-export default MasterInventory;
-
-MasterInventory.propType = {
-  data: PropTypes.array.isRequired,
+MasterInventory.propTypes = {
+  data: PropTypes.arrayOf.isRequired,
   setData: PropTypes.func.isRequired,
 };
+
+export default MasterInventory;
