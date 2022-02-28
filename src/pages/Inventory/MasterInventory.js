@@ -5,10 +5,10 @@ import { useAuth } from '../../AuthContext';
 import './MasterInventory.css';
 
 const MasterInventory = ({ data, setData }) => {
-  const { getCurrentLocation } = useAuth();
+  const { currentLocation } = useAuth();
 
   useEffect(() => {
-    getMasterInv(getCurrentLocation()).then((result) => {
+    getMasterInv(currentLocation).then((result) => {
       if (result instanceof Error) {
         // eslint-disable-next-line no-alert
         alert(

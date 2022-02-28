@@ -22,7 +22,7 @@ const ReactList = () => {
   const [changed, setChanged] = useState(false);
   const [locationSelected, setLocationSelected] = useState(false);
   const [inventory, setInventory] = useState('Active');
-  const { getCurrentLocation } = useAuth();
+  const { currentLocation } = useAuth();
 
   const generate = () => {
     const doc = printForm(data);
@@ -97,9 +97,9 @@ const ReactList = () => {
 
   const handleSave = () => {
     if (inventory === 'Active') {
-      postInventory(data, getCurrentLocation());
+      postInventory(data, currentLocation);
     } else if (inventory === 'Master') {
-      postMasterInv(masterInventoryData, getCurrentLocation());
+      postMasterInv(masterInventoryData, currentLocation);
     }
     setChanged(false);
   };
@@ -129,8 +129,7 @@ const ReactList = () => {
   }, [changed]);
 
   useEffect(() => {
-    const location = getCurrentLocation();
-    getInventory(location)
+    getInventory(currentLocation)
       .then((result) => {
         if (result instanceof Error) {
           // eslint-disable-next-line no-alert
