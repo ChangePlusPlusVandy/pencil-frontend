@@ -1,9 +1,13 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import { FaChevronDown, FaChevronUp, FaCheck } from 'react-icons/fa';
 import { ImCross } from 'react-icons/im';
 import { Table, Space, Dropdown } from 'antd';
 import { useAuth } from '../../AuthContext';
+import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import {
   getPendingTransactions,
   getApprovedTransactions,
@@ -81,7 +85,7 @@ const PendingTransactions = () => {
   const [rawData, setRawData] = useState([]);
   const [typeData, setTypeData] = useState('Pending');
   const [selectedData, setSelectedData] = useState([]);
-  const { getCurrentLocation } = useAuth();
+  const { currentLocation } = useAuth();
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -108,7 +112,7 @@ const PendingTransactions = () => {
         toDelete = rawData[j];
       }
     }
-    approveTransaction(getCurrentLocation(), toDelete);
+    approveTransaction(currentLocation, toDelete);
     const tempArr = [...loadedData];
     tempArr.splice(tempArr.indexOf(transaction), 1);
     setLoadedData(tempArr);
@@ -122,7 +126,7 @@ const PendingTransactions = () => {
         toDelete = rawData[j];
       }
     }
-    denyTransaction(getCurrentLocation(), toDelete);
+    denyTransaction(currentLocation, toDelete);
     const tempArr = [...loadedData];
     tempArr.splice(tempArr.indexOf(transaction), 1);
     setLoadedData(tempArr);
@@ -226,7 +230,7 @@ const PendingTransactions = () => {
   const formatData = (transactions, status) => {
     const formattedData = [];
     for (let i = 0; i < transactions.length; i += 1) {
-      getTeacherByID(getCurrentLocation(), transactions[i].teacherId).then(
+      getTeacherByID(currentLocation, transactions[i].teacherId).then(
         (teacher) => {
           const formattedObj = {
             date: dateConverter(transactions[i].createdAt),
@@ -255,7 +259,7 @@ const PendingTransactions = () => {
       console.log('no change');
     } else if (event.target.innerText === 'Pending') {
       setSelectedData([]);
-      getPendingTransactions(getCurrentLocation()).then((transactions) => {
+      getPendingTransactions(currentLocation).then((transactions) => {
         if (transactions.error) {
           console.log(transactions.error);
         } else {
@@ -267,7 +271,7 @@ const PendingTransactions = () => {
       });
     } else if (event.target.innerText === 'Approved') {
       setSelectedData([]);
-      getApprovedTransactions(getCurrentLocation()).then((transactions) => {
+      getApprovedTransactions(currentLocation).then((transactions) => {
         if (transactions.error) {
           console.log(transactions.error);
         } else {
@@ -279,7 +283,7 @@ const PendingTransactions = () => {
       });
     } else if (event.target.innerText === 'Denied') {
       setSelectedData([]);
-      getDeniedTransactions(getCurrentLocation()).then((transactions) => {
+      getDeniedTransactions(currentLocation).then((transactions) => {
         if (transactions.error) {
           console.log(transactions.error);
         } else {
@@ -300,7 +304,7 @@ const PendingTransactions = () => {
           toDelete = rawData[j];
         }
       }
-      denyTransaction(getCurrentLocation(), toDelete);
+      denyTransaction(currentLocation, toDelete);
       const tempArr = [...loadedData];
       tempArr.splice(tempArr.indexOf(selectedData[i]), 1);
       setLoadedData(tempArr);
@@ -316,7 +320,7 @@ const PendingTransactions = () => {
           toDelete = rawData[j];
         }
       }
-      approveTransaction(getCurrentLocation(), toDelete);
+      approveTransaction(currentLocation, toDelete);
       const tempArr = [...loadedData];
       tempArr.splice(tempArr.indexOf(selectedData[i]), 1);
       setLoadedData(tempArr);
@@ -325,7 +329,7 @@ const PendingTransactions = () => {
   };
 
   useEffect(() => {
-    getPendingTransactions(getCurrentLocation()).then((transactions) => {
+    getPendingTransactions(currentLocation).then((transactions) => {
       if (transactions.error) {
         console.log(transactions.error);
       } else {
@@ -334,18 +338,16 @@ const PendingTransactions = () => {
     });
   }, []);
 
+  const menuOptions = ['Pending', 'Approved', 'Denied'];
+
   const menu = (
-    <div className="dropdown_menu_transaction">
-      <button type="button" onClick={changeLoadedData}>
-        Pending
-      </button>
-      <button type="button" onClick={changeLoadedData}>
-        Approved
-      </button>
-      <button type="button" onClick={changeLoadedData}>
-        Denied
-      </button>
-    </div>
+    <>
+      {menuOptions
+        .filter((option) => option !== typeData)
+        .map((option) => (
+          <a onClick={changeLoadedData}>{option}</a>
+        ))}
+    </>
   );
 
   const customExpandIcon = (fun) => {
@@ -414,16 +416,7 @@ const PendingTransactions = () => {
           ✕
         </button>
         <div className="dropdown">
-          <Dropdown overlay={menu} trigger={['click']}>
-            <button
-              type="button"
-              className="ant-dropdown-link"
-              onClick={(e) => e.preventDefault()}
-            >
-              {typeData}
-              <FaChevronDown className="dropdown_arrow" />
-            </button>
-          </Dropdown>
+          <CustomDropdown title={typeData} menuItems={menu} type="small" />
         </div>
       </div>
       <div className="scrollingTransactions">
