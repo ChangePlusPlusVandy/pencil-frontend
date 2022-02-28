@@ -18,10 +18,12 @@
   display: flex;
   width: 50%;
   align-items: center;
+  justify-content: flex-start;
 }
 
 .tableHeaderRight {
   display: flex;
   width: 50%;
   align-items: center;
+  justify-content: flex-end;
 }
