@@ -9,11 +9,9 @@ import LocationDropdown from './LocationDropdown';
 import { useAuth } from '../../AuthContext';
 
 const Header = () => {
-  const { getCurrentLocation, isSettings } = useAuth();
+  const { currentLocation, isSettings } = useAuth();
   const history = useHistory();
-  const location = getCurrentLocation()
-    ? `PENCIL-${getCurrentLocation()}`
-    : 'PENCIL';
+  const location = currentLocation ? `PENCIL-${currentLocation}` : 'PENCIL';
 
   const handleNavigation = () => {
     console.log('PRESSED');

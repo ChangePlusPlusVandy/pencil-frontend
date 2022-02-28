@@ -68,14 +68,6 @@ export const AuthProvider = ({ children }) => {
   }
 
   /**
-   * Checks if user is logged in with Firebase auth and gets credentials.
-   * @return {Object} - User object.
-   * */
-  function getUser() {
-    return firebase.auth().currentUser;
-  }
-
-  /**
    * Allows user to change password with email.
    * @param {Object} {email} - Email of user.
    * @return {Object} - User object.
@@ -102,14 +94,6 @@ export const AuthProvider = ({ children }) => {
     sessionStorage.setItem('location', location);
   }
 
-  /**
-   * returns current location.
-   * @returns string - current location.
-   */
-  function getCurrentLocation() {
-    return currentLocation;
-  }
-
   useEffect(() => {
     /**
      * Updates user information in different parts of authentication.
@@ -126,24 +110,23 @@ export const AuthProvider = ({ children }) => {
   const value = useMemo(
     () => ({
       currentUser,
+      currentLocation,
       login,
       register,
       logout,
-      getUser,
       forgotPassword,
       changePassword,
       updateLocation,
-      getCurrentLocation,
     }),
     [
       currentUser,
+      currentLocation,
       login,
       register,
       logout,
-      getUser,
       forgotPassword,
+      changePassword,
       updateLocation,
-      getCurrentLocation,
     ]
   );
 
