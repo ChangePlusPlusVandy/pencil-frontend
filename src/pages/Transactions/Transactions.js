@@ -18,6 +18,7 @@ import {
 } from './api-transactions';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import './Transactions.css';
+import TableHeader from '../../components/TableHeader/TableHeader';
 
 const dateConverter = (date) => {
   const year = date.slice(0, 4);
@@ -377,48 +378,56 @@ const PendingTransactions = () => {
     );
   };
 
+  const leftItems = (
+    <>
+      <button
+        type="button"
+        className="borderlessButton"
+        id="wordButton"
+        onClick={approveSelected}
+        hidden={!selectedData.length}
+      >
+        Approve
+      </button>
+      <button
+        className="borderlessButton"
+        type="button"
+        onClick={approveSelected}
+        hidden={!selectedData.length}
+      >
+        ✓
+      </button>
+      <button
+        id="wordButton"
+        className="borderlessButton"
+        type="button"
+        onClick={denySelected}
+        hidden={!selectedData.length}
+      >
+        Deny
+      </button>
+      <button
+        className="borderlessButton"
+        type="button"
+        onClick={denySelected}
+        hidden={!selectedData.length}
+      >
+        ✕
+      </button>
+    </>
+  );
+
+  const rightItems = (
+    <CustomDropdown title={typeData} menuItems={menu} type="small" />
+  );
+
   return (
     <>
-      <div className="tableHeaderArea">
-        <h1 className="tableHeaderTitle">Transactions</h1>
-        <button
-          type="button"
-          className="borderlessButton"
-          id="wordButton"
-          onClick={approveSelected}
-          hidden={!selectedData.length}
-        >
-          Approve
-        </button>
-        <button
-          className="borderlessButton"
-          type="button"
-          onClick={approveSelected}
-          hidden={!selectedData.length}
-        >
-          ✓
-        </button>
-        <button
-          id="wordButton"
-          className="borderlessButton"
-          type="button"
-          onClick={denySelected}
-          hidden={!selectedData.length}
-        >
-          Deny
-        </button>
-        <button
-          className="borderlessButton"
-          type="button"
-          onClick={denySelected}
-          hidden={!selectedData.length}
-        >
-          ✕
-        </button>
-        <div className="dropdown">
-          <CustomDropdown title={typeData} menuItems={menu} type="small" />
-        </div>
-      </div>
+      <TableHeader
+        title="Transactions"
+        leftArea={leftItems}
+        rightArea={rightItems}
+      />
       <div className="scrollingTransactions">
         <Space align="center" style={{ marginBottom: 16 }} />
         {typeData === 'Pending' ? (

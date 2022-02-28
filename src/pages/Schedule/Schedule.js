@@ -8,6 +8,7 @@ import { getSchedules } from './api-schedule';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import 'antd/dist/antd.css';
 import './Schedule.css';
+import TableHeader from '../../components/TableHeader/TableHeader';
 
 const Schedule = () => {
   const [scheduleData, setScheduleData] = useState([]);
@@ -16,7 +17,7 @@ const Schedule = () => {
 
   useEffect(() => {
     getSchedules('Nashville').then((items) => {
-      setScheduleData(items);
+      if (items) setScheduleData(items);
     });
   }, []);
 
@@ -104,16 +105,24 @@ const Schedule = () => {
     </>
   );
 
+  const leftItems = (
+    <>
+      <div className="secondaryButton">Print Schedule</div>
+      <AiFillPrinter />
+    </>
+  );
+
+  const rightItems = (
+    <CustomDropdown title={filter} menuItems={menu} type="small" />
+  );
+
   return (
     <PageContainer>
-      <div className="tableHeaderArea">
-        <h2 className="tableHeaderTitle">Schedule ({scheduleData.length})</h2>
-        <div className="secondaryButton">Print Schedule</div>
-        <AiFillPrinter />
-        <div className="dropdown">
-          <CustomDropdown title={filter} menuItems={menu} type="small" />
-        </div>
-      </div>
+      <TableHeader
+        title="Schedule"
+        leftItems={leftItems}
+        rightItems={rightItems}
+      />
       <table className="itemContainer">
         <tr className="scheduleItem" id="headerContainer">
           <td className="headerCell">Time</td>
