@@ -1,9 +1,11 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import { AiFillPrinter } from 'react-icons/ai';
-import { FaChevronDown } from 'react-icons/fa';
-import { Dropdown } from 'antd';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import { getSchedules } from './api-schedule';
+import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import 'antd/dist/antd.css';
 import './Schedule.css';
 
@@ -12,7 +14,6 @@ const Schedule = () => {
   const [filter, setFilter] = useState('Today');
   const [loadedData, setLoadedData] = useState([]);
 
-  // TEMP: Dummy data for schedule
   useEffect(() => {
     getSchedules('Nashville').then((items) => {
       setScheduleData(items);
@@ -91,18 +92,16 @@ const Schedule = () => {
     setFilter(event.target.innerText);
   };
 
+  const menuOptions = ['Today', 'Upcoming', 'Past'];
+
   const menu = (
-    <div className="dropdown_menu_transaction">
-      <button type="button" onClick={changeLoadedData}>
-        Today
-      </button>
-      <button type="button" onClick={changeLoadedData}>
-        Upcoming
-      </button>
-      <button type="button" onClick={changeLoadedData}>
-        Past
-      </button>
-    </div>
+    <>
+      {menuOptions
+        .filter((option) => option !== filter)
+        .map((option) => (
+          <a onClick={changeLoadedData}>{option}</a>
+        ))}
+    </>
   );
 
   return (
@@ -111,18 +110,8 @@ const Schedule = () => {
         <h2 className="tableHeaderTitle">Schedule ({scheduleData.length})</h2>
         <div className="secondaryButton">Print Schedule</div>
         <AiFillPrinter />
-        {/* <ScheduleDropdown className="schedule-dropdown" onChange={setFilter} /> */}
         <div className="dropdown">
-          <Dropdown overlay={menu} trigger={['click']}>
-            <button
-              type="button"
-              className="ant-dropdown-link"
-              onClick={(e) => e.preventDefault()}
-            >
-              {filter}
-              <FaChevronDown className="dropdown_arrow" />
-            </button>
-          </Dropdown>
+          <CustomDropdown title={filter} menuItems={menu} type="small" />
         </div>
       </div>
       <table className="itemContainer">

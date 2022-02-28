@@ -131,44 +131,6 @@ th.ant-table-cell::before {
   background: white;
 }
 
-.tableHeaderArea .ant-dropdown-link {
-  color: #000000;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  border: 1.5px solid #71c3e7;
-  border-radius: 20px 20px;
-  width: 170px;
-  height: 32px;
-  font-family: 'Roboto', serif;
-  font-size: 16px;
-  transition: all 0.3s ease-in-out !important;
-  background-color: white;
-}
-
-.tableHeaderArea .ant-dropdown-link:hover {
-  cursor: pointer;
-}
-
-.tableHeaderArea .ant-dropdown-open {
-  border-color: #71c3e7;
-  border-radius: 20px 20px 0px 0px;
-  border-bottom: none;
-}
-
-.tableHeaderArea .ant-dropdown-open > .dropdown_arrow {
-  transform: rotate(180deg);
-}
-
-.tableHeaderArea .ant-dropdown-link > .dropdown_arrow {
-  transition: all 0.3s ease-in-out;
-}
-
-.dropdown {
-  margin-left: auto;
-}
-
 .expandedData {
 }
 
