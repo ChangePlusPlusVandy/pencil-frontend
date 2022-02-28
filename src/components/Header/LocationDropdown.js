@@ -1,25 +1,22 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable import/no-unresolved */
 
 import React, { useEffect, useState } from 'react';
-import { Dropdown } from 'antd';
-import { FaChevronDown } from 'react-icons/fa';
 import { TiPlus } from 'react-icons/ti';
 import { useAuth } from '../../AuthContext';
 import { getAllLocations } from './api-locations';
 import AddLocation from './AddLocation';
+import CustomDropdown from '../Dropdowns/CustomDropdown';
 import 'antd/dist/antd.css';
 
 const LocationDropdown = () => {
-  const { getCurrentLocation, updateLocation } = useAuth();
-  const [location, setLocation] = useState();
-  const [allLocations, setAllLocations] = useState([{ name: 'Location' }]);
+  const { currentLocation, updateLocation } = useAuth();
+  const [allLocations, setAllLocations] = useState([]);
   const [isAddLocationVisible, setAddLocationVisible] = useState(false);
 
   const handleClick = (e) => {
-    setLocation(e.target.innerText);
+    updateLocation(e.target.innerText);
     updateLocation(e.target.innerText);
   };
 
@@ -39,18 +36,12 @@ const LocationDropdown = () => {
         alert(
           'Something went wrong in the backend Server. Please contact the developer team.'
         );
-      } else {
-        setAllLocations(result);
-      }
+      } else if (result) setAllLocations(result);
     });
-    const currentLocation = getCurrentLocation();
-    if (currentLocation) {
-      setLocation(currentLocation);
-    }
   }, []);
 
   const menu = (
-    <div className="dropdown_menu pencil-cursor">
+    <>
       {allLocations.map((loc) => (
         <a className="pencil-cursor" onClick={handleClick}>
           {loc.name}
@@ -63,23 +54,18 @@ const LocationDropdown = () => {
       >
         Add Location <TiPlus style={{ marginLeft: '2px' }} />
       </a>
-    </div>
+    </>
   );
 
   return (
-    <div>
+    <>
       <AddLocation show={isAddLocationVisible} onClose={handleClose} />
-      <Dropdown
-        className="custom-dropdown location-dropdown pencil-cursor"
-        overlay={menu}
-        trigger={['click']}
-      >
-        <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-          {location || 'Location'}
-          <FaChevronDown className="dropdown_arrow" />
-        </a>
-      </Dropdown>
-    </div>
+      <CustomDropdown
+        title={currentLocation || 'Location'}
+        menuItems={menu}
+        type="large"
+      />
+    </>
   );
 };
 
