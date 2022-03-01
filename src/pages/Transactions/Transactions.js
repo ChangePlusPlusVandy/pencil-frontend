@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import { FaChevronDown, FaChevronUp, FaCheck } from 'react-icons/fa';
 import { ImCross } from 'react-icons/im';
-import { Table, Space, Dropdown } from 'antd';
+import { Table, Space } from 'antd';
 import { useAuth } from '../../AuthContext';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import {
@@ -84,7 +84,7 @@ const PendingTransactions = () => {
   const [numItems, setNumItems] = useState(10);
   const [loadedData, setLoadedData] = useState([]);
   const [rawData, setRawData] = useState([]);
-  const [typeData, setTypeData] = useState('Pending');
+  const [view, setView] = useState('Pending');
   const [selectedData, setSelectedData] = useState([]);
   const { currentLocation } = useAuth();
 
@@ -159,7 +159,7 @@ const PendingTransactions = () => {
       render: (text, record) => (
         <div
           className="approve-button"
-          hidden={!(typeData === 'Pending')}
+          hidden={!(view === 'Pending')}
           onClick={(e) => approveClick(e, record)}
           onKeyDown={() => {}}
           role="button"
@@ -176,7 +176,7 @@ const PendingTransactions = () => {
       render: (text, record) => (
         <div
           className="deny-button"
-          hidden={!(typeData === 'Pending')}
+          hidden={!(view === 'Pending')}
           onClick={(e) => denyClick(e, record)}
           onKeyDown={() => {}}
           role="button"
@@ -256,7 +256,7 @@ const PendingTransactions = () => {
   };
 
   const changeLoadedData = (event) => {
-    if (event.target.innerText === typeData) {
+    if (event.target.innerText === view) {
       console.log('no change');
     } else if (event.target.innerText === 'Pending') {
       setSelectedData([]);
@@ -265,7 +265,7 @@ const PendingTransactions = () => {
           console.log(transactions.error);
         } else {
           setLoadedData([]);
-          setTypeData(event.target.innerText);
+          setView(event.target.innerText);
           formatData(transactions, event.target.innerText);
           console.log('Data loaded!');
         }
@@ -277,7 +277,7 @@ const PendingTransactions = () => {
           console.log(transactions.error);
         } else {
           setLoadedData([]);
-          setTypeData(event.target.innerText);
+          setView(event.target.innerText);
           formatData(transactions, event.target.innerText);
           console.log(transactions);
         }
@@ -289,7 +289,7 @@ const PendingTransactions = () => {
           console.log(transactions.error);
         } else {
           setLoadedData([]);
-          setTypeData(event.target.innerText);
+          setView(event.target.innerText);
           formatData(transactions, event.target.innerText);
           console.log('Data loaded!');
         }
@@ -344,9 +344,9 @@ const PendingTransactions = () => {
   const menu = (
     <>
       {menuOptions
-        .filter((option) => option !== typeData)
+        .filter((option) => option !== view)
         .map((option) => (
-          <a onClick={changeLoadedData}>{option}</a>
+          <a onClick={(e) => setView(e.target.innerText)}>{option}</a>
         ))}
     </>
   );
@@ -418,7 +418,7 @@ const PendingTransactions = () => {
   );
 
   const rightItems = (
-    <CustomDropdown title={typeData} menuItems={menu} type="small" />
+    <CustomDropdown title={view} menuItems={menu} type="small" />
   );
 
   return (
@@ -430,7 +430,7 @@ const PendingTransactions = () => {
       />
       <div className="scrollingTransactions">
         <Space align="center" style={{ marginBottom: 16 }} />
-        {typeData === 'Pending' ? (
+        {view === 'Pending' ? (
           <Table
             expandIcon={(props) => customExpandIcon(props)}
             rowKey="key"

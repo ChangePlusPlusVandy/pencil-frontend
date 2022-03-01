@@ -9,11 +9,11 @@ import './CustomDropdown.css';
 import 'antd/dist/antd.css';
 
 const CustomDropdown = ({ title, menuItems, type }) => {
-  const menu = <div className="dropdown_menu pencil-cursor">{menuItems}</div>;
+  const menu = <div className="dropdown_menu">{menuItems}</div>;
 
   return (
     <Dropdown
-      className={`custom-dropdown ${type} pencil-cursor`}
+      className={`custom-dropdown ${type}`}
       overlay={menu}
       trigger={['click']}
     >

@@ -9,9 +9,10 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 5rem;
+  cursor: url('../../assets/pencil-cursor-24px.png'), auto !important;
 }
 
-.pencil-cursor {
+.header * {
   cursor: url('../../assets/pencil-cursor-24px.png'), auto !important;
 }
 
@@ -37,4 +38,3 @@
   display: flex;
   flex-direction: row;
 }
-

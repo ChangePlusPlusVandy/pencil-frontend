@@ -18,12 +18,8 @@ const HeaderDropdown = () => {
 
   const menu = (
     <>
-      <Link to="/settings" className="pencil-cursor">
-        Settings
-      </Link>
-      <a className="pencil-cursor" onClick={handleLogout}>
-        Log Out
-      </a>
+      <Link to="/settings">Settings</Link>
+      <a onClick={handleLogout}>Log Out</a>
     </>
   );
 

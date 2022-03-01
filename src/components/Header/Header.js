@@ -9,7 +9,7 @@ import LocationDropdown from './LocationDropdown';
 import { useAuth } from '../../AuthContext';
 
 const Header = () => {
-  const { currentLocation, isSettings } = useAuth();
+  const { currentLocation } = useAuth();
   const history = useHistory();
   const location = currentLocation ? `PENCIL-${currentLocation}` : 'PENCIL';
 
@@ -19,7 +19,7 @@ const Header = () => {
   };
 
   return (
-    <div className="header pencil-cursor">
+    <div className="header">
       <div
         className="header_left"
         onKeyPress={() => {}}
@@ -30,12 +30,10 @@ const Header = () => {
         <img src={PencilLogo} alt="Pencil Logo" className="header_logo" />
         <p className="header_title">{location}</p>
       </div>
-      {!isSettings && (
-        <div className="header_right">
-          <LocationDropdown />
-          <HeaderDropdown />
-        </div>
-      )}
+      <div className="header_right">
+        <LocationDropdown />
+        <HeaderDropdown />
+      </div>
     </div>
   );
 };

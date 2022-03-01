@@ -12,7 +12,7 @@ import TableHeader from '../../components/TableHeader/TableHeader';
 
 const Schedule = () => {
   const [scheduleData, setScheduleData] = useState([]);
-  const [filter, setFilter] = useState('Today');
+  const [view, setView] = useState('Today');
   const [loadedData, setLoadedData] = useState([]);
 
   useEffect(() => {
@@ -88,19 +88,14 @@ const Schedule = () => {
     return finalTime;
   };
 
-  const changeLoadedData = (event) => {
-    // TODO: Change this to use the filter
-    setFilter(event.target.innerText);
-  };
-
   const menuOptions = ['Today', 'Upcoming', 'Past'];
 
   const menu = (
     <>
       {menuOptions
-        .filter((option) => option !== filter)
+        .filter((option) => option !== view)
         .map((option) => (
-          <a onClick={changeLoadedData}>{option}</a>
+          <a onClick={(e) => setView(e.target.innerText)}>{option}</a>
         ))}
     </>
   );
@@ -113,7 +108,7 @@ const Schedule = () => {
   );
 
   const rightItems = (
-    <CustomDropdown title={filter} menuItems={menu} type="small" />
+    <CustomDropdown title={view} menuItems={menu} type="small" />
   );
 
   return (

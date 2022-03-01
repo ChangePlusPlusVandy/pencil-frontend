@@ -5,7 +5,7 @@ import PencilLogo from '../../assets/pencil-logo-crop.png';
 import { useAuth } from '../../AuthContext';
 
 const SettingsHeader = () => {
-  const { currentLocation, isSettings } = useAuth();
+  const { currentLocation } = useAuth();
   const history = useHistory();
   const location = currentLocation ? `PENCIL-${currentLocation}` : 'PENCIL';
 
@@ -15,7 +15,7 @@ const SettingsHeader = () => {
   };
 
   return (
-    <div className="header pencil-cursor">
+    <div className="header">
       <div
         className="header_left"
         onKeyPress={() => {}}

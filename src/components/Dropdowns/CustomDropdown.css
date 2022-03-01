@@ -21,6 +21,7 @@
 .custom-dropdown.small {
   width: 170px;
   height: 32px;
+  cursor: pointer;
 }
 
 .custom-dropdown:hover {

@@ -43,15 +43,10 @@ const LocationDropdown = () => {
   const menu = (
     <>
       {allLocations.map((loc) => (
-        <a className="pencil-cursor" onClick={handleClick}>
-          {loc.name}
-        </a>
+        <a onClick={handleClick}>{loc.name}</a>
       ))}
       <div className="horizontal_line" />
-      <a
-        className="addLocationButton pencil-cursor"
-        onClick={handleAddLocation}
-      >
+      <a className="addLocationButton" onClick={handleAddLocation}>
         Add Location <TiPlus style={{ marginLeft: '2px' }} />
       </a>
     </>
