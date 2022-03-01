@@ -107,6 +107,7 @@ const PendingTransactions = () => {
 
   const approveClick = (e, transaction) => {
     e.preventDefault();
+    console.log(transaction);
     let toDelete = {};
     for (let j = 0; j < rawData.length; j += 1) {
       if (rawData[j].transactionId === transaction.key) {
@@ -115,7 +116,12 @@ const PendingTransactions = () => {
     }
     approveTransaction(currentLocation, toDelete);
     const tempArr = [...loadedData];
-    tempArr.splice(tempArr.indexOf(transaction), 1);
+    const funnyObj = transaction;
+    funnyObj.status = 'Approved';
+    funnyObj.isDisabled = true;
+    e.target.style.visibility = 'hidden';
+    tempArr[tempArr.indexOf(transaction)] = funnyObj;
+    setLoadedData([]);
     setLoadedData(tempArr);
   };
 
@@ -129,7 +135,12 @@ const PendingTransactions = () => {
     }
     denyTransaction(currentLocation, toDelete);
     const tempArr = [...loadedData];
-    tempArr.splice(tempArr.indexOf(transaction), 1);
+    const funnyObj = transaction;
+    funnyObj.status = 'Denied';
+    funnyObj.isDisabled = true;
+    e.target.style.visibility = 'hidden';
+    tempArr[tempArr.indexOf(transaction)] = funnyObj;
+    setLoadedData([]);
     setLoadedData(tempArr);
   };
 
@@ -159,7 +170,7 @@ const PendingTransactions = () => {
       render: (text, record) => (
         <div
           className="approve-button"
-          hidden={!(view === 'Pending')}
+          hidden={record.isDisabled}
           onClick={(e) => approveClick(e, record)}
           onKeyDown={() => {}}
           role="button"
@@ -176,7 +187,7 @@ const PendingTransactions = () => {
       render: (text, record) => (
         <div
           className="deny-button"
-          hidden={!(view === 'Pending')}
+          hidden={record.isDisabled}
           onClick={(e) => denyClick(e, record)}
           onKeyDown={() => {}}
           role="button"
@@ -243,6 +254,7 @@ const PendingTransactions = () => {
             childNodes: formatItemData(transactions[i].items),
             status: capitalizeFirstLetter(status),
             key: transactions[i].transactionId,
+            isDisabled: !(status === 'Pending'),
           };
           formattedData.push(formattedObj);
           if (i + 1 === transactions.length) {
@@ -303,7 +315,7 @@ const PendingTransactions = () => {
     }
   };
 
-  const denySelected = () => {
+  const denySelected = (e) => {
     for (let i = 0; i < selectedData.length; i += 1) {
       let toDelete = {};
       for (let j = 0; j < rawData.length; j += 1) {
@@ -313,13 +325,18 @@ const PendingTransactions = () => {
       }
       denyTransaction(currentLocation, toDelete);
       const tempArr = [...loadedData];
-      tempArr.splice(tempArr.indexOf(selectedData[i]), 1);
+      const funnyObj = selectedData[i];
+      funnyObj.status = 'Denied';
+      funnyObj.isDisabled = true;
+      e.target.style.visibility = 'hidden';
+      tempArr[tempArr.indexOf(selectedData[i])] = funnyObj;
+      setLoadedData([]);
       setLoadedData(tempArr);
     }
     setSelectedData([]);
   };
 
-  const approveSelected = () => {
+  const approveSelected = (e) => {
     for (let i = 0; i < selectedData.length; i += 1) {
       let toDelete = {};
       for (let j = 0; j < rawData.length; j += 1) {
@@ -329,7 +346,11 @@ const PendingTransactions = () => {
       }
       approveTransaction(currentLocation, toDelete);
       const tempArr = [...loadedData];
-      tempArr.splice(tempArr.indexOf(selectedData[i]), 1);
+      const funnyObj = selectedData[i];
+      funnyObj.status = 'Approved';
+      funnyObj.isDisabled = true;
+      tempArr[tempArr.indexOf(selectedData[i])] = funnyObj;
+      setLoadedData([]);
       setLoadedData(tempArr);
     }
     setSelectedData([]);
