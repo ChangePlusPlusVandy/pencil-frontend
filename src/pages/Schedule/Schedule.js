@@ -3,23 +3,21 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import { AiFillPrinter } from 'react-icons/ai';
-import { Dropdown } from 'antd';
-import { FaChevronDown } from 'react-icons/fa';
+import PageContainer from '../../components/PageContainer/PageContainer';
 import { getSchedules } from './api-schedule';
-import Menu from '../Menu/Menu';
-import Header from '../Header/Header';
-import './Schedule.css';
+import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import 'antd/dist/antd.css';
+import './Schedule.css';
+import TableHeader from '../../components/TableHeader/TableHeader';
 
 const Schedule = () => {
   const [scheduleData, setScheduleData] = useState([]);
-  const [filter, setFilter] = useState('Today');
+  const [view, setView] = useState('Today');
   const [loadedData, setLoadedData] = useState([]);
 
-  // TEMP: Dummy data for schedule
   useEffect(() => {
     getSchedules('Nashville').then((items) => {
-      setScheduleData(items);
+      if (items) setScheduleData(items);
     });
   }, []);
 
@@ -28,7 +26,6 @@ const Schedule = () => {
     let month = parseInt(date.slice(5, 7), 10);
     const day = date.slice(8, 10);
 
-    // eslint-disable-next-line default-case
     switch (month) {
       case 1:
         month = 'Jan';
@@ -66,6 +63,7 @@ const Schedule = () => {
       case 12:
         month = 'Dec';
         break;
+      default:
     }
     const finalDate = `${day} ${month} ${year}`;
     return finalDate;
@@ -90,73 +88,67 @@ const Schedule = () => {
     return finalTime;
   };
 
-  const changeLoadedData = (event) => {
-    // TODO: Change this to use the filter
-    setFilter(event.target.innerText);
-  };
+  const menuOptions = ['Today', 'Upcoming', 'Past'];
 
   const menu = (
-    <div className="dropdown_menu_transaction">
-      <a onClick={changeLoadedData}>Today</a>
-      <a onClick={changeLoadedData}>Upcoming</a>
-      <a onClick={changeLoadedData}>Past</a>
-    </div>
+    <>
+      {menuOptions
+        .filter((option) => option !== view)
+        .map((option) => (
+          <a onClick={(e) => setView(e.target.innerText)}>{option}</a>
+        ))}
+    </>
+  );
+
+  const leftItems = (
+    <>
+      <div className="secondaryButton">Print Schedule</div>
+      <AiFillPrinter />
+    </>
+  );
+
+  const rightItems = (
+    <CustomDropdown title={view} menuItems={menu} type="small" />
   );
 
   return (
-    <div>
-      <Header />
-      <Menu />
-      <div className="scheduleContainer">
-        <div className="tableHeaderArea">
-          <h2 className="tableHeaderTitle">Schedule ({scheduleData.length})</h2>
-          <div className="scheduleButton">Print Schedule</div>
-          <AiFillPrinter />
-          {/* <ScheduleDropdown className="schedule-dropdown" onChange={setFilter} /> */}
-          <div className="dropdown">
-            <Dropdown overlay={menu} trigger={['click']}>
-              <a
-                className="ant-dropdown-link"
-                onClick={(e) => e.preventDefault()}
-              >
-                {filter}
-                <FaChevronDown className="dropdown_arrow" />
-              </a>
-            </Dropdown>
-          </div>
-        </div>
-        <table className="itemContainer">
-          <tr className="scheduleItem" id="headerContainer">
-            <td className="headerCell">Time</td>
-            <td className="headerCell">Name</td>
-            <td className="headerCell">Pencil ID</td>
-            <td className="headerCell">School</td>
-          </tr>
-          <tr>
-            {scheduleData.map((item, index) => {
-              // const createdAt = new Date(item.created_at);
-              const fullName = item.name;
-              const phoneNumber = item.phone;
-              const schoolName = item.school;
-              const date = getDate(item.start_time);
-              const time = getTime(item.end_time, item.end_time);
-              const pencilId = item.teacherId;
-              return (
-                <div className="scheduleItem">
-                  <div className="timeBox">
-                    <td className="timeCell">{date}</td>
-                    <td className="timeCell bold">{time}</td>
-                  </div>
-                  <td className="itemCell bold">{fullName}</td>
-                  <td className="itemCell">{pencilId}</td>
-                  <td className="itemCell">{schoolName}</td>
+    <PageContainer>
+      <TableHeader
+        title="Schedule"
+        leftItems={leftItems}
+        rightItems={rightItems}
+      />
+      <table className="itemContainer">
+        <tr className="scheduleItem" id="headerContainer">
+          <td className="headerCell">Time</td>
+          <td className="headerCell">Name</td>
+          <td className="headerCell">Pencil ID</td>
+          <td className="headerCell">School</td>
+        </tr>
+        <tr>
+          {scheduleData.map((item, index) => {
+            // const createdAt = new Date(item.created_at);
+            const fullName = item.name;
+            const phoneNumber = item.phone;
+            const schoolName = item.school;
+            const date = getDate(item.start_time);
+            const time = getTime(item.end_time, item.end_time);
+            const pencilId = item.teacherId;
+            return (
+              <div className="scheduleItem">
+                <div className="timeBox">
+                  <td className="timeCell">{date}</td>
+                  <td className="timeCell bold">{time}</td>
                 </div>
-              );
-            })}
-          </tr>
-        </table>
-      </div>
-    </div>
+                <td className="itemCell bold">{fullName}</td>
+                <td className="itemCell">{pencilId}</td>
+                <td className="itemCell">{schoolName}</td>
+              </div>
+            );
+          })}
+        </tr>
+      </table>
+    </PageContainer>
   );
 };
 export default Schedule;

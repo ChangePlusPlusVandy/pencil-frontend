@@ -5,7 +5,9 @@ import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import { FaChevronDown, FaChevronUp, FaCheck } from 'react-icons/fa';
 import { ImCross } from 'react-icons/im';
-import { Table, Space, Dropdown } from 'antd';
+import { Table, Space } from 'antd';
+import { useAuth } from '../../AuthContext';
+import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import {
   getPendingTransactions,
   getApprovedTransactions,
@@ -14,10 +16,9 @@ import {
   denyTransaction,
   getTeacherByID,
 } from './api-transactions';
-import Header from '../Header/Header';
-import Menu from '../Menu/Menu';
+import PageContainer from '../../components/PageContainer/PageContainer';
 import './Transactions.css';
-import { useAuth } from '../../AuthContext';
+import TableHeader from '../../components/TableHeader/TableHeader';
 
 const dateConverter = (date) => {
   const year = date.slice(0, 4);
@@ -27,7 +28,6 @@ const dateConverter = (date) => {
   const minutes = date.slice(14, 16);
   let suffix = 'am';
 
-  // eslint-disable-next-line default-case
   switch (month) {
     case 1:
       month = 'Jan';
@@ -65,6 +65,7 @@ const dateConverter = (date) => {
     case 12:
       month = 'Dec';
       break;
+    default:
   }
 
   if (hours > 12) {
@@ -83,9 +84,9 @@ const PendingTransactions = () => {
   const [numItems, setNumItems] = useState(10);
   const [loadedData, setLoadedData] = useState([]);
   const [rawData, setRawData] = useState([]);
-  const [typeData, setTypeData] = useState('Pending');
+  const [view, setView] = useState('Pending');
   const [selectedData, setSelectedData] = useState([]);
-  const { getCurrentLocation } = useAuth();
+  const { currentLocation } = useAuth();
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -107,13 +108,12 @@ const PendingTransactions = () => {
   const approveClick = (e, transaction) => {
     e.preventDefault();
     let toDelete = {};
-    // eslint-disable-next-line no-restricted-syntax
     for (let j = 0; j < rawData.length; j += 1) {
       if (rawData[j].transactionId === transaction.key) {
         toDelete = rawData[j];
       }
     }
-    approveTransaction(getCurrentLocation(), toDelete);
+    approveTransaction(currentLocation, toDelete);
     const tempArr = [...loadedData];
     tempArr.splice(tempArr.indexOf(transaction), 1);
     setLoadedData(tempArr);
@@ -122,13 +122,12 @@ const PendingTransactions = () => {
   const denyClick = (e, transaction) => {
     e.preventDefault();
     let toDelete = {};
-    // eslint-disable-next-line no-restricted-syntax
     for (let j = 0; j < rawData.length; j += 1) {
       if (rawData[j].transactionId === transaction.key) {
         toDelete = rawData[j];
       }
     }
-    denyTransaction(getCurrentLocation(), toDelete);
+    denyTransaction(currentLocation, toDelete);
     const tempArr = [...loadedData];
     tempArr.splice(tempArr.indexOf(transaction), 1);
     setLoadedData(tempArr);
@@ -160,8 +159,11 @@ const PendingTransactions = () => {
       render: (text, record) => (
         <div
           className="approve-button"
+          hidden={!(view === 'Pending')}
           onClick={(e) => approveClick(e, record)}
-          hidden={!(typeData === 'Pending')}
+          onKeyDown={() => {}}
+          role="button"
+          tabIndex={0}
         >
           <FaCheck />
         </div>
@@ -174,8 +176,11 @@ const PendingTransactions = () => {
       render: (text, record) => (
         <div
           className="deny-button"
+          hidden={!(view === 'Pending')}
           onClick={(e) => denyClick(e, record)}
-          hidden={!(typeData === 'Pending')}
+          onKeyDown={() => {}}
+          role="button"
+          tabIndex={0}
         >
           <ImCross />
         </div>
@@ -230,7 +235,7 @@ const PendingTransactions = () => {
     for (let i = 0; i < transactions.length; i += 1) {
       console.log(transactions[i].items);
       // eslint-disable-next-line no-loop-func
-      getTeacherByID(getCurrentLocation(), transactions[i].teacherId).then(
+      getTeacherByID(currentLocation, transactions[i].teacherId).then(
         (teacher) => {
           const formattedObj = {
             date: dateConverter(transactions[i].createdAt),
@@ -255,40 +260,40 @@ const PendingTransactions = () => {
   };
 
   const changeLoadedData = (event) => {
-    if (event.target.innerText === typeData) {
+    if (event.target.innerText === view) {
       console.log('no change');
     } else if (event.target.innerText === 'Pending') {
       setSelectedData([]);
-      getPendingTransactions(getCurrentLocation()).then((transactions) => {
+      getPendingTransactions(currentLocation).then((transactions) => {
         if (transactions.error) {
           console.log(transactions.error);
         } else {
           setLoadedData([]);
-          setTypeData(event.target.innerText);
+          setView(event.target.innerText);
           formatData(transactions, event.target.innerText);
           console.log('Data loaded!');
         }
       });
     } else if (event.target.innerText === 'Approved') {
       setSelectedData([]);
-      getApprovedTransactions(getCurrentLocation()).then((transactions) => {
+      getApprovedTransactions(currentLocation).then((transactions) => {
         if (transactions.error) {
           console.log(transactions.error);
         } else {
           setLoadedData([]);
-          setTypeData(event.target.innerText);
+          setView(event.target.innerText);
           formatData(transactions, event.target.innerText);
           console.log(transactions);
         }
       });
     } else if (event.target.innerText === 'Denied') {
       setSelectedData([]);
-      getDeniedTransactions(getCurrentLocation()).then((transactions) => {
+      getDeniedTransactions(currentLocation).then((transactions) => {
         if (transactions.error) {
           console.log(transactions.error);
         } else {
           setLoadedData([]);
-          setTypeData(event.target.innerText);
+          setView(event.target.innerText);
           formatData(transactions, event.target.innerText);
           console.log('Data loaded!');
         }
@@ -299,13 +304,12 @@ const PendingTransactions = () => {
   const denySelected = () => {
     for (let i = 0; i < selectedData.length; i += 1) {
       let toDelete = {};
-      // eslint-disable-next-line no-restricted-syntax
       for (let j = 0; j < rawData.length; j += 1) {
         if (rawData[j].transactionId === selectedData[i].key) {
           toDelete = rawData[j];
         }
       }
-      denyTransaction(getCurrentLocation(), toDelete);
+      denyTransaction(currentLocation, toDelete);
       const tempArr = [...loadedData];
       tempArr.splice(tempArr.indexOf(selectedData[i]), 1);
       setLoadedData(tempArr);
@@ -316,13 +320,12 @@ const PendingTransactions = () => {
   const approveSelected = () => {
     for (let i = 0; i < selectedData.length; i += 1) {
       let toDelete = {};
-      // eslint-disable-next-line no-restricted-syntax
-      for (const transaction in rawData) {
-        if (transaction.transactionId === selectedData[i].key) {
-          toDelete = transaction;
+      for (let j = 0; j < rawData.length; j += 1) {
+        if (rawData[j].transactionId === selectedData[i].key) {
+          toDelete = rawData[j];
         }
       }
-      approveTransaction(getCurrentLocation(), toDelete);
+      approveTransaction(currentLocation, toDelete);
       const tempArr = [...loadedData];
       tempArr.splice(tempArr.indexOf(selectedData[i]), 1);
       setLoadedData(tempArr);
@@ -331,7 +334,7 @@ const PendingTransactions = () => {
   };
 
   useEffect(() => {
-    getPendingTransactions(getCurrentLocation()).then((transactions) => {
+    getPendingTransactions(currentLocation).then((transactions) => {
       if (transactions.error) {
         console.log(transactions.error);
       } else {
@@ -340,92 +343,98 @@ const PendingTransactions = () => {
     });
   }, []);
 
+  const menuOptions = ['Pending', 'Approved', 'Denied'];
+
   const menu = (
-    <div className="dropdown_menu_transaction">
-      <a onClick={changeLoadedData}>Pending</a>
-      <a onClick={changeLoadedData}>Approved</a>
-      <a onClick={changeLoadedData}>Denied</a>
-    </div>
+    <>
+      {menuOptions
+        .filter((option) => option !== view)
+        .map((option) => (
+          <a onClick={(e) => setView(e.target.innerText)}>{option}</a>
+        ))}
+    </>
   );
 
   const customExpandIcon = (fun) => {
     if (fun.expanded) {
       return (
-        <a
+        <button
+          type="button"
           style={{ color: 'black' }}
           onClick={(e) => {
             fun.onExpand(fun.record, e);
           }}
         >
           <FaChevronUp />
-        </a>
+        </button>
       );
     }
     return (
-      <a
+      <button
+        type="button"
         style={{ color: 'black' }}
         onClick={(e) => {
           fun.onExpand(fun.record, e);
         }}
       >
         <FaChevronDown />
-      </a>
+      </button>
     );
   };
 
+  const leftItems = (
+    <>
+      <button
+        type="button"
+        className="borderlessButton"
+        id="wordButton"
+        onClick={approveSelected}
+        hidden={!selectedData.length}
+      >
+        Approve
+      </button>
+      <button
+        className="borderlessButton"
+        type="button"
+        onClick={approveSelected}
+        hidden={!selectedData.length}
+      >
+        ✓
+      </button>
+      <button
+        id="wordButton"
+        className="borderlessButton"
+        type="button"
+        onClick={denySelected}
+        hidden={!selectedData.length}
+      >
+        Deny
+      </button>
+      <button
+        className="borderlessButton"
+        type="button"
+        onClick={denySelected}
+        hidden={!selectedData.length}
+      >
+        ✕
+      </button>
+    </>
+  );
+
+  const rightItems = (
+    <CustomDropdown title={view} menuItems={menu} type="small" />
+  );
+
   return (
-    <div className="transactionsContainer">
-      <div className="tableHeaderArea">
-        <h1 className="tableHeaderTitle">Transactions</h1>
-        <button
-          type="button"
-          className="borderlessButton"
-          id="wordButton"
-          onClick={approveSelected}
-          hidden={!selectedData.length}
-        >
-          Approve
-        </button>
-        <button
-          className="borderlessButton"
-          type="button"
-          onClick={approveSelected}
-          hidden={!selectedData.length}
-        >
-          ✓
-        </button>
-        <button
-          id="wordButton"
-          className="borderlessButton"
-          type="button"
-          onClick={denySelected}
-          hidden={!selectedData.length}
-        >
-          Deny
-        </button>
-        <button
-          className="borderlessButton"
-          type="button"
-          onClick={denySelected}
-          hidden={!selectedData.length}
-        >
-          ✕
-        </button>
-        <div className="dropdown">
-          <Dropdown overlay={menu} trigger={['click']}>
-            <a
-              className="ant-dropdown-link"
-              onClick={(e) => e.preventDefault()}
-            >
-              {typeData}
-              <FaChevronDown className="dropdown_arrow" />
-            </a>
-          </Dropdown>
-        </div>
-      </div>
+    <>
+      <TableHeader
+        title="Transactions"
+        leftArea={leftItems}
+        rightArea={rightItems}
+      />
       <div className="scrollingTransactions">
         <Space align="center" style={{ marginBottom: 16 }} />
-        {typeData === 'Pending' ? (
+        {view === 'Pending' ? (
           <Table
             expandIcon={(props) => customExpandIcon(props)}
             rowKey="key"
@@ -455,20 +464,25 @@ const PendingTransactions = () => {
             pagination={{ pageSize: numItems }}
           />
         )}
-        <div onClick={loadMore} className="load-more" type="button">
+        <div
+          type="button"
+          className="load-more"
+          onClick={loadMore}
+          onKeyDown={() => {}}
+          role="button"
+          tabIndex={0}
+        >
           Load 50
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
 const Transactions = () => (
-  <>
-    <Header />
-    <Menu />
+  <PageContainer>
     <PendingTransactions />
-  </>
+  </PageContainer>
 );
 
 export default Transactions;

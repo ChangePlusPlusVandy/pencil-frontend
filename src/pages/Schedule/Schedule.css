@@ -1,74 +1,8 @@
-.scheduleContainer {
-  margin: auto 7em;
-  height: 65vh;
-}
-
-.scheduleHeader {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-}
-
-.scheduleHeader {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0 10px;
-}
-
-.scheduleButton {
-  font-size: 14px;
-  margin-left: 25px;
-  margin-right: 8px;
-  opacity: 75%;
-  text-decoration: underline;
-}
-
-.scheduleButton:hover {
-  cursor: pointer;
-}
-
-.dropdownButton {
-  margin-left: auto;
-  width: 195px;
-}
-
-.scheduleContainerHeader {
-  display: flex;
-  flex-direction: row;
-}
-
-.scheduleItemContainer {
-  width: 100%;
-  min-height: 65vh;
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  margin-bottom: 50px;
-  padding: 10px 30px;
-  background-color: #ffffff;
-  border-radius: 20px;
-  /* box-shadow: 0 0 5px #000000; */
-}
-
-.scheduleContainerHeader {
-  height: 20px;
-  margin-top: 10px;
-  padding-left: 0;
-  padding-right: 0;
-  font-size: 16px;
-  color: #8a8a8a;
-}
-
 .headerCell {
   width: 25%;
   font-size: 16px;
   color: #8a8a8a;
   font-family: Roboto;
-}
-
-.cellText {
-  align-items: left;
 }
 
 .scheduleItem {
@@ -93,11 +27,6 @@
   width: 100%;
 }
 
-.cellText {
-  margin-left: 0;
-  margin-right: 50%;
-}
-
 .scheduleItem div {
   width: 300px;
 }
@@ -110,11 +39,6 @@
 
 .bold {
   font-weight: bold;
-}
-
-.white {
-  background-color: #ffffff!;
-  color: #ffffff;
 }
 
 .schedule-dropdown {

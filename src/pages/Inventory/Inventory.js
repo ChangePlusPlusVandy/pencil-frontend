@@ -1,7 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable import/no-unresolved */
-
 import React, { useState, useEffect } from 'react';
 import ReactDragListView from 'react-drag-listview/lib/index';
 import { AiFillPrinter } from 'react-icons/ai';
@@ -15,9 +11,9 @@ import { getInventory, postInventory, postMasterInv } from './api-inventory';
 import printForm from '../../utils/printForm';
 import { useAuth } from '../../AuthContext';
 import InventoryToggle from './InventoryToggle';
-import Menu from '../Menu/Menu';
-import Header from '../Header/Header';
 import MasterInventory from './MasterInventory';
+import PageContainer from '../../components/PageContainer/PageContainer';
+import TableHeader from '../../components/TableHeader/TableHeader';
 
 const ReactList = () => {
   const [data, setData] = useState([]);
@@ -26,7 +22,7 @@ const ReactList = () => {
   const [changed, setChanged] = useState(false);
   const [locationSelected, setLocationSelected] = useState(false);
   const [inventory, setInventory] = useState('Active');
-  const { getCurrentLocation } = useAuth();
+  const { currentLocation } = useAuth();
 
   const generate = () => {
     const doc = printForm(data);
@@ -101,9 +97,9 @@ const ReactList = () => {
 
   const handleSave = () => {
     if (inventory === 'Active') {
-      postInventory(data, getCurrentLocation());
+      postInventory(data, currentLocation);
     } else if (inventory === 'Master') {
-      postMasterInv(masterInventoryData, getCurrentLocation());
+      postMasterInv(masterInventoryData, currentLocation);
     }
     setChanged(false);
   };
@@ -133,8 +129,7 @@ const ReactList = () => {
   }, [changed]);
 
   useEffect(() => {
-    const location = getCurrentLocation();
-    getInventory(location)
+    getInventory(currentLocation)
       .then((result) => {
         if (result instanceof Error) {
           // eslint-disable-next-line no-alert
@@ -156,84 +151,84 @@ const ReactList = () => {
   }, []);
 
   return (
-    <div>
-      <Header />
-      <Menu />
-      <div className="inventoryContainer">
-        <ItemPopup
-          show={isAddItemVisible}
-          onClose={handleClose}
-          onSubmit={addItem}
-        />
-        <div className="tableHeaderArea">
-          <h1 className="tableHeaderTitle">
-            Inventory ({locationSelected ? data.length : 0})
-          </h1>
-          {locationSelected && (
-            <>
-              <div className="inventoryButton">Print Inventory</div>
-              <AiFillPrinter />
-              <div
-                className="inventoryButton"
-                onClick={() => setAddItemVisible(true)}
-              >
-                Add Item
-              </div>
-              <GrFormAdd />
-            </>
-          )}
-
-          <InventoryToggle onChange={setInventory} />
-          <button
-            type="button"
-            className="saveButton"
-            id="saveButton"
-            onClick={handleSave}
-          >
-            Save
-          </button>
-        </div>
-        <div className="itemContainer">
-          {inventory === 'Active' ? (
-            <div>
-              <div className="dragList">
-                <div className="containerHeader">
-                  <div className="headerName">Item Name</div>
-                  <div className="headerItemLimit">Item Limit</div>
-                </div>
-              </div>
-              <ReactDragListView {...dragProps}>
-                <ul className="dragList">
-                  {data.map((item, index) => (
-                    <Item
-                      key={item.itemName}
-                      number={index}
-                      name={item.itemName}
-                      limit={item.maxLimit}
-                      inventory={data}
-                      updateInventory={handleItemChange}
-                      handleDelete={handleDelete}
-                    />
-                  ))}
-                </ul>
-              </ReactDragListView>
+    <>
+      <ItemPopup
+        show={isAddItemVisible}
+        onClose={handleClose}
+        onSubmit={addItem}
+      />
+      <TableHeader
+        title={`Inventory (${locationSelected ? data.length : 0})`}
+        leftArea={
+          <>
+            <div className="secondaryButton">Print Inventory</div>
+            <AiFillPrinter />
+            <div
+              className="secondaryButton"
+              role="button"
+              tabIndex={0}
+              onClick={() => setAddItemVisible(true)}
+              onKeyDown={() => {}}
+            >
+              Add Item
             </div>
-          ) : (
-            <MasterInventory
-              data={masterInventoryData}
-              setData={setMasterInventoryData}
-            />
-          )}
-        </div>
+            <GrFormAdd />
+          </>
+        }
+        rightArea={
+          <>
+            <InventoryToggle onChange={setInventory} />
+            <button
+              type="button"
+              className="saveButton"
+              id="saveButton"
+              onClick={handleSave}
+            >
+              Save
+            </button>
+          </>
+        }
+      />
+      <div className="itemContainer">
+        {inventory === 'Active' ? (
+          <div>
+            <div className="dragList">
+              <div className="containerHeader">
+                <div className="headerName">Item Name</div>
+                <div className="headerItemLimit">Item Limit</div>
+              </div>
+            </div>
+            <ReactDragListView {...dragProps}>
+              <ul className="dragList">
+                {data.map((item, index) => (
+                  <Item
+                    key={item.itemName}
+                    number={index}
+                    itemName={item.itemName}
+                    limit={item.maxLimit}
+                    inventory={data}
+                    updateInventory={handleItemChange}
+                    handleDelete={handleDelete}
+                  />
+                ))}
+              </ul>
+            </ReactDragListView>
+          </div>
+        ) : (
+          <MasterInventory
+            data={masterInventoryData}
+            setData={setMasterInventoryData}
+          />
+        )}
       </div>
-    </div>
+    </>
   );
 };
 
 const Inventory = () => (
-  <div>
+  <PageContainer>
     <ReactList />
-  </div>
+  </PageContainer>
 );
 
 export default Inventory;

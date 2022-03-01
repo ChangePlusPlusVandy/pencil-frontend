@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { getMasterInv } from './api-inventory';
@@ -6,10 +5,10 @@ import { useAuth } from '../../AuthContext';
 import './MasterInventory.css';
 
 const MasterInventory = ({ data, setData }) => {
-  const { getCurrentLocation } = useAuth();
+  const { currentLocation } = useAuth();
 
   useEffect(() => {
-    getMasterInv(getCurrentLocation()).then((result) => {
+    getMasterInv(currentLocation).then((result) => {
       if (result instanceof Error) {
         // eslint-disable-next-line no-alert
         alert(
@@ -41,9 +40,9 @@ const MasterInventory = ({ data, setData }) => {
   );
 };
 
-export default MasterInventory;
-
-MasterInventory.propType = {
-  data: PropTypes.array.isRequired,
+MasterInventory.propTypes = {
+  data: PropTypes.arrayOf.isRequired,
   setData: PropTypes.func.isRequired,
 };
+
+export default MasterInventory;

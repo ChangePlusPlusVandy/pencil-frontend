@@ -1,0 +1,29 @@
+.tableHeaderTitle {
+  font-family: Roboto, sans-serif;
+  font-style: bold;
+  font-weight: 500;
+  font-size: 32px;
+  margin-bottom: 0;
+  white-space: nowrap;
+}
+
+.tableHeaderArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.tableHeaderLeft {
+  display: flex;
+  width: 50%;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.tableHeaderRight {
+  display: flex;
+  width: 50%;
+  align-items: center;
+  justify-content: flex-end;
+}

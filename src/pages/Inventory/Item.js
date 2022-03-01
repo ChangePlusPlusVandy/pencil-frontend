@@ -1,7 +1,5 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/mouse-events-have-key-events */
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { ReactComponent as HamburgerIcon } from '../../assets/HamburgerIcon.svg';
 import { ReactComponent as DeleteItem } from '../../assets/DeleteItem.svg';
 import './Item.css';
@@ -9,7 +7,7 @@ import EditableText from './EditableText';
 
 const Item = ({
   number,
-  name,
+  itemName,
   limit,
   inventory,
   updateInventory,
@@ -33,6 +31,8 @@ const Item = ({
         className="dragIcon"
         onMouseDown={() => setActive(true)}
         onMouseUp={() => setActive(false)}
+        role="button"
+        tabIndex={0}
       >
         <HamburgerIcon className="dragIcon" />
       </div>
@@ -42,7 +42,7 @@ const Item = ({
         role="button"
         tabIndex="-1"
         widthSize="20"
-        initValue={name}
+        initValue={itemName}
         inventory={inventory}
         updateInventory={updateInventory}
         keyToUpdate="itemName"
@@ -65,13 +65,22 @@ const Item = ({
         className="itemDelete"
         role="button"
         tabIndex="-1"
-        onClick={() => handleDelete(name)}
+        onClick={() => handleDelete(itemName)}
         onKeyPress={() => {}}
       >
         <DeleteItem />
       </div>
     </li>
   );
+};
+
+Item.propTypes = {
+  number: PropTypes.number.isRequired,
+  itemName: PropTypes.string.isRequired,
+  limit: PropTypes.string.isRequired,
+  inventory: PropTypes.shape.isRequired,
+  updateInventory: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
 };
 
 export default Item;
