@@ -41,10 +41,18 @@ const ItemPopup = ({ show, onClose, onSubmit }) => {
             />
           </div>
           <div className="add-button-group">
-            <button type="button" className="add-item-cancel" onClick={onClose}>
+            <button type="button" className="secondaryButton" onClick={onClose}>
               <u>Cancel</u>
             </button>
-            <button type="submit" className="add-item-add">
+            <button
+              type="submit"
+              className="primaryButton"
+              disabled={
+                !formInfo.itemName ||
+                !formInfo.maxLimit ||
+                formInfo.maxLimit <= 0
+              }
+            >
               Add
             </button>
           </div>

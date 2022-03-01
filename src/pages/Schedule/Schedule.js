@@ -17,7 +17,7 @@ const Schedule = () => {
 
   useEffect(() => {
     getSchedules('Nashville').then((items) => {
-      if (items) setScheduleData(items);
+      if (!items.err) setScheduleData(items);
     });
   }, []);
 
