@@ -1,15 +1,9 @@
 .settingsTitle {
-  margin-top: 4vh;
-  margin-left: 9vw;
   font-size: 28px;
   font-family: 'Roboto';
 }
 
 .settingsContainer {
-  width: 100vw;
-  padding: 0 9vw;
-  margin-top: 1vh;
-  margin-bottom: 10vh;
   font-size: 18px;
   font-family: 'Roboto';
   display: flex;
@@ -17,11 +11,10 @@
 }
 
 .settingNav {
-  height: 65vh;
-  width: 30%;
+  width: 20vw;
   background-color: white;
   border-radius: 20px;
-  padding: 2% 2%;
+  padding: 1.5% 1.5%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -29,9 +22,10 @@
 
 .settingNavRow {
   cursor: pointer;
-  height: 6vh;
+  height: 50px;
   padding: 1vh 1vw;
   margin-bottom: 2vh;
+  display: flex;
   font-size: 18px;
   font-family: 'Roboto';
   border-radius: 8px;

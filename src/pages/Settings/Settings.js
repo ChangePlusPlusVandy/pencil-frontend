@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Settings.css';
@@ -19,44 +17,52 @@ const Settings = () => {
   };
 
   return (
-    <div>
+    <>
       <SettingsHeader />
-      <h2 className="settingsTitle">
-        <b>Settings</b>
-      </h2>
-      <div className="settingsContainer">
-        <div className="settingNav">
-          <div className="navOptions">
-            <div
-              className={`settingNavRow navRow-${
-                selected === 'Profile' ? 'active' : 'inactive'
-              }`}
-              onClick={() => handleClick('Profile')}
-            >
-              <HiUser size="24px" style={{ marginRight: '1vw' }} />
-              Profile
+      <div className="pageContainer">
+        <h2 className="settingsTitle">
+          <b>Settings</b>
+        </h2>
+        <div className="settingsContainer">
+          <div className="settingNav">
+            <div className="navOptions">
+              <div
+                className={`settingNavRow navRow-${
+                  selected === 'Profile' ? 'active' : 'inactive'
+                }`}
+                onClick={() => handleClick('Profile')}
+                onKeyDown={() => {}}
+                role="button"
+                tabIndex={0}
+              >
+                <HiUser size="24px" style={{ marginRight: '0.5vw' }} />
+                Profile
+              </div>
+              <div
+                className={`settingNavRow navRow-${
+                  selected === 'Location' ? 'active' : 'inactive'
+                }`}
+                onClick={() => handleClick('Location')}
+                onKeyDown={() => {}}
+                role="button"
+                tabIndex={0}
+              >
+                <FaMapMarkerAlt size="23px" style={{ marginRight: '0.5vw' }} />
+                Location Manager
+              </div>
             </div>
-            <div
-              className={`settingNavRow navRow-${
-                selected === 'Location' ? 'active' : 'inactive'
-              }`}
-              onClick={() => handleClick('Location')}
-            >
-              <FaMapMarkerAlt size="23px" style={{ marginRight: '1vw' }} />
-              Location Manager
+            <div className="settingNavRow backToDash">
+              <AiFillHome size="23px" style={{ marginRight: '1vw' }} />
+              <Link to="/dashboard" className="link" tabindex="-1">
+                <u>Back to Dashboard</u>
+              </Link>
             </div>
           </div>
-          <div className="settingNavRow backToDash">
-            <AiFillHome size="23px" style={{ marginRight: '1vw' }} />
-            <Link to="/dashboard" className="link" tabindex="-1">
-              <u>Back to Dashboard</u>
-            </Link>
-          </div>
+          {selected === 'Profile' && <Profile />}
+          {selected === 'Location' && <LocationManager />}
         </div>
-        {selected === 'Profile' && <Profile />}
-        {selected === 'Location' && <LocationManager />}
       </div>
-    </div>
+    </>
   );
 };
 
