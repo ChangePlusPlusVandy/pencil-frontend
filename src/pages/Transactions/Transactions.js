@@ -232,8 +232,8 @@ const PendingTransactions = () => {
 
   const formatData = (transactions, status) => {
     const formattedData = [];
+    console.log(status);
     for (let i = 0; i < transactions.length; i += 1) {
-      console.log(transactions[i].items);
       // eslint-disable-next-line no-loop-func
       getTeacherByID(currentLocation, transactions[i].teacherId).then(
         (teacher) => {
@@ -260,6 +260,7 @@ const PendingTransactions = () => {
   };
 
   const changeLoadedData = (event) => {
+    console.log(event.target.innerText);
     if (event.target.innerText === view) {
       console.log('no change');
     } else if (event.target.innerText === 'Pending') {
@@ -270,8 +271,9 @@ const PendingTransactions = () => {
         } else {
           setLoadedData([]);
           setView(event.target.innerText);
-          formatData(transactions, event.target.innerText);
+          formatData(transactions, 'Pending');
           console.log('Data loaded!');
+          console.log(transactions);
         }
       });
     } else if (event.target.innerText === 'Approved') {
@@ -282,7 +284,7 @@ const PendingTransactions = () => {
         } else {
           setLoadedData([]);
           setView(event.target.innerText);
-          formatData(transactions, event.target.innerText);
+          formatData(transactions, 'Approved');
           console.log(transactions);
         }
       });
@@ -294,8 +296,8 @@ const PendingTransactions = () => {
         } else {
           setLoadedData([]);
           setView(event.target.innerText);
-          formatData(transactions, event.target.innerText);
-          console.log('Data loaded!');
+          formatData(transactions, 'Denied');
+          console.log(transactions);
         }
       });
     }
@@ -350,7 +352,7 @@ const PendingTransactions = () => {
       {menuOptions
         .filter((option) => option !== view)
         .map((option) => (
-          <a onClick={(e) => setView(e.target.innerText)}>{option}</a>
+          <a onClick={(e) => changeLoadedData(e)}>{option}</a>
         ))}
     </>
   );

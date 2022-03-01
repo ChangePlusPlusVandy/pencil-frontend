@@ -69,6 +69,7 @@ th.ant-table-cell::before {
 .ant-table-tbody > tr > td {
   height: 15px;
   padding: 10px;
+  font-family: Roboto;
   font-weight: 400;
   font-style: bold;
 }
