@@ -1,7 +1,18 @@
-html {
+html,
+body {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
+  --primary: #71c3e7;
+  --primaryHover: #50b9e8;
+  --bgPrimary: #f6f6f6;
+  --bgSecondary: #fff;
+  --textColor: #000000;
+  --textSecondary: #8a8a8a;
+  background-color: var(--bgPrimary);
+  margin: 0;
+  color: var(--textColor);
 }
+
 *,
 *:before,
 *:after {
@@ -16,13 +27,13 @@ html {
   height: 32px;
   border-radius: 50px;
   border-style: none;
-  background-color: #71c3e7;
+  background-color: var(--primary);
   transition: all 0.3s ease-in-out;
 }
 
 .primaryButton:hover {
   cursor: pointer;
-  background-color: #50b9e8;
+  background-color: var(--primaryHover);
 }
 
 .secondaryButton {

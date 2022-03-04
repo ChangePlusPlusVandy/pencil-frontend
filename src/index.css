@@ -57,9 +57,3 @@
   src: local('Roboto'),
     url('./assets/fonts/Roboto/Roboto-Bold.ttf') format('truetype');
 }
-
-html,
-body {
-  background-color: #f6f6f6;
-  margin: 0;
-}

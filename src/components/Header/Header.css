@@ -3,7 +3,7 @@
 .header {
   height: 100px;
   box-shadow: 0 4px 7px -7px gray;
-  background-color: white;
+  background-color: var(--bgSecondary);
   display: flex;
   flex-direction: row;
   align-items: center;

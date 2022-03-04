@@ -17,7 +17,7 @@
 .settingNav {
   height: 65vh;
   width: 30%;
-  background-color: white;
+  background-color: var(--bgPrimary);
   border-radius: 20px;
   padding: 2% 2%;
   display: flex;
@@ -57,7 +57,7 @@
 .settingsBody {
   width: 90%;
   height: 65vh;
-  background-color: white;
+  background-color: var(--bgSecondary);
   padding: 40px;
   border-radius: 20px;
   margin: auto;

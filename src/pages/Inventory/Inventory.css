@@ -46,7 +46,7 @@
   display: flex;
   align-items: center;
   font-size: 16px;
-  color: #8a8a8a;
+  color: var(--textSecondary);
 }
 .headerName {
   margin-left: 108px;

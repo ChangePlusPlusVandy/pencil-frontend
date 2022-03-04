@@ -1,7 +1,7 @@
 .headerCell {
   width: 25%;
   font-size: 16px;
-  color: #8a8a8a;
+  color: var(--textSecondary);
 }
 
 .scheduleItem {
@@ -41,7 +41,7 @@
 }
 
 .schedule-dropdown {
-  border-color: #71c3e7;
+  border-color: var(--primary);
   margin-left: auto;
   height: 25px;
 }
