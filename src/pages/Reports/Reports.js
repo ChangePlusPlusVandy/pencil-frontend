@@ -3,13 +3,19 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
 
+import { FaFileDownload } from 'react-icons/fa';
+import 'pikaday/css/pikaday.css';
+import './Reports.css';
+
 import PageContainer from '../../components/PageContainer/PageContainer';
 import TableHeader from '../../components/TableHeader/TableHeader';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
+import CalendarInput from './CalendarInput';
 
 const Reports = () => {
-  const a = 10;
   const [view, setView] = useState('Weekly');
+  const [fromDate, setFromDate] = useState('');
+  const [untilDate, setUntilDate] = useState('');
 
   const menuOptions = ['Weekly', 'School', 'No Show']; // TODO: this needs to be updated
 
@@ -29,7 +35,23 @@ const Reports = () => {
 
   return (
     <PageContainer>
-      <TableHeader title="Reports" leftItems={null} rightItems={rightItems} />
+      <TableHeader
+        title="Reports"
+        leftArea={
+          <>
+            <div className="secondaryButton">Generate Report</div>
+            <FaFileDownload />
+
+            <CalendarInput
+              fromDate={fromDate}
+              setFromDate={setFromDate}
+              untilDate={untilDate}
+              setUntilDate={setUntilDate}
+            />
+          </>
+        }
+        rightItems={rightItems}
+      />
     </PageContainer>
   );
 };

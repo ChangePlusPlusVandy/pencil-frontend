@@ -25,7 +25,7 @@ const HeaderDropdown = () => {
 
   return (
     <CustomDropdown
-      title={currentUser.displayName.split(' ')[0]}
+      title={currentUser ? currentUser.displayName.split(' ')[0] : 'Hello'}
       menuItems={menu}
       type="large"
     />
