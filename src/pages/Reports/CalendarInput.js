@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useState, useRef } from 'react';
@@ -7,7 +8,8 @@ import PropTypes from 'prop-types';
 const CalendarInput = ({ fromDate, setFromDate, untilDate, setUntilDate }) => {
   const detectOutsideClickRef = useRef(null); // ref to close calendar when outisde of component is clicked
   const [calendarTrigger, setCalendarTrigger] = useState(false);
-  const [calendarBoolean, setCalendarBoolean] = useState(true);
+  const [isFromSelected, setIsFromSelected] = useState(false);
+  const [isUntilSelected, setIsUntilSelected] = useState(false);
   const calendarContainer = useRef(null);
   const calendarFrom = useRef(null);
   const calendarUntil = useRef(null);
@@ -62,7 +64,6 @@ const CalendarInput = ({ fromDate, setFromDate, untilDate, setUntilDate }) => {
         !detectOutsideClickRef.current.contains(event.target)
       ) {
         setCalendarTrigger(false);
-        setCalendarBoolean(true);
       }
     };
 
@@ -81,8 +82,31 @@ const CalendarInput = ({ fromDate, setFromDate, untilDate, setUntilDate }) => {
         placeholder="Select Date Range"
         onClick={() => setCalendarTrigger(true)}
       >
-        {fromDate}
-        {untilDate === '' ? '' : ` - ${untilDate}`}
+        <div
+          type="button"
+          className={`calendarButton ${
+            isFromSelected ? 'calendarSelected' : ''
+          }`}
+          tabIndex="0"
+          ref={calendarFromButton}
+          onClick={() => setIsFromSelected(true)}
+          onBlur={() => setIsFromSelected(false)}
+        >
+          {fromDate === '' ? 'From' : fromDate}
+        </div>
+        -
+        <div
+          type="button"
+          className={`calendarButton ${
+            isUntilSelected ? 'calendarSelected' : ''
+          }`}
+          tabIndex="0"
+          ref={calendarUntilButton}
+          onClick={() => setIsUntilSelected(true)}
+          onBlur={() => setIsUntilSelected(false)}
+        >
+          {untilDate === '' ? 'Until' : untilDate}
+        </div>
       </div>
       <div
         className={`${calendarTrigger ? '' : 'calendarHide'}`}
@@ -92,28 +116,7 @@ const CalendarInput = ({ fromDate, setFromDate, untilDate, setUntilDate }) => {
           height: '200px',
         }}
       >
-        <div ref={calendarContainer}>
-          <div
-            type="button"
-            ref={calendarFromButton}
-            className={`calendarButton ${
-              calendarBoolean ? 'calendarSelected' : ''
-            }`}
-            onClick={() => setCalendarBoolean(true)}
-          >
-            From
-          </div>
-          <div
-            type="button"
-            ref={calendarUntilButton}
-            className={`calendarButton ${
-              calendarBoolean ? '' : 'calendarSelected'
-            }`}
-            onClick={() => setCalendarBoolean(false)}
-          >
-            Until
-          </div>
-        </div>
+        <div ref={calendarContainer} />
         <input ref={calendarFrom} style={{ display: 'none' }} />
         <input ref={calendarUntil} style={{ display: 'none' }} />
       </div>
