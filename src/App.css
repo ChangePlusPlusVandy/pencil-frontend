@@ -81,3 +81,18 @@ html {
 .dropdown_menu_transaction > button:hover {
   color: #71c3e7;
 }
+
+/* Table header cell styling */
+.tableItem {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 40px;
+  background-color: #f6f6f6;
+  border-radius: 20px;
+  margin: 0 30px 10px 30px;
+}
+
+.tableHeader {
+  background-color: #ffffff !important;
+  margin-bottom: 0 !important;
+}
