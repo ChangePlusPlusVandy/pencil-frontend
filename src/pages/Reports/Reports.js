@@ -64,7 +64,16 @@ const Reports = () => {
         </div>
         <div className="tableHeaderRight">{rightItems}</div>
       </div>
-      <div className="itemContainer">hi</div>
+      <div className="itemContainer">
+        <tr className="tableItem tableHeader">
+          <td className="headerCell">Date</td>
+          <td className="headerCell">Teacher Name</td>
+          <td className="headerCell">Email</td>
+          <td className="headerCell">School</td>
+          <td className="headerCell">Total Product Value</td>
+        </tr>
+        <tr>{/* data.map(...) */}</tr>
+      </div>
     </PageContainer>
   );
 };
