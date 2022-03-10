@@ -11,6 +11,7 @@ import PageContainer from '../../components/PageContainer/PageContainer';
 import TableHeader from '../../components/TableHeader/TableHeader';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import CalendarInput from './CalendarInput';
+import FilterInput from './FilterInput';
 
 const Reports = () => {
   const [view, setView] = useState('Weekly');
@@ -40,7 +41,7 @@ const Reports = () => {
         leftArea={
           <>
             <div className="secondaryButton">Generate Report</div>
-            <FaFileDownload />
+            <FaFileDownload size="15" />
 
             <CalendarInput
               fromDate={fromDate}
@@ -48,6 +49,8 @@ const Reports = () => {
               untilDate={untilDate}
               setUntilDate={setUntilDate}
             />
+
+            <FilterInput />
           </>
         }
         rightItems={rightItems}

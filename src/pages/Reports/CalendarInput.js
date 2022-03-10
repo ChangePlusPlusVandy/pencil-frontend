@@ -76,9 +76,9 @@ const CalendarInput = ({ fromDate, setFromDate, untilDate, setUntilDate }) => {
   }, [detectOutsideClickRef]);
 
   return (
-    <div ref={detectOutsideClickRef} className="calendarContainer">
+    <div ref={detectOutsideClickRef} className="reportsContainer">
       <div
-        className="calendarInput"
+        className="reportsInput calendarInput"
         placeholder="Select Date Range"
         onClick={() => setCalendarTrigger(true)}
       >
@@ -117,8 +117,8 @@ const CalendarInput = ({ fromDate, setFromDate, untilDate, setUntilDate }) => {
         }}
       >
         <div ref={calendarContainer} />
-        <input ref={calendarFrom} style={{ display: 'none' }} />
-        <input ref={calendarUntil} style={{ display: 'none' }} />
+        <div ref={calendarFrom} style={{ display: 'none' }} />
+        <div ref={calendarUntil} style={{ display: 'none' }} />
       </div>
     </div>
   );

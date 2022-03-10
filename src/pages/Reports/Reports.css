@@ -1,7 +1,4 @@
-.calendarInput {
-  background: url('./calendar-number-outline.svg') no-repeat scroll 8px 3px;
-  background-color: white;
-  background-size: 17px 17px;
+.reportsInput {
   border: 1px solid #c7c7c7;
   border-radius: 5px;
   padding-left: 30px;
@@ -12,7 +9,20 @@
   flex-direction: row;
 }
 
-.calendarContainer {
+.calendarInput {
+  background: url('../../assets/calendar-number-outline.svg') no-repeat scroll
+    8px 3px;
+  background-size: 17px 17px;
+  background-color: white;
+}
+
+.filterInput {
+  background: url('../../assets/filter-outline.svg') no-repeat scroll 8px 3px;
+  background-size: 17px 17px;
+  background-color: white;
+}
+
+.reportsContainer {
   position: relative;
 }
 
