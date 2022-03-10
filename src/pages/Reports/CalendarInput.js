@@ -79,7 +79,6 @@ const CalendarInput = ({ fromDate, setFromDate, untilDate, setUntilDate }) => {
     <div ref={detectOutsideClickRef} className="reportsContainer">
       <div
         className="reportsInput calendarInput"
-        placeholder="Select Date Range"
         onClick={() => setCalendarTrigger(true)}
       >
         <div
@@ -92,7 +91,7 @@ const CalendarInput = ({ fromDate, setFromDate, untilDate, setUntilDate }) => {
           onClick={() => setIsFromSelected(true)}
           onBlur={() => setIsFromSelected(false)}
         >
-          {fromDate === '' ? 'From' : fromDate}
+          {fromDate === '' ? 'Start Date' : fromDate}
         </div>
         -
         <div
@@ -105,14 +104,14 @@ const CalendarInput = ({ fromDate, setFromDate, untilDate, setUntilDate }) => {
           onClick={() => setIsUntilSelected(true)}
           onBlur={() => setIsUntilSelected(false)}
         >
-          {untilDate === '' ? 'Until' : untilDate}
+          {untilDate === '' ? 'End Date' : untilDate}
         </div>
       </div>
       <div
         className={`${calendarTrigger ? '' : 'calendarHide'}`}
         style={{
           position: 'absolute',
-          width: '100%',
+          width: '255px',
           height: '200px',
         }}
       >

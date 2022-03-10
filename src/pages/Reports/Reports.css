@@ -24,7 +24,8 @@
 .reportsInput {
   border: 1px solid #c7c7c7;
   border-radius: 5px;
-  padding-left: 30px;
+  padding-left: 35px;
+  padding-right: 10px;
   width: 250px;
   height: 25px;
   overflow: hidden;
@@ -37,6 +38,7 @@
     8px 3px;
   background-size: 17px 17px;
   background-color: white;
+  width: 220px;
 }
 
 .filterInput {
@@ -53,8 +55,9 @@
 .calendarButton {
   background-color: white;
   display: inline;
-  width: 50%;
+  width: 120px;
   text-align: center;
+  margin: 0 5px;
 }
 
 .calendarSelected {
@@ -67,9 +70,10 @@
   display: none;
 }
 
-/* Show placerholder text */
-.calendarInput:empty:before {
-  content: attr(placeholder);
+/* Hide prev and next button */
+.pika-prev,
+.pika-next {
+  display: none !important;
 }
 
 .triangle-theme .pika-label:after {

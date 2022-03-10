@@ -64,21 +64,6 @@ const Reports = () => {
         </div>
         <div className="tableHeaderRight">{rightItems}</div>
       </div>
-      {/* <TableHeader
-        leftArea={
-          <>
-            <CalendarInput
-              fromDate={fromDate}
-              setFromDate={setFromDate}
-              untilDate={untilDate}
-              setUntilDate={setUntilDate}
-            />
-
-            <FilterInput />
-          </>
-        }
-        rightArea={rightItems}
-      /> */}
       <div className="itemContainer">hi</div>
     </PageContainer>
   );
