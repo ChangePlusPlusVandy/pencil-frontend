@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDragListView from 'react-drag-listview/lib/index';
-import { AiFillPrinter, AiOutlineCloseCircle } from 'react-icons/ai';
+import { AiFillPrinter } from 'react-icons/ai';
 import { GrFormAdd } from 'react-icons/gr';
-import { IoWarningOutline } from 'react-icons/io5';
 import './Inventory.css';
 import { Packer } from 'docx';
 import { saveAs } from 'file-saver';
@@ -15,8 +14,7 @@ import InventoryToggle from './InventoryToggle';
 import MasterInventory from './MasterInventory';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import TableHeader from '../../components/TableHeader/TableHeader';
-// import Errors from '../../components/Errors/Errors';
-import './Errors.css';
+import Errors from '../../components/Errors/Errors';
 
 const ReactList = () => {
   const [data, setData] = useState([]);
@@ -26,12 +24,7 @@ const ReactList = () => {
   const [locationSelected, setLocationSelected] = useState(false);
   const [inventory, setInventory] = useState('Active');
   const { currentLocation } = useAuth();
-  const [error, setError] = useState('');
-  const [errorClose, setErrorClose] = useState(false);
-
-  const handleErrorClose = () => {
-    setErrorClose(true);
-  };
+  const [error, setError] = useState(false);
 
   const generate = () => {
     const doc = printForm(data);
@@ -117,6 +110,10 @@ const ReactList = () => {
     setChanged(false);
   };
 
+  const handleErrorClose = () => {
+    setError(true);
+  };
+
   // Properties to pass to ReactDragListView package
   const dragProps = {
     onDragEnd(fromIndex, toIndex) {
@@ -170,21 +167,8 @@ const ReactList = () => {
         onClose={handleClose}
         onSubmit={addItem}
       />
-      {/* {error && <Errors />} */}
 
-      {!errorClose && (
-        <div className="error">
-          <AiOutlineCloseCircle
-            size={20}
-            onClick={handleErrorClose}
-            className="errorClose"
-          />
-          <div className="errorContent">
-            <IoWarningOutline size={60} />
-            <text className="errorMsg">Error Message : 500 Server Error</text>
-          </div>
-        </div>
-      )}
+      {!error && <Errors handleError={handleErrorClose} />}
 
       <TableHeader
         title={`Inventory (${locationSelected ? data.length : 0})`}
