@@ -31,18 +31,42 @@ const Reports = () => {
   );
 
   const rightItems = (
-    <CustomDropdown title={view} menuItems={menu} type="small" />
+    <>
+      <button
+        type="button"
+        className="saveButton"
+        id="saveButton"
+        // onClick={}
+      >
+        View Stats
+      </button>
+      <CustomDropdown title={view} menuItems={menu} type="small" />
+    </>
   );
 
   return (
     <PageContainer>
-      <TableHeader
-        title="Reports"
+      <div className="reportsHeader">
+        <div className="tableHeaderTitle">Reports</div>
+        <div className="secondaryButton">Generate Report</div>
+        <FaFileDownload size="15" />
+      </div>
+      <div className="reportsHeaderArea">
+        <div className="reportsHeaderLeft">
+          <CalendarInput
+            fromDate={fromDate}
+            setFromDate={setFromDate}
+            untilDate={untilDate}
+            setUntilDate={setUntilDate}
+          />
+
+          <FilterInput />
+        </div>
+        <div className="tableHeaderRight">{rightItems}</div>
+      </div>
+      {/* <TableHeader
         leftArea={
           <>
-            <div className="secondaryButton">Generate Report</div>
-            <FaFileDownload size="15" />
-
             <CalendarInput
               fromDate={fromDate}
               setFromDate={setFromDate}
@@ -53,8 +77,9 @@ const Reports = () => {
             <FilterInput />
           </>
         }
-        rightItems={rightItems}
-      />
+        rightArea={rightItems}
+      /> */}
+      <div className="itemContainer">hi</div>
     </PageContainer>
   );
 };

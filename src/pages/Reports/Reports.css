@@ -1,3 +1,26 @@
+.reportsHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.reportsHeaderArea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1rem;
+  /* width: 100%; */
+}
+
+.reportsHeaderLeft {
+  display: flex;
+  width: 50%;
+}
+
+.reportsHeaderLeft > *:first-child {
+  margin-right: 20px;
+}
+
 .reportsInput {
   border: 1px solid #c7c7c7;
   border-radius: 5px;
@@ -20,6 +43,7 @@
   background: url('../../assets/filter-outline.svg') no-repeat scroll 8px 3px;
   background-size: 17px 17px;
   background-color: white;
+  width: 300px;
 }
 
 .reportsContainer {
