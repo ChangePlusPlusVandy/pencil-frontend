@@ -42,7 +42,6 @@ const Profile = () => {
             />
           </div>
         </div>
-
         <div className="profileCol">
           <div className="profileColHeader">
             <h3>Change Password</h3>
@@ -80,6 +79,24 @@ const Profile = () => {
               disabled={!isPasswordEditable}
             />
           </div>
+
+          {/* Cancel and Save Buttons */}
+          {(isPasswordEditable || isProfileEditable) && (
+            <div className="profileActionButton">
+              <div
+                className="editButton"
+                onClick={() => {
+                  setIsPasswordEditable(false);
+                  setIsProfileEditable(false);
+                }}
+              >
+                Cancel
+              </div>
+              <button type="button" className="saveButton">
+                Save
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

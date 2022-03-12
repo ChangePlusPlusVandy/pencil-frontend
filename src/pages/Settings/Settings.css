@@ -14,27 +14,28 @@
   width: 20vw;
   background-color: white;
   border-radius: 20px;
-  padding: 1.5% 1.5%;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .settingNavRow {
+  display: flex;
   cursor: pointer;
   height: 50px;
-  padding: 1vh 1vw;
-  margin-bottom: 2vh;
-  display: flex;
+  padding: 12px 10px;
+  margin-bottom: 5px;
   font-size: 18px;
   font-family: 'Roboto';
   border-radius: 8px;
+  white-space: nowrap;
 }
 
 .navRow-active {
   color: #45a5cf;
   background-color: rgba(113, 195, 231, 0.3);
-  border: 2px solid rgba(113, 195, 231, 0.7) !important;
+  outline: 2px solid rgba(113, 195, 231, 0.7) !important;
 }
 
 .navRow-inactive {
@@ -52,19 +53,14 @@
   color: #696969 !important;
 }
 .settingsBody {
+  position: relative;
   width: 90%;
   height: 65vh;
   background-color: white;
   padding: 40px;
   border-radius: 20px;
   margin: auto;
-  margin-left: 3vw;
-}
-
-.locationManagerHeader {
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 20px;
+  margin-left: 30px;
 }
 
 .editButton {
@@ -124,7 +120,8 @@
   padding-right: 50px;
 }
 
-.profileColHeader {
+.profileColHeader,
+.locationManagerHeader {
   display: flex;
   width: 100%;
   align-items: baseline;
@@ -150,4 +147,15 @@
 
 .profileInput:focus {
   border: 1.5px solid #45a5cf;
+}
+
+.profileActionButton {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  bottom: 0;
+  right: 0;
+  padding-right: 40px;
+  padding-bottom: 30px;
+  position: absolute;
 }
