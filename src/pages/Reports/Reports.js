@@ -8,7 +8,6 @@ import TableHeader from '../../components/TableHeader/TableHeader';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 
 const Reports = () => {
-  const a = 10;
   const [view, setView] = useState('Weekly');
 
   const menuOptions = ['Weekly', 'School', 'No Show']; // TODO: this needs to be updated
