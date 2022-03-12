@@ -79,10 +79,15 @@
 
 .editButton:hover {
   cursor: pointer;
+  color: #50b9e8;
 }
 
 .editButton > p {
   padding-right: 10px;
+}
+
+.editButtonSelected {
+  color: #50b9e8;
 }
 
 .settingsBody > ul {
@@ -135,4 +140,14 @@
 
 .profileEntryTitle > p {
   margin: 0;
+}
+
+.profileInput {
+  border-radius: 5px;
+  border: 1.5px solid;
+  outline: none;
+}
+
+.profileInput:focus {
+  border: 1.5px solid #45a5cf;
 }

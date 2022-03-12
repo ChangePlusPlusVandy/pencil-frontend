@@ -26,6 +26,7 @@ const Settings = () => {
         <div className="settingsContainer">
           <div className="settingNav">
             <div className="navOptions">
+              {/* Profile */}
               <div
                 className={`settingNavRow navRow-${
                   selected === 'Profile' ? 'active' : 'inactive'
@@ -38,6 +39,7 @@ const Settings = () => {
                 <HiUser size="24px" style={{ marginRight: '0.5vw' }} />
                 Profile
               </div>
+              {/* Location Manager */}
               <div
                 className={`settingNavRow navRow-${
                   selected === 'Location' ? 'active' : 'inactive'
@@ -51,6 +53,7 @@ const Settings = () => {
                 Location Manager
               </div>
             </div>
+            {/* Back to Dashboard */}
             <div className="settingNavRow backToDash">
               <AiFillHome size="23px" style={{ marginRight: '1vw' }} />
               <Link to="/dashboard" className="link" tabindex="-1">
