@@ -1,6 +1,8 @@
-const getPendingTransactions = async (location) => {
+const getPendingTransactions = async (location, page) => {
   try {
-    const response = await fetch(`/api/${location}/transaction/pending`);
+    const response = await fetch(
+      `/api/${location}/transaction/pending?page=${page}`
+    );
     return await response.json();
   } catch (err) {
     console.log(err);
