@@ -119,7 +119,7 @@ const Schedule = () => {
         rightItems={rightItems}
       />
       <table className="itemContainer">
-        <tr className="scheduleItem" id="headerContainer">
+        <tr className="tableItem tableHeader">
           <td className="headerCell">Time</td>
           <td className="headerCell">Name</td>
           <td className="headerCell">Pencil ID</td>
@@ -135,7 +135,7 @@ const Schedule = () => {
             const time = getTime(item.end_time, item.end_time);
             const pencilId = item.teacherId;
             return (
-              <div className="scheduleItem">
+              <div className="tableItem">
                 <div className="timeBox">
                   <td className="timeCell">{date}</td>
                   <td className="timeCell bold">{time}</td>
