@@ -330,11 +330,12 @@ const PendingTransactions = () => {
   };
 
   useEffect(() => {
-    getPendingTransactions(currentLocation).then((transactions) => {
+    getPendingTransactions(currentLocation, 1).then((transactions) => {
       if (transactions.error) {
         console.log(transactions.error);
       } else {
-        formatData(transactions, 'Pending');
+        // formatData(transactions, 'Pending');
+        setLoadedData(transactions);
       }
     });
   }, []);
