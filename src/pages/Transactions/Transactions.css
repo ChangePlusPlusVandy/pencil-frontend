@@ -192,3 +192,7 @@ th.ant-table-cell::before {
   margin: 0;
   padding: 0;
 }
+
+.ant-checkbox-disabled {
+  visibility: hidden;
+}

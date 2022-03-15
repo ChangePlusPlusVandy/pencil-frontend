@@ -115,7 +115,7 @@ const PendingTransactions = () => {
       console.log(selected, selectedRows, changeRows);
     },
     getCheckboxProps: (record) => ({
-      disabled: isIn(record.key, wasChecked),
+      disabled: record.status !== 'Pending',
       checked: !isIn(record.key, wasChecked),
     }),
   };
