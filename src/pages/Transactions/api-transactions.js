@@ -30,8 +30,9 @@ const getDeniedTransactions = async (location) => {
 
 const approveTransaction = async (location, data) => {
   try {
+    console.log(data);
     const response = await fetch(
-      `/api/${location}/transaction/approve/${data.transactionId}`,
+      `/api/${location}/transaction/approve/${data.uuid}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +52,7 @@ const denyTransaction = async (location, data) => {
   // TODO: fix the URI here
   try {
     const response = await fetch(
-      `/api/${location}/transaction/deny/${data.transactionId}`,
+      `/api/${location}/transaction/deny/${data.uuid}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -67,22 +68,11 @@ const denyTransaction = async (location, data) => {
   }
 };
 
-const getTeacherByID = async (location, id) => {
-  try {
-    const response = await fetch(`/api/teacher/${id}`);
-    return await response.json();
-  } catch (err) {
-    console.log(err);
-    return { error: 'Teacher Not Found' };
-  }
-};
-
 // eslint-disable-next-line import/prefer-default-export
 export {
   getPendingTransactions,
   approveTransaction,
   denyTransaction,
-  getTeacherByID,
   getApprovedTransactions,
   getDeniedTransactions,
 };

@@ -17,13 +17,17 @@ import {
   getDeniedTransactions,
   approveTransaction,
   denyTransaction,
-  getTeacherByID,
 } from './api-transactions';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import './Transactions.css';
 import TableHeader from '../../components/TableHeader/TableHeader';
 
+function removeDuplicates(arr) {
+  return arr.filter((item, index) => arr.indexOf(item) === index);
+}
+
 const dateConverter = (date) => {
+  console.log(date);
   const year = date.slice(0, 4);
   let month = parseInt(date.slice(5, 7), 10);
   const day = parseInt(date.slice(8, 10), 10);
@@ -92,6 +96,9 @@ const PendingTransactions = () => {
   const [wasChecked, setWasChecked] = useState([]);
   const { currentLocation } = useAuth();
 
+  useEffect(() => {
+    console.log(wasChecked);
+  }, [wasChecked]);
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(
@@ -113,16 +120,16 @@ const PendingTransactions = () => {
     }),
   };
 
-  const approveClick = (e, transaction) => {
+  const approveClick = async (e, transaction) => {
     e.preventDefault();
     console.log(transaction);
     let toDelete = {};
     for (let j = 0; j < rawData.length; j += 1) {
-      if (rawData[j].transactionId === transaction.key) {
+      if (rawData[j].uuid === transaction.key) {
         toDelete = rawData[j];
       }
     }
-    approveTransaction(currentLocation, toDelete);
+    const lol = await approveTransaction(currentLocation, toDelete);
     const tempArr = [...loadedData];
     const funnyObj = transaction;
     funnyObj.status = 'Approved';
@@ -130,13 +137,18 @@ const PendingTransactions = () => {
     tempArr[tempArr.indexOf(transaction)] = funnyObj;
     setLoadedData([]);
     setLoadedData(tempArr);
+    console.log(transaction, 'bruh', wasChecked, 'bruh');
+    setWasChecked((prevChecked) => {
+      prevChecked.push(transaction.key);
+      return prevChecked;
+    });
   };
 
   const denyClick = (e, transaction) => {
     e.preventDefault();
     let toDelete = {};
     for (let j = 0; j < rawData.length; j += 1) {
-      if (rawData[j].transactionId === transaction.key) {
+      if (rawData[j].uuid === transaction.key) {
         toDelete = rawData[j];
       }
     }
@@ -148,6 +160,10 @@ const PendingTransactions = () => {
     tempArr[tempArr.indexOf(transaction)] = funnyObj;
     setLoadedData([]);
     setLoadedData(tempArr);
+    setWasChecked((prevChecked) => {
+      prevChecked.push(transaction.key);
+      return prevChecked;
+    });
   };
 
   const columns = [
@@ -207,6 +223,7 @@ const PendingTransactions = () => {
 
   const formatItemData = (items) => {
     const formattedData = [];
+    console.log(items);
     for (let i = 0; i < items.length; i += 2) {
       let itemName2 = '';
       if (items[i + 1]) {
@@ -249,27 +266,22 @@ const PendingTransactions = () => {
 
   const formatData = (transactions, status) => {
     const formattedData = [];
-    console.log(status);
     for (let i = 0; i < transactions.length; i += 1) {
-      // eslint-disable-next-line no-loop-func
-      getTeacherByID(currentLocation, transactions[i].teacherId).then(
-        (teacher) => {
-          const formattedObj = {
-            date: dateConverter(transactions[i].createdAt),
-            name: `${teacher.firstName} ${teacher.lastName}`,
-            childNodes: formatItemData(transactions[i].items),
-            status: capitalizeFirstLetter(status),
-            key: transactions[i].transactionId,
-            isDisabled: !(status === 'Pending'),
-          };
-          formattedData.push(formattedObj);
-          if (i + 1 === transactions.length) {
-            setRawData(transactions);
-            setLoadedData(formattedData);
-            console.log(formattedData);
-          }
-        }
-      );
+      const { Teacher } = transactions[i];
+      const formattedObj = {
+        date: dateConverter(transactions[i].createdAt),
+        name: `${Teacher.firstName} ${Teacher.lastName}`,
+        childNodes: formatItemData(transactions[i].TransactionItems),
+        status: capitalizeFirstLetter(status),
+        key: transactions[i].uuid,
+        isDisabled: !(status === 'Pending'),
+      };
+      formattedData.push(formattedObj);
+      if (i + 1 === transactions.length) {
+        setRawData(transactions);
+        setLoadedData(formattedData);
+        console.log(formattedData);
+      }
     }
   };
 
@@ -327,7 +339,7 @@ const PendingTransactions = () => {
       transactionArr.push(selectedData[i].key);
       let toDelete = {};
       for (let j = 0; j < rawData.length; j += 1) {
-        if (rawData[j].transactionId === selectedData[i].key) {
+        if (rawData[j].uuid === selectedData[i].key) {
           toDelete = rawData[j];
         }
       }
@@ -340,17 +352,17 @@ const PendingTransactions = () => {
       setLoadedData([]);
       setLoadedData(tempArr);
     }
-    console.log(transactionArr);
-    setWasChecked(...wasChecked, ...transactionArr);
-    console.log(wasChecked);
+    setWasChecked(transactionArr.concat(wasChecked));
     setSelectedData([]);
   };
 
   const approveSelected = (e) => {
+    const transactionArr = [];
     for (let i = 0; i < selectedData.length; i += 1) {
+      transactionArr.push(selectedData[i].key);
       let toDelete = {};
       for (let j = 0; j < rawData.length; j += 1) {
-        if (rawData[j].transactionId === selectedData[i].key) {
+        if (rawData[j].uuid === selectedData[i].key) {
           toDelete = rawData[j];
         }
       }
@@ -363,11 +375,9 @@ const PendingTransactions = () => {
       setLoadedData([]);
       setLoadedData(tempArr);
     }
-    const transactionArr = [];
-    for (const transaction in selectedData) {
-      transactionArr.push(transaction.transactionId);
-    }
-    setWasChecked(...wasChecked, transactionArr);
+    console.log(wasChecked);
+    console.log(transactionArr);
+    setWasChecked(transactionArr.concat(wasChecked));
     setSelectedData([]);
   };
 
