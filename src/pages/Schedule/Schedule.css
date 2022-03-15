@@ -1,16 +1,16 @@
 .headerCell {
-  width: 25%;
+  width: 25vw;
   font-size: 16px;
   color: #8a8a8a;
   font-family: Roboto;
 }
 
 .itemCell {
-  width: 25%;
+  width: 25vw;
 }
 
 .timeCell {
-  width: 100%;
+  width: 15vw;
 }
 
 .scheduleItem div {
