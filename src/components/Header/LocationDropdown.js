@@ -18,6 +18,7 @@ const LocationDropdown = () => {
   const handleClick = (e) => {
     updateLocation(e.target.innerText);
     updateLocation(e.target.innerText);
+    window.location.reload();
   };
 
   const handleAddLocation = () => {
