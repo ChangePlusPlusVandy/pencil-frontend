@@ -1,3 +1,5 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -6,6 +8,7 @@ import 'antd/dist/antd.css';
 import { FaChevronDown, FaChevronUp, FaCheck } from 'react-icons/fa';
 import { ImCross } from 'react-icons/im';
 import { Table, Space } from 'antd';
+import isIn from 'validator/lib/isIn';
 import { useAuth } from '../../AuthContext';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import {
@@ -86,6 +89,7 @@ const PendingTransactions = () => {
   const [rawData, setRawData] = useState([]);
   const [view, setView] = useState('Pending');
   const [selectedData, setSelectedData] = useState([]);
+  const [wasChecked, setWasChecked] = useState([]);
   const { currentLocation } = useAuth();
 
   const rowSelection = {
@@ -103,6 +107,10 @@ const PendingTransactions = () => {
     onSelectAll: (selected, selectedRows, changeRows) => {
       console.log(selected, selectedRows, changeRows);
     },
+    getCheckboxProps: (record) => ({
+      disabled: isIn(record.key, wasChecked),
+      checked: !isIn(record.key, wasChecked),
+    }),
   };
 
   const approveClick = (e, transaction) => {
@@ -119,7 +127,6 @@ const PendingTransactions = () => {
     const funnyObj = transaction;
     funnyObj.status = 'Approved';
     funnyObj.isDisabled = true;
-    e.target.style.visibility = 'hidden';
     tempArr[tempArr.indexOf(transaction)] = funnyObj;
     setLoadedData([]);
     setLoadedData(tempArr);
@@ -138,7 +145,6 @@ const PendingTransactions = () => {
     const funnyObj = transaction;
     funnyObj.status = 'Denied';
     funnyObj.isDisabled = true;
-    e.target.style.visibility = 'hidden';
     tempArr[tempArr.indexOf(transaction)] = funnyObj;
     setLoadedData([]);
     setLoadedData(tempArr);
@@ -316,7 +322,9 @@ const PendingTransactions = () => {
   };
 
   const denySelected = (e) => {
+    const transactionArr = [];
     for (let i = 0; i < selectedData.length; i += 1) {
+      transactionArr.push(selectedData[i].key);
       let toDelete = {};
       for (let j = 0; j < rawData.length; j += 1) {
         if (rawData[j].transactionId === selectedData[i].key) {
@@ -328,11 +336,13 @@ const PendingTransactions = () => {
       const funnyObj = selectedData[i];
       funnyObj.status = 'Denied';
       funnyObj.isDisabled = true;
-      e.target.style.visibility = 'hidden';
       tempArr[tempArr.indexOf(selectedData[i])] = funnyObj;
       setLoadedData([]);
       setLoadedData(tempArr);
     }
+    console.log(transactionArr);
+    setWasChecked(...wasChecked, ...transactionArr);
+    console.log(wasChecked);
     setSelectedData([]);
   };
 
@@ -353,6 +363,11 @@ const PendingTransactions = () => {
       setLoadedData([]);
       setLoadedData(tempArr);
     }
+    const transactionArr = [];
+    for (const transaction in selectedData) {
+      transactionArr.push(transaction.transactionId);
+    }
+    setWasChecked(...wasChecked, transactionArr);
     setSelectedData([]);
   };
 
