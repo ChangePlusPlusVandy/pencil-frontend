@@ -46,8 +46,10 @@ const Reports = () => {
     <PageContainer>
       <div className="reportsHeader">
         <div className="tableHeaderTitle">Reports</div>
-        <div className="secondaryButton">Generate Report</div>
-        <FaFileDownload size="15" />
+        <div className="secondaryButton vertical-align-center">
+          Generate Report
+          <FaFileDownload size="14" />
+        </div>
       </div>
       <div className="reportsHeaderArea">
         <div className="reportsHeaderLeft">

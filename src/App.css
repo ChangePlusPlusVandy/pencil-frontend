@@ -59,6 +59,10 @@ body {
   color: #b6b1b1;
 }
 
+.secondaryButton > svg {
+  margin-left: 3px;
+}
+
 .margin-auto {
   margin: auto;
 }

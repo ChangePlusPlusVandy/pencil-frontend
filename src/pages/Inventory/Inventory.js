@@ -143,18 +143,21 @@ const ReactList = () => {
 
   const leftItems = (
     <>
-      <div className="secondaryButton">Print Inventory</div>
-      <AiFillPrinter />
+      <div className="secondaryButton vertical-align-center">
+        Print Inventory
+        <AiFillPrinter />
+      </div>
+
       <div
-        className="secondaryButton"
+        className="secondaryButton vertical-align-center"
         role="button"
         tabIndex={0}
         onClick={() => setAddItemVisible(true)}
         onKeyDown={() => {}}
       >
         Add Item
+        <GrFormAdd />
       </div>
-      <GrFormAdd />
     </>
   );
 
