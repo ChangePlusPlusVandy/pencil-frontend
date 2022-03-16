@@ -46,7 +46,10 @@ const LocationDropdown = () => {
         <a onClick={handleClick}>{loc.name}</a>
       ))}
       <div className="horizontal_line" />
-      <a className="addLocationButton" onClick={handleAddLocation}>
+      <a
+        className="secondaryButton vertical-align-center"
+        onClick={handleAddLocation}
+      >
         Add Location <TiPlus style={{ marginLeft: '2px' }} />
       </a>
     </>

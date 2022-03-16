@@ -1,7 +1,12 @@
+.ant-table {
+  background-color: var(--bgSecondary);
+  color: var(--textColor);
+}
+
 .scrollingTransactions {
   height: 100%;
   overflow-y: scroll;
-  background-color: white;
+  background-color: var(--bgSecondary);
   padding: 0em 2em;
   border-radius: 20px;
   -ms-overflow-style: none; /* IE and Edge */
@@ -14,11 +19,11 @@
 }
 
 .scrollingTransactions td:nth-child(5) {
-  color: #71c3e7;
+  color: var(--primary);
 }
 
 tr.ant-table-row {
-  background-color: #f6f6f6;
+  background-color: var(--bgPrimary);
   margin: 20px;
 }
 
@@ -36,8 +41,12 @@ tr.ant-table-row td:last-child {
   visibility: hidden;
 }
 
+.ant-empty {
+  visibility: hidden;
+}
+
 th.ant-table-cell {
-  background-color: white;
+  background-color: var(--bgPrimary);
 }
 
 .ant-table table {
@@ -53,9 +62,13 @@ th.ant-table-cell {
   border-spacing: none !important;
 }
 
+.ant-table.thead {
+  background-color: var(--bgSecondary);
+}
+
 .ant-table-thead > tr > th {
-  background-color: white;
-  color: #8a8a8a;
+  background-color: var(--bgSecondary);
+  color: var(--textSecondary);
 }
 
 th.ant-table-cell::before {
@@ -127,8 +140,7 @@ th.ant-table-cell::before {
 }
 
 .bigTable {
-  font-family: Roboto;
-  background: white;
+  background: var(--bgPrimary);
 }
 
 .expandedData {
@@ -139,8 +151,8 @@ th.ant-table-cell::before {
   justify-content: center;
   align-items: center;
   font-size: 16px;
-  color: rgba(0, 0, 0, 0.75);
-  background-color: #71c3e7;
+  color: var(--textColor);
+  background-color: var(--primary);
   margin: 10px auto;
   border-radius: 20px;
   height: 32px;
@@ -151,5 +163,5 @@ th.ant-table-cell::before {
 }
 
 .load-more:hover {
-  background-color: #50b9e8;
+  background-color: var(--primaryHover);
 }

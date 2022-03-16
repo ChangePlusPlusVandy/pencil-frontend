@@ -2,7 +2,6 @@
   margin-top: 4vh;
   margin-left: 9vw;
   font-size: 28px;
-  font-family: 'Roboto';
 }
 
 .settingsContainer {
@@ -11,7 +10,6 @@
   margin-top: 1vh;
   margin-bottom: 10vh;
   font-size: 18px;
-  font-family: 'Roboto';
   display: flex;
   flex-direction: row;
 }
@@ -19,7 +17,7 @@
 .settingNav {
   height: 65vh;
   width: 30%;
-  background-color: white;
+  background-color: var(--bgPrimary);
   border-radius: 20px;
   padding: 2% 2%;
   display: flex;
@@ -33,7 +31,6 @@
   padding: 1vh 1vw;
   margin-bottom: 2vh;
   font-size: 18px;
-  font-family: 'Roboto';
   border-radius: 8px;
 }
 
@@ -60,7 +57,7 @@
 .settingsBody {
   width: 90%;
   height: 65vh;
-  background-color: white;
+  background-color: var(--bgSecondary);
   padding: 40px;
   border-radius: 20px;
   margin: auto;

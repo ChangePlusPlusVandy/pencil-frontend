@@ -31,10 +31,10 @@
 }
 
 .dark-button {
-  color: #000000d0 !important;
-  background-color: white;
+  color: var(--textColor) !important;
+  background-color: var(--bgSecondary);
 }
 
 .dark-button:hover {
-  background-color: white;
+  background-color: var(--bgSecondary);
 }
