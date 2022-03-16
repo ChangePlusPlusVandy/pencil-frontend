@@ -1,29 +1,15 @@
 .headerCell {
-  width: 25%;
+  width: 25vw;
   font-size: 16px;
   color: var(--textSecondary);
 }
 
-.scheduleItem {
-  display: flex;
-  flex-direction: row;
-  padding: 10px 40px;
-  background-color: #f6f6f6;
-  border-radius: 20px;
-  margin: 0 30px 10px 30px;
-}
-
-#headerContainer {
-  background-color: #ffffff;
-  margin-bottom: 0;
-}
-
 .itemCell {
-  width: 25%;
+  width: 25vw;
 }
 
 .timeCell {
-  width: 100%;
+  width: 15vw;
 }
 
 .scheduleItem div {

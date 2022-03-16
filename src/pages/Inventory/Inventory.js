@@ -39,7 +39,7 @@ const ReactList = () => {
 
   const addItem = (e, formInfo) => {
     e.preventDefault();
-    console.log('Adding item: ', data);
+    console.log('Adding item: ', formInfo);
     if (
       formInfo.itemName === '' ||
       formInfo.itemName === undefined ||
@@ -49,7 +49,7 @@ const ReactList = () => {
       console.log('Cant have empty entries!');
       return;
     }
-    if (data.some((item) => item.itemName === formInfo.itemName)) {
+    if (data.some((item) => item['Item.itemName'] === formInfo.itemName)) {
       // TODO: add alert dialog
       console.log('Cant have duplicate entries!');
       return;
@@ -57,7 +57,7 @@ const ReactList = () => {
 
     const newItem = {
       itemId: Math.floor(Math.random() * 1000),
-      itemName: formInfo.itemName,
+      'Item.itemName': formInfo.itemName,
       maxLimit: formInfo.maxLimit,
       itemOrder: data.length,
     };
@@ -87,7 +87,7 @@ const ReactList = () => {
 
   const handleDelete = (name) => {
     console.log(name);
-    const newData = data.filter((item) => item.itemName !== name);
+    const newData = data.filter((item) => item['Item.itemName'] !== name);
     console.log(newData);
     setData([]);
     setData(newData);
@@ -126,6 +126,7 @@ const ReactList = () => {
           alert(
             'Something went wrong in the backend Server. Please contact the developer team.'
           );
+          console.log(result);
         } else if ('error' in result) {
           // eslint-disable-next-line no-alert
           alert('No location is selected. Please select a location');
@@ -192,9 +193,9 @@ const ReactList = () => {
               <ul className="dragList">
                 {data.map((item, index) => (
                   <Item
-                    key={item.itemName}
+                    key={item['Item.itemName']}
                     number={index}
-                    itemName={item.itemName}
+                    itemName={item['Item.itemName']}
                     limit={item.maxLimit}
                     inventory={data}
                     updateInventory={handleItemChange}

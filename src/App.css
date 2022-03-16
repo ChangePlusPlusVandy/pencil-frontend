@@ -40,6 +40,7 @@ body {
   font-size: 16px;
   opacity: 75%;
   border: none;
+  white-space: nowrap;
   text-decoration: underline;
   background-color: transparent;
 }
@@ -68,4 +69,19 @@ body {
 .horizontal-align-center {
   display: flex;
   justify-content: center;
+}
+
+/* Table header cell styling */
+.tableItem {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 40px;
+  background-color: #f6f6f6;
+  border-radius: 20px;
+  margin: 0 30px 10px 30px;
+}
+
+.tableHeader {
+  background-color: #ffffff !important;
+  margin-bottom: 0 !important;
 }

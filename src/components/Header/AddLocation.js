@@ -16,6 +16,7 @@ const AddLocation = ({ show, onClose }) => {
       console.log('Location created: ', res);
       onClose();
     });
+    window.location.reload();
   };
 
   const [formInfo, setFormInfo] = useState({
