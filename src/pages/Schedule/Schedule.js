@@ -18,7 +18,7 @@ const Schedule = () => {
 
   useEffect(() => {
     getSchedules(currentLocation).then((items) => {
-      if (items) {
+      if (!items.err) {
         setScheduleData(items);
       }
     });
@@ -118,8 +118,8 @@ const Schedule = () => {
     <PageContainer>
       <TableHeader
         title="Schedule"
-        leftItems={leftItems}
-        rightItems={rightItems}
+        leftArea={leftItems}
+        rightArea={rightItems}
       />
       <table className="itemContainer">
         <tr className="tableItem tableHeader">

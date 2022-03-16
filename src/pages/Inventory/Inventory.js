@@ -141,6 +141,37 @@ const ReactList = () => {
       });
   }, []);
 
+  const leftItems = (
+    <>
+      <div className="secondaryButton">Print Inventory</div>
+      <AiFillPrinter />
+      <div
+        className="secondaryButton"
+        role="button"
+        tabIndex={0}
+        onClick={() => setAddItemVisible(true)}
+        onKeyDown={() => {}}
+      >
+        Add Item
+      </div>
+      <GrFormAdd />
+    </>
+  );
+
+  const rightItems = (
+    <>
+      <InventoryToggle onChange={setInventory} />
+      <button
+        type="button"
+        className="primaryButton"
+        disabled={!changed}
+        onClick={handleSave}
+      >
+        Save
+      </button>
+    </>
+  );
+
   return (
     <>
       <ItemPopup
@@ -150,35 +181,8 @@ const ReactList = () => {
       />
       <TableHeader
         title={`Inventory (${locationSelected ? data.length : 0})`}
-        leftArea={
-          <>
-            <div className="secondaryButton">Print Inventory</div>
-            <AiFillPrinter />
-            <div
-              className="secondaryButton"
-              role="button"
-              tabIndex={0}
-              onClick={() => setAddItemVisible(true)}
-              onKeyDown={() => {}}
-            >
-              Add Item
-            </div>
-            <GrFormAdd />
-          </>
-        }
-        rightArea={
-          <>
-            <InventoryToggle onChange={setInventory} />
-            <button
-              type="button"
-              className="primaryButton"
-              disabled={!changed}
-              onClick={handleSave}
-            >
-              Save
-            </button>
-          </>
-        }
+        leftArea={leftItems}
+        rightArea={rightItems}
       />
       <div className="itemContainer">
         {inventory === 'Active' ? (

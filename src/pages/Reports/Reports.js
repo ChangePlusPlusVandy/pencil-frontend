@@ -7,7 +7,6 @@ import 'pikaday/css/pikaday.css';
 import './Reports.css';
 
 import PageContainer from '../../components/PageContainer/PageContainer';
-import TableHeader from '../../components/TableHeader/TableHeader';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import CalendarInput from './CalendarInput';
 import FilterInput from './FilterInput';
@@ -33,8 +32,8 @@ const Reports = () => {
     <>
       <button
         type="button"
-        className="saveButton"
-        id="saveButton"
+        className="primaryButton"
+        // disabled={}
         // onClick={}
       >
         View Stats
