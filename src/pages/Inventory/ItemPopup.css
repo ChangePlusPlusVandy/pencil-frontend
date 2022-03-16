@@ -52,7 +52,7 @@
 }
 
 .add-item-input:focus {
-  outline: #71c3e7 auto 2px;
+  outline: var(--primary) auto 2px;
 }
 
 .add-item-cancel {
@@ -70,7 +70,7 @@
   color: rgba(0, 0, 0, 0.75);
   border: none;
   background-color: #fafafa;
-  border: #71c3e7 1px solid;
+  border: var(--primary) 1px solid;
   border-radius: 20px;
   height: 40px;
   width: 100px;
@@ -81,5 +81,5 @@
 }
 
 .add-item-add:hover {
-  background-color: #71c3e7;
+  background-color: var(--primary);
 }

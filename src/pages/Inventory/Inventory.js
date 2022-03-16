@@ -119,16 +119,6 @@ const ReactList = () => {
   };
 
   useEffect(() => {
-    if (changed && inventory === 'Active') {
-      document.getElementById('saveButton').className = 'saveButtonChanged';
-    } else if (inventory === 'Active') {
-      document.getElementById('saveButton').className = 'saveButton';
-    } else {
-      // Do nothing
-    }
-  }, [changed]);
-
-  useEffect(() => {
     getInventory(currentLocation)
       .then((result) => {
         if (result instanceof Error) {
@@ -181,8 +171,8 @@ const ReactList = () => {
             <InventoryToggle onChange={setInventory} />
             <button
               type="button"
-              className="saveButton"
-              id="saveButton"
+              className="primaryButton"
+              disabled={!changed}
               onClick={handleSave}
             >
               Save

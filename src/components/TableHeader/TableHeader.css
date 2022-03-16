@@ -1,10 +1,10 @@
 .tableHeaderTitle {
-  font-family: Roboto, sans-serif;
   font-style: bold;
   font-weight: 500;
   font-size: 32px;
   margin-bottom: 0;
   white-space: nowrap;
+  color: var(--textColor);
 }
 
 .tableHeaderArea {

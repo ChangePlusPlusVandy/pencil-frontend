@@ -1,8 +1,7 @@
 .headerCell {
   width: 25vw;
   font-size: 16px;
-  color: #8a8a8a;
-  font-family: Roboto;
+  color: var(--textSecondary);
 }
 
 .itemCell {
@@ -28,7 +27,7 @@
 }
 
 .schedule-dropdown {
-  border-color: #71c3e7;
+  border-color: var(--primary);
   margin-left: auto;
   height: 25px;
 }

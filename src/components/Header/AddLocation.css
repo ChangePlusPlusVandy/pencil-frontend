@@ -39,7 +39,7 @@
 }
 
 .location-input:focus {
-  outline: #50b9e8 auto 2px;
+  outline: var(--primaryHover) auto 2px;
 }
 
 .copy-checkbox-area .ant-checkbox-wrapper {
@@ -75,7 +75,7 @@
   font-size: 16px;
   color: rgba(0, 0, 0, 0.75);
   border: none;
-  background-color: #71c3e7;
+  background-color: var(--primary);
   border-radius: 20px;
   height: 40px;
   padding: 0 25px;
@@ -84,10 +84,10 @@
 }
 
 .location-modal-add:hover {
-  background-color: #50b9e8;
+  background-color: var(--primaryHover);
 }
 
 /* .ant-checkbox-checked .ant-checkbox-inner {
-  background-color: #71c3e7;
-  border-color: #71c3e7;
+  background-color: var(--primary);
+  border-color: var(--primary);
 } */
