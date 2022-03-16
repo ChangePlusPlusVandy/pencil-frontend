@@ -29,6 +29,7 @@ body {
   border-style: none;
   background-color: var(--primary);
   transition: all 0.3s ease-in-out;
+  margin: 0 10px;
 }
 
 .primaryButton:hover {
@@ -43,6 +44,7 @@ body {
   white-space: nowrap;
   text-decoration: underline;
   background-color: transparent;
+  margin: 0 10px;
 }
 
 .secondaryButton:hover {
@@ -59,6 +61,10 @@ body {
 
 .margin-auto {
   margin: auto;
+}
+
+.no-margin {
+  margin: 0;
 }
 
 .vertical-align-center {
