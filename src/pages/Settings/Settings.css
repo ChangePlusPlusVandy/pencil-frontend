@@ -1,11 +1,9 @@
 .settingsTitle {
   font-size: 28px;
-  font-family: 'Roboto';
 }
 
 .settingsContainer {
   font-size: 18px;
-  font-family: 'Roboto';
   display: flex;
   flex-direction: row;
 }
@@ -46,7 +44,7 @@
   position: relative;
   width: 90%;
   height: 65vh;
-  background-color: white;
+  background-color: var(--bgSecondary);
   padding: 40px;
   border-radius: 20px;
   margin: auto;

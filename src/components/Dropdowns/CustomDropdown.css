@@ -1,17 +1,15 @@
 .custom-dropdown {
-  color: #000000;
+  color: var(--textColor);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0px 22px;
   border: 1.5px solid transparent;
   border-radius: 20px;
-  font-family: 'Roboto', sans-serif;
   font-size: 16px;
   font-weight: 500;
   transition: all 0.3s ease-in-out;
-  background-color: #ffffff;
-  margin-left: 20px;
+  background-color: var(--bgSecondary);
 }
 
 .custom-dropdown.large {
@@ -26,8 +24,8 @@
 }
 
 .custom-dropdown:hover {
-  border-color: #71c3e7;
-  color: black;
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .ant-dropdown-link > .dropdown_arrow {
@@ -35,7 +33,7 @@
 }
 
 .ant-dropdown-open {
-  border-color: #71c3e7;
+  border-color: var(--primary);
   border-radius: 20px 20px 0px 0px;
   border-bottom: none;
 }
@@ -45,8 +43,8 @@
 }
 
 .dropdown_menu {
-  background-color: white;
-  border: 1.5px solid #71c3e7;
+  background-color: var(--bgSecondary);
+  border: 1.5px solid var(--primary);
   width: inherit;
   border-top: none;
   border-radius: 0px 0px 20px 20px;
@@ -58,12 +56,12 @@
 
 .dropdown_menu > a {
   font-size: 16px;
-  color: rgba(0, 0, 0, 0.7);
+  color: var(--textColor);
   margin-bottom: 5px;
 }
 
 .dropdown_menu > a:hover {
-  color: #71c3e7;
+  color: var(--primary);
 }
 
 .horizontal_line {

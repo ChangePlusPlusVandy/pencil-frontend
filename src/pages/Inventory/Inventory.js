@@ -119,16 +119,6 @@ const ReactList = () => {
   };
 
   useEffect(() => {
-    if (changed && inventory === 'Active') {
-      document.getElementById('saveButton').className = 'saveButtonChanged';
-    } else if (inventory === 'Active') {
-      document.getElementById('saveButton').className = 'saveButton';
-    } else {
-      // Do nothing
-    }
-  }, [changed]);
-
-  useEffect(() => {
     getInventory(currentLocation)
       .then((result) => {
         if (result instanceof Error) {
@@ -151,6 +141,40 @@ const ReactList = () => {
       });
   }, []);
 
+  const leftItems = (
+    <>
+      <div className="secondaryButton vertical-align-center">
+        Print Inventory
+        <AiFillPrinter />
+      </div>
+
+      <div
+        className="secondaryButton vertical-align-center"
+        role="button"
+        tabIndex={0}
+        onClick={() => setAddItemVisible(true)}
+        onKeyDown={() => {}}
+      >
+        Add Item
+        <GrFormAdd />
+      </div>
+    </>
+  );
+
+  const rightItems = (
+    <>
+      <InventoryToggle onChange={setInventory} />
+      <button
+        type="button"
+        className="primaryButton"
+        disabled={!changed}
+        onClick={handleSave}
+      >
+        Save
+      </button>
+    </>
+  );
+
   return (
     <>
       <ItemPopup
@@ -160,35 +184,8 @@ const ReactList = () => {
       />
       <TableHeader
         title={`Inventory (${locationSelected ? data.length : 0})`}
-        leftArea={
-          <>
-            <div className="secondaryButton">Print Inventory</div>
-            <AiFillPrinter />
-            <div
-              className="secondaryButton"
-              role="button"
-              tabIndex={0}
-              onClick={() => setAddItemVisible(true)}
-              onKeyDown={() => {}}
-            >
-              Add Item
-            </div>
-            <GrFormAdd />
-          </>
-        }
-        rightArea={
-          <>
-            <InventoryToggle onChange={setInventory} />
-            <button
-              type="button"
-              className="saveButton"
-              id="saveButton"
-              onClick={handleSave}
-            >
-              Save
-            </button>
-          </>
-        }
+        leftArea={leftItems}
+        rightArea={rightItems}
       />
       <div className="itemContainer">
         {inventory === 'Active' ? (

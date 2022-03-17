@@ -2,13 +2,11 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
-
 import { FaFileDownload } from 'react-icons/fa';
 import 'pikaday/css/pikaday.css';
 import './Reports.css';
 
 import PageContainer from '../../components/PageContainer/PageContainer';
-import TableHeader from '../../components/TableHeader/TableHeader';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import CalendarInput from './CalendarInput';
 import FilterInput from './FilterInput';
@@ -34,8 +32,8 @@ const Reports = () => {
     <>
       <button
         type="button"
-        className="saveButton"
-        id="saveButton"
+        className="primaryButton"
+        // disabled={}
         // onClick={}
       >
         View Stats
@@ -48,8 +46,10 @@ const Reports = () => {
     <PageContainer>
       <div className="reportsHeader">
         <div className="tableHeaderTitle">Reports</div>
-        <div className="secondaryButton">Generate Report</div>
-        <FaFileDownload size="15" />
+        <div className="secondaryButton vertical-align-center">
+          Generate Report
+          <FaFileDownload size="14" />
+        </div>
       </div>
       <div className="reportsHeaderArea">
         <div className="reportsHeaderLeft">

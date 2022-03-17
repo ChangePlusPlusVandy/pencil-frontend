@@ -16,6 +16,7 @@ const AddLocation = ({ show, onClose }) => {
       console.log('Location created: ', res);
       onClose();
     });
+    window.location.reload();
   };
 
   const [formInfo, setFormInfo] = useState({
@@ -63,14 +64,14 @@ const AddLocation = ({ show, onClose }) => {
             </Checkbox>
           </div>
           <div className="location-button-group">
-            <button
-              type="button"
-              className="location-modal-close"
-              onClick={onClose}
-            >
+            <button type="button" className="secondaryButton" onClick={onClose}>
               <u>Cancel</u>
             </button>
-            <button type="submit" className="location-modal-add">
+            <button
+              type="submit"
+              className="primaryButton"
+              disabled={!formInfo.name || !formInfo.address}
+            >
               Add Location
             </button>
           </div>

@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import { AiFillPrinter } from 'react-icons/ai';
+import { useAuth } from '../../AuthContext';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import { getSchedules } from './api-schedule';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
@@ -13,11 +14,13 @@ import TableHeader from '../../components/TableHeader/TableHeader';
 const Schedule = () => {
   const [scheduleData, setScheduleData] = useState([]);
   const [view, setView] = useState('Today');
-  const [loadedData, setLoadedData] = useState([]);
+  const { currentLocation } = useAuth();
 
   useEffect(() => {
-    getSchedules('Nashville').then((items) => {
-      if (items) setScheduleData(items);
+    getSchedules(currentLocation).then((items) => {
+      if (!items.err) {
+        setScheduleData(items);
+      }
     });
   }, []);
 
@@ -115,8 +118,8 @@ const Schedule = () => {
     <PageContainer>
       <TableHeader
         title="Schedule"
-        leftItems={leftItems}
-        rightItems={rightItems}
+        leftArea={leftItems}
+        rightArea={rightItems}
       />
       <table className="itemContainer">
         <tr className="tableItem tableHeader">
@@ -124,16 +127,17 @@ const Schedule = () => {
           <td className="headerCell">Name</td>
           <td className="headerCell">Pencil ID</td>
           <td className="headerCell">School</td>
+          <td className="headerCell">Phone Number</td>
         </tr>
         <tr>
           {scheduleData.map((item, index) => {
             // const createdAt = new Date(item.created_at);
             const fullName = item.name;
-            const phoneNumber = item.phone;
-            const schoolName = item.school;
+            const phoneNumber = item.questions_and_answers[1].answer;
+            const schoolName = item.questions_and_answers[0].answer;
             const date = getDate(item.start_time);
             const time = getTime(item.end_time, item.end_time);
-            const pencilId = item.teacherId;
+            const pencilId = 'N/A';
             return (
               <div className="tableItem">
                 <div className="timeBox">
@@ -143,6 +147,7 @@ const Schedule = () => {
                 <td className="itemCell bold">{fullName}</td>
                 <td className="itemCell">{pencilId}</td>
                 <td className="itemCell">{schoolName}</td>
+                <td className="itemCell">{phoneNumber}</td>
               </div>
             );
           })}

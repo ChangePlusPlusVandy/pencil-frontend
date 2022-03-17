@@ -3,7 +3,7 @@
 .header {
   height: 100px;
   box-shadow: 0 4px 7px -7px gray;
-  background-color: white;
+  background-color: var(--bgSecondary);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -30,11 +30,15 @@
 
 .header_title {
   font-size: 28px;
-  font-family: 'Bitter', serif;
   margin-top: 1em;
+  font-family: 'Bitter', serif;
 }
 
 .header_right {
   display: flex;
   flex-direction: row;
+}
+
+.header_right > * {
+  margin-right: 1rem;
 }
