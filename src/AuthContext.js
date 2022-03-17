@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   /**
-   * Allows user to change password with email.
+   * Allows user to reset password with email.
    * @param {Object} {email} - Email of user.
    * @return {Object} - User object.
    * */
@@ -76,6 +76,11 @@ export const AuthProvider = ({ children }) => {
     return firebase.auth().sendPasswordResetEmail(email);
   }
 
+  /**
+   * Allows user to update password with new password.
+   * @param {Object} {password} - New password of user.
+   * @return {Object} - User object.
+   * */
   function changePassword(newPassword) {
     return firebase
       .auth()
@@ -86,12 +91,55 @@ export const AuthProvider = ({ children }) => {
   }
 
   /**
+   * Allows user to update display name with new display name.
+   * @param {Object} {displayName} - New display name of user.
+   * @return {Object} - User object.
+   * */
+  function changeDisplayName(newDisplayName) {
+    return firebase
+      .auth()
+      .currentUser.updateProfile({
+        displayName: newDisplayName,
+      })
+      .then(() => {
+        console.log('Changed display name');
+      });
+  }
+
+  /**
+   * Allows user to update email with new email.
+   * @param {Object} {email} - New email of user.
+   * @return {Object} - User object.
+   * */
+  function changeEmail(newEmail) {
+    return firebase
+      .auth()
+      .currentUser.updateEmail(newEmail)
+      .then(() => {
+        console.log('Changed email');
+      });
+  }
+
+  /**
    * Updates current location.
    * @param string - name of new location.
    */
   function updateLocation(location) {
     setCurrentLocation(location);
     sessionStorage.setItem('location', location);
+  }
+
+  /**
+   * Reauthenticates user with password.
+   * @param string - current password of user
+   */
+  function reauthenticate(password) {
+    const user = firebase.auth().currentUser;
+    const cred = firebase.auth.EmailAuthProvider.credential(
+      user.email,
+      password
+    );
+    return user.reauthenticateWithCredential(cred);
   }
 
   useEffect(() => {
@@ -116,7 +164,10 @@ export const AuthProvider = ({ children }) => {
       logout,
       forgotPassword,
       changePassword,
+      changeDisplayName,
+      changeEmail,
       updateLocation,
+      reauthenticate,
     }),
     [
       currentUser,
@@ -126,7 +177,10 @@ export const AuthProvider = ({ children }) => {
       logout,
       forgotPassword,
       changePassword,
+      changeDisplayName,
+      changeEmail,
       updateLocation,
+      reauthenticate,
     ]
   );
 

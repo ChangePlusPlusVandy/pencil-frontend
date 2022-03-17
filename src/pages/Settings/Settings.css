@@ -1,91 +1,54 @@
 .settingsTitle {
-  margin-top: 4vh;
-  margin-left: 9vw;
   font-size: 28px;
 }
 
 .settingsContainer {
-  width: 100vw;
-  padding: 0 9vw;
-  margin-top: 1vh;
-  margin-bottom: 10vh;
   font-size: 18px;
   display: flex;
   flex-direction: row;
 }
 
 .settingNav {
-  height: 65vh;
-  width: 30%;
-  background-color: var(--bgPrimary);
+  width: 20vw;
+  background-color: var(--bgSecondary);
   border-radius: 20px;
-  padding: 2% 2%;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  color: var(--textSecondary);
 }
 
 .settingNavRow {
+  display: flex;
   cursor: pointer;
-  height: 6vh;
-  padding: 1vh 1vw;
-  margin-bottom: 2vh;
+  height: 50px;
+  padding: 12px 10px;
+  margin-bottom: 5px;
   font-size: 18px;
   border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.settingNavRow:hover {
+  color: var(--primaryHover);
 }
 
 .navRow-active {
   color: #45a5cf;
-  background-color: rgba(113, 195, 231, 0.3);
-  border: 2px solid rgba(113, 195, 231, 0.7) !important;
+  background-color: #eaf6fc;
+  outline: 1.5px solid #50b9e8 !important;
 }
 
-.navRow-inactive {
-  color: #696969;
-  background-color: none;
-}
-
-.backToDash {
-  color: #696969;
-  margin-bottom: 0;
-}
-
-.link {
-  font-size: 16px !important;
-  color: #696969 !important;
-}
 .settingsBody {
+  position: relative;
   width: 90%;
   height: 65vh;
   background-color: var(--bgSecondary);
   padding: 40px;
   border-radius: 20px;
   margin: auto;
-  margin-left: 3vw;
-}
-
-.locationManagerHeader {
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 20px;
-}
-
-.editButton {
-  display: flex;
-  font-size: 14px;
-  margin-left: 25px;
-  margin-right: 8px;
-  opacity: 75%;
-  text-decoration: underline;
-  align-items: baseline;
-}
-
-.editButton:hover {
-  cursor: pointer;
-}
-
-.editButton > p {
-  padding-right: 10px;
+  margin-left: 30px;
 }
 
 .settingsBody > ul {
@@ -101,6 +64,10 @@
   border-radius: 20px;
   margin-bottom: 20px;
   font-size: 16px;
+}
+
+.editableLocationRow {
+  background-color: #eaf6fc;
 }
 
 .locationName {
@@ -122,7 +89,8 @@
   padding-right: 50px;
 }
 
-.profileColHeader {
+.profileColHeader,
+.locationManagerHeader {
   display: flex;
   width: 100%;
   align-items: baseline;
@@ -133,9 +101,38 @@
   display: flex;
   flex-direction: column;
   margin: 20px auto;
-  opacity: 50%;
 }
 
-.profileEntryTitle > p {
-  margin: 0;
+.profileInputContainer {
+  color: var(--textSecondary);
+}
+
+.profileInputContainerDisabled {
+  color: var(--textDisabled);
+}
+
+.profileInput {
+  border-radius: 5px;
+  border: 1.5px solid;
+  outline: none;
+  padding: 2px 8px;
+}
+
+.profileInput:focus {
+  border: 1.5px solid var(--primaryHover);
+}
+
+.profileActionButton {
+  display: flex;
+  align-items: center;
+  bottom: 0;
+  right: 0;
+  padding-right: 40px;
+  padding-bottom: 30px;
+  position: absolute;
+}
+
+.profileError {
+  color: rgba(220, 20, 60, 0.8);
+  margin-top: 5px;
 }

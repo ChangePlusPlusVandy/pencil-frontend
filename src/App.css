@@ -6,8 +6,9 @@ body {
   --primaryHover: #50b9e8;
   --bgPrimary: #f6f6f6;
   --bgSecondary: #fff;
-  --textColor: #000000;
-  --textSecondary: #8a8a8a;
+  --textColor: rgba(0, 0, 0);
+  --textSecondary: rgba(0, 0, 0, 0.75);
+  --textDisabled: rgba(0, 0, 0, 0.5);
   background-color: var(--bgPrimary);
   margin: 0;
   color: var(--textColor);
@@ -44,11 +45,17 @@ body {
   white-space: nowrap;
   text-decoration: underline;
   background-color: transparent;
+  transition: all 0.3s ease-in-out;
   margin: 0 10px;
+}
+
+.secondaryButtonSelected {
+  color: var(--primaryHover);
 }
 
 .secondaryButton:hover {
   cursor: pointer;
+  color: var(--primaryHover);
 }
 
 .primaryButton:disabled,
@@ -86,12 +93,12 @@ body {
   display: flex;
   flex-direction: row;
   padding: 10px 40px;
-  background-color: #f6f6f6;
+  background-color: var(--bgPrimary);
   border-radius: 20px;
   margin: 0 30px 10px 30px;
 }
 
 .tableHeader {
-  background-color: #ffffff !important;
+  background-color: var(--bgSecondary) !important;
   margin-bottom: 0 !important;
 }
