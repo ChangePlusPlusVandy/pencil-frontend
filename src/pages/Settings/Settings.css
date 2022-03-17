@@ -63,29 +63,6 @@
   margin-left: 30px;
 }
 
-.editButton {
-  display: flex;
-  font-size: 14px;
-  margin-left: 25px;
-  margin-right: 8px;
-  opacity: 75%;
-  text-decoration: underline;
-  align-items: baseline;
-}
-
-.editButton:hover {
-  cursor: pointer;
-  color: #50b9e8;
-}
-
-.editButton > p {
-  padding-right: 10px;
-}
-
-.editButtonSelected {
-  color: #50b9e8;
-}
-
 .settingsBody > ul {
   margin: 0;
   padding: 0;
@@ -136,30 +113,38 @@
   display: flex;
   flex-direction: column;
   margin: 20px auto;
-  opacity: 50%;
 }
 
-.profileEntryTitle > p {
-  margin: 0;
+.profileInputContainer {
+  color: var(--textSecondary);
+}
+
+.profileInputContainerDisabled {
+  color: var(--textDisabled);
 }
 
 .profileInput {
   border-radius: 5px;
   border: 1.5px solid;
   outline: none;
+  padding: 2px 8px;
 }
 
 .profileInput:focus {
-  border: 1.5px solid #45a5cf;
+  border: 1.5px solid var(--primaryHover);
 }
 
 .profileActionButton {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   bottom: 0;
   right: 0;
   padding-right: 40px;
   padding-bottom: 30px;
   position: absolute;
+}
+
+.profileError {
+  color: rgba(220, 20, 60, 0.8);
+  margin-top: 5px;
 }
