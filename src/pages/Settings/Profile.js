@@ -108,7 +108,7 @@ const Profile = () => {
           <div className="profileColHeader">
             <h3>Change Password</h3>
             <div
-              className={`secondaryButton ${
+              className={`secondaryButton vertical-align-center ${
                 isPasswordEditable ? 'secondaryButtonSelected' : ''
               }`}
               onClick={() => setIsPasswordEditable(!isPasswordEditable)}

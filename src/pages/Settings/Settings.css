@@ -12,12 +12,13 @@
 
 .settingNav {
   width: 20vw;
-  background-color: white;
+  background-color: var(--bgSecondary);
   border-radius: 20px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  color: var(--textSecondary);
 }
 
 .settingNavRow {
@@ -27,9 +28,12 @@
   padding: 12px 10px;
   margin-bottom: 5px;
   font-size: 18px;
-  font-family: 'Roboto';
   border-radius: 8px;
-  white-space: nowrap;
+  transition: all 0.2s ease-in-out;
+}
+
+.settingNavRow:hover {
+  color: var(--primaryHover);
 }
 
 .navRow-active {
@@ -38,20 +42,6 @@
   outline: 1.5px solid #50b9e8 !important;
 }
 
-.navRow-inactive {
-  color: #696969;
-  background-color: none;
-}
-
-.backToDash {
-  color: #696969;
-  margin-bottom: 0;
-}
-
-.link {
-  font-size: 16px !important;
-  color: #696969 !important;
-}
 .settingsBody {
   position: relative;
   width: 90%;

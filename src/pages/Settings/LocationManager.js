@@ -22,12 +22,12 @@ const LocationManager = () => {
       <div className="locationManagerHeader">
         <h3>Current Locations</h3>
         <div
-          className={`editButton ${
-            isLocationEditable ? 'editButtonSelected' : ''
+          className={`secondaryButton vertical-align-center ${
+            isLocationEditable ? 'secondaryButtonSelected' : ''
           }`}
-          onClick={() => setIsLocationEditable(true)}
+          onClick={() => setIsLocationEditable(!isLocationEditable)}
         >
-          <p>Edit</p>
+          Edit
           <HiPencil />
         </div>
       </div>
@@ -46,14 +46,14 @@ const LocationManager = () => {
       {isLocationEditable && (
         <div className="profileActionButton">
           <div
-            className="editButton"
+            className="secondaryButton"
             onClick={() => {
               setIsLocationEditable(false);
             }}
           >
             Cancel
           </div>
-          <button type="button" className="saveButton">
+          <button type="button" className="primaryButton">
             Save
           </button>
         </div>

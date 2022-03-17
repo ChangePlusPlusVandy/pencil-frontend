@@ -1,5 +1,7 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import './Settings.css';
 
 import { HiUser } from 'react-icons/hi';
@@ -11,6 +13,7 @@ import Profile from './Profile';
 
 const Settings = () => {
   const [selected, setSelected] = useState('Profile');
+  const history = useHistory();
 
   const handleClick = (value) => {
     setSelected(value);
@@ -28,8 +31,8 @@ const Settings = () => {
             <div className="navOptions">
               {/* Profile */}
               <div
-                className={`settingNavRow navRow-${
-                  selected === 'Profile' ? 'active' : 'inactive'
+                className={`settingNavRow ${
+                  selected === 'Profile' ? 'navRow-active' : ''
                 }`}
                 onClick={() => handleClick('Profile')}
                 onKeyDown={() => {}}
@@ -41,8 +44,8 @@ const Settings = () => {
               </div>
               {/* Location Manager */}
               <div
-                className={`settingNavRow navRow-${
-                  selected === 'Location' ? 'active' : 'inactive'
+                className={`settingNavRow ${
+                  selected === 'Location' ? 'navRow-active' : ''
                 }`}
                 onClick={() => handleClick('Location')}
                 onKeyDown={() => {}}
@@ -54,11 +57,12 @@ const Settings = () => {
               </div>
             </div>
             {/* Back to Dashboard */}
-            <div className="settingNavRow backToDash">
-              <AiFillHome size="23px" style={{ marginRight: '1vw' }} />
-              <Link to="/dashboard" className="link" tabindex="-1">
-                <u>Back to Dashboard</u>
-              </Link>
+            <div
+              className="settingNavRow secondaryButton"
+              onClick={() => history.push('/')}
+            >
+              <AiFillHome size="23px" style={{ marginRight: '8px' }} />
+              Back to Dashboard
             </div>
           </div>
           {selected === 'Profile' && <Profile />}
