@@ -398,7 +398,8 @@ const PendingTransactions = () => {
       if (transactions.error) {
         console.log(transactions.error);
       } else {
-        formatData(transactions, 'Pending');
+        // formatData(transactions, 'Pending');
+        setLoadedData(transactions);
       }
     });
   }, []);
@@ -524,15 +525,10 @@ const PendingTransactions = () => {
             pagination={{ pageSize: numItems }}
           />
         )}
-        <div
-          type="button"
-          className="load-more"
-          onClick={loadMore}
-          onKeyDown={() => {}}
-          role="button"
-          tabIndex={0}
-        >
-          Load 50
+        <div className="horizontal-align-center">
+          <button type="button" className="primaryButton" onClick={loadMore}>
+            Load 50
+          </button>
         </div>
       </div>
     </>

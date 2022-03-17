@@ -9,6 +9,7 @@
     "file-saver": "^2.0.5",
     "firebase": "^8.10.0",
     "nodemon": "^2.0.15",
+    "pikaday": "^1.8.2",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

@@ -1,11 +1,106 @@
-html {
+html,
+body {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
+  --primary: #71c3e7;
+  --primaryHover: #50b9e8;
+  --bgPrimary: #f6f6f6;
+  --bgSecondary: #fff;
+  --textColor: rgba(0, 0, 0);
+  --textSecondary: rgba(0, 0, 0, 0.75);
+  --textDisabled: rgba(0, 0, 0, 0.5);
+  background-color: var(--bgPrimary);
+  margin: 0;
+  color: var(--textColor);
 }
+
 *,
 *:before,
 *:after {
   box-sizing: inherit;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Buttons Styling */
+
+.primaryButton {
+  width: 105px;
+  height: 32px;
+  border-radius: 50px;
+  border-style: none;
+  background-color: var(--primary);
+  transition: all 0.3s ease-in-out;
+  margin: 0 10px;
+}
+
+.primaryButton:hover {
+  cursor: pointer;
+  background-color: var(--primaryHover);
+}
+
+.secondaryButton {
+  font-size: 16px;
+  opacity: 75%;
+  border: none;
+  white-space: nowrap;
+  text-decoration: underline;
+  background-color: transparent;
+  transition: all 0.3s ease-in-out;
+  margin: 0 10px;
+}
+
+.secondaryButtonSelected {
+  color: var(--primaryHover);
+}
+
+.secondaryButton:hover {
+  cursor: pointer;
+  color: var(--primaryHover);
+}
+
+.primaryButton:disabled,
+.primaryButton[disabled],
+.secondaryButton:disabled,
+.secondaryButton[disabled] {
+  background-color: #e5e5e5;
+  color: #b6b1b1;
+}
+
+.secondaryButton > svg {
+  margin-left: 3px;
+}
+
+.margin-auto {
+  margin: auto;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.vertical-align-center {
+  display: flex;
+  align-items: center;
+}
+
+.horizontal-align-center {
+  display: flex;
+  justify-content: center;
+}
+
+/* Table header cell styling */
+.tableItem {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 40px;
+  background-color: var(--bgPrimary);
+  border-radius: 20px;
+  margin: 0 30px 10px 30px;
+}
+
+.tableHeader {
+  background-color: var(--bgSecondary) !important;
+  margin-bottom: 0 !important;
 }
 
 /* Buttons Styling */
