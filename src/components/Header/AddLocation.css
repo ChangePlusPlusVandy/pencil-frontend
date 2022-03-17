@@ -82,12 +82,3 @@
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
-
-.location-modal-add:hover {
-  background-color: var(--primaryHover);
-}
-
-/* .ant-checkbox-checked .ant-checkbox-inner {
-  background-color: var(--primary);
-  border-color: var(--primary);
-} */

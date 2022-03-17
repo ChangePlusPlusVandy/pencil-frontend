@@ -102,3 +102,76 @@ body {
   background-color: var(--bgSecondary) !important;
   margin-bottom: 0 !important;
 }
+
+/* Buttons Styling */
+.secondaryButton {
+  font-size: 14px;
+  margin-left: 25px;
+  margin-right: 8px;
+  opacity: 75%;
+  text-decoration: underline;
+}
+
+.secondaryButton:hover {
+  cursor: pointer;
+}
+
+.saveButton {
+  margin-left: 30px;
+  width: 105px;
+  height: 32px;
+  border-radius: 50px;
+  border-style: none;
+  background-color: #e5e5e5;
+  color: #b6b1b1;
+  font-family: 'Roboto', sans-serif;
+  transition: all 0.3s ease-in-out;
+}
+
+.saveButtonChanged {
+  margin-left: 30px;
+  width: 105px;
+  height: 32px;
+  border-radius: 50px;
+  border-style: none;
+  background-color: #71c3e7;
+  font-family: 'Roboto', sans-serif;
+  transition: all 0.3s ease-in-out;
+}
+
+.saveButtonChanged:hover {
+  cursor: pointer;
+  background-color: #50b9e8;
+}
+
+/* Dropdown stylings */
+.dropdown_menu_transaction {
+  background-color: white;
+  width: 170px;
+  border: 1.5px solid #71c3e7;
+  border-top: none;
+  border-radius: 0px 0px 20px 20px;
+  padding: 5px 20px;
+  margin-top: -8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown_menu_transaction > button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  text-decoration: none;
+  text-align: left;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.7);
+  margin-bottom: 3px;
+}
+
+.dropdown_menu_transaction > button:hover {
+  color: #71c3e7;
+}

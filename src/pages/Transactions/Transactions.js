@@ -1,3 +1,5 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -6,6 +8,7 @@ import 'antd/dist/antd.css';
 import { FaChevronDown, FaChevronUp, FaCheck } from 'react-icons/fa';
 import { ImCross } from 'react-icons/im';
 import { Table, Space } from 'antd';
+import isIn from 'validator/lib/isIn';
 import { useAuth } from '../../AuthContext';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import {
@@ -14,18 +17,30 @@ import {
   getDeniedTransactions,
   approveTransaction,
   denyTransaction,
-  getTeacherByID,
 } from './api-transactions';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import './Transactions.css';
 import TableHeader from '../../components/TableHeader/TableHeader';
 
+function removeDuplicates(arr) {
+  return arr.filter((item, index) => arr.indexOf(item) === index);
+}
+
+function convertTZ(date) {
+  return new Date(
+    (typeof date === 'string' ? new Date(date) : date).toLocaleString('en-US', {
+      timeZone: 'CST',
+    })
+  );
+}
+
 const dateConverter = (date) => {
-  const year = date.slice(0, 4);
-  let month = parseInt(date.slice(5, 7), 10);
-  const day = parseInt(date.slice(8, 10), 10);
-  let hours = parseInt(date.slice(11, 13), 10);
-  const minutes = date.slice(14, 16);
+  const convertedDate = convertTZ(date);
+  const year = convertedDate.getFullYear();
+  let month = convertedDate.getMonth();
+  const day = convertedDate.getDay();
+  let hours = convertedDate.getHours();
+  let minutes = convertedDate.getMinutes();
   let suffix = 'am';
 
   switch (month) {
@@ -73,6 +88,10 @@ const dateConverter = (date) => {
     hours -= 12;
   }
 
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+
   return `${day} ${month} ${year}\n${hours}:${minutes} ${suffix}`;
 };
 
@@ -86,8 +105,12 @@ const PendingTransactions = () => {
   const [rawData, setRawData] = useState([]);
   const [view, setView] = useState('Pending');
   const [selectedData, setSelectedData] = useState([]);
+  const [wasChecked, setWasChecked] = useState([]);
   const { currentLocation } = useAuth();
 
+  useEffect(() => {
+    console.log(wasChecked);
+  }, [wasChecked]);
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(
@@ -103,34 +126,56 @@ const PendingTransactions = () => {
     onSelectAll: (selected, selectedRows, changeRows) => {
       console.log(selected, selectedRows, changeRows);
     },
+    getCheckboxProps: (record) => ({
+      disabled: record.status !== 'Pending',
+      checked: !isIn(record.key, wasChecked),
+    }),
   };
 
-  const approveClick = (e, transaction) => {
+  const approveClick = async (e, transaction) => {
     e.preventDefault();
+    console.log(transaction);
     let toDelete = {};
     for (let j = 0; j < rawData.length; j += 1) {
-      if (rawData[j].transactionId === transaction.key) {
+      if (rawData[j].uuid === transaction.key) {
         toDelete = rawData[j];
       }
     }
-    approveTransaction(currentLocation, toDelete);
+    const lol = await approveTransaction(currentLocation, toDelete);
     const tempArr = [...loadedData];
-    tempArr.splice(tempArr.indexOf(transaction), 1);
+    const funnyObj = transaction;
+    funnyObj.status = 'Approved';
+    funnyObj.isDisabled = true;
+    tempArr[tempArr.indexOf(transaction)] = funnyObj;
+    setLoadedData([]);
     setLoadedData(tempArr);
+    console.log(transaction, 'bruh', wasChecked, 'bruh');
+    setWasChecked((prevChecked) => {
+      prevChecked.push(transaction.key);
+      return prevChecked;
+    });
   };
 
   const denyClick = (e, transaction) => {
     e.preventDefault();
     let toDelete = {};
     for (let j = 0; j < rawData.length; j += 1) {
-      if (rawData[j].transactionId === transaction.key) {
+      if (rawData[j].uuid === transaction.key) {
         toDelete = rawData[j];
       }
     }
     denyTransaction(currentLocation, toDelete);
     const tempArr = [...loadedData];
-    tempArr.splice(tempArr.indexOf(transaction), 1);
+    const funnyObj = transaction;
+    funnyObj.status = 'Denied';
+    funnyObj.isDisabled = true;
+    tempArr[tempArr.indexOf(transaction)] = funnyObj;
+    setLoadedData([]);
     setLoadedData(tempArr);
+    setWasChecked((prevChecked) => {
+      prevChecked.push(transaction.key);
+      return prevChecked;
+    });
   };
 
   const columns = [
@@ -159,7 +204,7 @@ const PendingTransactions = () => {
       render: (text, record) => (
         <div
           className="approve-button"
-          hidden={!(view === 'Pending')}
+          hidden={record.isDisabled}
           onClick={(e) => approveClick(e, record)}
           onKeyDown={() => {}}
           role="button"
@@ -176,7 +221,7 @@ const PendingTransactions = () => {
       render: (text, record) => (
         <div
           className="deny-button"
-          hidden={!(view === 'Pending')}
+          hidden={record.isDisabled}
           onClick={(e) => denyClick(e, record)}
           onKeyDown={() => {}}
           role="button"
@@ -190,18 +235,20 @@ const PendingTransactions = () => {
 
   const formatItemData = (items) => {
     const formattedData = [];
+    console.log(items);
     for (let i = 0; i < items.length; i += 2) {
       let itemName2 = '';
       if (items[i + 1]) {
-        itemName2 = items[i + 1].itemName;
+        itemName2 = items[i + 1].Item.itemName;
       }
       let itemsTaken2 = '';
+
       if (items[i + 1]) {
-        itemsTaken2 = String(items[i + 1].itemCount);
+        itemsTaken2 = String(items[i + 1].amountTaken);
       }
       const newObj = {
-        itemName1: items[i].itemName,
-        itemsTaken1: String(items[i].itemCount),
+        itemName1: items[i].Item.itemName,
+        itemsTaken1: String(items[i].amountTaken),
         itemName2,
         itemsTaken2,
       };
@@ -210,44 +257,43 @@ const PendingTransactions = () => {
     return formattedData;
   };
 
-  const expandedRowRender = (record) => {
-    const itemColumns = [
-      { title: 'Item', dataIndex: 'itemName1', key: 'itemName1' },
-      { title: 'Qty', dataIndex: 'itemsTaken1', key: 'itemsTaken1' },
-      { title: 'Item', dataIndex: 'itemName2', key: 'itemName2' },
-      { title: 'Qty', dataIndex: 'itemsTaken2', key: 'itemsTaken2' },
-    ];
-
-    return (
-      <Table
-        columns={itemColumns}
-        dataSource={record.childNodes}
-        pagination={false}
-        className="expandedData"
-      />
-    );
-  };
+  const expandedRowRender = (record) => (
+    <table className="expandedData">
+      <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Item</th>
+        <th>Qty</th>
+      </tr>
+      {record.childNodes.map((item) => (
+        <tr>
+          <td>{item.itemName1}</td>
+          <td>{item.itemsTaken1}</td>
+          <td>{item.itemName2}</td>
+          <td>{item.itemsTaken2}</td>
+        </tr>
+      ))}
+    </table>
+  );
 
   const formatData = (transactions, status) => {
     const formattedData = [];
     for (let i = 0; i < transactions.length; i += 1) {
-      getTeacherByID(currentLocation, transactions[i].teacherId).then(
-        (teacher) => {
-          const formattedObj = {
-            date: dateConverter(transactions[i].createdAt),
-            name: `${teacher.firstName} ${teacher.lastName}`,
-            childNodes: formatItemData(transactions[i].items),
-            status: capitalizeFirstLetter(status),
-            key: transactions[i].transactionId,
-          };
-          formattedData.push(formattedObj);
-          if (i + 1 === transactions.length) {
-            setRawData(transactions);
-            setLoadedData(formattedData);
-            console.log(formattedData);
-          }
-        }
-      );
+      const { Teacher } = transactions[i];
+      const formattedObj = {
+        date: dateConverter(transactions[i].createdAt),
+        name: `${Teacher.firstName} ${Teacher.lastName}`,
+        childNodes: formatItemData(transactions[i].TransactionItems),
+        status: capitalizeFirstLetter(status),
+        key: transactions[i].uuid,
+        isDisabled: !(status === 'Pending'),
+      };
+      formattedData.push(formattedObj);
+      if (i + 1 === transactions.length) {
+        setRawData(transactions);
+        setLoadedData(formattedData);
+        console.log(formattedData);
+      }
     }
   };
 
@@ -256,6 +302,7 @@ const PendingTransactions = () => {
   };
 
   const changeLoadedData = (event) => {
+    console.log(event.target.innerText);
     if (event.target.innerText === view) {
       console.log('no change');
     } else if (event.target.innerText === 'Pending') {
@@ -266,8 +313,9 @@ const PendingTransactions = () => {
         } else {
           setLoadedData([]);
           setView(event.target.innerText);
-          formatData(transactions, event.target.innerText);
+          formatData(transactions, 'Pending');
           console.log('Data loaded!');
+          console.log(transactions);
         }
       });
     } else if (event.target.innerText === 'Approved') {
@@ -278,7 +326,7 @@ const PendingTransactions = () => {
         } else {
           setLoadedData([]);
           setView(event.target.innerText);
-          formatData(transactions, event.target.innerText);
+          formatData(transactions, 'Approved');
           console.log(transactions);
         }
       });
@@ -290,47 +338,63 @@ const PendingTransactions = () => {
         } else {
           setLoadedData([]);
           setView(event.target.innerText);
-          formatData(transactions, event.target.innerText);
-          console.log('Data loaded!');
+          formatData(transactions, 'Denied');
+          console.log(transactions);
         }
       });
     }
   };
 
-  const denySelected = () => {
+  const denySelected = (e) => {
+    const transactionArr = [];
     for (let i = 0; i < selectedData.length; i += 1) {
+      transactionArr.push(selectedData[i].key);
       let toDelete = {};
       for (let j = 0; j < rawData.length; j += 1) {
-        if (rawData[j].transactionId === selectedData[i].key) {
+        if (rawData[j].uuid === selectedData[i].key) {
           toDelete = rawData[j];
         }
       }
       denyTransaction(currentLocation, toDelete);
       const tempArr = [...loadedData];
-      tempArr.splice(tempArr.indexOf(selectedData[i]), 1);
+      const funnyObj = selectedData[i];
+      funnyObj.status = 'Denied';
+      funnyObj.isDisabled = true;
+      tempArr[tempArr.indexOf(selectedData[i])] = funnyObj;
+      setLoadedData([]);
       setLoadedData(tempArr);
     }
+    setWasChecked(transactionArr.concat(wasChecked));
     setSelectedData([]);
   };
 
-  const approveSelected = () => {
+  const approveSelected = (e) => {
+    const transactionArr = [];
     for (let i = 0; i < selectedData.length; i += 1) {
+      transactionArr.push(selectedData[i].key);
       let toDelete = {};
       for (let j = 0; j < rawData.length; j += 1) {
-        if (rawData[j].transactionId === selectedData[i].key) {
+        if (rawData[j].uuid === selectedData[i].key) {
           toDelete = rawData[j];
         }
       }
       approveTransaction(currentLocation, toDelete);
       const tempArr = [...loadedData];
-      tempArr.splice(tempArr.indexOf(selectedData[i]), 1);
+      const funnyObj = selectedData[i];
+      funnyObj.status = 'Approved';
+      funnyObj.isDisabled = true;
+      tempArr[tempArr.indexOf(selectedData[i])] = funnyObj;
+      setLoadedData([]);
       setLoadedData(tempArr);
     }
+    console.log(wasChecked);
+    console.log(transactionArr);
+    setWasChecked(transactionArr.concat(wasChecked));
     setSelectedData([]);
   };
 
   useEffect(() => {
-    getPendingTransactions(currentLocation, 1).then((transactions) => {
+    getPendingTransactions(currentLocation).then((transactions) => {
       if (transactions.error) {
         console.log(transactions.error);
       } else {
@@ -347,7 +411,7 @@ const PendingTransactions = () => {
       {menuOptions
         .filter((option) => option !== view)
         .map((option) => (
-          <a onClick={(e) => setView(e.target.innerText)}>{option}</a>
+          <a onClick={(e) => changeLoadedData(e)}>{option}</a>
         ))}
     </>
   );
