@@ -196,3 +196,7 @@ th.ant-table-cell::before {
 .ant-checkbox-disabled {
   visibility: hidden;
 }
+
+.ant-table-tbody > tr.ant-table-row-selected > td {
+  background-color: #f6f6f6;
+}

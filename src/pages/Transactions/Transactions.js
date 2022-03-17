@@ -26,13 +26,21 @@ function removeDuplicates(arr) {
   return arr.filter((item, index) => arr.indexOf(item) === index);
 }
 
+function convertTZ(date) {
+  return new Date(
+    (typeof date === 'string' ? new Date(date) : date).toLocaleString('en-US', {
+      timeZone: 'CST',
+    })
+  );
+}
+
 const dateConverter = (date) => {
-  console.log(date);
-  const year = date.slice(0, 4);
-  let month = parseInt(date.slice(5, 7), 10);
-  const day = parseInt(date.slice(8, 10), 10);
-  let hours = parseInt(date.slice(11, 13), 10);
-  const minutes = date.slice(14, 16);
+  const convertedDate = convertTZ(date);
+  const year = convertedDate.getFullYear();
+  let month = convertedDate.getMonth();
+  const day = convertedDate.getDay();
+  let hours = convertedDate.getHours();
+  let minutes = convertedDate.getMinutes();
   let suffix = 'am';
 
   switch (month) {
@@ -78,6 +86,10 @@ const dateConverter = (date) => {
   if (hours > 12) {
     suffix = 'pm';
     hours -= 12;
+  }
+
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
   }
 
   return `${day} ${month} ${year}\n${hours}:${minutes} ${suffix}`;
@@ -227,16 +239,16 @@ const PendingTransactions = () => {
     for (let i = 0; i < items.length; i += 2) {
       let itemName2 = '';
       if (items[i + 1]) {
-        itemName2 = items[i + 1].itemName;
+        itemName2 = items[i + 1].Item.itemName;
       }
       let itemsTaken2 = '';
 
       if (items[i + 1]) {
-        itemsTaken2 = String(items[i + 1].itemCount);
+        itemsTaken2 = String(items[i + 1].amountTaken);
       }
       const newObj = {
-        itemName1: items[i].itemName,
-        itemsTaken1: String(items[i].itemCount),
+        itemName1: items[i].Item.itemName,
+        itemsTaken1: String(items[i].amountTaken),
         itemName2,
         itemsTaken2,
       };
