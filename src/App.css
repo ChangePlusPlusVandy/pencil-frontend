@@ -1,85 +1,84 @@
-html {
+html,
+body {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
+  --primary: #71c3e7;
+  --primaryHover: #50b9e8;
+  --bgPrimary: #f6f6f6;
+  --bgSecondary: #fff;
+  --textColor: #000000;
+  --textSecondary: #8a8a8a;
+  background-color: var(--bgPrimary);
+  margin: 0;
+  color: var(--textColor);
 }
+
 *,
 *:before,
 *:after {
   box-sizing: inherit;
+  font-family: 'Roboto', sans-serif;
 }
 
 /* Buttons Styling */
+
+.primaryButton {
+  width: 105px;
+  height: 32px;
+  border-radius: 50px;
+  border-style: none;
+  background-color: var(--primary);
+  transition: all 0.3s ease-in-out;
+  margin: 0 10px;
+}
+
+.primaryButton:hover {
+  cursor: pointer;
+  background-color: var(--primaryHover);
+}
+
 .secondaryButton {
-  font-size: 14px;
-  margin-left: 25px;
-  margin-right: 8px;
+  font-size: 16px;
   opacity: 75%;
+  border: none;
   white-space: nowrap;
   text-decoration: underline;
+  background-color: transparent;
+  margin: 0 10px;
 }
 
 .secondaryButton:hover {
   cursor: pointer;
 }
 
-.saveButton {
-  margin-left: 30px;
-  width: 105px;
-  height: 32px;
-  border-radius: 50px;
-  border-style: none;
+.primaryButton:disabled,
+.primaryButton[disabled],
+.secondaryButton:disabled,
+.secondaryButton[disabled] {
   background-color: #e5e5e5;
   color: #b6b1b1;
-  font-family: 'Roboto', sans-serif;
-  transition: all 0.3s ease-in-out;
 }
 
-.saveButtonChanged {
-  margin-left: 30px;
-  width: 105px;
-  height: 32px;
-  border-radius: 50px;
-  border-style: none;
-  background-color: #71c3e7;
-  font-family: 'Roboto', sans-serif;
-  transition: all 0.3s ease-in-out;
+.secondaryButton > svg {
+  margin-left: 3px;
 }
 
-.saveButtonChanged:hover {
-  cursor: pointer;
-  background-color: #50b9e8;
+.margin-auto {
+  margin: auto;
 }
 
-/* Dropdown stylings */
-.dropdown_menu_transaction {
-  background-color: white;
-  width: 170px;
-  border: 1.5px solid #71c3e7;
-  border-top: none;
-  border-radius: 0px 0px 20px 20px;
-  padding: 5px 20px;
-  margin-top: -8px;
+.no-margin {
+  margin: 0;
+}
+
+.vertical-align-center {
   display: flex;
-  flex-direction: column;
+  align-items: center;
 }
 
-.dropdown_menu_transaction > button {
-  background: none;
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit;
-  text-decoration: none;
-  text-align: left;
-  font-family: 'Roboto', sans-serif;
-  font-size: 16px;
-  color: rgba(0, 0, 0, 0.7);
-  margin-bottom: 3px;
-}
-
-.dropdown_menu_transaction > button:hover {
-  color: #71c3e7;
+.horizontal-align-center {
+  display: flex;
+  justify-content: center;
 }
 
 /* Table header cell styling */
