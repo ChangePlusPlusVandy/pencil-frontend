@@ -5,7 +5,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
-import { FaChevronDown, FaChevronUp, FaCheck } from 'react-icons/fa';
+import { FaChevronDown, FaCheck } from 'react-icons/fa';
 import { ImCross } from 'react-icons/im';
 import { Table, Space } from 'antd';
 import isIn from 'validator/lib/isIn';
@@ -128,13 +128,12 @@ const PendingTransactions = () => {
     },
     getCheckboxProps: (record) => ({
       disabled: record.status !== 'Pending',
-      checked: !isIn(record.key, wasChecked),
+      checked: record.key ? !isIn(record.key, wasChecked) : false,
     }),
   };
 
   const approveClick = async (e, transaction) => {
     e.preventDefault();
-    console.log(transaction);
     let toDelete = {};
     for (let j = 0; j < rawData.length; j += 1) {
       if (rawData[j].uuid === transaction.key) {
@@ -149,7 +148,6 @@ const PendingTransactions = () => {
     tempArr[tempArr.indexOf(transaction)] = funnyObj;
     setLoadedData([]);
     setLoadedData(tempArr);
-    console.log(transaction, 'bruh', wasChecked, 'bruh');
     setWasChecked((prevChecked) => {
       prevChecked.push(transaction.key);
       return prevChecked;
@@ -196,6 +194,9 @@ const PendingTransactions = () => {
       dataIndex: 'status',
       width: '40%',
       key: 'status',
+      render: (text, record) => (
+        <div className={`status${record.status}`}>{record.status}</div>
+      ),
     },
     {
       title: '',
@@ -307,7 +308,7 @@ const PendingTransactions = () => {
       console.log('no change');
     } else if (event.target.innerText === 'Pending') {
       setSelectedData([]);
-      getPendingTransactions(currentLocation).then((transactions) => {
+      getPendingTransactions(currentLocation, 1).then((transactions) => {
         if (transactions.error) {
           console.log(transactions.error);
         } else {
@@ -394,7 +395,7 @@ const PendingTransactions = () => {
   };
 
   useEffect(() => {
-    getPendingTransactions(currentLocation).then((transactions) => {
+    getPendingTransactions(currentLocation, 1).then((transactions) => {
       if (transactions.error) {
         console.log(transactions.error);
       } else {
@@ -416,32 +417,14 @@ const PendingTransactions = () => {
     </>
   );
 
-  const customExpandIcon = (fun) => {
-    if (fun.expanded) {
-      return (
-        <button
-          type="button"
-          style={{ color: 'black' }}
-          onClick={(e) => {
-            fun.onExpand(fun.record, e);
-          }}
-        >
-          <FaChevronUp />
-        </button>
-      );
-    }
-    return (
-      <button
-        type="button"
-        style={{ color: 'black' }}
-        onClick={(e) => {
-          fun.onExpand(fun.record, e);
-        }}
-      >
-        <FaChevronDown />
-      </button>
-    );
-  };
+  const customExpandIcon = (fun) => (
+    <FaChevronDown
+      onClick={(e) => {
+        fun.onExpand(fun.record, e);
+      }}
+      className={`expandArrowTransaction${fun.expanded ? 'Rotate' : ''}`}
+    />
+  );
 
   const leftItems = (
     <>
@@ -509,7 +492,7 @@ const PendingTransactions = () => {
                 return record?.childNodes?.length;
               },
             }}
-            pagination={{ pageSize: numItems }}
+            pagination={{ pageSize: numItems, position: ['none'] }}
           />
         ) : (
           <Table
@@ -522,7 +505,7 @@ const PendingTransactions = () => {
                 return record.childNodes.length;
               },
             }}
-            pagination={{ pageSize: numItems }}
+            pagination={{ pageSize: numItems, position: ['none'] }}
           />
         )}
         <div className="horizontal-align-center">

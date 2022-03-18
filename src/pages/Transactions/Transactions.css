@@ -37,10 +37,6 @@ tr.ant-table-row td:last-child {
   border-bottom-right-radius: 10px;
 }
 
-.ant-pagination {
-  visibility: hidden;
-}
-
 .ant-empty {
   visibility: hidden;
 }
@@ -176,7 +172,7 @@ th.ant-table-cell::before {
   border-bottom-right-radius: 20px;
 }
 
-.expandedData{
+.expandedData {
   margin: 0;
   padding-top: 0px;
   padding-bottom: 0px;
@@ -195,7 +191,8 @@ th.ant-table-cell::before {
   margin: 0;
 }
 
-.expandedData td, .expandedData th {
+.expandedData td,
+.expandedData th {
   padding-left: 100px;
 }
 
@@ -210,4 +207,27 @@ th.ant-table-cell::before {
 
 .ant-table-tbody > tr.ant-table-row-selected > td {
   background-color: #f6f6f6;
+}
+
+.expandArrowTransaction {
+  margin-top: 5px;
+  margin-left: 1rem;
+  transition: all 0.2s ease-in-out;
+  color: var(--textSecondary);
+}
+
+.expandArrowTransactionRotate {
+  margin-top: 5px;
+  margin-left: 1rem;
+  transition: all 0.2s ease-in-out;
+  color: var(--textSecondary);
+  transform: rotate(180deg);
+}
+
+.statusApproved {
+  color: #2fb565;
+}
+
+.statusDenied {
+  color: #f04747;
 }
