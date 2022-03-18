@@ -10,6 +10,7 @@ import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import 'antd/dist/antd.css';
 import './Schedule.css';
 import TableHeader from '../../components/TableHeader/TableHeader';
+import { parseDate } from '../../utils/timedate';
 
 const Schedule = () => {
   const [scheduleData, setScheduleData] = useState([]);
@@ -17,6 +18,7 @@ const Schedule = () => {
   const { currentLocation } = useAuth();
 
   useEffect(() => {
+    if (!currentLocation) alert('Please select a location');
     getSchedules(currentLocation).then((items) => {
       if (!items.err) {
         setScheduleData(items);
@@ -24,71 +26,17 @@ const Schedule = () => {
     });
   }, []);
 
-  const getDate = (date) => {
-    const year = date.slice(0, 4);
-    let month = parseInt(date.slice(5, 7), 10);
-    const day = date.slice(8, 10);
+  const formatDate = (dateObj) => {
+    const { date, month, year } = parseDate(dateObj);
 
-    switch (month) {
-      case 1:
-        month = 'Jan';
-        break;
-      case 2:
-        month = 'Feb';
-        break;
-      case 3:
-        month = 'Mar';
-        break;
-      case 4:
-        month = 'Apr';
-        break;
-      case 5:
-        month = 'May';
-        break;
-      case 6:
-        month = 'June';
-        break;
-      case 7:
-        month = 'July';
-        break;
-      case 8:
-        month = 'Aug';
-        break;
-      case 9:
-        month = 'Sept';
-        break;
-      case 10:
-        month = 'Oct';
-        break;
-      case 11:
-        month = 'Nov';
-        break;
-      case 12:
-        month = 'Dec';
-        break;
-      default:
-    }
-    const finalDate = `${day} ${month} ${year}`;
-    return finalDate;
+    return `${date} ${month} ${year}`;
   };
 
-  const getTime = (date, end) => {
-    let hours = date.slice(11, 13);
-    let hours2 = end.slice(11, 13);
-    const minutes = date.slice(14, 16);
-    const minutes2 = end.slice(14, 16);
-    let suffix = 'am';
-    let suffix2 = 'am';
-    if (hours > 12) {
-      suffix = 'pm';
-      hours -= 12;
-    }
-    if (hours2 > 12) {
-      suffix2 = 'pm';
-      hours2 -= 12;
-    }
-    const finalTime = `${hours}:${minutes} ${suffix} - ${hours2}:${minutes2} ${suffix2}`;
-    return finalTime;
+  const formatTime = (startDateObj, endDateObj) => {
+    const parsedStartTime = parseDate(startDateObj).ampmTime;
+    const parsedEndTime = parseDate(endDateObj).ampmTime;
+
+    return `${parsedStartTime} - ${parsedEndTime}`;
   };
 
   const menuOptions = ['Today', 'Upcoming', 'Past'];
@@ -133,10 +81,13 @@ const Schedule = () => {
           {scheduleData.map((item, index) => {
             // const createdAt = new Date(item.created_at);
             const fullName = item.name;
-            const phoneNumber = item.questions_and_answers[1].answer;
-            const schoolName = item.questions_and_answers[0].answer;
-            const date = getDate(item.start_time);
-            const time = getTime(item.end_time, item.end_time);
+            const phoneNumber = item.phone;
+            const schoolName = item.school;
+            const date = formatDate(new Date(item.start_time));
+            const time = formatTime(
+              new Date(item.start_time),
+              new Date(item.end_time)
+            );
             const pencilId = 'N/A';
             return (
               <div className="tableItem">

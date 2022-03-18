@@ -21,78 +21,16 @@ import {
 import PageContainer from '../../components/PageContainer/PageContainer';
 import './Transactions.css';
 import TableHeader from '../../components/TableHeader/TableHeader';
+import { parseDate } from '../../utils/timedate';
 
 function removeDuplicates(arr) {
   return arr.filter((item, index) => arr.indexOf(item) === index);
 }
 
-function convertTZ(date) {
-  return new Date(
-    (typeof date === 'string' ? new Date(date) : date).toLocaleString('en-US', {
-      timeZone: 'CST',
-    })
-  );
-}
+const formatDate = (dateObj) => {
+  const { date, month, year, ampmTime } = parseDate(dateObj);
 
-const dateConverter = (date) => {
-  const convertedDate = convertTZ(date);
-  const year = convertedDate.getFullYear();
-  let month = convertedDate.getMonth();
-  const day = convertedDate.getDay();
-  let hours = convertedDate.getHours();
-  let minutes = convertedDate.getMinutes();
-  let suffix = 'am';
-
-  switch (month) {
-    case 1:
-      month = 'Jan';
-      break;
-    case 2:
-      month = 'Feb';
-      break;
-    case 3:
-      month = 'Mar';
-      break;
-    case 4:
-      month = 'Apr';
-      break;
-    case 5:
-      month = 'May';
-      break;
-    case 6:
-      month = 'June';
-      break;
-    case 7:
-      month = 'Jul';
-      break;
-    case 8:
-      month = 'Aug';
-      break;
-    case 9:
-      month = 'Sept';
-      break;
-    case 10:
-      month = 'Oct';
-      break;
-    case 11:
-      month = 'Nov';
-      break;
-    case 12:
-      month = 'Dec';
-      break;
-    default:
-  }
-
-  if (hours > 12) {
-    suffix = 'pm';
-    hours -= 12;
-  }
-
-  if (minutes < 10) {
-    minutes = `0${minutes}`;
-  }
-
-  return `${day} ${month} ${year}\n${hours}:${minutes} ${suffix}`;
+  return `${date} ${month} ${year}\n${ampmTime}`;
 };
 
 function capitalizeFirstLetter(string) {
@@ -282,7 +220,7 @@ const PendingTransactions = () => {
     for (let i = 0; i < transactions.length; i += 1) {
       const { Teacher } = transactions[i];
       const formattedObj = {
-        date: dateConverter(transactions[i].createdAt),
+        date: formatDate(new Date(transactions[i].createdAt)),
         name: `${Teacher.firstName} ${Teacher.lastName}`,
         childNodes: formatItemData(transactions[i].TransactionItems),
         status: capitalizeFirstLetter(status),
