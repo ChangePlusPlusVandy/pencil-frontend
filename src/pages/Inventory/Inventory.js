@@ -14,6 +14,7 @@ import InventoryToggle from './InventoryToggle';
 import MasterInventory from './MasterInventory';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import TableHeader from '../../components/TableHeader/TableHeader';
+import Errors from '../../components/Errors/Errors';
 
 const ReactList = () => {
   const [data, setData] = useState([]);
@@ -23,6 +24,7 @@ const ReactList = () => {
   const [locationSelected, setLocationSelected] = useState(false);
   const [inventory, setInventory] = useState('Active');
   const { currentLocation } = useAuth();
+  const [error, setError] = useState('');
 
   const generate = () => {
     const doc = printForm(data);
@@ -97,11 +99,19 @@ const ReactList = () => {
 
   const handleSave = () => {
     if (inventory === 'Active') {
-      postInventory(data, currentLocation);
+      const result = postInventory(data, currentLocation);
+
+      if (result && result.error) {
+        setError(result.error);
+      }
     } else if (inventory === 'Master') {
       postMasterInv(masterInventoryData, currentLocation);
     }
     setChanged(false);
+  };
+
+  const handleErrorClose = () => {
+    setError('');
   };
 
   // Properties to pass to ReactDragListView package
@@ -121,16 +131,15 @@ const ReactList = () => {
   useEffect(() => {
     getInventory(currentLocation)
       .then((result) => {
-        if (result instanceof Error) {
-          // eslint-disable-next-line no-alert
-          alert(
-            'Something went wrong in the backend Server. Please contact the developer team.'
-          );
-          console.log(result);
-        } else if ('error' in result) {
+        console.log(result);
+        if (!result) {
+          setData([]);
+        } else if (result.error) {
           // eslint-disable-next-line no-alert
           alert('No location is selected. Please select a location');
+          setError(result.error);
         } else {
+          console.log(result);
           setData(result);
           console.log('getting inventory', result);
           setLocationSelected(true);
@@ -138,6 +147,7 @@ const ReactList = () => {
       })
       .catch((err) => {
         console.log('ERROR', err);
+        setError(err.message);
       });
   }, []);
 
@@ -182,6 +192,9 @@ const ReactList = () => {
         onClose={handleClose}
         onSubmit={addItem}
       />
+
+      {error && <Errors error={error} handleError={handleErrorClose} />}
+
       <TableHeader
         title={`Inventory (${locationSelected ? data.length : 0})`}
         leftArea={leftItems}

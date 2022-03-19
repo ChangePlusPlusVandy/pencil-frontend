@@ -1,14 +1,8 @@
 /* eslint-disable consistent-return */
 
 const getInventory = async (location) => {
-  try {
-    const response = await fetch(`/api/${location}/form/getShopForm`);
-    const result = await response.json();
-    console.log(result);
-    return await result;
-  } catch (err) {
-    return err;
-  }
+  const response = await fetch(`/api/${location}/form/getShopForm`);
+  return response.json();
 };
 
 const postInventory = async (data, location) => {
