@@ -30,6 +30,13 @@ const getDeniedTransactions = async (location) => {
   }
 };
 
+const getTransactions = async (location, page, type) => {
+  if (type === 'Pending') return getPendingTransactions(location, page);
+  if (type === 'Approved') return getApprovedTransactions(location, page);
+  if (type === 'Denied') return getDeniedTransactions(location, page);
+  return false;
+};
+
 const approveTransaction = async (location, data) => {
   try {
     console.log(data);
@@ -70,6 +77,12 @@ const denyTransaction = async (location, data) => {
   }
 };
 
+const handleTransaction = async (location, data, action) => {
+  if (action === 'Approve') return approveTransaction(location, data);
+  if (action === 'Deny') return denyTransaction(location, data);
+  return false;
+};
+
 // eslint-disable-next-line import/prefer-default-export
 export {
   getPendingTransactions,
@@ -77,6 +90,8 @@ export {
   denyTransaction,
   getApprovedTransactions,
   getDeniedTransactions,
+  getTransactions,
+  handleTransaction,
 };
 
 // const getAllTransactions = async (location) => {
