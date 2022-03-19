@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-return */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -11,31 +12,17 @@ import { Table, Space } from 'antd';
 import isIn from 'validator/lib/isIn';
 import { useAuth } from '../../AuthContext';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
-import {
-  getPendingTransactions,
-  getApprovedTransactions,
-  getDeniedTransactions,
-  approveTransaction,
-  denyTransaction,
-} from './api-transactions';
+import { handleTransaction, getTransactions } from './api-transactions';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import './Transactions.css';
 import TableHeader from '../../components/TableHeader/TableHeader';
 import { parseDate } from '../../utils/timedate';
-
-function removeDuplicates(arr) {
-  return arr.filter((item, index) => arr.indexOf(item) === index);
-}
 
 const formatDate = (dateObj) => {
   const { date, month, year, ampmTime } = parseDate(dateObj);
 
   return `${date} ${month} ${year}\n${ampmTime}`;
 };
-
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 const PendingTransactions = () => {
   const [numItems, setNumItems] = useState(10);
@@ -44,11 +31,19 @@ const PendingTransactions = () => {
   const [view, setView] = useState('Pending');
   const [selectedData, setSelectedData] = useState([]);
   const [wasChecked, setWasChecked] = useState([]);
+  const [error, setError] = useState('');
   const { currentLocation } = useAuth();
 
   useEffect(() => {
-    console.log(wasChecked);
-  }, [wasChecked]);
+    getTransactions(currentLocation, 1, 'Pending').then((transactions) => {
+      if (transactions.error) {
+        setError(transactions.error);
+      } else {
+        setLoadedData(transactions);
+      }
+    });
+  }, []);
+
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(
@@ -70,7 +65,7 @@ const PendingTransactions = () => {
     }),
   };
 
-  const approveClick = async (e, transaction) => {
+  const handleClick = (e, transaction, action) => {
     e.preventDefault();
     let toDelete = {};
     for (let j = 0; j < rawData.length; j += 1) {
@@ -78,10 +73,11 @@ const PendingTransactions = () => {
         toDelete = rawData[j];
       }
     }
-    const lol = await approveTransaction(currentLocation, toDelete);
     const tempArr = [...loadedData];
     const funnyObj = transaction;
-    funnyObj.status = 'Approved';
+    handleTransaction(currentLocation, toDelete, action);
+    if (action === 'Approve') funnyObj.action = 'Approved';
+    else funnyObj.action = 'Denied';
     funnyObj.isDisabled = true;
     tempArr[tempArr.indexOf(transaction)] = funnyObj;
     setLoadedData([]);
@@ -92,26 +88,28 @@ const PendingTransactions = () => {
     });
   };
 
-  const denyClick = (e, transaction) => {
-    e.preventDefault();
-    let toDelete = {};
-    for (let j = 0; j < rawData.length; j += 1) {
-      if (rawData[j].uuid === transaction.key) {
-        toDelete = rawData[j];
+  const handleSelected = (action) => {
+    const transactionArr = [];
+    for (let i = 0; i < selectedData.length; i += 1) {
+      transactionArr.push(selectedData[i].key);
+      let toDelete = {};
+      for (let j = 0; j < rawData.length; j += 1) {
+        if (rawData[j].uuid === selectedData[i].key) {
+          toDelete = rawData[j];
+        }
       }
+      const tempArr = [...loadedData];
+      const funnyObj = selectedData[i];
+      handleTransaction(currentLocation, toDelete, action);
+      if (action === 'Approve') funnyObj.action = 'Approved';
+      else funnyObj.action = 'Denied';
+      funnyObj.isDisabled = true;
+      tempArr[tempArr.indexOf(selectedData[i])] = funnyObj;
+      setLoadedData([]);
+      setLoadedData(tempArr);
     }
-    denyTransaction(currentLocation, toDelete);
-    const tempArr = [...loadedData];
-    const funnyObj = transaction;
-    funnyObj.status = 'Denied';
-    funnyObj.isDisabled = true;
-    tempArr[tempArr.indexOf(transaction)] = funnyObj;
-    setLoadedData([]);
-    setLoadedData(tempArr);
-    setWasChecked((prevChecked) => {
-      prevChecked.push(transaction.key);
-      return prevChecked;
-    });
+    setWasChecked(transactionArr.concat(wasChecked));
+    setSelectedData([]);
   };
 
   const columns = [
@@ -144,7 +142,7 @@ const PendingTransactions = () => {
         <div
           className="approve-button"
           hidden={record.isDisabled}
-          onClick={(e) => approveClick(e, record)}
+          onClick={(e) => handleClick(e, record, 'Approve')}
           onKeyDown={() => {}}
           role="button"
           tabIndex={0}
@@ -161,7 +159,7 @@ const PendingTransactions = () => {
         <div
           className="deny-button"
           hidden={record.isDisabled}
-          onClick={(e) => denyClick(e, record)}
+          onClick={(e) => handleClick(e, record, 'Deny')}
           onKeyDown={() => {}}
           role="button"
           tabIndex={0}
@@ -174,7 +172,6 @@ const PendingTransactions = () => {
 
   const formatItemData = (items) => {
     const formattedData = [];
-    console.log(items);
     for (let i = 0; i < items.length; i += 2) {
       let itemName2 = '';
       if (items[i + 1]) {
@@ -223,17 +220,14 @@ const PendingTransactions = () => {
         date: formatDate(new Date(transactions[i].createdAt)),
         name: `${Teacher.firstName} ${Teacher.lastName}`,
         childNodes: formatItemData(transactions[i].TransactionItems),
-        status: capitalizeFirstLetter(status),
+        status,
         key: transactions[i].uuid,
         isDisabled: !(status === 'Pending'),
       };
       formattedData.push(formattedObj);
-      if (i + 1 === transactions.length) {
-        setRawData(transactions);
-        setLoadedData(formattedData);
-        console.log(formattedData);
-      }
     }
+    setRawData(transactions);
+    setLoadedData(formattedData);
   };
 
   const loadMore = () => {
@@ -241,107 +235,19 @@ const PendingTransactions = () => {
   };
 
   const changeLoadedData = (event) => {
-    console.log(event.target.innerText);
-    if (event.target.innerText === view) {
-      console.log('no change');
-    } else if (event.target.innerText === 'Pending') {
-      setSelectedData([]);
-      getPendingTransactions(currentLocation, 1).then((transactions) => {
-        if (transactions.error) {
-          console.log(transactions.error);
-        } else {
-          setLoadedData([]);
-          setView(event.target.innerText);
-          formatData(transactions, 'Pending');
-          console.log('Data loaded!');
-          console.log(transactions);
-        }
-      });
-    } else if (event.target.innerText === 'Approved') {
-      setSelectedData([]);
-      getApprovedTransactions(currentLocation).then((transactions) => {
-        if (transactions.error) {
-          console.log(transactions.error);
-        } else {
-          setLoadedData([]);
-          setView(event.target.innerText);
-          formatData(transactions, 'Approved');
-          console.log(transactions);
-        }
-      });
-    } else if (event.target.innerText === 'Denied') {
-      setSelectedData([]);
-      getDeniedTransactions(currentLocation).then((transactions) => {
-        if (transactions.error) {
-          console.log(transactions.error);
-        } else {
-          setLoadedData([]);
-          setView(event.target.innerText);
-          formatData(transactions, 'Denied');
-          console.log(transactions);
-        }
-      });
-    }
-  };
-
-  const denySelected = (e) => {
-    const transactionArr = [];
-    for (let i = 0; i < selectedData.length; i += 1) {
-      transactionArr.push(selectedData[i].key);
-      let toDelete = {};
-      for (let j = 0; j < rawData.length; j += 1) {
-        if (rawData[j].uuid === selectedData[i].key) {
-          toDelete = rawData[j];
-        }
-      }
-      denyTransaction(currentLocation, toDelete);
-      const tempArr = [...loadedData];
-      const funnyObj = selectedData[i];
-      funnyObj.status = 'Denied';
-      funnyObj.isDisabled = true;
-      tempArr[tempArr.indexOf(selectedData[i])] = funnyObj;
-      setLoadedData([]);
-      setLoadedData(tempArr);
-    }
-    setWasChecked(transactionArr.concat(wasChecked));
+    if (event.target.innerText === view) return;
     setSelectedData([]);
-  };
-
-  const approveSelected = (e) => {
-    const transactionArr = [];
-    for (let i = 0; i < selectedData.length; i += 1) {
-      transactionArr.push(selectedData[i].key);
-      let toDelete = {};
-      for (let j = 0; j < rawData.length; j += 1) {
-        if (rawData[j].uuid === selectedData[i].key) {
-          toDelete = rawData[j];
+    getTransactions(currentLocation, 1, event.target.innerText).then(
+      (transactions) => {
+        if (transactions.error) console.log(transactions.error);
+        else {
+          setLoadedData([]);
+          formatData(transactions, event.target.innerText);
+          setView(event.target.innerText);
         }
       }
-      approveTransaction(currentLocation, toDelete);
-      const tempArr = [...loadedData];
-      const funnyObj = selectedData[i];
-      funnyObj.status = 'Approved';
-      funnyObj.isDisabled = true;
-      tempArr[tempArr.indexOf(selectedData[i])] = funnyObj;
-      setLoadedData([]);
-      setLoadedData(tempArr);
-    }
-    console.log(wasChecked);
-    console.log(transactionArr);
-    setWasChecked(transactionArr.concat(wasChecked));
-    setSelectedData([]);
+    );
   };
-
-  useEffect(() => {
-    getPendingTransactions(currentLocation, 1).then((transactions) => {
-      if (transactions.error) {
-        console.log(transactions.error);
-      } else {
-        // formatData(transactions, 'Pending');
-        setLoadedData(transactions);
-      }
-    });
-  }, []);
 
   const menuOptions = ['Pending', 'Approved', 'Denied'];
 
@@ -368,37 +274,21 @@ const PendingTransactions = () => {
     <>
       <button
         type="button"
-        className="borderlessButton"
-        id="wordButton"
-        onClick={approveSelected}
+        className="secondaryButton vertical-align-center statusApproved"
+        onClick={() => handleSelected('Approve')}
         hidden={!selectedData.length}
       >
         Approve
+        <FaCheck size={11} />
       </button>
       <button
-        className="borderlessButton"
         type="button"
-        onClick={approveSelected}
-        hidden={!selectedData.length}
-      >
-        ✓
-      </button>
-      <button
-        id="wordButton"
-        className="borderlessButton"
-        type="button"
-        onClick={denySelected}
+        className="secondaryButton vertical-align-center statusDenied"
+        onClick={() => handleSelected('Deny')}
         hidden={!selectedData.length}
       >
         Deny
-      </button>
-      <button
-        className="borderlessButton"
-        type="button"
-        onClick={denySelected}
-        hidden={!selectedData.length}
-      >
-        ✕
+        <ImCross size={11} />
       </button>
     </>
   );

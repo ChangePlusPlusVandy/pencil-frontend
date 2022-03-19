@@ -82,14 +82,6 @@ th.ant-table-cell::before {
   font-style: bold;
 }
 
-.borderlessButton {
-  padding: 0;
-  border: none;
-  background: none;
-  cursor: pointer;
-  margin-top: -1em;
-}
-
 .approve-button {
   display: flex;
   justify-content: center;
@@ -130,36 +122,8 @@ th.ant-table-cell::before {
   cursor: pointer;
 }
 
-#wordButton {
-  margin: -1em 1em 0em 3em;
-  text-decoration: underline;
-}
-
 .bigTable {
   background: var(--bgPrimary);
-}
-
-.expandedData {
-}
-
-.load-more {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  color: var(--textColor);
-  background-color: var(--primary);
-  margin: 10px auto;
-  border-radius: 20px;
-  height: 32px;
-  width: 105px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-}
-
-.load-more:hover {
-  background-color: var(--primaryHover);
 }
 
 .ant-table-expanded-row .ant-table-cell {
@@ -225,9 +189,17 @@ th.ant-table-cell::before {
 }
 
 .statusApproved {
-  color: #2fb565;
+  color: rgba(47, 181, 101, 1);
 }
 
 .statusDenied {
-  color: #f04747;
+  color: rgba(240, 71, 71, 1);
+}
+
+.statusApproved:hover {
+  color: rgba(47, 181, 101, 0.8) !important;
+}
+
+.statusDenied:hover {
+  color: rgba(240, 71, 71, 0.8) !important;
 }
