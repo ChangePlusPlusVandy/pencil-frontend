@@ -14,6 +14,7 @@ import InventoryToggle from './InventoryToggle';
 import MasterInventory from './MasterInventory';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import TableHeader from '../../components/TableHeader/TableHeader';
+import Errors from '../../components/Errors/Errors';
 
 const ReactList = () => {
   const [data, setData] = useState([]);
@@ -23,6 +24,7 @@ const ReactList = () => {
   const [locationSelected, setLocationSelected] = useState(false);
   const [inventory, setInventory] = useState('Active');
   const { currentLocation } = useAuth();
+  const [error, setError] = useState(false);
 
   const generate = () => {
     const doc = printForm(data);
@@ -97,11 +99,19 @@ const ReactList = () => {
 
   const handleSave = () => {
     if (inventory === 'Active') {
-      postInventory(data, currentLocation);
+      const result = postInventory(data, currentLocation);
+
+      if (result && result.error) {
+        setError(result.error);
+      }
     } else if (inventory === 'Master') {
       postMasterInv(masterInventoryData, currentLocation);
     }
     setChanged(false);
+  };
+
+  const handleErrorClose = () => {
+    setError(true);
   };
 
   // Properties to pass to ReactDragListView package
@@ -121,15 +131,10 @@ const ReactList = () => {
   useEffect(() => {
     getInventory(currentLocation)
       .then((result) => {
-        if (result instanceof Error) {
-          // eslint-disable-next-line no-alert
-          alert(
-            'Something went wrong in the backend Server. Please contact the developer team.'
-          );
-          console.log(result);
-        } else if ('error' in result) {
+        if ('error' in result) {
           // eslint-disable-next-line no-alert
           alert('No location is selected. Please select a location');
+          setError(result.error);
         } else {
           setData(result);
           console.log('getting inventory', result);
@@ -137,6 +142,10 @@ const ReactList = () => {
         }
       })
       .catch((err) => {
+        // eslint-disable-next-line no-alert
+        alert(
+          'Something went wrong in the backend Server. Please contact the developer team.'
+        );
         console.log('ERROR', err);
       });
   }, []);
@@ -182,6 +191,9 @@ const ReactList = () => {
         onClose={handleClose}
         onSubmit={addItem}
       />
+
+      {!error && <Errors handleError={handleErrorClose} />}
+
       <TableHeader
         title={`Inventory (${locationSelected ? data.length : 0})`}
         leftArea={leftItems}
