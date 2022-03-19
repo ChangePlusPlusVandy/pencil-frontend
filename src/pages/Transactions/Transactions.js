@@ -1,10 +1,6 @@
-/* eslint-disable no-useless-return */
-/* eslint-disable guard-for-in */
-/* eslint-disable no-restricted-syntax */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable import/no-unresolved */
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import { FaChevronDown, FaCheck } from 'react-icons/fa';
@@ -25,7 +21,7 @@ const formatDate = (dateObj) => {
   return `${date} ${month} ${year}\n${ampmTime}`;
 };
 
-const PendingTransactions = () => {
+const Transactions = () => {
   const [numItems, setNumItems] = useState(10);
   const [loadedData, setLoadedData] = useState([]);
   const [rawData, setRawData] = useState([]);
@@ -299,7 +295,7 @@ const PendingTransactions = () => {
   );
 
   return (
-    <>
+    <PageContainer>
       <TableHeader
         title="Transactions"
         leftArea={leftItems}
@@ -343,14 +339,8 @@ const PendingTransactions = () => {
           </button>
         </div>
       </div>
-    </>
+    </PageContainer>
   );
 };
-
-const Transactions = () => (
-  <PageContainer>
-    <PendingTransactions />
-  </PageContainer>
-);
 
 export default Transactions;
