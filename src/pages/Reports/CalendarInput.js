@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable import/no-unresolved */
 import React, { useEffect, useState, useRef } from 'react';
 import Pikaday from 'pikaday';
 import PropTypes from 'prop-types';

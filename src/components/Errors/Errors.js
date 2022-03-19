@@ -5,11 +5,11 @@ import { AiOutlineCloseCircle } from 'react-icons/ai';
 import './Errors.css';
 
 // eslint-disable-next-line arrow-body-style
-const Errors = ({ handleError }) => {
+const Errors = ({ error, handleError }) => {
   return (
     <div className="error">
       <IoWarningOutline size={60} />
-      <text className="errorMsg">Error Message : 500 Server Error</text>
+      <text className="errorMsg">Error Message : {error}</text>
       <AiOutlineCloseCircle
         size={20}
         onClick={handleError}
@@ -22,5 +22,6 @@ const Errors = ({ handleError }) => {
 export default Errors;
 
 Errors.propTypes = {
+  error: PropTypes.func.isRequired,
   handleError: PropTypes.func.isRequired,
 };

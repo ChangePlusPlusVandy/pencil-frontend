@@ -24,7 +24,7 @@ const ReactList = () => {
   const [locationSelected, setLocationSelected] = useState(false);
   const [inventory, setInventory] = useState('Active');
   const { currentLocation } = useAuth();
-  const [error, setError] = useState(false);
+  const [error, setError] = useState('');
 
   const generate = () => {
     const doc = printForm(data);
@@ -111,7 +111,7 @@ const ReactList = () => {
   };
 
   const handleErrorClose = () => {
-    setError(true);
+    setError('');
   };
 
   // Properties to pass to ReactDragListView package
@@ -131,22 +131,23 @@ const ReactList = () => {
   useEffect(() => {
     getInventory(currentLocation)
       .then((result) => {
-        if ('error' in result) {
+        console.log(result);
+        if (!result) {
+          setData([]);
+        } else if (result.error) {
           // eslint-disable-next-line no-alert
           alert('No location is selected. Please select a location');
           setError(result.error);
         } else {
+          console.log(result);
           setData(result);
           console.log('getting inventory', result);
           setLocationSelected(true);
         }
       })
       .catch((err) => {
-        // eslint-disable-next-line no-alert
-        alert(
-          'Something went wrong in the backend Server. Please contact the developer team.'
-        );
         console.log('ERROR', err);
+        setError(err.message);
       });
   }, []);
 
@@ -192,7 +193,7 @@ const ReactList = () => {
         onSubmit={addItem}
       />
 
-      {!error && <Errors handleError={handleErrorClose} />}
+      {error && <Errors error={error} handleError={handleErrorClose} />}
 
       <TableHeader
         title={`Inventory (${locationSelected ? data.length : 0})`}
