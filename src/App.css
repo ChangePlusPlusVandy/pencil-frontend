@@ -175,3 +175,30 @@ body {
 .dropdown_menu_transaction > button:hover {
   color: #71c3e7;
 }
+
+/* Input Styling */
+
+.inputLabel {
+  font-size: 16px;
+  color: var(--textSecondary);
+}
+
+.primaryInput {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 0 12px;
+  margin: 0.5em 0 1em 0;
+  font-size: 16px;
+}
+
+.primaryInput:focus {
+  outline: var(--primaryHover) auto 2px;
+}
+
+.customCheckbox {
+  width: 16px;
+  height: 16px;
+  margin-right: 0.5em;
+}
