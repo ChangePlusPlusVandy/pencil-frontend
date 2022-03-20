@@ -1,84 +1,32 @@
-.location-modal {
+.location-modal-backdrop * {
+  cursor: auto;
+}
+
+.location-modal-backdrop {
   position: fixed;
-  left: 0;
   top: 0;
-  right: 0;
-  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: default !important;
-  z-index: 100;
+  cursor: auto;
 }
 
 .location-modal-content {
-  background: #fafafa;
+  background: var(--bgPrimary);
   border-radius: 25px;
-  padding: 30px 40px;
+  padding: 40px 40px;
   width: 660px;
   height: 450px;
-}
-
-.location-modal-title {
-  margin: 0;
-  color: rgba(0, 0, 0, 0.75);
-  margin-bottom: 10px;
-  font-size: 16px;
-  font-weight: 500;
-  margin-top: 10px;
-}
-
-.location-input {
-  width: 100%;
-  height: 40px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 0 10px;
-  margin-bottom: 10px;
-}
-
-.location-input:focus {
-  outline: var(--primaryHover) auto 2px;
-}
-
-.copy-checkbox-area .ant-checkbox-wrapper {
-  margin-top: 20px;
-  font-size: 16px;
-  color: rgba(0, 0, 0, 0.75);
+  position: relative;
 }
 
 .location-button-group {
-  margin-top: 80px;
-  text-align: right;
-}
-
-.input-field {
-  height: 30px;
-  border-radius: 10px;
-  border: 1px solid #6b6a6a;
-  padding: 0 8px;
-  color: #464545;
-}
-
-.location-modal-close {
-  border: none;
-  background-color: transparent;
-  color: #6b6a6a;
-  cursor: pointer;
-  font-size: 16px;
-  transition: all 0.3s ease-in-out;
-  margin-right: 20px;
-}
-
-.location-modal-add {
-  font-size: 16px;
-  color: rgba(0, 0, 0, 0.75);
-  border: none;
-  background-color: var(--primary);
-  border-radius: 20px;
-  height: 40px;
-  padding: 0 25px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  position: absolute;
+  bottom: 40px;
+  right: 30px;
 }

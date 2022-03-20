@@ -1,0 +1,61 @@
+/* combobox */
+
+.customCombobox {
+  margin-top: 1em;
+}
+
+.comboboxInput {
+  width: 200px;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 0 12px;
+  font-size: 16px;
+}
+
+.comboboxInput:focus {
+  outline: var(--primaryHover) auto 1.5px;
+}
+
+.comboboxButton {
+  margin-left: -35px;
+  border: none;
+  background: none;
+  font-size: 1.5em;
+  color: var(--textSecondary);
+}
+
+.comboboxOptions {
+  width: 200px;
+  background-color: var(--bgSecondary);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  list-style-type: none;
+  margin-top: 10px;
+  padding: 5px 0;
+}
+
+.comboboxOption {
+  padding: 10px 12px;
+}
+
+.activeOption {
+  background-color: rgba(113, 195, 231, 0.15);
+}
+
+.selectedOption {
+  padding: 10px 12px;
+  font-weight: 600;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+}
+
+.selectedOption > svg {
+  margin-right: 10px;
+}
+
+.disabledOption {
+  color: var(--textDisabled);
+  padding: 10px 12px;
+}
