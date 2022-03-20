@@ -103,52 +103,11 @@ body {
   margin-bottom: 0 !important;
 }
 
-/* Buttons Styling */
-.secondaryButton {
-  font-size: 14px;
-  margin-left: 25px;
-  margin-right: 8px;
-  opacity: 75%;
-  text-decoration: underline;
-}
-
-.secondaryButton:hover {
-  cursor: pointer;
-}
-
-.saveButton {
-  margin-left: 30px;
-  width: 105px;
-  height: 32px;
-  border-radius: 50px;
-  border-style: none;
-  background-color: #e5e5e5;
-  color: #b6b1b1;
-  font-family: 'Roboto', sans-serif;
-  transition: all 0.3s ease-in-out;
-}
-
-.saveButtonChanged {
-  margin-left: 30px;
-  width: 105px;
-  height: 32px;
-  border-radius: 50px;
-  border-style: none;
-  background-color: #71c3e7;
-  font-family: 'Roboto', sans-serif;
-  transition: all 0.3s ease-in-out;
-}
-
-.saveButtonChanged:hover {
-  cursor: pointer;
-  background-color: #50b9e8;
-}
-
 /* Dropdown stylings */
 .dropdown_menu_transaction {
   background-color: white;
   width: 170px;
-  border: 1.5px solid #71c3e7;
+  border: 1.5px solid var(--primaryHover);
   border-top: none;
   border-radius: 0px 0px 20px 20px;
   padding: 5px 20px;
@@ -173,7 +132,7 @@ body {
 }
 
 .dropdown_menu_transaction > button:hover {
-  color: #71c3e7;
+  color: var(--primaryHover);
 }
 
 /* Input Styling */
@@ -194,7 +153,7 @@ body {
 }
 
 .primaryInput:focus {
-  outline: var(--primaryHover) auto 2px;
+  outline: var(--primaryHover) auto 1.5px;
 }
 
 .customCheckbox {
