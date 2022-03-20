@@ -1,15 +1,33 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './AddLocation.css';
-import { createNewLocation } from './api-locations';
+import { createNewLocation, getAllLocations } from './api-locations';
+import CustomCombobox from '../Combobox/CustomCombobox';
 
 const AddLocation = ({ show, onClose }) => {
   if (!show) return null;
+  const [locations, setLocations] = useState([]);
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
+  const [copy, setCopy] = useState(false);
+  const [copyLocation, setCopyLocation] = useState('');
 
-  const onSubmit = (e, formInfo) => {
+  useEffect(() => {
+    getAllLocations().then((data) => {
+      const locationNames = data.map((location) => location.name);
+      setLocations(locationNames);
+    });
+  }, []);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Adding location: ', formInfo);
+    const formInfo = {
+      name,
+      address,
+      copy,
+      copyLocation,
+    };
     createNewLocation(formInfo).then((res) => {
       console.log('Location created: ', res);
       onClose();
@@ -17,62 +35,50 @@ const AddLocation = ({ show, onClose }) => {
     window.location.reload();
   };
 
-  const [formInfo, setFormInfo] = useState({
-    name: '',
-    address: '',
-    copy: false,
-  });
-
-  const handleChecked = (e) => {
-    setFormInfo({ ...formInfo, copy: e.target.checked });
-  };
-
   return (
-    <div className="location-modal">
+    <div className="location-modal-backdrop">
       <div className="location-modal-content">
-        <form onSubmit={(e) => onSubmit(e, formInfo)}>
+        <form onSubmit={handleSubmit}>
           <label className="inputLabel">
             Location Name
             <input
-              value={formInfo.name}
+              value={name}
               className="primaryInput"
               autoComplete="off"
-              onChange={(event) =>
-                setFormInfo({ ...formInfo, name: event.target.value })
-              }
+              onChange={(e) => setName(e.target.value)}
             />
           </label>
           <label className="inputLabel">
             Full Address
             <input
-              value={formInfo.address}
+              value={address}
               className="primaryInput"
               autoComplete="off"
-              onChange={(event) =>
-                setFormInfo({ ...formInfo, address: event.target.value })
-              }
+              onChange={(e) => setAddress(e.target.value)}
             />
           </label>
           <label className="inputLabel vertical-align-center">
             <input
               type="checkbox"
               className="customCheckbox"
-              checked={formInfo.copy}
-              onChange={handleChecked}
+              checked={copy}
+              onClick={() => setCopy(!copy)}
             />
             Copy master inventory from existing location
           </label>
-          <label>
-            <input type="select" />
-          </label>
+          <CustomCombobox
+            data={locations}
+            disabled={!copy}
+            onChange={setCopyLocation}
+          />
           <div className="location-button-group">
             <button type="button" className="secondaryButton" onClick={onClose}>
-              <u>Cancel</u>
+              Cancel
             </button>
             <button
               type="submit"
               className="primaryButton"
-              disabled={!formInfo.name || !formInfo.address}
+              disabled={!name || !address || (copy && !copyLocation)}
             >
               Add Location
             </button>
