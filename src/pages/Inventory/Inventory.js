@@ -40,12 +40,6 @@ const Inventory = () => {
   };
 
   const addItem = (formInfo) => {
-    if (data.some((item) => item['Item.itemName'] === formInfo.itemName)) {
-      // TODO: add alert dialog
-      console.log('Cant have duplicate entries!');
-      return;
-    }
-
     const newItem = {
       itemId: Math.floor(Math.random() * 1000),
       'Item.itemName': formInfo.itemName,
