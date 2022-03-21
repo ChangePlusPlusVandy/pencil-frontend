@@ -16,7 +16,7 @@ import PageContainer from '../../components/PageContainer/PageContainer';
 import TableHeader from '../../components/TableHeader/TableHeader';
 import Errors from '../../components/Errors/Errors';
 
-const ReactList = () => {
+const Inventory = () => {
   const [data, setData] = useState([]);
   const [masterInventoryData, setMasterInventoryData] = useState([]);
   const [isAddItemVisible, setAddItemVisible] = useState(false);
@@ -173,11 +173,12 @@ const ReactList = () => {
   );
 
   return (
-    <>
+    <PageContainer>
       <ItemPopup
         show={isAddItemVisible}
         onClose={handleClose}
         onSubmit={addItem}
+        currentItems={data}
       />
 
       {error && <Errors error={error} handleError={handleErrorClose} />}
@@ -219,14 +220,8 @@ const ReactList = () => {
           />
         )}
       </div>
-    </>
+    </PageContainer>
   );
 };
-
-const Inventory = () => (
-  <PageContainer>
-    <ReactList />
-  </PageContainer>
-);
 
 export default Inventory;
