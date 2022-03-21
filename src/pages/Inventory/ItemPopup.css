@@ -1,25 +1,3 @@
-.modal {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-}
-
-.modal-content {
-  position: relative;
-  background: var(--bgPrimary);
-  border-radius: 25px;
-  padding: 40px 40px;
-  width: 660px;
-  height: 240px;
-}
-
 .itemForm {
   width: 100%;
   display: flex;
@@ -34,10 +12,4 @@
 
 .limit-area {
   width: 35%;
-}
-
-.add-button-group {
-  position: absolute;
-  bottom: 40px;
-  right: 30px;
 }
