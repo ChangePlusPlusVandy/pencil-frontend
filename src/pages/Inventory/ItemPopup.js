@@ -1,57 +1,65 @@
-import React, { useState } from 'react';
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import CustomCombobox from '../../components/Combobox/CustomCombobox';
+import { getMasterInv } from './api-inventory';
 import './ItemPopup.css';
+import { useAuth } from '../../AuthContext';
 
 const ItemPopup = ({ show, onClose, onSubmit }) => {
   if (!show) return null;
+  const [allItems, setAllItems] = useState([]);
+  const { currentLocation } = useAuth();
+  const [itemName, setItemName] = useState('');
+  const [itemLimit, setItemLimit] = useState('');
 
-  const [formInfo, setFormInfo] = useState({
-    itemName: '',
-    maxLimit: 0,
-  });
+  useEffect(() => {
+    getMasterInv(currentLocation).then((result) => {
+      if (result instanceof Error) {
+        // eslint-disable-next-line no-alert
+        alert(
+          'Something went wrong in the backend server. Please contact the developer team'
+        );
+        console.log(result);
+      } else {
+        // build an array of only the names of each item
+        const itemNames = result.map((item) => item.itemName);
+        setAllItems(itemNames);
+      }
+    });
+  }, []);
+
   return (
     <div className="modal">
       <div className="modal-content">
-        <form onSubmit={(e) => onSubmit(e, formInfo)}>
+        <form
+          className="itemForm"
+          onSubmit={() => onSubmit({ itemName, maxLimit: itemLimit })}
+        >
           <div className="name-area">
-            <div className="modal-title">Item Name</div>
-            <input
-              type="text"
-              name="itemName"
-              value={formInfo.itemName}
-              className="add-item-input"
-              autoComplete="off"
-              onChange={(event) =>
-                setFormInfo({ ...formInfo, itemName: event.target.value })
-              }
-            />
+            <label className="inputLabel">Item Name</label>
+            <CustomCombobox data={allItems} onChange={setItemName} />
           </div>
 
           <div className="limit-area">
-            <div className="modal-title">Item Limit</div>
+            <label className="inputLabel">Item Limit</label>
             <input
               type="number"
               name="itemLimit"
-              value={formInfo.maxLimit}
-              className="add-item-input"
+              value={itemLimit}
+              className="primaryInput"
               autoComplete="off"
-              onChange={(event) =>
-                setFormInfo({ ...formInfo, maxLimit: event.target.value })
-              }
+              onChange={(e) => setItemLimit(e.target.value)}
             />
           </div>
           <div className="add-button-group">
             <button type="button" className="secondaryButton" onClick={onClose}>
-              <u>Cancel</u>
+              Cancel
             </button>
             <button
               type="submit"
               className="primaryButton"
-              disabled={
-                !formInfo.itemName ||
-                !formInfo.maxLimit ||
-                formInfo.maxLimit <= 0
-              }
+              disabled={!itemName || itemLimit <= 0}
             >
               Add
             </button>
