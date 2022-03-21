@@ -2,62 +2,53 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { createNewLocation } from './api-locations';
+import Modal from '../Modal/Modal';
 
 const AddLocation = ({ show, onClose }) => {
   if (!show) return null;
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formInfo = {
-      name,
-      address,
-    };
-    createNewLocation(formInfo).then((res) => {
+  const handleSubmit = () => {
+    createNewLocation({ name, address }).then((res) => {
       console.log('Location created: ', res);
       onClose();
     });
     window.location.reload();
   };
 
+  const modalActionButton = (
+    <button
+      type="submit"
+      className="primaryButton"
+      disabled={!name || !address}
+      onClick={handleSubmit}
+    >
+      Add Location
+    </button>
+  );
+
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <form onSubmit={handleSubmit}>
-          <label className="inputLabel">
-            Location Name
-            <input
-              value={name}
-              className="primaryInput"
-              autoComplete="off"
-              onChange={(e) => setName(e.target.value)}
-            />
-          </label>
-          <label className="inputLabel">
-            Full Address
-            <input
-              value={address}
-              className="primaryInput"
-              autoComplete="off"
-              onChange={(e) => setAddress(e.target.value)}
-            />
-          </label>
-          <div className="add-button-group">
-            <button type="button" className="secondaryButton" onClick={onClose}>
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="primaryButton"
-              disabled={!name || !address}
-            >
-              Add Location
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <Modal show={show} onClose={onClose} actionButton={modalActionButton}>
+      <label className="inputLabel">
+        Location Name
+        <input
+          value={name}
+          className="primaryInput"
+          autoComplete="off"
+          onChange={(e) => setName(e.target.value)}
+        />
+      </label>
+      <label className="inputLabel">
+        Full Address
+        <input
+          value={address}
+          className="primaryInput"
+          autoComplete="off"
+          onChange={(e) => setAddress(e.target.value)}
+        />
+      </label>
+    </Modal>
   );
 };
 
