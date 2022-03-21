@@ -8,78 +8,36 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 }
 
 .modal-content {
-  background-color: #f7f7f7;
+  position: relative;
+  background: var(--bgPrimary);
   border-radius: 25px;
-  padding: 30px 40px;
+  padding: 40px 40px;
   width: 660px;
+  height: 240px;
 }
 
-.modal-title {
-  margin: 0;
-  color: rgba(0, 0, 0, 0.75);
-  margin-bottom: 10px;
-  font-size: 16px;
-  font-weight: 500;
-  margin-top: 10px;
+.itemForm {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .name-area {
-  display: inline-block;
-  width: 360px;
+  width: 55%;
 }
 
 .limit-area {
-  display: inline-block;
-  width: 180px;
-  margin-left: 40px;
+  width: 35%;
 }
 
 .add-button-group {
-  margin-top: 15px;
-  text-align: right;
-}
-
-.add-item-input {
-  width: 100%;
-  height: 40px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 0 10px;
-  margin-bottom: 10px;
-}
-
-.add-item-input:focus {
-  outline: var(--primary) auto 2px;
-}
-
-.add-item-cancel {
-  border: none;
-  background-color: transparent;
-  color: #6b6a6a;
-  cursor: pointer;
-  font-size: 16px;
-  transition: all 0.3s ease-in-out;
-  margin-right: 20px;
-}
-
-.add-item-add {
-  font-size: 16px;
-  color: rgba(0, 0, 0, 0.75);
-  border: none;
-  background-color: #fafafa;
-  border: var(--primary) 1px solid;
-  border-radius: 20px;
-  height: 40px;
-  width: 100px;
-  border-radius: 20px;
-  padding: 0 25px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-}
-
-.add-item-add:hover {
-  background-color: var(--primary);
+  position: absolute;
+  bottom: 40px;
+  right: 30px;
 }
