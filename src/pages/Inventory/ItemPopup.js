@@ -7,7 +7,7 @@ import './ItemPopup.css';
 import { useAuth } from '../../AuthContext';
 import Modal from '../../components/Modal/Modal';
 
-const ItemPopup = ({ show, onClose, onSubmit }) => {
+const ItemPopup = ({ show, onClose, onSubmit, currentItems }) => {
   if (!show) return null;
   const [allItems, setAllItems] = useState([]);
   const { currentLocation } = useAuth();
@@ -23,8 +23,15 @@ const ItemPopup = ({ show, onClose, onSubmit }) => {
         );
         console.log(result);
       } else {
-        // build an array of only the names of each item
-        const itemNames = result.map((item) => item.itemName);
+        // extract the item names from the currentItems
+        const currentItemNames = currentItems.map(
+          (item) => item['Item.itemName']
+        );
+        // filter out the items that are already in the currentItems
+        const itemNames = result
+          .map((item) => item.itemName)
+          .filter((item) => !currentItemNames.includes(item));
+
         setAllItems(itemNames);
       }
     });
@@ -68,6 +75,11 @@ ItemPopup.propTypes = {
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  currentItems: PropTypes.arrayOf(PropTypes.object),
+};
+
+ItemPopup.defaultProps = {
+  currentItems: [],
 };
 
 export default ItemPopup;
