@@ -5,6 +5,7 @@ import CustomCombobox from '../../components/Combobox/CustomCombobox';
 import { getMasterInv } from './api-inventory';
 import './ItemPopup.css';
 import { useAuth } from '../../AuthContext';
+import Modal from '../../components/Modal/Modal';
 
 const ItemPopup = ({ show, onClose, onSubmit }) => {
   if (!show) return null;
@@ -29,44 +30,37 @@ const ItemPopup = ({ show, onClose, onSubmit }) => {
     });
   }, []);
 
-  return (
-    <div className="modal">
-      <div className="modal-content">
-        <form
-          className="itemForm"
-          onSubmit={() => onSubmit({ itemName, maxLimit: itemLimit })}
-        >
-          <div className="name-area">
-            <label className="inputLabel">Item Name</label>
-            <CustomCombobox data={allItems} onChange={setItemName} />
-          </div>
+  const modalActionButton = (
+    <button
+      type="submit"
+      className="primaryButton"
+      disabled={!itemName || itemLimit <= 0}
+      onClick={() => onSubmit({ itemName, maxLimit: itemLimit })}
+    >
+      Add
+    </button>
+  );
 
-          <div className="limit-area">
-            <label className="inputLabel">Item Limit</label>
-            <input
-              type="number"
-              name="itemLimit"
-              value={itemLimit}
-              className="primaryInput"
-              autoComplete="off"
-              onChange={(e) => setItemLimit(e.target.value)}
-            />
-          </div>
-          <div className="add-button-group">
-            <button type="button" className="secondaryButton" onClick={onClose}>
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="primaryButton"
-              disabled={!itemName || itemLimit <= 0}
-            >
-              Add
-            </button>
-          </div>
-        </form>
+  return (
+    <Modal show={show} onClose={onClose} actionButton={modalActionButton}>
+      <div className="itemForm">
+        <div className="name-area">
+          <label className="inputLabel">Item Name</label>
+          <CustomCombobox data={allItems} onChange={setItemName} />
+        </div>
+        <div className="limit-area">
+          <label className="inputLabel">Item Limit</label>
+          <input
+            type="number"
+            name="itemLimit"
+            value={itemLimit}
+            className="primaryInput"
+            autoComplete="off"
+            onChange={(e) => setItemLimit(e.target.value)}
+          />
+        </div>
       </div>
-    </div>
+    </Modal>
   );
 };
 
