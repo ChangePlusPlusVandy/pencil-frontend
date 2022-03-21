@@ -39,18 +39,7 @@ const ReactList = () => {
     });
   };
 
-  const addItem = (e, formInfo) => {
-    e.preventDefault();
-    console.log('Adding item: ', formInfo);
-    if (
-      formInfo.itemName === '' ||
-      formInfo.itemName === undefined ||
-      formInfo.maxLimit === 0
-    ) {
-      // TODO: add alert dialog
-      console.log('Cant have empty entries!');
-      return;
-    }
+  const addItem = (formInfo) => {
     if (data.some((item) => item['Item.itemName'] === formInfo.itemName)) {
       // TODO: add alert dialog
       console.log('Cant have duplicate entries!');
@@ -65,8 +54,6 @@ const ReactList = () => {
     };
     // add popup
     setData([...data, newItem]);
-
-    console.log(data);
     setAddItemVisible(false);
     setChanged(true);
   };
