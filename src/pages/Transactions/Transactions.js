@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -21,9 +22,15 @@ const formatDate = (dateObj) => {
   return `${date} ${month} ${year}\n${ampmTime}`;
 };
 
-function isOverload(data) {
+function isOverload(data, index) {
   for (const i in data.childNodes) {
-    if (i.amountTaken > i.maxLimit) {
+    console.log(data);
+    if (
+      parseInt(data.childNodes[i].itemsTaken1, 10) >
+        parseInt(data.childNodes[i].maxLimit1, 10) ||
+      parseInt(data.childNodes[i].itemsTaken2, 10) >
+        parseInt(data.childNodes[i].maxLimit2, 10)
+    ) {
       return true;
     }
   }
@@ -44,6 +51,7 @@ const Transactions = () => {
     const formattedData = [];
     for (let i = 0; i < items.length; i += 2) {
       let itemName2 = '';
+      let maxLimit2 = '0';
       if (items[i + 1]) {
         itemName2 = items[i + 1].Item.itemName;
       }
@@ -51,12 +59,15 @@ const Transactions = () => {
 
       if (items[i + 1]) {
         itemsTaken2 = String(items[i + 1].amountTaken);
+        maxLimit2 = String(items[i + 1].maxLimit);
       }
       const newObj = {
         itemName1: items[i].Item.itemName,
         itemsTaken1: String(items[i].amountTaken),
+        maxLimit1: String(items[i].maxLimit),
         itemName2,
         itemsTaken2,
+        maxLimit2,
       };
       formattedData.push(newObj);
     }
@@ -97,18 +108,18 @@ const Transactions = () => {
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        'selectedRows: ',
-        selectedRows
-      );
+      // console.log(
+      //   `selectedRowKeys: ${selectedRowKeys}`,
+      //   'selectedRows: ',
+      //   selectedRows
+      // );
       setSelectedData(selectedRows);
     },
     onSelect: (record, selected, selectedRows) => {
-      console.log(record, selected, selectedRows);
+      // console.log(record, selected, selectedRows);
     },
     onSelectAll: (selected, selectedRows, changeRows) => {
-      console.log(selected, selectedRows, changeRows);
+      // console.log(selected, selectedRows, changeRows);
     },
     getCheckboxProps: (record) => ({
       disabled: record.status !== 'Pending',
@@ -322,7 +333,7 @@ const Transactions = () => {
             rowKey="key"
             columns={columns}
             rowClassName={(record, index) =>
-              isOverload(record) ? 'overload' : 'normal-row'
+              isOverload(record, index) ? 'overload' : 'normal-row'
             }
             className="bigTable"
             rowSelection={{ ...rowSelection }}
