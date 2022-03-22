@@ -211,3 +211,7 @@ th.ant-table-cell::before {
 .ant-table-tbody > tr.ant-table-row-selected > td {
   background-color: #f6f6f6;
 }
+
+#Load50 {
+  margin-bottom: 15px;
+}

@@ -8,7 +8,6 @@ import 'antd/dist/antd.css';
 import { FaChevronDown, FaChevronUp, FaCheck } from 'react-icons/fa';
 import { ImCross } from 'react-icons/im';
 import { Table, Space } from 'antd';
-import isIn from 'validator/lib/isIn';
 import { useAuth } from '../../AuthContext';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import {
@@ -128,7 +127,7 @@ const PendingTransactions = () => {
     },
     getCheckboxProps: (record) => ({
       disabled: record.status !== 'Pending',
-      checked: !isIn(record.key, wasChecked),
+      checked: record.key in wasChecked,
     }),
   };
 
@@ -307,7 +306,7 @@ const PendingTransactions = () => {
       console.log('no change');
     } else if (event.target.innerText === 'Pending') {
       setSelectedData([]);
-      getPendingTransactions(currentLocation).then((transactions) => {
+      getPendingTransactions(currentLocation, '1').then((transactions) => {
         if (transactions.error) {
           console.log(transactions.error);
         } else {
@@ -394,12 +393,16 @@ const PendingTransactions = () => {
   };
 
   useEffect(() => {
-    getPendingTransactions(currentLocation).then((transactions) => {
+    getPendingTransactions(currentLocation, '1').then((transactions) => {
       if (transactions.error) {
         console.log(transactions.error);
       } else {
         // formatData(transactions, 'Pending');
-        setLoadedData(transactions);
+        setLoadedData([]);
+        setView('Pending');
+        formatData(transactions, 'Pending');
+        console.log('Data loaded!');
+        console.log(transactions);
       }
     });
   }, []);
@@ -498,6 +501,7 @@ const PendingTransactions = () => {
         {view === 'Pending' ? (
           <Table
             expandIcon={(props) => customExpandIcon(props)}
+            pagination={false}
             rowKey="key"
             columns={columns}
             className="bigTable"
@@ -509,7 +513,7 @@ const PendingTransactions = () => {
                 return record?.childNodes?.length;
               },
             }}
-            pagination={{ pageSize: numItems }}
+            // pagination={{ pageSize: numItems }}
           />
         ) : (
           <Table
@@ -522,11 +526,17 @@ const PendingTransactions = () => {
                 return record.childNodes.length;
               },
             }}
-            pagination={{ pageSize: numItems }}
+            // pagination={{ pageSize: numItems }}
+            pagination={false}
           />
         )}
         <div className="horizontal-align-center">
-          <button type="button" className="primaryButton" onClick={loadMore}>
+          <button
+            type="button"
+            id="Load50"
+            className="primaryButton"
+            onClick={loadMore}
+          >
             Load 50
           </button>
         </div>
