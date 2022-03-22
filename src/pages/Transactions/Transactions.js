@@ -107,20 +107,6 @@ const Transactions = () => {
   }, []);
 
   const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      // console.log(
-      //   `selectedRowKeys: ${selectedRowKeys}`,
-      //   'selectedRows: ',
-      //   selectedRows
-      // );
-      setSelectedData(selectedRows);
-    },
-    onSelect: (record, selected, selectedRows) => {
-      // console.log(record, selected, selectedRows);
-    },
-    onSelectAll: (selected, selectedRows, changeRows) => {
-      // console.log(selected, selectedRows, changeRows);
-    },
     getCheckboxProps: (record) => ({
       disabled: record.status !== 'Pending',
       checked: record.key in wasChecked,
