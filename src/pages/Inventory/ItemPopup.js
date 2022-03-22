@@ -3,9 +3,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import CustomCombobox from '../../components/Combobox/CustomCombobox';
 import { getMasterInv } from './api-inventory';
-import './ItemPopup.css';
-import { useAuth } from '../../AuthContext';
 import Modal from '../../components/Modal/Modal';
+import './ItemPopup.css';
 
 const ItemPopup = ({
   show,
@@ -16,14 +15,13 @@ const ItemPopup = ({
 }) => {
   if (!show) return null;
   const [allItems, setAllItems] = useState([]);
-  const { currentLocation } = useAuth();
   const [itemName, setItemName] = useState('');
   const [itemValue, setItemValue] = useState(''); // price or limit depending on inventoryType
 
   useEffect(() => {
     if (inventoryType !== 'Active') return;
     // only carry out if Active inventory
-    getMasterInv(currentLocation).then((result) => {
+    getMasterInv().then((result) => {
       if (result instanceof Error) {
         // eslint-disable-next-line no-alert
         alert(

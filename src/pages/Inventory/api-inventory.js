@@ -25,18 +25,15 @@ const postInventory = async (data, location) => {
   }
 };
 
-const getMasterInv = async (location) => {
+const getMasterInv = async () => {
   try {
     // FIXME: WILL HAVE TO ADAPT THIS TO LOCATIONS
-    const response = await fetch(
-      `/api/${location}/masterInventory/getAllItems`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'GET',
-      }
-    );
+    const response = await fetch(`/api/masterInventory/getAllItems`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'GET',
+    });
 
     console.log('THIS IS THE DATA: ', response);
 
@@ -46,18 +43,15 @@ const getMasterInv = async (location) => {
   }
 };
 
-const postMasterInv = async (data, location) => {
+const postMasterInv = async (data) => {
   try {
-    const response = await fetch(
-      `/api/${location}/masterInventory/updateMasterInventory`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'PUT',
-        body: JSON.stringify(data),
-      }
-    );
+    const response = await fetch(`/api/masterInventory/updateMasterInventory`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
     return await response.json();
   } catch (err) {
     console.log(err);

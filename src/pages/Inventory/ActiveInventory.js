@@ -1,10 +1,28 @@
 /* eslint-disable react/forbid-prop-types */
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDragListView from 'react-drag-listview/lib/index';
 import PropTypes from 'prop-types';
 import Item from './Item';
+import { getInventory } from './api-inventory';
+import { useAuth } from '../../AuthContext';
 
 const ActiveInventory = ({ data, setData, setChanged }) => {
+  const { currentLocation } = useAuth();
+
+  useEffect(() => {
+    getInventory(currentLocation).then((result) => {
+      if (result instanceof Error) {
+        // eslint-disable-next-line no-alert
+        alert(
+          'Something went wrong in the backend server. Please contact the developer team'
+        );
+        console.log(result);
+      } else {
+        setData(result);
+      }
+    });
+  }, []);
+
   const updateData = (newData) => {
     setChanged(true);
     setData([]);

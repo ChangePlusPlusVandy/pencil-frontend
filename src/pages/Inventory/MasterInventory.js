@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { getMasterInv } from './api-inventory';
-import { useAuth } from '../../AuthContext';
 import './MasterInventory.css';
 
 const MasterInventory = ({ data, setData, setChanged }) => {
-  const { currentLocation } = useAuth();
-
   useEffect(() => {
-    getMasterInv(currentLocation).then((result) => {
+    getMasterInv().then((result) => {
       if (result instanceof Error) {
         // eslint-disable-next-line no-alert
         alert(

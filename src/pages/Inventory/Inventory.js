@@ -6,7 +6,7 @@ import { Packer } from 'docx';
 import { saveAs } from 'file-saver';
 import ActiveInventory from './ActiveInventory';
 import ItemPopup from './ItemPopup';
-import { getInventory, postInventory, postMasterInv } from './api-inventory';
+import { postInventory, postMasterInv } from './api-inventory';
 import printForm from '../../utils/printForm';
 import { useAuth } from '../../AuthContext';
 import InventoryToggle from './InventoryToggle';
@@ -60,20 +60,11 @@ const Inventory = () => {
     const result =
       inventoryType === 'Active'
         ? postInventory(activeInventoryData, currentLocation)
-        : postMasterInv(masterInventoryData, currentLocation);
+        : postMasterInv(masterInventoryData);
 
     if (result && result.error) setError(result.error);
     setChanged(false);
   };
-
-  useEffect(() => {
-    getInventory(currentLocation)
-      .then((result) => {
-        if (result.error) setError(result.error);
-        else if (result) setActiveInventoryData(result);
-      })
-      .catch((err) => setError(err.message));
-  }, []);
 
   const leftItems = (
     <>
