@@ -94,6 +94,15 @@ const dateConverter = (date) => {
   return `${day} ${month} ${year}\n${hours}:${minutes} ${suffix}`;
 };
 
+function isOverload(data) {
+  for (const i in data.childNodes) {
+    if (i.amountTaken > i.maxLimit) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -504,6 +513,9 @@ const PendingTransactions = () => {
             pagination={false}
             rowKey="key"
             columns={columns}
+            rowClassName={(record, index) =>
+              isOverload(record) ? 'overload' : 'normal-row'
+            }
             className="bigTable"
             rowSelection={{ ...rowSelection }}
             dataSource={loadedData}

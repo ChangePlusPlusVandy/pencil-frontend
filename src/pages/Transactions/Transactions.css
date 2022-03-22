@@ -215,3 +215,18 @@ th.ant-table-cell::before {
 #Load50 {
   margin-bottom: 15px;
 }
+
+/* #f04747 */
+
+.overload > td{
+  border-top: 1px solid red;
+  border-bottom: 1px solid red !important;
+}
+
+tr.overload td:first-child {
+  border-left: 1px solid red;
+}
+
+tr.overload td:last-child {
+  border-right: 1px solid red;
+}
