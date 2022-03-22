@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import ReactDragListView from 'react-drag-listview/lib/index';
 import { AiFillPrinter } from 'react-icons/ai';
 import { GrFormAdd } from 'react-icons/gr';
 import './Inventory.css';
 import { Packer } from 'docx';
 import { saveAs } from 'file-saver';
+import ActiveInventory from './ActiveInventory';
 import ItemPopup from './ItemPopup';
-import Item from './Item';
 import { getInventory, postInventory, postMasterInv } from './api-inventory';
 import printForm from '../../utils/printForm';
 import { useAuth } from '../../AuthContext';
@@ -17,119 +16,63 @@ import TableHeader from '../../components/TableHeader/TableHeader';
 import Errors from '../../components/Errors/Errors';
 
 const Inventory = () => {
-  const [data, setData] = useState([]);
+  const [activeInventoryData, setActiveInventoryData] = useState([]);
   const [masterInventoryData, setMasterInventoryData] = useState([]);
   const [isAddItemVisible, setAddItemVisible] = useState(false);
   const [changed, setChanged] = useState(false);
-  const [locationSelected, setLocationSelected] = useState(false);
-  const [inventory, setInventory] = useState('Active');
-  const { currentLocation } = useAuth();
+  const [inventoryType, setInventoryType] = useState('Active');
   const [error, setError] = useState('');
+  const { currentLocation } = useAuth();
 
   const generate = () => {
-    const doc = printForm(data);
+    const doc = printForm(activeInventoryData);
     let today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
     const mm = String(today.getMonth() + 1).padStart(2, '0');
     const yyyy = today.getFullYear();
     today = `${mm}-${dd}-${yyyy}`;
-
     Packer.toBlob(doc).then((blob) => {
       saveAs(blob, `PencilForm.${today}.docx`);
     });
   };
 
   const addItem = (formInfo) => {
-    const newItem = {
-      itemId: Math.floor(Math.random() * 1000),
-      'Item.itemName': formInfo.itemName,
-      maxLimit: formInfo.maxLimit,
-      itemOrder: data.length,
-    };
-    // add popup
-    setData([...data, newItem]);
+    if (inventoryType === 'Active') {
+      const newItem = {
+        itemId: Math.floor(Math.random() * 1000),
+        'Item.itemName': formInfo.itemName,
+        maxLimit: formInfo.itemValue,
+        itemOrder: activeInventoryData.length,
+      };
+      setActiveInventoryData([...activeInventoryData, newItem]);
+    } else {
+      const newItem = {
+        itemName: formInfo.itemName,
+        itemPrice: formInfo.itemValue,
+      };
+      setMasterInventoryData([...masterInventoryData, newItem]);
+    }
     setAddItemVisible(false);
-    setChanged(true);
-  };
-
-  const handleClose = () => {
-    console.log(data);
-    setAddItemVisible(false);
-  };
-
-  const updateData = (newData) => {
-    setChanged(true);
-    setData([]); // for some reason react is not rendering when there is only setData(newData)
-    setData(newData);
-  };
-
-  const handleItemChange = (item) => {
-    setChanged(true);
-    setData(item);
-  };
-
-  const handleDelete = (name) => {
-    console.log(name);
-    const newData = data.filter((item) => item['Item.itemName'] !== name);
-    console.log(newData);
-    setData([]);
-    setData(newData);
-    console.log(data);
     setChanged(true);
   };
 
   const handleSave = () => {
-    if (inventory === 'Active') {
-      const result = postInventory(data, currentLocation);
+    const result =
+      inventoryType === 'Active'
+        ? postInventory(activeInventoryData, currentLocation)
+        : postMasterInv(masterInventoryData, currentLocation);
 
-      if (result && result.error) {
-        setError(result.error);
-      }
-    } else if (inventory === 'Master') {
-      postMasterInv(masterInventoryData, currentLocation);
-    }
+    if (result && result.error) setError(result.error);
     setChanged(false);
-  };
-
-  const handleErrorClose = () => {
-    setError('');
-  };
-
-  // Properties to pass to ReactDragListView package
-  const dragProps = {
-    onDragEnd(fromIndex, toIndex) {
-      const newData = data;
-      // reorders the item
-      const item = newData.splice(fromIndex, 1)[0];
-      newData.splice(toIndex, 0, item);
-      updateData(newData);
-    },
-    nodeSelector: 'li',
-    handleSelector: 'div',
-    lineClassName: 'dragLine',
   };
 
   useEffect(() => {
     getInventory(currentLocation)
       .then((result) => {
-        console.log(result);
-        if (!result) {
-          setData([]);
-        } else if (result.error) {
-          // eslint-disable-next-line no-alert
-          alert('No location is selected. Please select a location');
-          setError(result.error);
-        } else {
-          console.log(result);
-          setData(result);
-          console.log('getting inventory', result);
-          setLocationSelected(true);
-        }
+        if (result.error) setError(result.error);
+        else if (result) setActiveInventoryData(result);
       })
-      .catch((err) => {
-        console.log('ERROR', err);
-        setError(err.message);
-      });
+      .catch((err) => setError(err.message));
   }, []);
 
   const leftItems = (
@@ -154,7 +97,7 @@ const Inventory = () => {
 
   const rightItems = (
     <>
-      <InventoryToggle onChange={setInventory} />
+      <InventoryToggle onChange={setInventoryType} />
       <button
         type="button"
         className="primaryButton"
@@ -170,47 +113,35 @@ const Inventory = () => {
     <PageContainer>
       <ItemPopup
         show={isAddItemVisible}
-        onClose={handleClose}
+        onClose={() => setAddItemVisible(false)}
         onSubmit={addItem}
-        currentItems={data}
+        currentItems={activeInventoryData}
+        inventoryType={inventoryType}
       />
 
-      {error && <Errors error={error} handleError={handleErrorClose} />}
+      {error && <Errors error={error} handleError={() => setError('')} />}
 
       <TableHeader
-        title={`Inventory (${locationSelected ? data.length : 0})`}
+        title={`${inventoryType} Inventory (${
+          inventoryType === 'Active'
+            ? activeInventoryData.length
+            : masterInventoryData.length
+        })`}
         leftArea={leftItems}
         rightArea={rightItems}
       />
       <div className="itemContainer">
-        {inventory === 'Active' ? (
-          <div>
-            <div className="dragList">
-              <div className="containerHeader">
-                <div className="headerName">Item Name</div>
-                <div className="headerItemLimit">Item Limit</div>
-              </div>
-            </div>
-            <ReactDragListView {...dragProps}>
-              <ul className="dragList">
-                {data.map((item, index) => (
-                  <Item
-                    key={item['Item.itemName']}
-                    number={index}
-                    itemName={item['Item.itemName']}
-                    limit={item.maxLimit}
-                    inventory={data}
-                    updateInventory={handleItemChange}
-                    handleDelete={handleDelete}
-                  />
-                ))}
-              </ul>
-            </ReactDragListView>
-          </div>
+        {inventoryType === 'Active' ? (
+          <ActiveInventory
+            data={activeInventoryData}
+            setData={setActiveInventoryData}
+            setChanged={setChanged}
+          />
         ) : (
           <MasterInventory
             data={masterInventoryData}
             setData={setMasterInventoryData}
+            setChanged={setChanged}
           />
         )}
       </div>

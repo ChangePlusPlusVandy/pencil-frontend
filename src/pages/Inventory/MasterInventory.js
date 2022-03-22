@@ -4,7 +4,7 @@ import { getMasterInv } from './api-inventory';
 import { useAuth } from '../../AuthContext';
 import './MasterInventory.css';
 
-const MasterInventory = ({ data, setData }) => {
+const MasterInventory = ({ data, setData, setChanged }) => {
   const { currentLocation } = useAuth();
 
   useEffect(() => {
@@ -20,6 +20,20 @@ const MasterInventory = ({ data, setData }) => {
       }
     });
   }, []);
+
+  // TODO: Add delete icon to row and attach this function
+  const handleDelete = (name) => {
+    const newData = data.filter((item) => item.itemName !== name);
+    setData([]);
+    setData(newData);
+    setChanged(true);
+  };
+
+  // TODO: Replace text with EditableText and attach this function
+  const handleItemChange = (item) => {
+    setChanged(true);
+    setData(item);
+  };
 
   return (
     <div>
@@ -43,6 +57,7 @@ const MasterInventory = ({ data, setData }) => {
 MasterInventory.propTypes = {
   data: PropTypes.arrayOf.isRequired,
   setData: PropTypes.func.isRequired,
+  setChanged: PropTypes.func.isRequired,
 };
 
 export default MasterInventory;
