@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { CgTrash } from 'react-icons/cg';
 import { getMasterInv } from './api-inventory';
 import './MasterInventory.css';
 
@@ -44,6 +45,13 @@ const MasterInventory = ({ data, setData, setChanged }) => {
             <div className="itemOrder">{index + 1}</div>
             <div id="master-inventory-name">{item.itemName}</div>
             <div id="master-inventory-price">{item.itemPrice}</div>
+            <div id="master-inventory-delete">
+              <CgTrash
+                size="20"
+                color="F04747"
+                onClick={() => handleDelete(item.itemName)}
+              />
+            </div>
           </div>
         ))}
       </ul>
