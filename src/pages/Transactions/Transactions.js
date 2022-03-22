@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -6,7 +7,6 @@ import 'antd/dist/antd.css';
 import { FaChevronDown, FaCheck } from 'react-icons/fa';
 import { ImCross } from 'react-icons/im';
 import { Table, Space } from 'antd';
-import isIn from 'validator/lib/isIn';
 import { useAuth } from '../../AuthContext';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import { handleTransaction, getTransactions } from './api-transactions';
@@ -21,6 +21,15 @@ const formatDate = (dateObj) => {
   return `${date} ${month} ${year}\n${ampmTime}`;
 };
 
+function isOverload(data) {
+  for (const i in data.childNodes) {
+    if (i.amountTaken > i.maxLimit) {
+      return true;
+    }
+  }
+  return false;
+}
+
 const Transactions = () => {
   const [numItems, setNumItems] = useState(10);
   const [loadedData, setLoadedData] = useState([]);
@@ -31,12 +40,57 @@ const Transactions = () => {
   const [error, setError] = useState('');
   const { currentLocation } = useAuth();
 
+  const formatItemData = (items) => {
+    const formattedData = [];
+    for (let i = 0; i < items.length; i += 2) {
+      let itemName2 = '';
+      if (items[i + 1]) {
+        itemName2 = items[i + 1].Item.itemName;
+      }
+      let itemsTaken2 = '';
+
+      if (items[i + 1]) {
+        itemsTaken2 = String(items[i + 1].amountTaken);
+      }
+      const newObj = {
+        itemName1: items[i].Item.itemName,
+        itemsTaken1: String(items[i].amountTaken),
+        itemName2,
+        itemsTaken2,
+      };
+      formattedData.push(newObj);
+    }
+    return formattedData;
+  };
+
+  const formatData = (transactions, status) => {
+    const formattedData = [];
+    for (let i = 0; i < transactions.length; i += 1) {
+      const { Teacher } = transactions[i];
+      const formattedObj = {
+        date: formatDate(new Date(transactions[i].createdAt)),
+        name: `${Teacher.firstName} ${Teacher.lastName}`,
+        childNodes: formatItemData(transactions[i].TransactionItems),
+        status,
+        key: transactions[i].uuid,
+        isDisabled: !(status === 'Pending'),
+      };
+      formattedData.push(formattedObj);
+    }
+    setRawData(transactions);
+    setLoadedData(formattedData);
+  };
+
   useEffect(() => {
     getTransactions(currentLocation, 1, 'Pending').then((transactions) => {
       if (transactions.error) {
         setError(transactions.error);
       } else {
-        setLoadedData(transactions);
+        setLoadedData([]);
+        setView('Pending');
+        formatData(transactions, 'Pending');
+        console.log('Data loaded!');
+        console.log(transactions);
       }
     });
   }, []);
@@ -58,7 +112,7 @@ const Transactions = () => {
     },
     getCheckboxProps: (record) => ({
       disabled: record.status !== 'Pending',
-      checked: record.key ? !isIn(record.key, wasChecked) : false,
+      checked: record.key in wasChecked,
     }),
   };
 
@@ -167,29 +221,6 @@ const Transactions = () => {
     },
   ];
 
-  const formatItemData = (items) => {
-    const formattedData = [];
-    for (let i = 0; i < items.length; i += 2) {
-      let itemName2 = '';
-      if (items[i + 1]) {
-        itemName2 = items[i + 1].Item.itemName;
-      }
-      let itemsTaken2 = '';
-
-      if (items[i + 1]) {
-        itemsTaken2 = String(items[i + 1].amountTaken);
-      }
-      const newObj = {
-        itemName1: items[i].Item.itemName,
-        itemsTaken1: String(items[i].amountTaken),
-        itemName2,
-        itemsTaken2,
-      };
-      formattedData.push(newObj);
-    }
-    return formattedData;
-  };
-
   const expandedRowRender = (record) => (
     <table className="expandedData">
       <tr>
@@ -208,24 +239,6 @@ const Transactions = () => {
       ))}
     </table>
   );
-
-  const formatData = (transactions, status) => {
-    const formattedData = [];
-    for (let i = 0; i < transactions.length; i += 1) {
-      const { Teacher } = transactions[i];
-      const formattedObj = {
-        date: formatDate(new Date(transactions[i].createdAt)),
-        name: `${Teacher.firstName} ${Teacher.lastName}`,
-        childNodes: formatItemData(transactions[i].TransactionItems),
-        status,
-        key: transactions[i].uuid,
-        isDisabled: !(status === 'Pending'),
-      };
-      formattedData.push(formattedObj);
-    }
-    setRawData(transactions);
-    setLoadedData(formattedData);
-  };
 
   const loadMore = () => {
     setNumItems(numItems + 50);
@@ -308,6 +321,9 @@ const Transactions = () => {
             expandIcon={(props) => customExpandIcon(props)}
             rowKey="key"
             columns={columns}
+            rowClassName={(record, index) =>
+              isOverload(record) ? 'overload' : 'normal-row'
+            }
             className="bigTable"
             rowSelection={{ ...rowSelection }}
             dataSource={loadedData}
@@ -317,7 +333,8 @@ const Transactions = () => {
                 return record?.childNodes?.length;
               },
             }}
-            pagination={{ pageSize: numItems, position: ['none'] }}
+            // pagination={{ pageSize: numItems, position: ['none'] }}
+            pagination={false}
           />
         ) : (
           <Table
@@ -330,11 +347,17 @@ const Transactions = () => {
                 return record.childNodes.length;
               },
             }}
-            pagination={{ pageSize: numItems, position: ['none'] }}
+            // pagination={{ pageSize: numItems, position: ['none'] }}
+            pagination={false}
           />
         )}
         <div className="horizontal-align-center">
-          <button type="button" className="primaryButton" onClick={loadMore}>
+          <button
+            type="button"
+            className="primaryButton"
+            onClick={loadMore}
+            id="Load50"
+          >
             Load 50
           </button>
         </div>

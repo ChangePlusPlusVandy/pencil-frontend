@@ -203,3 +203,24 @@ th.ant-table-cell::before {
 .statusDenied:hover {
   color: rgba(240, 71, 71, 0.8) !important;
 }
+
+#Load50 {
+  margin-bottom: 15px;
+}
+
+.overload > td{
+  border-top: 1px solid #f04747;
+  border-bottom: 1px solid #f04747 !important;
+}
+
+tr.overload td:first-child {
+  border-left: 1px solid #f04747;
+}
+
+tr.overload td:last-child {
+  border-right: 1px solid #f04747;
+}
+
+#Load50 {
+  margin-bottom: 15px;
+}
