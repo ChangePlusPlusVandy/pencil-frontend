@@ -1,15 +1,11 @@
 .headerCell {
-  width: 25vw;
-  font-size: 16px;
-  color: var(--textSecondary);
+  width: 20%;
+  display: flex;
+  justify-content: center;
 }
 
 .itemCell {
-  width: 25vw;
-}
-
-.timeCell {
-  width: 15vw;
+  width: 20%;
 }
 
 .scheduleItem div {
@@ -19,15 +15,9 @@
 .timeBox {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  width: 25%;
 }
 
 .bold {
   font-weight: bold;
-}
-
-.schedule-dropdown {
-  border-color: var(--primary);
-  margin-left: auto;
-  height: 25px;
 }
