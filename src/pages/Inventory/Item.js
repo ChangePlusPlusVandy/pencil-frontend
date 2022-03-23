@@ -1,15 +1,13 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/mouse-events-have-key-events */
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
-import { ReactComponent as HamburgerIcon } from '../../assets/HamburgerIcon.svg';
-import { ReactComponent as DeleteItem } from '../../assets/DeleteItem.svg';
+import PropTypes from 'prop-types';
+import { CgTrash } from 'react-icons/cg';
+import { GiHamburgerMenu } from 'react-icons/gi';
 import './Item.css';
 import EditableText from './EditableText';
 
 const Item = ({
   number,
-  name,
+  itemName,
   limit,
   inventory,
   updateInventory,
@@ -28,13 +26,15 @@ const Item = ({
   }, []);
 
   return (
-    <li className={`newItem${active ? ' setColorBlue' : ''}`}>
+    <li className={`tableItem${active ? ' setColorBlue' : ''}`}>
       <div
-        className="dragIcon"
+        className="dragIcon vertical-align-center"
         onMouseDown={() => setActive(true)}
         onMouseUp={() => setActive(false)}
+        role="button"
+        tabIndex={0}
       >
-        <HamburgerIcon className="dragIcon" />
+        <GiHamburgerMenu size="24" />
       </div>
       <div className="itemOrder">{number + 1}</div>
       <EditableText
@@ -42,7 +42,7 @@ const Item = ({
         role="button"
         tabIndex="-1"
         widthSize="20"
-        initValue={name}
+        initValue={itemName}
         inventory={inventory}
         updateInventory={updateInventory}
         keyToUpdate="itemName"
@@ -62,16 +62,25 @@ const Item = ({
         isNumber
       />
       <div
-        className="itemDelete"
+        className="itemDelete vertical-align-center"
         role="button"
         tabIndex="-1"
-        onClick={() => handleDelete(name)}
+        onClick={() => handleDelete(itemName)}
         onKeyPress={() => {}}
       >
-        <DeleteItem />
+        <CgTrash size="20" color="F04747" />
       </div>
     </li>
   );
+};
+
+Item.propTypes = {
+  number: PropTypes.number.isRequired,
+  itemName: PropTypes.string.isRequired,
+  limit: PropTypes.string.isRequired,
+  inventory: PropTypes.shape.isRequired,
+  updateInventory: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
 };
 
 export default Item;

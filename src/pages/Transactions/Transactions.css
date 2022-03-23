@@ -1,116 +1,92 @@
-body {
-  background-color: #e5e5e5;
-  height: 100%;
-}
-
-.transactionsContainer {
-  margin: auto 7em;
-  height: 65vh;
-}
-
-.scrollingTransactions {
-  height: 100%;
-  overflow-y: scroll;
-  background-color: white;
-  padding: 0em 2em;
-  border-radius: 20px;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-  border-collapse: separate;
-}
-
-.scrollingTransactions::-webkit-scrollbar {
-  display: none;
-}
-
-.scrollingTransactions td:nth-child(5) {
-  color: #71c3e7;
-}
-
-tr.ant-table-row {
-  background-color: #f6f6f6;
-  margin: 20px;
-}
+/* Border radius of table row */
 
 tr.ant-table-row td:first-child {
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  padding-left: 25px;
 }
 
 tr.ant-table-row td:last-child {
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  padding-right: 30px;
 }
 
-.ant-pagination {
+/* hide table empty icon  */
+.ant-empty {
   visibility: hidden;
 }
 
-th.ant-table-cell {
-  background-color: white;
-}
-
 .ant-table table {
-  border-spacing: 0 20px;
-  border-radius: 30px;
+  border-spacing: 0 15px;
+  font-size: 16px;
 }
 
-.scrollingTransactions .ant-checkbox-wrapper {
+.ant-checkbox-wrapper {
   border-spacing: 0;
 }
 
-.ant-table-selection-column {
-  border-spacing: none !important;
-}
-
 .ant-table-thead > tr > th {
-  background-color: white;
-  color: #8a8a8a;
+  background-color: var(--bgSecondary);
+  color: var(--textSecondary);
+  padding-top: 0;
 }
 
+/* hides the lines between table headers */
 th.ant-table-cell::before {
   visibility: hidden;
 }
 
-.ant-table-cell {
-  background-color: transparent;
-}
-
 .ant-table-tbody > tr > td {
-  height: 15px;
-  padding: 10px;
-  font-weight: 400;
-  font-style: bold;
+  padding: 15px;
+  background-color: var(--bgPrimary);
 }
 
-.tableHeaderTitle {
-  font-family: Roboto;
-  font-style: bold;
-  font-weight: 500;
-  font-size: 32px;
-  margin-bottom: 0;
+.ant-table-expanded-row .ant-table-cell {
+  position: relative;
+  top: -25px;
+  background-color: var(--bgPrimary);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding-top: 0;
 }
 
-.borderlessButton {
-  padding: 0;
-  border: none;
-  background: none;
-  cursor: pointer;
-  margin-top: -1em;
+.expandedData {
+  padding: 0px 15px;
 }
 
-.approve-button {
+.expandedData th {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  border-top: 1px solid rgba(0, 0, 0, 0.25);
+  padding: 10px 0;
+  color: var(--textDisabled);
+}
+
+.expandedData td,
+.expandedData th {
+  padding-left: 50px;
+}
+
+.ant-checkbox-disabled {
+  visibility: hidden;
+}
+
+/* approve deny button styling */
+.roundButton {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(211, 245, 224, 0.5);
-  border: 1px solid rgba(47, 181, 101, 0.5);
-  color: rgba(47, 181, 101, 0.5);
   border-radius: 20px;
   height: 30px;
   width: 30px;
   margin-right: 15px;
   transition: all 0.2s ease-in-out;
+}
+
+.approve-button {
+  background: rgba(211, 245, 224, 0.5);
+  border: 1px solid rgba(47, 181, 101, 0.5);
+  color: rgba(47, 181, 101, 0.5);
 }
 
 .approve-button:hover {
@@ -120,17 +96,9 @@ th.ant-table-cell::before {
 }
 
 .deny-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: rgba(240, 71, 71, 0.1);
   border: 1px solid rgba(240, 71, 71, 0.57);
   color: rgba(240, 71, 71, 0.57);
-  border-radius: 20px;
-  height: 30px;
-  width: 30px;
-  margin-right: 1em;
-  transition: all 0.2s ease-in-out;
 }
 
 .deny-button:hover {
@@ -139,104 +107,30 @@ th.ant-table-cell::before {
   cursor: pointer;
 }
 
-#wordButton {
-  margin: -1em 1em 0em 3em;
-  text-decoration: underline;
+.statusPending {
+  color: var(--primary);
 }
 
-.tableHeaderArea {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 1rem 0;
+.statusApproved {
+  color: rgba(47, 181, 101, 1);
 }
 
-.bigTable {
-  font-family: Roboto;
-  background: white;
+.statusDenied {
+  color: rgba(240, 71, 71, 1);
 }
 
-.tableHeaderArea .ant-dropdown-link {
-  color: #000000;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  border: 1.5px solid #71c3e7;
-  border-radius: 20px 20px;
-  width: 170px;
-  height: 32px;
-  font-family: 'Roboto', serif;
-  font-size: 16px;
-  transition: all 0.3s ease-in-out !important;
-  background-color: white;
+/* TODO: check if we need this, 
+turns the row border to red if the transaction is overloading */
+
+.overload > td {
+  border-top: 1px solid #f04747;
+  border-bottom: 1px solid #f04747 !important;
 }
 
-.tableHeaderArea .ant-dropdown-link:hover {
-  cursor: pointer;
+tr.overload td:first-child {
+  border-left: 1px solid #f04747;
 }
 
-.tableHeaderArea .ant-dropdown-open {
-  border-color: #71c3e7;
-  border-radius: 20px 20px 0px 0px;
-  border-bottom: none;
-}
-
-.tableHeaderArea .ant-dropdown-open > .dropdown_arrow {
-  transform: rotate(180deg);
-}
-
-.tableHeaderArea .ant-dropdown-link > .dropdown_arrow {
-  transition: all 0.3s ease-in-out;
-}
-
-.dropdown_menu_transaction {
-  background-color: white;
-  width: 170px;
-  border: 1.5px solid #71c3e7;
-  border-top: none;
-  border-radius: 0px 0px 20px 20px;
-  padding: 5px 20px;
-  margin-top: -8px;
-  display: flex;
-  flex-direction: column;
-}
-
-.dropdown_menu_transaction > a {
-  text-decoration: none;
-  font-family: 'Roboto', serif;
-  font-size: 16px;
-  color: rgba(0, 0, 0, 0.7);
-  margin-bottom: 3px;
-}
-
-.dropdown_menu_transaction > a:hover {
-  color: #71c3e7;
-}
-
-.dropdown {
-  margin-left: auto;
-}
-
-.expandedData {
-}
-
-.load-more {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  color: rgba(0, 0, 0, 0.75);
-  background-color: #71c3e7;
-  margin: 10px auto;
-  border-radius: 20px;
-  height: 32px;
-  width: 105px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-}
-
-.load-more:hover {
-  background-color: #50b9e8;
+tr.overload td:last-child {
+  border-right: 1px solid #f04747;
 }

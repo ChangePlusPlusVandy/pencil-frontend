@@ -1,9 +1,179 @@
-html {
+html,
+body {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
+  --primary: #71c3e7;
+  --primaryHover: #50b9e8;
+  --bgPrimary: #f6f6f6;
+  --bgSecondary: #fff;
+  --textColor: rgba(0, 0, 0);
+  --textSecondary: rgba(0, 0, 0, 0.75);
+  --textDisabled: rgba(0, 0, 0, 0.5);
+  background-color: var(--bgPrimary);
+  margin: 0;
+  color: var(--textColor);
 }
+
 *,
 *:before,
 *:after {
   box-sizing: inherit;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Buttons Styling */
+
+.primaryButton {
+  width: 105px;
+  height: 32px;
+  border-radius: 50px;
+  border-style: none;
+  background-color: var(--primary);
+  transition: all 0.3s ease-in-out;
+  margin: 0 10px;
+}
+
+.primaryButton:hover {
+  cursor: pointer;
+  background-color: var(--primaryHover);
+}
+
+.secondaryButton {
+  font-size: 16px;
+  opacity: 75%;
+  border: none;
+  white-space: nowrap;
+  text-decoration: underline;
+  background-color: transparent;
+  transition: all 0.3s ease-in-out;
+  margin: 0 10px;
+}
+
+.secondaryButtonSelected {
+  color: var(--primaryHover);
+}
+
+.secondaryButton:hover {
+  cursor: pointer;
+  color: var(--primaryHover);
+}
+
+.primaryButton:disabled,
+.primaryButton[disabled],
+.secondaryButton:disabled,
+.secondaryButton[disabled] {
+  background-color: #e5e5e5;
+  color: #b6b1b1;
+}
+
+.secondaryButton > svg {
+  margin-left: 3px;
+}
+
+.margin-auto {
+  margin: auto;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.vertical-align-center {
+  display: flex;
+  align-items: center;
+}
+
+.horizontal-align-center {
+  display: flex;
+  justify-content: center;
+}
+
+/* Dropdown stylings */
+.dropdown_menu_transaction {
+  background-color: white;
+  width: 170px;
+  border: 1.5px solid var(--primaryHover);
+  border-top: none;
+  border-radius: 0px 0px 20px 20px;
+  padding: 5px 20px;
+  margin-top: -8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown_menu_transaction > button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  text-decoration: none;
+  text-align: left;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.7);
+  margin-bottom: 3px;
+}
+
+.dropdown_menu_transaction > button:hover {
+  color: var(--primaryHover);
+}
+
+/* Input Styling */
+
+.inputLabel {
+  font-size: 16px;
+  color: var(--textSecondary);
+}
+
+.primaryInput {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 0 12px;
+  margin: 0.5em 0;
+  font-size: 16px;
+}
+
+.primaryInput:focus {
+  outline: var(--primaryHover) auto 1.5px;
+}
+
+.customCheckbox {
+  width: 16px;
+  height: 16px;
+  margin-right: 0.5em;
+}
+
+/* table styling */
+
+.tableContainer {
+  width: 100%;
+  height: 100%;
+  padding: 2.5em 3em;
+  background-color: var(--bgSecondary);
+  border-radius: 20px;
+  font-size: 16px;
+  color: var(--textSecondary);
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  overflow-y: scroll;
+}
+
+.tableItemHeader {
+  display: flex;
+  flex-direction: row;
+}
+
+.tableItem {
+  width: 100%;
+  padding: 15px 30px;
+  background-color: var(--bgPrimary);
+  border-radius: 15px;
+  margin: 15px auto;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
 }

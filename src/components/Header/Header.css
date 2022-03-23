@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@500&display=swap');
+
+.header {
+  height: 100px;
+  box-shadow: 0 4px 7px -7px gray;
+  background-color: var(--bgSecondary);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5rem;
+  cursor: url('../../assets/pencil-cursor-24px.png'), auto;
+}
+
+.header * {
+  cursor: url('../../assets/pencil-cursor-24px.png'), auto;
+}
+
+.header_left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.header_logo {
+  height: 46px;
+  width: 30px;
+  margin-right: 1rem;
+}
+
+.header_title {
+  font-size: 28px;
+  margin-top: 1em;
+  font-family: 'Bitter', serif;
+}
+
+.header_right {
+  display: flex;
+  flex-direction: row;
+}
+
+.header_right > * {
+  margin-right: 1rem;
+}

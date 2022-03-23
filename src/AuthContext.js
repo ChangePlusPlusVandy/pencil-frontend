@@ -68,15 +68,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   /**
-   * Checks if user is logged in with Firebase auth and gets credentials.
-   * @return {Object} - User object.
-   * */
-  function getUser() {
-    return firebase.auth().currentUser;
-  }
-
-  /**
-   * Allows user to change password with email.
+   * Allows user to reset password with email.
    * @param {Object} {email} - Email of user.
    * @return {Object} - User object.
    * */
@@ -84,12 +76,47 @@ export const AuthProvider = ({ children }) => {
     return firebase.auth().sendPasswordResetEmail(email);
   }
 
+  /**
+   * Allows user to update password with new password.
+   * @param {Object} {password} - New password of user.
+   * @return {Object} - User object.
+   * */
   function changePassword(newPassword) {
     return firebase
       .auth()
       .currentUser.updatePassword(newPassword)
       .then(() => {
         console.log('Changed password');
+      });
+  }
+
+  /**
+   * Allows user to update display name with new display name.
+   * @param {Object} {displayName} - New display name of user.
+   * @return {Object} - User object.
+   * */
+  function changeDisplayName(newDisplayName) {
+    return firebase
+      .auth()
+      .currentUser.updateProfile({
+        displayName: newDisplayName,
+      })
+      .then(() => {
+        console.log('Changed display name');
+      });
+  }
+
+  /**
+   * Allows user to update email with new email.
+   * @param {Object} {email} - New email of user.
+   * @return {Object} - User object.
+   * */
+  function changeEmail(newEmail) {
+    return firebase
+      .auth()
+      .currentUser.updateEmail(newEmail)
+      .then(() => {
+        console.log('Changed email');
       });
   }
 
@@ -103,11 +130,16 @@ export const AuthProvider = ({ children }) => {
   }
 
   /**
-   * returns current location.
-   * @returns string - current location.
+   * Reauthenticates user with password.
+   * @param string - current password of user
    */
-  function getCurrentLocation() {
-    return currentLocation;
+  function reauthenticate(password) {
+    const user = firebase.auth().currentUser;
+    const cred = firebase.auth.EmailAuthProvider.credential(
+      user.email,
+      password
+    );
+    return user.reauthenticateWithCredential(cred);
   }
 
   useEffect(() => {
@@ -126,24 +158,29 @@ export const AuthProvider = ({ children }) => {
   const value = useMemo(
     () => ({
       currentUser,
+      currentLocation,
       login,
       register,
       logout,
-      getUser,
       forgotPassword,
       changePassword,
+      changeDisplayName,
+      changeEmail,
       updateLocation,
-      getCurrentLocation,
+      reauthenticate,
     }),
     [
       currentUser,
+      currentLocation,
       login,
       register,
       logout,
-      getUser,
       forgotPassword,
+      changePassword,
+      changeDisplayName,
+      changeEmail,
       updateLocation,
-      getCurrentLocation,
+      reauthenticate,
     ]
   );
 

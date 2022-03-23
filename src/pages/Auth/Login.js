@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../../AuthContext';
-import Header from '../Header/Header';
+import Header from '../../components/Header/Header';
 
 /**
  * Allows user to log in to the application.

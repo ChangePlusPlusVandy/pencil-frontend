@@ -5,11 +5,9 @@ import PencilLogo from '../../assets/pencil-logo-crop.png';
 import { useAuth } from '../../AuthContext';
 
 const SettingsHeader = () => {
-  const { getCurrentLocation, isSettings } = useAuth();
+  const { currentLocation } = useAuth();
   const history = useHistory();
-  const location = getCurrentLocation()
-    ? `PENCIL-${getCurrentLocation()}`
-    : 'PENCIL';
+  const location = currentLocation ? `PENCIL-${currentLocation}` : 'PENCIL';
 
   const handleNavigation = () => {
     console.log('PRESSED');
@@ -17,7 +15,7 @@ const SettingsHeader = () => {
   };
 
   return (
-    <div className="header pencil-cursor">
+    <div className="header">
       <div
         className="header_left"
         onKeyPress={() => {}}

@@ -1,137 +1,164 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
-import { FaChevronDown, FaChevronUp, FaCheck } from 'react-icons/fa';
+import { FaChevronDown, FaCheck } from 'react-icons/fa';
 import { ImCross } from 'react-icons/im';
-import { Table, Space, Dropdown } from 'antd';
-import {
-  getPendingTransactions,
-  getApprovedTransactions,
-  getDeniedTransactions,
-  approveTransaction,
-  denyTransaction,
-  getTeacherByID,
-} from './api-transactions';
-import Header from '../Header/Header';
-import Menu from '../Menu/Menu';
-import './Transactions.css';
+import { Table, Space } from 'antd';
 import { useAuth } from '../../AuthContext';
+import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
+import { handleTransaction, getTransactions } from './api-transactions';
+import PageContainer from '../../components/PageContainer/PageContainer';
+import './Transactions.css';
+import TableHeader from '../../components/TableHeader/TableHeader';
+import { parseDate } from '../../utils/timedate';
 
-const dateConverter = (date) => {
-  const year = date.slice(0, 4);
-  let month = parseInt(date.slice(5, 7), 10);
-  const day = parseInt(date.slice(8, 10), 10);
-  let hours = parseInt(date.slice(11, 13), 10);
-  const minutes = date.slice(14, 16);
-  let suffix = 'am';
-
-  // eslint-disable-next-line default-case
-  switch (month) {
-    case 1:
-      month = 'Jan';
-      break;
-    case 2:
-      month = 'Feb';
-      break;
-    case 3:
-      month = 'Mar';
-      break;
-    case 4:
-      month = 'Apr';
-      break;
-    case 5:
-      month = 'May';
-      break;
-    case 6:
-      month = 'June';
-      break;
-    case 7:
-      month = 'Jul';
-      break;
-    case 8:
-      month = 'Aug';
-      break;
-    case 9:
-      month = 'Sept';
-      break;
-    case 10:
-      month = 'Oct';
-      break;
-    case 11:
-      month = 'Nov';
-      break;
-    case 12:
-      month = 'Dec';
-      break;
-  }
-
-  if (hours > 12) {
-    suffix = 'pm';
-    hours -= 12;
-  }
-
-  return `${day} ${month} ${year}\n${hours}:${minutes} ${suffix}`;
+const formatDate = (dateObj) => {
+  const { day, date, month, year, ampmTime } = parseDate(dateObj);
+  // TODO: check if this is the correct format
+  // currently using material design suggested format
+  return `${day}, ${date} ${month}, ${ampmTime}`;
 };
 
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+function isOverload(data, index) {
+  for (const i in data.childNodes) {
+    console.log(data);
+    if (
+      parseInt(data.childNodes[i].itemsTaken1, 10) >
+        parseInt(data.childNodes[i].maxLimit1, 10) ||
+      parseInt(data.childNodes[i].itemsTaken2, 10) >
+        parseInt(data.childNodes[i].maxLimit2, 10)
+    ) {
+      return true;
+    }
+  }
+  return false;
 }
 
-const PendingTransactions = () => {
+const Transactions = () => {
   const [numItems, setNumItems] = useState(10);
   const [loadedData, setLoadedData] = useState([]);
   const [rawData, setRawData] = useState([]);
-  const [typeData, setTypeData] = useState('Pending');
+  const [view, setView] = useState('Pending');
   const [selectedData, setSelectedData] = useState([]);
-  const { getCurrentLocation } = useAuth();
+  const [wasChecked, setWasChecked] = useState([]);
+  const [error, setError] = useState('');
+  const { currentLocation } = useAuth();
+
+  const formatItemData = (items) => {
+    const formattedData = [];
+    for (let i = 0; i < items.length; i += 2) {
+      let itemName2 = '';
+      let maxLimit2 = '0';
+      if (items[i + 1]) {
+        itemName2 = items[i + 1].Item.itemName;
+      }
+      let itemsTaken2 = '';
+
+      if (items[i + 1]) {
+        itemsTaken2 = String(items[i + 1].amountTaken);
+        maxLimit2 = String(items[i + 1].maxLimit);
+      }
+      const newObj = {
+        itemName1: items[i].Item.itemName,
+        itemsTaken1: String(items[i].amountTaken),
+        maxLimit1: String(items[i].maxLimit),
+        itemName2,
+        itemsTaken2,
+        maxLimit2,
+      };
+      formattedData.push(newObj);
+    }
+    return formattedData;
+  };
+
+  const formatData = (transactions, status) => {
+    const formattedData = [];
+    for (let i = 0; i < transactions.length; i += 1) {
+      const { Teacher } = transactions[i];
+      const formattedObj = {
+        date: formatDate(new Date(transactions[i].createdAt)),
+        name: `${Teacher.firstName} ${Teacher.lastName}`,
+        childNodes: formatItemData(transactions[i].TransactionItems),
+        status,
+        key: transactions[i].uuid,
+        isDisabled: !(status === 'Pending'),
+      };
+      formattedData.push(formattedObj);
+    }
+    setRawData(transactions);
+    setLoadedData(formattedData);
+  };
+
+  useEffect(() => {
+    getTransactions(currentLocation, 1, 'Pending').then((transactions) => {
+      if (transactions.error) {
+        setError(transactions.error);
+      } else {
+        setLoadedData([]);
+        setView('Pending');
+        formatData(transactions, 'Pending');
+        console.log('Data loaded!');
+        console.log(transactions);
+      }
+    });
+  }, []);
 
   const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        'selectedRows: ',
-        selectedRows
-      );
-      setSelectedData(selectedRows);
-    },
-    onSelect: (record, selected, selectedRows) => {
-      console.log(record, selected, selectedRows);
-    },
-    onSelectAll: (selected, selectedRows, changeRows) => {
-      console.log(selected, selectedRows, changeRows);
-    },
+    getCheckboxProps: (record) => ({
+      disabled: record.status !== 'Pending',
+      checked: record.key in wasChecked,
+    }),
   };
 
-  const approveClick = (e, transaction) => {
+  const handleClick = (e, transaction, action) => {
     e.preventDefault();
     let toDelete = {};
-    // eslint-disable-next-line no-restricted-syntax
     for (let j = 0; j < rawData.length; j += 1) {
-      if (rawData[j].transactionId === transaction.key) {
+      if (rawData[j].uuid === transaction.key) {
         toDelete = rawData[j];
       }
     }
-    approveTransaction(getCurrentLocation(), toDelete);
     const tempArr = [...loadedData];
-    tempArr.splice(tempArr.indexOf(transaction), 1);
+    const funnyObj = transaction;
+    handleTransaction(currentLocation, toDelete, action);
+    if (action === 'Approve') funnyObj.action = 'Approved';
+    else funnyObj.action = 'Denied';
+    funnyObj.isDisabled = true;
+    tempArr[tempArr.indexOf(transaction)] = funnyObj;
+    setLoadedData([]);
     setLoadedData(tempArr);
+    setWasChecked((prevChecked) => {
+      prevChecked.push(transaction.key);
+      return prevChecked;
+    });
   };
 
-  const denyClick = (e, transaction) => {
-    e.preventDefault();
-    let toDelete = {};
-    // eslint-disable-next-line no-restricted-syntax
-    for (let j = 0; j < rawData.length; j += 1) {
-      if (rawData[j].transactionId === transaction.key) {
-        toDelete = rawData[j];
+  const handleSelected = (action) => {
+    const transactionArr = [];
+    for (let i = 0; i < selectedData.length; i += 1) {
+      transactionArr.push(selectedData[i].key);
+      let toDelete = {};
+      for (let j = 0; j < rawData.length; j += 1) {
+        if (rawData[j].uuid === selectedData[i].key) {
+          toDelete = rawData[j];
+        }
       }
+      const tempArr = [...loadedData];
+      const funnyObj = selectedData[i];
+      handleTransaction(currentLocation, toDelete, action);
+      if (action === 'Approve') funnyObj.action = 'Approved';
+      else funnyObj.action = 'Denied';
+      funnyObj.isDisabled = true;
+      tempArr[tempArr.indexOf(selectedData[i])] = funnyObj;
+      setLoadedData([]);
+      setLoadedData(tempArr);
     }
-    denyTransaction(getCurrentLocation(), toDelete);
-    const tempArr = [...loadedData];
-    tempArr.splice(tempArr.indexOf(transaction), 1);
-    setLoadedData(tempArr);
+    setWasChecked(transactionArr.concat(wasChecked));
+    setSelectedData([]);
   };
 
   const columns = [
@@ -139,19 +166,22 @@ const PendingTransactions = () => {
       title: 'Date/Time',
       dataIndex: 'date',
       key: 'date',
-      width: '15%',
+      width: '25%',
     },
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      width: '30%',
+      width: '35%',
     },
     {
       title: 'Status',
       dataIndex: 'status',
-      width: '40%',
+      width: '30%',
       key: 'status',
+      render: (text, record) => (
+        <div className={`status${record.status}`}>{record.status}</div>
+      ),
     },
     {
       title: '',
@@ -159,9 +189,12 @@ const PendingTransactions = () => {
       dataIndex: 'approve',
       render: (text, record) => (
         <div
-          className="approve-button"
-          onClick={(e) => approveClick(e, record)}
-          hidden={!(typeData === 'Pending')}
+          className=" roundButton approve-button"
+          hidden={record.isDisabled}
+          onClick={(e) => handleClick(e, record, 'Approve')}
+          onKeyDown={() => {}}
+          role="button"
+          tabIndex={0}
         >
           <FaCheck />
         </div>
@@ -173,9 +206,12 @@ const PendingTransactions = () => {
       dataIndex: 'deny',
       render: (text, record) => (
         <div
-          className="deny-button"
-          onClick={(e) => denyClick(e, record)}
-          hidden={!(typeData === 'Pending')}
+          className="roundButton deny-button"
+          hidden={record.isDisabled}
+          onClick={(e) => handleClick(e, record, 'Deny')}
+          onKeyDown={() => {}}
+          role="button"
+          tabIndex={0}
         >
           <ImCross />
         </div>
@@ -183,251 +219,105 @@ const PendingTransactions = () => {
     },
   ];
 
-  const formatItemData = (items) => {
-    const formattedData = [];
-    for (let i = 0; i < items.length; i += 2) {
-      let itemName2 = '';
-      if (items[i + 1]) {
-        itemName2 = items[i + 1].itemName;
-      }
-      let itemsTaken2 = '';
-      if (items[i + 1]) {
-        itemsTaken2 = String(items[i + 1].itemCount);
-      }
-      const newObj = {
-        itemName1: items[i].itemName,
-        itemsTaken1: String(items[i].itemCount),
-        itemName2,
-        itemsTaken2,
-      };
-      formattedData.push(newObj);
-    }
-    return formattedData;
-  };
-
-  const expandedRowRender = (record) => {
-    const itemColumns = [
-      { title: 'Item', dataIndex: 'itemName1', key: 'itemName1' },
-      { title: 'Qty', dataIndex: 'itemsTaken1', key: 'itemsTaken1' },
-      { title: 'Item', dataIndex: 'itemName2', key: 'itemName2' },
-      { title: 'Qty', dataIndex: 'itemsTaken2', key: 'itemsTaken2' },
-    ];
-
-    return (
-      <Table
-        columns={itemColumns}
-        dataSource={record.childNodes}
-        pagination={false}
-        className="expandedData"
-      />
-    );
-  };
-
-  const formatData = (transactions, status) => {
-    const formattedData = [];
-    for (let i = 0; i < transactions.length; i += 1) {
-      // eslint-disable-next-line no-loop-func
-      getTeacherByID(getCurrentLocation(), transactions[i].teacherId).then(
-        (teacher) => {
-          const formattedObj = {
-            date: dateConverter(transactions[i].createdAt),
-            name: `${teacher.firstName} ${teacher.lastName}`,
-            childNodes: formatItemData(transactions[i].items),
-            status: capitalizeFirstLetter(status),
-            key: transactions[i].transactionId,
-          };
-          formattedData.push(formattedObj);
-          if (i + 1 === transactions.length) {
-            setRawData(transactions);
-            setLoadedData(formattedData);
-            console.log(formattedData);
-          }
-        }
-      );
-    }
-  };
+  const expandedRowRender = (record) => (
+    <table className="expandedData">
+      <tr>
+        <th>Item</th>
+        <th>Qantity</th>
+        <th>Item</th>
+        <th>Qantity</th>
+      </tr>
+      {record.childNodes.map((item) => (
+        <tr className="expandedTableRow">
+          <td>{item.itemName1}</td>
+          <td>{item.itemsTaken1}</td>
+          <td>{item.itemName2}</td>
+          <td>{item.itemsTaken2}</td>
+        </tr>
+      ))}
+    </table>
+  );
 
   const loadMore = () => {
     setNumItems(numItems + 50);
   };
 
   const changeLoadedData = (event) => {
-    if (event.target.innerText === typeData) {
-      console.log('no change');
-    } else if (event.target.innerText === 'Pending') {
-      setSelectedData([]);
-      getPendingTransactions(getCurrentLocation()).then((transactions) => {
-        if (transactions.error) {
-          console.log(transactions.error);
-        } else {
-          setLoadedData([]);
-          setTypeData(event.target.innerText);
-          formatData(transactions, event.target.innerText);
-          console.log('Data loaded!');
-        }
-      });
-    } else if (event.target.innerText === 'Approved') {
-      setSelectedData([]);
-      getApprovedTransactions(getCurrentLocation()).then((transactions) => {
-        if (transactions.error) {
-          console.log(transactions.error);
-        } else {
-          setLoadedData([]);
-          setTypeData(event.target.innerText);
-          formatData(transactions, event.target.innerText);
-          console.log(transactions);
-        }
-      });
-    } else if (event.target.innerText === 'Denied') {
-      setSelectedData([]);
-      getDeniedTransactions(getCurrentLocation()).then((transactions) => {
-        if (transactions.error) {
-          console.log(transactions.error);
-        } else {
-          setLoadedData([]);
-          setTypeData(event.target.innerText);
-          formatData(transactions, event.target.innerText);
-          console.log('Data loaded!');
-        }
-      });
-    }
-  };
-
-  const denySelected = () => {
-    for (let i = 0; i < selectedData.length; i += 1) {
-      let toDelete = {};
-      // eslint-disable-next-line no-restricted-syntax
-      for (let j = 0; j < rawData.length; j += 1) {
-        if (rawData[j].transactionId === selectedData[i].key) {
-          toDelete = rawData[j];
-        }
-      }
-      denyTransaction(getCurrentLocation(), toDelete);
-      const tempArr = [...loadedData];
-      tempArr.splice(tempArr.indexOf(selectedData[i]), 1);
-      setLoadedData(tempArr);
-    }
+    if (event.target.innerText === view) return;
     setSelectedData([]);
-  };
-
-  const approveSelected = () => {
-    for (let i = 0; i < selectedData.length; i += 1) {
-      let toDelete = {};
-      // eslint-disable-next-line no-restricted-syntax
-      for (const transaction in rawData) {
-        if (transaction.transactionId === selectedData[i].key) {
-          toDelete = transaction;
+    getTransactions(currentLocation, 1, event.target.innerText).then(
+      (transactions) => {
+        if (transactions.error) console.log(transactions.error);
+        else {
+          setLoadedData([]);
+          formatData(transactions, event.target.innerText);
+          setView(event.target.innerText);
         }
       }
-      approveTransaction(getCurrentLocation(), toDelete);
-      const tempArr = [...loadedData];
-      tempArr.splice(tempArr.indexOf(selectedData[i]), 1);
-      setLoadedData(tempArr);
-    }
-    setSelectedData([]);
-  };
-
-  useEffect(() => {
-    getPendingTransactions(getCurrentLocation()).then((transactions) => {
-      if (transactions.error) {
-        console.log(transactions.error);
-      } else {
-        formatData(transactions, 'Pending');
-      }
-    });
-  }, []);
-
-  const menu = (
-    <div className="dropdown_menu_transaction">
-      <a onClick={changeLoadedData}>Pending</a>
-      <a onClick={changeLoadedData}>Approved</a>
-      <a onClick={changeLoadedData}>Denied</a>
-    </div>
-  );
-
-  const customExpandIcon = (fun) => {
-    if (fun.expanded) {
-      return (
-        <a
-          style={{ color: 'black' }}
-          onClick={(e) => {
-            fun.onExpand(fun.record, e);
-          }}
-        >
-          <FaChevronUp />
-        </a>
-      );
-    }
-    return (
-      <a
-        style={{ color: 'black' }}
-        onClick={(e) => {
-          fun.onExpand(fun.record, e);
-        }}
-      >
-        <FaChevronDown />
-      </a>
     );
   };
 
+  const menuOptions = ['Pending', 'Approved', 'Denied'];
+
+  const menu = (
+    <>
+      {menuOptions
+        .filter((option) => option !== view)
+        .map((option) => (
+          <a onClick={(e) => changeLoadedData(e)}>{option}</a>
+        ))}
+    </>
+  );
+
+  const customExpandIcon = (fun) => (
+    <FaChevronDown
+      onClick={(e) => {
+        fun.onExpand(fun.record, e);
+      }}
+      className={`expandArrowTransaction${fun.expanded ? 'Rotate' : ''}`}
+    />
+  );
+
+  const leftItems = (
+    <>
+      <button
+        type="button"
+        className="secondaryButton vertical-align-center statusApproved"
+        onClick={() => handleSelected('Approve')}
+        hidden={!selectedData.length}
+      >
+        Approve
+        <FaCheck size={11} />
+      </button>
+      <button
+        type="button"
+        className="secondaryButton vertical-align-center statusDenied"
+        onClick={() => handleSelected('Deny')}
+        hidden={!selectedData.length}
+      >
+        Deny
+        <ImCross size={11} />
+      </button>
+    </>
+  );
+
+  const rightItems = (
+    <CustomDropdown title={view} menuItems={menu} type="small" />
+  );
+
   return (
-    <div className="transactionsContainer">
-      <div className="tableHeaderArea">
-        <h1 className="tableHeaderTitle">Transactions</h1>
-        <button
-          type="button"
-          className="borderlessButton"
-          id="wordButton"
-          onClick={approveSelected}
-          hidden={!selectedData.length}
-        >
-          Approve
-        </button>
-        <button
-          className="borderlessButton"
-          type="button"
-          onClick={approveSelected}
-          hidden={!selectedData.length}
-        >
-          ✓
-        </button>
-        <button
-          id="wordButton"
-          className="borderlessButton"
-          type="button"
-          onClick={denySelected}
-          hidden={!selectedData.length}
-        >
-          Deny
-        </button>
-        <button
-          className="borderlessButton"
-          type="button"
-          onClick={denySelected}
-          hidden={!selectedData.length}
-        >
-          ✕
-        </button>
-        <div className="dropdown">
-          <Dropdown overlay={menu} trigger={['click']}>
-            <a
-              className="ant-dropdown-link"
-              onClick={(e) => e.preventDefault()}
-            >
-              {typeData}
-              <FaChevronDown className="dropdown_arrow" />
-            </a>
-          </Dropdown>
-        </div>
-      </div>
-      <div className="scrollingTransactions">
-        <Space align="center" style={{ marginBottom: 16 }} />
-        {typeData === 'Pending' ? (
+    <PageContainer>
+      <TableHeader
+        title="Transactions"
+        leftArea={leftItems}
+        rightArea={rightItems}
+      />
+      <div className="tableContainer">
+        {view === 'Pending' ? (
           <Table
             expandIcon={(props) => customExpandIcon(props)}
             rowKey="key"
             columns={columns}
-            className="bigTable"
             rowSelection={{ ...rowSelection }}
             dataSource={loadedData}
             expandable={{
@@ -436,36 +326,33 @@ const PendingTransactions = () => {
                 return record?.childNodes?.length;
               },
             }}
-            pagination={{ pageSize: numItems }}
+            // pagination={{ pageSize: numItems, position: ['none'] }}
+            pagination={false}
           />
         ) : (
           <Table
             expandIcon={(props) => customExpandIcon(props)}
             columns={columns}
             dataSource={loadedData}
+            rowClassName="transactionTableItem"
             expandable={{
               expandedRowRender,
               rowExpandable(record) {
                 return record.childNodes.length;
               },
             }}
-            pagination={{ pageSize: numItems }}
+            // pagination={{ pageSize: numItems, position: ['none'] }}
+            pagination={false}
           />
         )}
-        <div onClick={loadMore} className="load-more" type="button">
-          Load 50
+        <div className="horizontal-align-center">
+          <button type="button" className="primaryButton" onClick={loadMore}>
+            Load 50
+          </button>
         </div>
       </div>
-    </div>
+    </PageContainer>
   );
 };
-
-const Transactions = () => (
-  <>
-    <Header />
-    <Menu />
-    <PendingTransactions />
-  </>
-);
 
 export default Transactions;

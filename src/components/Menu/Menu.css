@@ -1,0 +1,40 @@
+.menuButton {
+  width: 15vw;
+  background: #ffffff69;
+  color: #00000069;
+  border-width: 0px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  margin-right: 5px;
+  margin-left: 5px;
+  cursor: pointer;
+  padding-top: 10px;
+  padding-bottom: 13px;
+}
+
+.menuButton:hover {
+  background: #dadada69;
+}
+
+.menu {
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.menuOptionText {
+  font-size: 16px;
+}
+
+.dark-button {
+  color: var(--textColor) !important;
+  background-color: var(--bgSecondary);
+}
+
+.dark-button:hover {
+  background-color: var(--bgSecondary);
+}

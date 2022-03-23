@@ -1,9 +1,6 @@
-/* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Menu.css';
-
-import { useAuth } from '../../AuthContext';
 
 const Menu = () => {
   const [menu, setMenu] = useState(0);
@@ -36,7 +33,7 @@ const Menu = () => {
         <Link to="/dashboard" className="link" tabindex="-1">
           <button
             type="button"
-            className={`button ${menu === 0 ? 'dark-button' : ''}`}
+            className={`menuButton ${menu === 0 ? 'dark-button' : ''}`}
             onClick={() => setMenu(0)}
           >
             <text className="menuOptionText">Dashboard</text>{' '}
@@ -45,7 +42,7 @@ const Menu = () => {
         <Link to="/inventory" className="link" tabindex="-1">
           <button
             type="button"
-            className={`button ${menu === 1 ? 'dark-button' : ''}`}
+            className={`menuButton ${menu === 1 ? 'dark-button' : ''}`}
             onClick={() => setMenu(1)}
           >
             <text className="menuOptionText">Inventory</text>
@@ -54,7 +51,7 @@ const Menu = () => {
         <Link to="/reports" className="link" tabindex="-1">
           <button
             type="button"
-            className={`button ${menu === 2 ? 'dark-button' : ''}`}
+            className={`menuButton ${menu === 2 ? 'dark-button' : ''}`}
             onClick={() => setMenu(2)}
           >
             <text className="menuOptionText">Reports</text>
@@ -63,7 +60,7 @@ const Menu = () => {
         <Link to="/schedule" className="link" tabindex="-1">
           <button
             type="button"
-            className={`button ${menu === 3 ? 'dark-button' : ''}`}
+            className={`menuButton ${menu === 3 ? 'dark-button' : ''}`}
             onClick={() => setMenu(3)}
           >
             <text className="menuOptionText">Schedule</text>
@@ -72,7 +69,7 @@ const Menu = () => {
         <Link to="/transactions" className="link" tabindex="-1">
           <button
             type="button"
-            className={`button ${menu === 4 ? 'dark-button' : ''}`}
+            className={`menuButton ${menu === 4 ? 'dark-button' : ''}`}
             onClick={() => setMenu(4)}
           >
             <text className="menuOptionText">Transactions</text>

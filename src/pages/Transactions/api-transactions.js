@@ -1,6 +1,8 @@
-const getPendingTransactions = async (location) => {
+const getPendingTransactions = async (location, page) => {
   try {
-    const response = await fetch(`/api/${location}/transaction/pending`);
+    const response = await fetch(
+      `/api/${location}/transaction/pending?page=${page}`
+    );
     return await response.json();
   } catch (err) {
     console.log(err);
@@ -28,10 +30,18 @@ const getDeniedTransactions = async (location) => {
   }
 };
 
+const getTransactions = async (location, page, type) => {
+  if (type === 'Pending') return getPendingTransactions(location, page);
+  if (type === 'Approved') return getApprovedTransactions(location, page);
+  if (type === 'Denied') return getDeniedTransactions(location, page);
+  return false;
+};
+
 const approveTransaction = async (location, data) => {
   try {
+    console.log(data);
     const response = await fetch(
-      `/api/${location}/transaction/approve/${data.transactionId}`,
+      `/api/${location}/transaction/approve/${data.uuid}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +61,7 @@ const denyTransaction = async (location, data) => {
   // TODO: fix the URI here
   try {
     const response = await fetch(
-      `/api/${location}/transaction/deny/${data.transactionId}`,
+      `/api/${location}/transaction/deny/${data.uuid}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -67,14 +77,10 @@ const denyTransaction = async (location, data) => {
   }
 };
 
-const getTeacherByID = async (location, id) => {
-  try {
-    const response = await fetch(`/api/teacher/${id}`);
-    return await response.json();
-  } catch (err) {
-    console.log(err);
-    return { error: 'Teacher Not Found' };
-  }
+const handleTransaction = async (location, data, action) => {
+  if (action === 'Approve') return approveTransaction(location, data);
+  if (action === 'Deny') return denyTransaction(location, data);
+  return false;
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -82,9 +88,10 @@ export {
   getPendingTransactions,
   approveTransaction,
   denyTransaction,
-  getTeacherByID,
   getApprovedTransactions,
   getDeniedTransactions,
+  getTransactions,
+  handleTransaction,
 };
 
 // const getAllTransactions = async (location) => {

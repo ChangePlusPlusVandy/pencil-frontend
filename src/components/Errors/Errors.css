@@ -1,0 +1,32 @@
+.error {
+	position: absolute;
+	height: 120px;
+	width: 400px;
+	top: 50px;
+	left : 0;
+	right : 0;
+	margin : 0 auto;
+	border-radius: 20px;
+	background-color: rgb(243, 109, 109);
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	backdrop-filter: blur(6px);
+}
+
+.error > * {
+	align-self: center;
+	flex-grow: 3;
+}
+
+.errorMsg {
+  font-family: 'Roboto';
+  font-size: 20px;
+}
+
+.errorClose {
+	margin-top: 5px;
+	margin-right: 5px;
+	align-self: flex-start;
+	flex-grow: 1;
+}
