@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { CgTrash } from 'react-icons/cg';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { ReactComponent as HamburgerIcon } from '../../assets/HamburgerIcon.svg';
 import './Item.css';
 import EditableText from './EditableText';
 
@@ -27,7 +26,7 @@ const Item = ({
   }, []);
 
   return (
-    <li className={`newItem${active ? ' setColorBlue' : ''}`}>
+    <li className={`tableItem${active ? ' setColorBlue' : ''}`}>
       <div
         className="dragIcon vertical-align-center"
         onMouseDown={() => setActive(true)}
@@ -35,7 +34,7 @@ const Item = ({
         role="button"
         tabIndex={0}
       >
-        <GiHamburgerMenu size="24" className="dragIcon" />
+        <GiHamburgerMenu size="24" />
       </div>
       <div className="itemOrder">{number + 1}</div>
       <EditableText

@@ -35,26 +35,24 @@ const MasterInventory = ({ data, setData, setChanged }) => {
 
   return (
     <div>
-      <div className="containerHeader">
+      <div className="tableItemHeader">
         <div className="headerName">Item Name</div>
         <div className="headerItemLimit">Item Price </div>
       </div>
-      <ul className="master-inventory-list">
-        {data.map((item, index) => (
-          <div className="master-inventory-item">
-            <div className="itemOrder">{index + 1}</div>
-            <div id="master-inventory-name">{item.itemName}</div>
-            <div id="master-inventory-price">{item.itemPrice}</div>
-            <div id="master-inventory-delete">
-              <CgTrash
-                size="20"
-                color="F04747"
-                onClick={() => handleDelete(item.itemName)}
-              />
-            </div>
+      {data.map((item, index) => (
+        <div className="tableItem">
+          <div className="itemOrder">{index + 1}</div>
+          <div id="master-inventory-name">{item.itemName}</div>
+          <div id="master-inventory-price">{item.itemPrice}</div>
+          <div className="master-inventory-delete vertical-align-center">
+            <CgTrash
+              size="20"
+              color="F04747"
+              onClick={() => handleDelete(item.itemName)}
+            />
           </div>
-        ))}
-      </ul>
+        </div>
+      ))}
     </div>
   );
 };

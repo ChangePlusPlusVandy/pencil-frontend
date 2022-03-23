@@ -59,7 +59,7 @@ const ActiveInventory = ({ data, setData, setChanged }) => {
   return (
     <div>
       <div className="dragList">
-        <div className="containerHeader">
+        <div className="tableItemHeader">
           <div className="headerName">Item Name</div>
           <div className="headerItemLimit">Item Limit</div>
         </div>

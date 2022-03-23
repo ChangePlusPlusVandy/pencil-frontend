@@ -1,6 +1,7 @@
 .dragIcon {
   display: inline;
-  margin-right: 10px;
+  margin-right: 20px;
+  color: #535353;
 }
 
 .dragIcon:hover {
@@ -24,29 +25,10 @@
   margin: 5px !important;
 }
 
-.itemContainer {
-  width: 100%;
-  min-height: 65vh;
-  display: flex;
-  flex-direction: column;
-  padding: 30px 0;
-  background-color: #ffffff;
-  border-radius: 20px;
-}
-
 .dragList {
   padding: 0 0;
 }
 
-.containerHeader {
-  width: 85%;
-  margin: 0 auto;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-  color: var(--textSecondary);
-}
 .headerName {
   margin-left: 108px;
   width: 40%;

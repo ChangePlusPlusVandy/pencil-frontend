@@ -1,22 +1,8 @@
-.newItem {
-  height: 60px;
-  width: 85%;
-  margin: 15px auto;
-  padding: 0 20px;
-  background-color: #f5f5f5;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  transition: all 0.3s ease-in-out;
-}
-
 .maxLimit {
   width: 100px;
   text-align: center;
   margin-left: auto;
   margin-right: 3%;
-  font-size: 18px;
-  color: #4b4b4b;
 }
 
 .itemName:hover,
@@ -34,11 +20,6 @@
 
 .itemOrder {
   font-size: 14px;
-}
-
-.itemName {
-  font-size: 18px;
-  color: rgba(0, 0, 0, 0.75);
 }
 
 .setColorBlue {

@@ -121,7 +121,7 @@ const Inventory = () => {
         leftArea={leftItems}
         rightArea={rightItems}
       />
-      <div className="itemContainer">
+      <div className="tableContainer">
         {inventoryType === 'Active' ? (
           <ActiveInventory
             data={activeInventoryData}
