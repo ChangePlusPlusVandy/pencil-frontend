@@ -1,99 +1,92 @@
-.ant-table {
-  background-color: var(--bgSecondary);
-  color: var(--textColor);
-}
-
-.scrollingTransactions {
-  height: 100%;
-  overflow-y: scroll;
-  background-color: var(--bgSecondary);
-  padding: 0em 2em;
-  border-radius: 20px;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-  border-collapse: separate;
-}
-
-.scrollingTransactions::-webkit-scrollbar {
-  display: none;
-}
-
-.scrollingTransactions td:nth-child(5) {
-  color: var(--primary);
-}
-
-tr.ant-table-row {
-  background-color: var(--bgPrimary);
-  margin: 20px;
-}
+/* Border radius of table row */
 
 tr.ant-table-row td:first-child {
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  padding-left: 25px;
 }
 
 tr.ant-table-row td:last-child {
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  padding-right: 30px;
 }
 
+/* hide table empty icon  */
 .ant-empty {
   visibility: hidden;
 }
 
-th.ant-table-cell {
-  background-color: var(--bgPrimary);
-}
-
 .ant-table table {
-  border-spacing: 0 20px;
-  border-radius: 30px;
+  border-spacing: 0 15px;
+  font-size: 16px;
 }
 
-.scrollingTransactions .ant-checkbox-wrapper {
+.ant-checkbox-wrapper {
   border-spacing: 0;
-}
-
-.ant-table-selection-column {
-  border-spacing: none !important;
-}
-
-.ant-table.thead {
-  background-color: var(--bgSecondary);
 }
 
 .ant-table-thead > tr > th {
   background-color: var(--bgSecondary);
   color: var(--textSecondary);
+  padding-top: 0;
 }
 
+/* hides the lines between table headers */
 th.ant-table-cell::before {
   visibility: hidden;
 }
 
-.ant-table-cell {
-  background-color: transparent;
-}
-
 .ant-table-tbody > tr > td {
-  height: 15px;
-  padding: 10px;
-  font-weight: 400;
-  font-style: bold;
+  padding: 15px;
+  background-color: var(--bgPrimary);
 }
 
-.approve-button {
+.ant-table-expanded-row .ant-table-cell {
+  position: relative;
+  top: -25px;
+  background-color: var(--bgPrimary);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding-top: 0;
+}
+
+.expandedData {
+  padding: 0px 15px;
+}
+
+.expandedData th {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  border-top: 1px solid rgba(0, 0, 0, 0.25);
+  padding: 10px 0;
+  color: var(--textDisabled);
+}
+
+.expandedData td,
+.expandedData th {
+  padding-left: 100px;
+}
+
+.ant-checkbox-disabled {
+  visibility: hidden;
+}
+
+/* approve deny button styling */
+.roundButton {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(211, 245, 224, 0.5);
-  border: 1px solid rgba(47, 181, 101, 0.5);
-  color: rgba(47, 181, 101, 0.5);
   border-radius: 20px;
   height: 30px;
   width: 30px;
   margin-right: 15px;
   transition: all 0.2s ease-in-out;
+}
+
+.approve-button {
+  background: rgba(211, 245, 224, 0.5);
+  border: 1px solid rgba(47, 181, 101, 0.5);
+  color: rgba(47, 181, 101, 0.5);
 }
 
 .approve-button:hover {
@@ -103,17 +96,9 @@ th.ant-table-cell::before {
 }
 
 .deny-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: rgba(240, 71, 71, 0.1);
   border: 1px solid rgba(240, 71, 71, 0.57);
   color: rgba(240, 71, 71, 0.57);
-  border-radius: 20px;
-  height: 30px;
-  width: 30px;
-  margin-right: 1em;
-  transition: all 0.2s ease-in-out;
 }
 
 .deny-button:hover {
@@ -122,70 +107,8 @@ th.ant-table-cell::before {
   cursor: pointer;
 }
 
-.bigTable {
-  background: var(--bgPrimary);
-}
-
-.ant-table-expanded-row .ant-table-cell {
-  position: relative;
-  top: -30px;
-  background-color: #f6f6f6;
-  margin: 0;
-  padding-top: 0;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-}
-
-.expandedData {
-  margin: 0;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  box-sizing: border-box;
-}
-
-.expandedData th {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-  border-top: 1px solid rgba(0, 0, 0, 0.25);
-  padding: 10px 0;
-  color: rgba(0, 0, 0, 0.5);
-}
-
-.expandedData td {
-  padding: 0;
-  margin: 0;
-}
-
-.expandedData td,
-.expandedData th {
-  padding-left: 100px;
-}
-
-.expandedData tr {
-  margin: 0;
-  padding: 0;
-}
-
-.ant-checkbox-disabled {
-  visibility: hidden;
-}
-
-.ant-table-tbody > tr.ant-table-row-selected > td {
-  background-color: #f6f6f6;
-}
-
-.expandArrowTransaction {
-  margin-top: 5px;
-  margin-left: 1rem;
-  transition: all 0.2s ease-in-out;
-  color: var(--textSecondary);
-}
-
-.expandArrowTransactionRotate {
-  margin-top: 5px;
-  margin-left: 1rem;
-  transition: all 0.2s ease-in-out;
-  color: var(--textSecondary);
-  transform: rotate(180deg);
+.statusPending {
+  color: var(--primary);
 }
 
 .statusApproved {
@@ -196,19 +119,10 @@ th.ant-table-cell::before {
   color: rgba(240, 71, 71, 1);
 }
 
-.statusApproved:hover {
-  color: rgba(47, 181, 101, 0.8) !important;
-}
+/* TODO: check if we need this, 
+turns the row border to red if the transaction is overloading */
 
-.statusDenied:hover {
-  color: rgba(240, 71, 71, 0.8) !important;
-}
-
-#Load50 {
-  margin-bottom: 15px;
-}
-
-.overload > td{
+.overload > td {
   border-top: 1px solid #f04747;
   border-bottom: 1px solid #f04747 !important;
 }
@@ -219,8 +133,4 @@ tr.overload td:first-child {
 
 tr.overload td:last-child {
   border-right: 1px solid #f04747;
-}
-
-#Load50 {
-  margin-bottom: 15px;
 }

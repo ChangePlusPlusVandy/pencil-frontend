@@ -17,9 +17,10 @@ import TableHeader from '../../components/TableHeader/TableHeader';
 import { parseDate } from '../../utils/timedate';
 
 const formatDate = (dateObj) => {
-  const { date, month, year, ampmTime } = parseDate(dateObj);
-
-  return `${date} ${month} ${year}\n${ampmTime}`;
+  const { day, date, month, year, ampmTime } = parseDate(dateObj);
+  // TODO: check if this is the correct format
+  // currently using material design suggested format
+  return `${day}, ${date} ${month}, ${ampmTime}`;
 };
 
 function isOverload(data, index) {
@@ -165,18 +166,18 @@ const Transactions = () => {
       title: 'Date/Time',
       dataIndex: 'date',
       key: 'date',
-      width: '15%',
+      width: '25%',
     },
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      width: '30%',
+      width: '35%',
     },
     {
       title: 'Status',
       dataIndex: 'status',
-      width: '40%',
+      width: '30%',
       key: 'status',
       render: (text, record) => (
         <div className={`status${record.status}`}>{record.status}</div>
@@ -188,7 +189,7 @@ const Transactions = () => {
       dataIndex: 'approve',
       render: (text, record) => (
         <div
-          className="approve-button"
+          className=" roundButton approve-button"
           hidden={record.isDisabled}
           onClick={(e) => handleClick(e, record, 'Approve')}
           onKeyDown={() => {}}
@@ -205,7 +206,7 @@ const Transactions = () => {
       dataIndex: 'deny',
       render: (text, record) => (
         <div
-          className="deny-button"
+          className="roundButton deny-button"
           hidden={record.isDisabled}
           onClick={(e) => handleClick(e, record, 'Deny')}
           onKeyDown={() => {}}
@@ -222,12 +223,12 @@ const Transactions = () => {
     <table className="expandedData">
       <tr>
         <th>Item</th>
-        <th>Qty</th>
+        <th>Qantity</th>
         <th>Item</th>
-        <th>Qty</th>
+        <th>Qantity</th>
       </tr>
       {record.childNodes.map((item) => (
-        <tr>
+        <tr className="expandedTableRow">
           <td>{item.itemName1}</td>
           <td>{item.itemsTaken1}</td>
           <td>{item.itemName2}</td>
@@ -311,17 +312,12 @@ const Transactions = () => {
         leftArea={leftItems}
         rightArea={rightItems}
       />
-      <div className="scrollingTransactions">
-        <Space align="center" style={{ marginBottom: 16 }} />
+      <div className="tableContainer">
         {view === 'Pending' ? (
           <Table
             expandIcon={(props) => customExpandIcon(props)}
             rowKey="key"
             columns={columns}
-            rowClassName={(record, index) =>
-              isOverload(record, index) ? 'overload' : 'normal-row'
-            }
-            className="bigTable"
             rowSelection={{ ...rowSelection }}
             dataSource={loadedData}
             expandable={{
@@ -338,6 +334,7 @@ const Transactions = () => {
             expandIcon={(props) => customExpandIcon(props)}
             columns={columns}
             dataSource={loadedData}
+            rowClassName="transactionTableItem"
             expandable={{
               expandedRowRender,
               rowExpandable(record) {
@@ -349,12 +346,7 @@ const Transactions = () => {
           />
         )}
         <div className="horizontal-align-center">
-          <button
-            type="button"
-            className="primaryButton"
-            onClick={loadMore}
-            id="Load50"
-          >
+          <button type="button" className="primaryButton" onClick={loadMore}>
             Load 50
           </button>
         </div>
