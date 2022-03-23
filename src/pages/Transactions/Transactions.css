@@ -64,7 +64,7 @@ th.ant-table-cell::before {
 
 .expandedData td,
 .expandedData th {
-  padding-left: 100px;
+  padding-left: 50px;
 }
 
 .ant-checkbox-disabled {
