@@ -152,7 +152,7 @@ function pushRowArr(splitItems) {
             new Paragraph({
               children: [
                 new TextRun({
-                  text: item.itemName,
+                  text: item['Item.itemName'],
                   bold: true,
                   font: 'Calibri',
                   size: 22,
