@@ -44,20 +44,18 @@ const getMasterInv = async () => {
 };
 
 const postMasterInv = async (data) => {
-  console.log(data);
-  return data;
-  // try {
-  //   const response = await fetch(`/api/masterInventory/updateMasterInventory`, {
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     method: 'PUT',
-  //     body: JSON.stringify(data),
-  //   });
-  //   return await response.json();
-  // } catch (err) {
-  //   console.log(err);
-  // }
+  try {
+    const response = await fetch(`/api/masterInventory/updateMasterInventory`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export { getInventory, postInventory, getMasterInv, postMasterInv };
