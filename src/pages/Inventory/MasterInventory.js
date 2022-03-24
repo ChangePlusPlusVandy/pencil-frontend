@@ -1,10 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { CgTrash } from 'react-icons/cg';
 import { getMasterInv } from './api-inventory';
 import './MasterInventory.css';
+import EditableText from './EditableText';
 
 const MasterInventory = ({ data, setData, setChanged }) => {
+  const [active, setActive] = useState(false);
+  useEffect(() => {
+    document.addEventListener('dragend', () => {
+      setActive(false);
+    });
+    return () => {
+      document.removeEventListener('dragend', () => {
+        setActive(false);
+      });
+    };
+  }, []);
   useEffect(() => {
     getMasterInv().then((result) => {
       if (result instanceof Error) {
@@ -14,6 +26,7 @@ const MasterInventory = ({ data, setData, setChanged }) => {
         );
         console.log(result);
       } else {
+        console.log(result);
         setData(result);
       }
     });
@@ -39,20 +52,47 @@ const MasterInventory = ({ data, setData, setChanged }) => {
         <div className="headerName">Item Name</div>
         <div className="headerItemLimit">Item Price </div>
       </div>
-      {data.map((item, index) => (
-        <div className="tableItem">
-          <div className="itemOrder">{index + 1}</div>
-          <div id="master-inventory-name">{item.itemName}</div>
-          <div id="master-inventory-price">{item.itemPrice}</div>
-          <div className="master-inventory-delete vertical-align-center">
-            <CgTrash
-              size="20"
-              color="F04747"
-              onClick={() => handleDelete(item.itemName)}
+      {data &&
+        data.map((item, index) => (
+          <div key={item.itemName} className="tableItem">
+            <div className="itemOrder">{index + 1}</div>
+            <EditableText
+              id="master-inventory-name"
+              role="button"
+              tabIndex="-1"
+              widthSize="20"
+              itemName={item.itemName}
+              initValue={item.itemName}
+              inventory={data}
+              updateInventory={handleItemChange}
+              keyToUpdate="itemName"
+              cssClass="itemName"
+              isNumber={false}
+              setActive={setActive}
             />
+            <EditableText
+              id="master-inventory-price"
+              role="button"
+              tabIndex="-1"
+              widthSize="5"
+              itemName={item.itemName}
+              initValue={item.itemPrice.toString()}
+              inventory={data}
+              updateInventory={handleItemChange}
+              keyToUpdate="itemPrice"
+              setActive={setActive}
+              cssClass="itemPrice"
+              isNumber
+            />
+            <div className="master-inventory-delete vertical-align-center">
+              <CgTrash
+                size="20"
+                color="F04747"
+                onClick={() => handleDelete(item.itemName)}
+              />
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 };

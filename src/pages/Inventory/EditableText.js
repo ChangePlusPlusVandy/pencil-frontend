@@ -6,11 +6,13 @@ import './EditableText.css';
 const EditableText = ({
   widthSize,
   initValue,
+  itemName,
   inventory,
   updateInventory,
   keyToUpdate,
   isNumber,
   setActive,
+  cssClass,
 }) => {
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState('');
@@ -51,11 +53,19 @@ const EditableText = ({
       setValue(event.target.value);
       // update the data object in inventory
       const tempInventory = inventory;
-      tempInventory.find((x) => x[keyToUpdate].toString() === value)[
-        keyToUpdate
-      ] = isNumber ? Number(event.target.value) : event.target.value;
+      console.log(
+        itemName,
+        tempInventory.find(
+          (x) => (x.itemName || x['Item.itemName']) === itemName
+        )
+      );
+      tempInventory.find(
+        (x) => (x.itemName || x['Item.itemName']) === itemName
+      )[keyToUpdate] = isNumber
+        ? Number(event.target.value)
+        : event.target.value;
       updateInventory(tempInventory);
-      console.log('UPDATED INVENTORY');
+      console.log('bro', tempInventory);
     }
   };
 
@@ -83,7 +93,7 @@ const EditableText = ({
   };
 
   return (
-    <div className={`editableText ${keyToUpdate}`}>
+    <div className={`editableText ${cssClass}`}>
       {edit ? (
         // edit mode
         <Field
@@ -115,6 +125,8 @@ EditableText.propTypes = {
   keyToUpdate: PropTypes.string.isRequired,
   isNumber: PropTypes.bool.isRequired,
   setActive: PropTypes.func.isRequired,
+  cssClass: PropTypes.string.isRequired,
+  itemName: PropTypes.string.isRequired,
 };
 
 export default EditableText;
