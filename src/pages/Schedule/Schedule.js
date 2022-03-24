@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import { AiFillPrinter } from 'react-icons/ai';
+import { IoMdRefresh } from 'react-icons/io';
 import { useAuth } from '../../AuthContext';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import { getSchedules } from './api-schedule';
@@ -59,7 +60,10 @@ const Schedule = () => {
   );
 
   const rightItems = (
-    <CustomDropdown title={view} menuItems={menu} type="small" />
+    <>
+      <IoMdRefresh className="refreshButton" size="26" />
+      <CustomDropdown title={view} menuItems={menu} type="small" />
+    </>
   );
 
   return (

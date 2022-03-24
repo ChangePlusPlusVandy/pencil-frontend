@@ -6,8 +6,9 @@
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import { FaChevronDown, FaCheck } from 'react-icons/fa';
+import { IoMdRefresh } from 'react-icons/io';
 import { ImCross } from 'react-icons/im';
-import { Table, Space } from 'antd';
+import { Table } from 'antd';
 import { useAuth } from '../../AuthContext';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import { handleTransaction, getTransactions } from './api-transactions';
@@ -302,7 +303,10 @@ const Transactions = () => {
   );
 
   const rightItems = (
-    <CustomDropdown title={view} menuItems={menu} type="small" />
+    <>
+      <IoMdRefresh className="refreshButton" size="26" />
+      <CustomDropdown title={view} menuItems={menu} type="small" />
+    </>
   );
 
   return (

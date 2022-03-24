@@ -40,7 +40,7 @@ body {
 
 .secondaryButton {
   font-size: 16px;
-  opacity: 75%;
+  color: var(--textSecondary);
   border: none;
   white-space: nowrap;
   text-decoration: underline;
@@ -176,4 +176,16 @@ body {
   display: flex;
   align-items: center;
   transition: all 0.3s ease-in-out;
+}
+
+/* misc */
+.refreshButton {
+  margin-right: 1em;
+  transition: all 0.3s ease-in-out;
+  color: var(--textSecondary);
+}
+
+.refreshButton:hover {
+  cursor: pointer;
+  transform: rotate(180deg);
 }

@@ -7,6 +7,7 @@ import { FaFileDownload } from 'react-icons/fa';
 import 'pikaday/css/pikaday.css';
 import './Reports.css';
 
+import { IoMdRefresh } from 'react-icons/io';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import CalendarInput from './CalendarInput';
@@ -31,6 +32,7 @@ const Reports = () => {
 
   const rightItems = (
     <>
+      <IoMdRefresh className="refreshButton" size="26" />
       <button
         type="button"
         className="primaryButton"
