@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react';
 import { AiFillPrinter } from 'react-icons/ai';
 import { GrFormAdd } from 'react-icons/gr';
@@ -69,7 +71,7 @@ const Inventory = () => {
 
   const leftItems = (
     <>
-      <div className="secondaryButton vertical-align-center">
+      <div className="secondaryButton vertical-align-center" onClick={generate}>
         Print Inventory
         <AiFillPrinter />
       </div>
