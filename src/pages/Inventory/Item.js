@@ -42,10 +42,12 @@ const Item = ({
         role="button"
         tabIndex="-1"
         widthSize="20"
+        itemName={itemName}
         initValue={itemName}
         inventory={inventory}
         updateInventory={updateInventory}
-        keyToUpdate="itemName"
+        keyToUpdate="Item.itemName"
+        cssClass="itemName"
         isNumber={false}
         setActive={setActive}
       />
@@ -54,10 +56,12 @@ const Item = ({
         role="button"
         tabIndex="-1"
         widthSize="5"
+        itemName={itemName}
         initValue={limit.toString()}
         inventory={inventory}
         updateInventory={updateInventory}
         keyToUpdate="maxLimit"
+        cssClass="maxLimit"
         setActive={setActive}
         isNumber
       />

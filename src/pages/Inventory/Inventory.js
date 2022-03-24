@@ -116,9 +116,14 @@ const Inventory = () => {
 
       <TableHeader
         title={`${inventoryType} Inventory (${
+          // eslint-disable-next-line no-nested-ternary
           inventoryType === 'Active'
-            ? activeInventoryData.length
-            : masterInventoryData.length
+            ? activeInventoryData
+              ? activeInventoryData.length
+              : 0
+            : masterInventoryData
+            ? masterInventoryData.length
+            : 0
         })`}
         leftArea={leftItems}
         rightArea={rightItems}
