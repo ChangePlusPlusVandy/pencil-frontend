@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { AiFillPrinter } from 'react-icons/ai';
 import { GrFormAdd } from 'react-icons/gr';
-import { IoMdRefresh } from 'react-icons/io';
 import './Inventory.css';
 import { Packer } from 'docx';
 import { saveAs } from 'file-saver';
@@ -91,7 +90,6 @@ const Inventory = () => {
 
   const rightItems = (
     <>
-      <IoMdRefresh className="refreshButton" size="26" />
       <InventoryToggle onChange={setInventoryType} />
       <button
         type="button"
