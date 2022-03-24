@@ -17,19 +17,14 @@ const AddLocation = ({ show, onClose }) => {
     window.location.reload();
   };
 
-  const modalActionButton = (
-    <button
-      type="submit"
-      className="primaryButton"
-      disabled={!name || !address}
-      onClick={handleSubmit}
-    >
-      Add Location
-    </button>
-  );
-
   return (
-    <Modal show={show} onClose={onClose} actionButton={modalActionButton}>
+    <Modal
+      show={show}
+      onClose={onClose}
+      actionButtonText="Add"
+      handleAction={handleSubmit}
+      actionButtonDisabled={!name || !address}
+    >
       <label className="inputLabel">
         Location Name
         <input

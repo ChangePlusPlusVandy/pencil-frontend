@@ -3,7 +3,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Modal.css';
 
-const Modal = ({ show, onClose, actionButton, children }) => {
+const Modal = ({
+  show,
+  onClose,
+  actionButtonText,
+  handleAction,
+  actionButtonDisabled,
+  children,
+}) => {
   if (!show) return null;
 
   return (
@@ -15,7 +22,14 @@ const Modal = ({ show, onClose, actionButton, children }) => {
             <button type="button" className="secondaryButton" onClick={onClose}>
               Close
             </button>
-            {actionButton}
+            <button
+              type="button"
+              className="primaryButton"
+              onClick={handleAction}
+              disabled={actionButtonDisabled}
+            >
+              {actionButtonText}
+            </button>
           </div>
         </div>
       </div>
@@ -26,12 +40,14 @@ const Modal = ({ show, onClose, actionButton, children }) => {
 Modal.propTypes = {
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  actionButton: PropTypes.element,
+  actionButtonText: PropTypes.string.isRequired,
+  handleAction: PropTypes.func.isRequired,
+  actionButtonDisabled: PropTypes.bool,
   children: PropTypes.element.isRequired,
 };
 
 Modal.defaultProps = {
-  actionButton: null,
+  actionButtonDisabled: false,
 };
 
 export default Modal;
