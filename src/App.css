@@ -162,11 +162,6 @@ body {
   overflow-y: scroll;
 }
 
-.tableItemHeader {
-  display: flex;
-  flex-direction: row;
-}
-
 .tableItem {
   width: 100%;
   padding: 15px 30px;
@@ -176,6 +171,16 @@ body {
   display: flex;
   align-items: center;
   transition: all 0.3s ease-in-out;
+}
+
+.tableItemHeader {
+  width: 100%;
+  padding: 0px 30px;
+  margin: 15px auto;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  color: var(--textDisabled);
 }
 
 /* misc */
@@ -188,4 +193,8 @@ body {
 .refreshButton:hover {
   cursor: pointer;
   transform: rotate(180deg);
+}
+
+.bold {
+  font-weight: bold;
 }

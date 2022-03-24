@@ -62,10 +62,10 @@ const Schedule = () => {
   );
 
   const leftItems = (
-    <>
-      <div className="secondaryButton">Print Schedule</div>
+    <div className="secondaryButton vertical-align-center">
+      Print Schedule
       <AiFillPrinter />
-    </>
+    </div>
   );
 
   const rightItems = (
@@ -84,14 +84,13 @@ const Schedule = () => {
       />
       <div className="tableContainer">
         <div className="tableItemHeader">
-          <div className="headerCell">Time</div>
-          <div className="headerCell">Name</div>
-          <div className="headerCell">Pencil ID</div>
-          <div className="headerCell">School</div>
-          <div className="headerCell">Phone Number</div>
+          <div className="scheduleCol1">Date/Time</div>
+          <div className="scheduleCol2">Name</div>
+          <div className="scheduleCol3">Pencil ID</div>
+          <div className="scheduleCol4">Phone Number</div>
+          <div className="scheduleCol5">School</div>
         </div>
-        {scheduleData.map((item, index) => {
-          // const createdAt = new Date(item.created_at);
+        {scheduleData.map((item) => {
           const fullName = item.name;
           const phoneNumber = item.phone;
           const schoolName = item.school;
@@ -103,14 +102,14 @@ const Schedule = () => {
           const pencilId = 'N/A';
           return (
             <div className="tableItem">
-              <div className="timeBox">
-                <div className="timeCell">{date}</div>
-                <div className="timeCell bold">{time}</div>
+              <div className="scheduleCol1 timeBox">
+                <div>{date}</div>
+                <div className="bold">{time}</div>
               </div>
-              <div className="itemCell bold">{fullName}</div>
-              <div className="itemCell">{pencilId}</div>
-              <div className="itemCell">{schoolName}</div>
-              <div className="itemCell">{phoneNumber}</div>
+              <div className="scheduleCol2 bold">{fullName}</div>
+              <div className="scheduleCol3">{pencilId}</div>
+              <div className="scheduleCol4">{phoneNumber}</div>
+              <div className="scheduleCol5">{schoolName}</div>
             </div>
           );
         })}
