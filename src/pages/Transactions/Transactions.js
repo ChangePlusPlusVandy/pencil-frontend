@@ -244,18 +244,17 @@ const Transactions = () => {
   };
 
   const changeLoadedData = (event) => {
-    if (event.target.innerText === view) return;
+    const type = event.target.innerText || view;
     setSelectedData([]);
-    getTransactions(currentLocation, 1, event.target.innerText).then(
-      (transactions) => {
-        if (transactions.error) console.log(transactions.error);
-        else {
-          setLoadedData([]);
-          formatData(transactions, event.target.innerText);
-          setView(event.target.innerText);
-        }
+    formatData([], type); // TODO: remove this if the reload flicker isn't wanted
+    getTransactions(currentLocation, 1, type).then((transactions) => {
+      if (transactions.error) console.log(transactions.error);
+      else {
+        setLoadedData([]);
+        formatData(transactions, type);
+        setView(type);
       }
-    );
+    });
   };
 
   const menuOptions = ['Pending', 'Approved', 'Denied'];
@@ -304,7 +303,11 @@ const Transactions = () => {
 
   const rightItems = (
     <>
-      <IoMdRefresh className="refreshButton" size="26" />
+      <IoMdRefresh
+        className="refreshButton"
+        size="26"
+        onClick={changeLoadedData}
+      />
       <CustomDropdown title={view} menuItems={menu} type="small" />
     </>
   );

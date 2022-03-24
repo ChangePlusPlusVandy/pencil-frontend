@@ -27,6 +27,15 @@ const Schedule = () => {
     });
   }, []);
 
+  const refreshData = () => {
+    setScheduleData([]);
+    getSchedules(currentLocation).then((items) => {
+      if (!items.err) {
+        setScheduleData(items);
+      }
+    });
+  };
+
   const formatDate = (dateObj) => {
     const { date, month, year } = parseDate(dateObj);
 
@@ -61,7 +70,7 @@ const Schedule = () => {
 
   const rightItems = (
     <>
-      <IoMdRefresh className="refreshButton" size="26" />
+      <IoMdRefresh className="refreshButton" size="26" onClick={refreshData} />
       <CustomDropdown title={view} menuItems={menu} type="small" />
     </>
   );
