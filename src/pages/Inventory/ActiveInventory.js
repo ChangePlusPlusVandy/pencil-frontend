@@ -1,7 +1,9 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/forbid-prop-types */
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDragListView from 'react-drag-listview/lib/index';
 import PropTypes from 'prop-types';
+import { AiOutlineEdit } from 'react-icons/ai';
 import Item from './Item';
 import { getInventory } from './api-inventory';
 import { useAuth } from '../../AuthContext';
@@ -9,35 +11,26 @@ import './ActiveInventory.css';
 
 const ActiveInventory = ({ data, setData, setChanged }) => {
   const { currentLocation } = useAuth();
+  const [editable, setEditable] = useState(false);
 
   useEffect(() => {
     getInventory(currentLocation).then((result) => {
-      if (result instanceof Error) {
-        // eslint-disable-next-line no-alert
-        alert(
-          'Something went wrong in the backend server. Please contact the developer team'
-        );
-        console.log(result);
-      } else {
-        setData(result);
-      }
+      if (!(result instanceof Error)) setData(result);
     });
   }, []);
 
-  const updateData = (newData) => {
+  const updateItem = (itemName, keyToUpdate, newValue, isNumber) => {
+    console.log('updateItem', itemName, keyToUpdate, newValue, isNumber);
+    const tempInventory = data;
+    tempInventory.find((x) => x['Item.itemName'] === itemName)[keyToUpdate] =
+      isNumber ? parseInt(newValue, 10) : newValue;
+    console.log('this is temp', tempInventory);
+    setData(tempInventory);
     setChanged(true);
-    setData([]);
-    setData(newData);
-  };
-
-  const handleItemChange = (item) => {
-    setChanged(true);
-    setData(item);
   };
 
   const handleDelete = (name) => {
     const newData = data.filter((item) => item['Item.itemName'] !== name);
-    setData([]);
     setData(newData);
     setChanged(true);
   };
@@ -49,7 +42,9 @@ const ActiveInventory = ({ data, setData, setChanged }) => {
 
       const item = newData.splice(fromIndex, 1)[0];
       newData.splice(toIndex, 0, item);
-      updateData(newData);
+      setChanged(true);
+      setData([]);
+      setData(newData);
     },
 
     nodeSelector: 'li',
@@ -58,32 +53,38 @@ const ActiveInventory = ({ data, setData, setChanged }) => {
   };
 
   return (
-    <div>
-      <div className="dragList">
-        <div className="tableItemHeader">
-          <div className="activeInventoryCol1" />
-          <div className="activeInventoryCol2" />
-          <div className="activeInventoryCol3">Item Name</div>
-          <div className="activeInventoryCol4">Item Limit</div>
-          <div className="activeInventoryCol5" />
+    <>
+      <div className="tableItemHeader">
+        <div className="activeInventoryCol1" />
+        <div className="activeInventoryCol2" />
+        <div className="activeInventoryCol3">Item Name</div>
+        <div className="activeInventoryCol4">
+          Item Limit
+          <AiOutlineEdit
+            className={`tableEditButton ${editable ? 'selectedBlue' : ''}`}
+            size="20"
+            onClick={() => setEditable(!editable)}
+          />
         </div>
+        <div className="activeInventoryCol5" />
       </div>
       <ReactDragListView {...dragProps}>
         <ul className="dragList">
           {data.map((item, index) => (
             <Item
-              key={item['Item.itemName']}
-              number={index}
+              key={index + item['Item.itemName']}
+              index={index}
               itemName={item['Item.itemName']}
               limit={item.maxLimit}
-              inventory={data}
-              updateInventory={handleItemChange}
+              updateItem={updateItem}
               handleDelete={handleDelete}
+              editable={editable}
+              setChanged={setChanged}
             />
           ))}
         </ul>
       </ReactDragListView>
-    </div>
+    </>
   );
 };
 
