@@ -195,6 +195,49 @@ body {
   transform: rotate(180deg);
 }
 
+.tableEditButton {
+  margin-left: 8px;
+  transition: all 0.3s ease-in-out;
+}
+
+.tableEditButton:hover {
+  cursor: pointer;
+  color: var(--primaryHover);
+  transition: all 0.3s ease-in-out;
+}
+
 .bold {
   font-weight: bold;
+}
+
+.selectedBlue {
+  color: var(--primaryHover);
+}
+
+/* editable text */
+.editableText2 {
+  width: 100px;
+  height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  /* padding: 0 12px; */
+  text-align: center;
+}
+
+.editableText2:disabled {
+  border: none;
+  background-color: inherit;
+}
+
+.editableText2:focus {
+  outline: var(--primaryHover) auto 1.5px;
+}
+
+.editableText2::-webkit-outer-spin-button,
+.editableText2::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.editableText2 {
+  -moz-appearance: textfield;
 }
