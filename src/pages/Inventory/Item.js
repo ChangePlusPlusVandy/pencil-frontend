@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { CgTrash } from 'react-icons/cg';
 import { GiHamburgerMenu } from 'react-icons/gi';
@@ -9,7 +9,7 @@ const Item = ({
   index,
   uuid,
   itemName,
-  limit,
+  itemValue,
   updateItem,
   handleDelete,
   nameEditable,
@@ -18,19 +18,23 @@ const Item = ({
 }) => {
   const [active, setActive] = useState(false);
   const [localName, setLocalName] = useState(itemName);
-  const [localLimit, setLocalLimit] = useState(limit);
+  const [localValue, setLocalValue] = useState(itemValue);
+  const valueKey = type === 'active' ? 'maxLimit' : 'itemPrice';
 
-  useEffect(() => {
-    updateItem(uuid, 'maxLimit', localLimit, true);
-  }, [localLimit]);
+  const handleNameChange = (e) => {
+    setLocalName(e.target.value);
+    updateItem(uuid, 'itemName', e.target.value, false);
+  };
 
-  useEffect(() => {
-    updateItem(uuid, 'itemName', localName, false);
-  }, [localName]);
+  const handleValueChange = (e) => {
+    const value = parseInt(e.target.value, 10);
+    setLocalValue(value);
+    updateItem(uuid, valueKey, value, true);
+  };
 
   return (
     <li className={`tableItem${active ? ' setColorBlue' : ''}`}>
-      <div className="activeInventoryCol1 vertical-align-center">
+      <div className="inventoryCol1 vertical-align-center">
         {type === 'active' ? (
           <GiHamburgerMenu
             onMouseDown={() => setActive(true)}
@@ -39,34 +43,34 @@ const Item = ({
           />
         ) : null}
       </div>
-      <div className="activeInventoryCol2">{index + 1}</div>
-      <div className="activeInventoryCol3">
+      <div className="inventoryCol2">{index + 1}</div>
+      <div className="inventoryCol3">
         {type === 'active' ? (
           itemName
         ) : (
           <input
             className="editableText2"
             value={localName}
-            onChange={(e) => setLocalName(e.target.value)}
+            onChange={handleNameChange}
             disabled={!nameEditable}
           />
         )}
       </div>
-      <div className="activeInventoryCol4">
+      <div className="inventoryCol4">
         <input
           className="editableText2 text-center"
           type="number"
           min="0"
-          value={localLimit}
-          onChange={(e) => setLocalLimit(parseInt(e.target.value, 10))}
+          value={localValue}
+          onChange={handleValueChange}
           disabled={!valueEditable}
         />
       </div>
       <div
-        className="activeInventoryCol5 vertical-align-center"
+        className="inventoryCol5 vertical-align-center"
         role="button"
         tabIndex="-1"
-        onClick={() => handleDelete(itemName)}
+        onClick={() => handleDelete(uuid)}
         onKeyPress={() => {}}
       >
         <CgTrash size="20" color="F04747" />
@@ -79,12 +83,17 @@ Item.propTypes = {
   index: PropTypes.number.isRequired,
   uuid: PropTypes.string.isRequired,
   itemName: PropTypes.string.isRequired,
-  limit: PropTypes.number.isRequired,
+  itemValue: PropTypes.number.isRequired,
   updateItem: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
-  nameEditable: PropTypes.bool.isRequired,
-  valueEditable: PropTypes.bool.isRequired,
+  nameEditable: PropTypes.bool,
+  valueEditable: PropTypes.bool,
   type: PropTypes.string.isRequired,
+};
+
+Item.defaultProps = {
+  nameEditable: false,
+  valueEditable: false,
 };
 
 export default Item;
