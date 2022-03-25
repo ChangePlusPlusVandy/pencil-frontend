@@ -3,28 +3,22 @@ import PropTypes from 'prop-types';
 import { CgTrash } from 'react-icons/cg';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import './Item.css';
-import EditableText from './EditableText';
 import './ActiveInventory.css';
 
 const Item = ({
-  number,
+  index,
   itemName,
   limit,
-  inventory,
-  updateInventory,
+  updateItem,
   handleDelete,
+  editable,
 }) => {
   const [active, setActive] = useState(false);
+  const [localLimit, setLocalLimit] = useState(limit);
+
   useEffect(() => {
-    document.addEventListener('dragend', () => {
-      setActive(false);
-    });
-    return () => {
-      document.removeEventListener('dragend', () => {
-        setActive(false);
-      });
-    };
-  }, []);
+    updateItem(itemName, 'maxLimit', localLimit, true);
+  }, [localLimit]);
 
   return (
     <li className={`tableItem${active ? ' setColorBlue' : ''}`}>
@@ -37,33 +31,18 @@ const Item = ({
       >
         <GiHamburgerMenu size="24" />
       </div>
-      <div className="activeInventoryCol2">{number + 1}</div>
-      <EditableText
-        role="button"
-        tabIndex="-1"
-        widthSize="20"
-        itemName={itemName}
-        initValue={itemName}
-        inventory={inventory}
-        updateInventory={updateInventory}
-        keyToUpdate="Item.itemName"
-        cssClass="activeInventoryCol3"
-        isNumber={false}
-        setActive={setActive}
-      />
-      <EditableText
-        role="button"
-        tabIndex="-1"
-        widthSize="5"
-        itemName={itemName}
-        initValue={limit.toString()}
-        inventory={inventory}
-        updateInventory={updateInventory}
-        keyToUpdate="maxLimit"
-        cssClass="activeInventoryCol4"
-        setActive={setActive}
-        isNumber
-      />
+      <div className="activeInventoryCol2">{index + 1}</div>
+      <div className="activeInventoryCol3">{itemName}</div>
+      <div className="activeInventoryCol4">
+        <input
+          className="editableText2"
+          type="number"
+          min="0"
+          value={localLimit}
+          onChange={(e) => setLocalLimit(parseInt(e.target.value, 10))}
+          disabled={!editable}
+        />
+      </div>
       <div
         className="activeInventoryCol5 vertical-align-center"
         role="button"
@@ -78,12 +57,12 @@ const Item = ({
 };
 
 Item.propTypes = {
-  number: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
   itemName: PropTypes.string.isRequired,
-  limit: PropTypes.string.isRequired,
-  inventory: PropTypes.shape.isRequired,
-  updateInventory: PropTypes.func.isRequired,
+  limit: PropTypes.number.isRequired,
+  updateItem: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
+  editable: PropTypes.bool.isRequired,
 };
 
 export default Item;

@@ -19,6 +19,7 @@
   width: 15%;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .activeInventoryCol5 {
@@ -38,4 +39,8 @@
 
 .activeInventoryCol5:hover {
   cursor: pointer;
+}
+
+.setColorBlue {
+  background-color: #e7f5fb !important;
 }
