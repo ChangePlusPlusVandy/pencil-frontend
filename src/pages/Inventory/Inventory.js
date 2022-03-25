@@ -5,7 +5,6 @@ import React, { useState, useEffect } from 'react';
 import { AiFillPrinter, AiOutlineEdit } from 'react-icons/ai';
 import { GrFormAdd } from 'react-icons/gr';
 import ReactDragListView from 'react-drag-listview/lib/index';
-import './Inventory.css';
 import { Packer } from 'docx';
 import { saveAs } from 'file-saver';
 import ItemPopup from './ItemPopup';
@@ -22,7 +21,7 @@ import PageContainer from '../../components/PageContainer/PageContainer';
 import TableHeader from '../../components/TableHeader/TableHeader';
 import Errors from '../../components/Errors/Errors';
 import Item from './Item';
-import './InventoryTable.css';
+import './Inventory.css';
 
 const Inventory = () => {
   const [inventoryData, setInventoryData] = useState([]);

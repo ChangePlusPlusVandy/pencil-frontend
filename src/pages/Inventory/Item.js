@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { CgTrash } from 'react-icons/cg';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import './Item.css';
-import './ActiveInventory.css';
+import './Inventory.css';
 
 const Item = ({
   index,

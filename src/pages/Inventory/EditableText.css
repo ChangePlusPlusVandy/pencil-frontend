@@ -1,8 +1,0 @@
-.editableText {
-  width: 100px;
-}
-
-.editableText > p {
-  margin: 0;
-  white-space: nowrap;
-}
