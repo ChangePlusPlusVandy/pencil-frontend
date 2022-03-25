@@ -152,7 +152,7 @@ body {
 .tableContainer {
   width: 100%;
   height: 100%;
-  padding: 2.5em 3em;
+  padding: 1.2rem 3rem 2.5rem 3rem;
   background-color: var(--bgSecondary);
   border-radius: 20px;
   font-size: 16px;
@@ -176,11 +176,11 @@ body {
 .tableItemHeader {
   width: 100%;
   padding: 0px 30px;
-  margin: 15px auto;
   display: flex;
   align-items: center;
   transition: all 0.3s ease-in-out;
   color: var(--textDisabled);
+  position: sticky;
 }
 
 /* misc */
@@ -219,27 +219,27 @@ body {
 }
 
 /* editable text */
-.editableText2 {
+.editableText {
   width: 100px;
   height: 30px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
-.editableText2:disabled {
+.editableText:disabled {
   border: 1px solid transparent;
   background-color: inherit;
 }
 
-.editableText2:focus {
+.editableText:focus {
   outline: var(--primaryHover) auto 1.5px;
 }
 
-.editableText2::-webkit-outer-spin-button,
-.editableText2::-webkit-inner-spin-button {
+.editableText::-webkit-outer-spin-button,
+.editableText::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-.editableText2 {
+.editableText {
   -moz-appearance: textfield;
 }
