@@ -214,18 +214,20 @@ body {
   color: var(--primaryHover);
 }
 
+.text-center {
+  text-align: center;
+}
+
 /* editable text */
 .editableText2 {
   width: 100px;
   height: 30px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  /* padding: 0 12px; */
-  text-align: center;
 }
 
 .editableText2:disabled {
-  border: none;
+  border: 1px solid transparent;
   background-color: inherit;
 }
 

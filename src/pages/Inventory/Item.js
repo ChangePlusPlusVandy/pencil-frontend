@@ -7,40 +7,59 @@ import './ActiveInventory.css';
 
 const Item = ({
   index,
+  uuid,
   itemName,
   limit,
   updateItem,
   handleDelete,
-  editable,
+  nameEditable,
+  valueEditable,
+  type,
 }) => {
   const [active, setActive] = useState(false);
+  const [localName, setLocalName] = useState(itemName);
   const [localLimit, setLocalLimit] = useState(limit);
 
   useEffect(() => {
-    updateItem(itemName, 'maxLimit', localLimit, true);
+    updateItem(uuid, 'maxLimit', localLimit, true);
   }, [localLimit]);
+
+  useEffect(() => {
+    updateItem(uuid, 'itemName', localName, false);
+  }, [localName]);
 
   return (
     <li className={`tableItem${active ? ' setColorBlue' : ''}`}>
-      <div
-        className="activeInventoryCol1 vertical-align-center"
-        onMouseDown={() => setActive(true)}
-        onMouseUp={() => setActive(false)}
-        role="button"
-        tabIndex={0}
-      >
-        <GiHamburgerMenu size="24" />
+      <div className="activeInventoryCol1 vertical-align-center">
+        {type === 'active' ? (
+          <GiHamburgerMenu
+            onMouseDown={() => setActive(true)}
+            onMouseUp={() => setActive(false)}
+            size="24"
+          />
+        ) : null}
       </div>
       <div className="activeInventoryCol2">{index + 1}</div>
-      <div className="activeInventoryCol3">{itemName}</div>
+      <div className="activeInventoryCol3">
+        {type === 'active' ? (
+          itemName
+        ) : (
+          <input
+            className="editableText2"
+            value={localName}
+            onChange={(e) => setLocalName(e.target.value)}
+            disabled={!nameEditable}
+          />
+        )}
+      </div>
       <div className="activeInventoryCol4">
         <input
-          className="editableText2"
+          className="editableText2 text-center"
           type="number"
           min="0"
           value={localLimit}
           onChange={(e) => setLocalLimit(parseInt(e.target.value, 10))}
-          disabled={!editable}
+          disabled={!valueEditable}
         />
       </div>
       <div
@@ -58,11 +77,14 @@ const Item = ({
 
 Item.propTypes = {
   index: PropTypes.number.isRequired,
+  uuid: PropTypes.string.isRequired,
   itemName: PropTypes.string.isRequired,
   limit: PropTypes.number.isRequired,
   updateItem: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
-  editable: PropTypes.bool.isRequired,
+  nameEditable: PropTypes.bool.isRequired,
+  valueEditable: PropTypes.bool.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 export default Item;

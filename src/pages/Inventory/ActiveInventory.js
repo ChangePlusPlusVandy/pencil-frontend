@@ -11,7 +11,7 @@ import './ActiveInventory.css';
 
 const ActiveInventory = ({ data, setData, setChanged }) => {
   const { currentLocation } = useAuth();
-  const [editable, setEditable] = useState(false);
+  const [valueEditable, setValueEditable] = useState(false);
 
   useEffect(() => {
     getInventory(currentLocation).then((result) => {
@@ -19,11 +19,11 @@ const ActiveInventory = ({ data, setData, setChanged }) => {
     });
   }, []);
 
-  const updateItem = (itemName, keyToUpdate, newValue, isNumber) => {
-    console.log('updateItem', itemName, keyToUpdate, newValue, isNumber);
+  const updateItem = (uuid, keyToUpdate, newValue, isNumber) => {
     const tempInventory = data;
-    tempInventory.find((x) => x['Item.itemName'] === itemName)[keyToUpdate] =
-      isNumber ? parseInt(newValue, 10) : newValue;
+    tempInventory.find((x) => x.uuid === uuid)[keyToUpdate] = isNumber
+      ? parseInt(newValue, 10)
+      : newValue;
     console.log('this is temp', tempInventory);
     setData(tempInventory);
     setChanged(true);
@@ -61,9 +61,9 @@ const ActiveInventory = ({ data, setData, setChanged }) => {
         <div className="activeInventoryCol4">
           Item Limit
           <AiOutlineEdit
-            className={`tableEditButton ${editable ? 'selectedBlue' : ''}`}
+            className={`tableEditButton ${valueEditable ? 'selectedBlue' : ''}`}
             size="20"
-            onClick={() => setEditable(!editable)}
+            onClick={() => setValueEditable(!valueEditable)}
           />
         </div>
         <div className="activeInventoryCol5" />
@@ -74,12 +74,15 @@ const ActiveInventory = ({ data, setData, setChanged }) => {
             <Item
               key={index + item['Item.itemName']}
               index={index}
+              uuid={item.uuid}
               itemName={item['Item.itemName']}
               limit={item.maxLimit}
               updateItem={updateItem}
               handleDelete={handleDelete}
-              editable={editable}
+              nameEditable={false}
+              valueEditable={valueEditable}
               setChanged={setChanged}
+              type="active"
             />
           ))}
         </ul>
