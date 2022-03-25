@@ -55,10 +55,10 @@ const ActiveInventory = ({ data, setData, setChanged }) => {
   return (
     <>
       <div className="tableItemHeader">
-        <div className="activeInventoryCol1" />
-        <div className="activeInventoryCol2" />
-        <div className="activeInventoryCol3">Item Name</div>
-        <div className="activeInventoryCol4">
+        <div className="inventoryCol1" />
+        <div className="inventoryCol2" />
+        <div className="inventoryCol3">Item Name</div>
+        <div className="inventoryCol4">
           Item Limit
           <AiOutlineEdit
             className={`tableEditButton ${valueEditable ? 'selectedBlue' : ''}`}
@@ -66,7 +66,7 @@ const ActiveInventory = ({ data, setData, setChanged }) => {
             onClick={() => setValueEditable(!valueEditable)}
           />
         </div>
-        <div className="activeInventoryCol5" />
+        <div className="inventoryCol5" />
       </div>
       <ReactDragListView {...dragProps}>
         <ul className="dragList">

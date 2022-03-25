@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { getMasterInv } from './api-inventory';
 import Item from './Item';
+import './ActiveInventory.css';
 
 const MasterInventory = ({ data, setData, setChanged }) => {
   const [nameEditable, setNameEditable] = useState(false);
@@ -15,8 +16,8 @@ const MasterInventory = ({ data, setData, setChanged }) => {
     });
   }, []);
 
-  const handleDelete = (name) => {
-    const newData = data.filter((item) => item.itemName !== name);
+  const handleDelete = (uuid) => {
+    const newData = data.filter((item) => item.uuid !== uuid);
     setData(newData);
     setChanged(true);
   };
@@ -26,7 +27,6 @@ const MasterInventory = ({ data, setData, setChanged }) => {
     tempInventory.find((x) => x.uuid === uuid)[keyToUpdate] = isNumber
       ? parseInt(newValue, 10)
       : newValue;
-    console.log('this is temp', tempInventory);
     setData(tempInventory);
     setChanged(true);
   };
@@ -34,9 +34,9 @@ const MasterInventory = ({ data, setData, setChanged }) => {
   return (
     <div>
       <div className="tableItemHeader">
-        <div className="activeInventoryCol1" />
-        <div className="activeInventoryCol2" />
-        <div className="activeInventoryCol3">
+        <div className="inventoryCol1" />
+        <div className="inventoryCol2" />
+        <div className="inventoryCol3">
           Item Name
           <AiOutlineEdit
             className={`tableEditButton ${nameEditable ? 'selectedBlue' : ''}`}
@@ -44,7 +44,7 @@ const MasterInventory = ({ data, setData, setChanged }) => {
             onClick={() => setNameEditable(!nameEditable)}
           />
         </div>
-        <div className="activeInventoryCol4">
+        <div className="inventoryCol4">
           Item Price
           <AiOutlineEdit
             className={`tableEditButton ${valueEditable ? 'selectedBlue' : ''}`}
@@ -52,7 +52,7 @@ const MasterInventory = ({ data, setData, setChanged }) => {
             onClick={() => setValueEditable(!valueEditable)}
           />
         </div>
-        <div className="activeInventoryCol5" />
+        <div className="inventoryCol5" />
       </div>
       {data &&
         data.map((item, index) => (
