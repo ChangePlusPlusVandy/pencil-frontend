@@ -1,99 +1,74 @@
+/* eslint-disable react/no-array-index-key */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { CgTrash } from 'react-icons/cg';
+import { AiOutlineEdit } from 'react-icons/ai';
 import { getMasterInv } from './api-inventory';
-import './MasterInventory.css';
-import EditableText from './EditableText';
+import Item from './Item';
 
 const MasterInventory = ({ data, setData, setChanged }) => {
-  const [active, setActive] = useState(false);
-  useEffect(() => {
-    document.addEventListener('dragend', () => {
-      setActive(false);
-    });
-    return () => {
-      document.removeEventListener('dragend', () => {
-        setActive(false);
-      });
-    };
-  }, []);
+  const [nameEditable, setNameEditable] = useState(false);
+  const [valueEditable, setValueEditable] = useState(false);
+
   useEffect(() => {
     getMasterInv().then((result) => {
-      if (result instanceof Error) {
-        // eslint-disable-next-line no-alert
-        alert(
-          'Something went wrong in the backend server. Please contact the developer team'
-        );
-        console.log(result);
-      } else {
-        console.log(result);
-        setData(result);
-      }
+      if (!(result instanceof Error)) setData(result);
     });
   }, []);
 
-  // TODO: Add delete icon to row and attach this function
   const handleDelete = (name) => {
     const newData = data.filter((item) => item.itemName !== name);
-    setData([]);
     setData(newData);
     setChanged(true);
   };
 
-  // TODO: Replace text with EditableText and attach this function
-  const handleItemChange = (item) => {
+  const updateItem = (uuid, keyToUpdate, newValue, isNumber) => {
+    const tempInventory = data;
+    tempInventory.find((x) => x.uuid === uuid)[keyToUpdate] = isNumber
+      ? parseInt(newValue, 10)
+      : newValue;
+    console.log('this is temp', tempInventory);
+    setData(tempInventory);
     setChanged(true);
-    setData(item);
   };
 
   return (
     <div>
       <div className="tableItemHeader">
-        <div className="masterInventoryCol1" />
-        <div className="masterInventoryCol2">Item Name</div>
-        <div className="masterInventoryCol3">Item Price </div>
-        <div className="masterInventoryCol4" />
+        <div className="activeInventoryCol1" />
+        <div className="activeInventoryCol2" />
+        <div className="activeInventoryCol3">
+          Item Name
+          <AiOutlineEdit
+            className={`tableEditButton ${nameEditable ? 'selectedBlue' : ''}`}
+            size="20"
+            onClick={() => setNameEditable(!nameEditable)}
+          />
+        </div>
+        <div className="activeInventoryCol4">
+          Item Price
+          <AiOutlineEdit
+            className={`tableEditButton ${valueEditable ? 'selectedBlue' : ''}`}
+            size="20"
+            onClick={() => setValueEditable(!valueEditable)}
+          />
+        </div>
+        <div className="activeInventoryCol5" />
       </div>
       {data &&
         data.map((item, index) => (
-          <div key={item.itemName} className="tableItem">
-            <div className="masterInventoryCol1">{index + 1}</div>
-            <EditableText
-              id="master-inventory-name"
-              role="button"
-              tabIndex="-1"
-              widthSize="20"
-              itemName={item.itemName}
-              initValue={item.itemName}
-              inventory={data}
-              updateInventory={handleItemChange}
-              keyToUpdate="itemName"
-              cssClass="masterInventoryCol2"
-              isNumber={false}
-              setActive={setActive}
-            />
-            <EditableText
-              id="master-inventory-price"
-              role="button"
-              tabIndex="-1"
-              widthSize="5"
-              itemName={item.itemName}
-              initValue={item.itemPrice.toString()}
-              inventory={data}
-              updateInventory={handleItemChange}
-              keyToUpdate="itemPrice"
-              setActive={setActive}
-              cssClass="masterInventoryCol3"
-              isNumber
-            />
-            <div className="masterInventoryCol4 vertical-align-center">
-              <CgTrash
-                size="20"
-                color="F04747"
-                onClick={() => handleDelete(item.itemName)}
-              />
-            </div>
-          </div>
+          <Item
+            key={index + item.itemName}
+            index={index}
+            uuid={item.uuid}
+            itemName={item.itemName}
+            limit={item.itemPrice}
+            updateItem={updateItem}
+            handleDelete={handleDelete}
+            nameEditable={nameEditable}
+            valueEditable={valueEditable}
+            setChanged={setChanged}
+            type="master"
+          />
         ))}
     </div>
   );
@@ -104,5 +79,4 @@ MasterInventory.propTypes = {
   setData: PropTypes.func.isRequired,
   setChanged: PropTypes.func.isRequired,
 };
-
 export default MasterInventory;
