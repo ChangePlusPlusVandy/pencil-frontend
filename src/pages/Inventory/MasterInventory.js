@@ -49,13 +49,15 @@ const MasterInventory = ({ data, setData, setChanged }) => {
   return (
     <div>
       <div className="tableItemHeader">
-        <div className="headerName">Item Name</div>
-        <div className="headerItemLimit">Item Price </div>
+        <div className="masterInventoryCol1" />
+        <div className="masterInventoryCol2">Item Name</div>
+        <div className="masterInventoryCol3">Item Price </div>
+        <div className="masterInventoryCol4" />
       </div>
       {data &&
         data.map((item, index) => (
           <div key={item.itemName} className="tableItem">
-            <div className="itemOrder">{index + 1}</div>
+            <div className="masterInventoryCol1">{index + 1}</div>
             <EditableText
               id="master-inventory-name"
               role="button"
@@ -66,7 +68,7 @@ const MasterInventory = ({ data, setData, setChanged }) => {
               inventory={data}
               updateInventory={handleItemChange}
               keyToUpdate="itemName"
-              cssClass="itemName"
+              cssClass="masterInventoryCol2"
               isNumber={false}
               setActive={setActive}
             />
@@ -81,10 +83,10 @@ const MasterInventory = ({ data, setData, setChanged }) => {
               updateInventory={handleItemChange}
               keyToUpdate="itemPrice"
               setActive={setActive}
-              cssClass="itemPrice"
+              cssClass="masterInventoryCol3"
               isNumber
             />
-            <div className="master-inventory-delete vertical-align-center">
+            <div className="masterInventoryCol4 vertical-align-center">
               <CgTrash
                 size="20"
                 color="F04747"

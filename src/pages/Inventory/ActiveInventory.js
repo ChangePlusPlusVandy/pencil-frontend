@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Item from './Item';
 import { getInventory } from './api-inventory';
 import { useAuth } from '../../AuthContext';
+import './ActiveInventory.css';
 
 const ActiveInventory = ({ data, setData, setChanged }) => {
   const { currentLocation } = useAuth();
@@ -60,8 +61,11 @@ const ActiveInventory = ({ data, setData, setChanged }) => {
     <div>
       <div className="dragList">
         <div className="tableItemHeader">
-          <div className="headerName">Item Name</div>
-          <div className="headerItemLimit">Item Limit</div>
+          <div className="activeInventoryCol1" />
+          <div className="activeInventoryCol2" />
+          <div className="activeInventoryCol3">Item Name</div>
+          <div className="activeInventoryCol4">Item Limit</div>
+          <div className="activeInventoryCol5" />
         </div>
       </div>
       <ReactDragListView {...dragProps}>

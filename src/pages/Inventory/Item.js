@@ -4,6 +4,7 @@ import { CgTrash } from 'react-icons/cg';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import './Item.css';
 import EditableText from './EditableText';
+import './ActiveInventory.css';
 
 const Item = ({
   number,
@@ -28,7 +29,7 @@ const Item = ({
   return (
     <li className={`tableItem${active ? ' setColorBlue' : ''}`}>
       <div
-        className="dragIcon vertical-align-center"
+        className="activeInventoryCol1 vertical-align-center"
         onMouseDown={() => setActive(true)}
         onMouseUp={() => setActive(false)}
         role="button"
@@ -36,9 +37,8 @@ const Item = ({
       >
         <GiHamburgerMenu size="24" />
       </div>
-      <div className="itemOrder">{number + 1}</div>
+      <div className="activeInventoryCol2">{number + 1}</div>
       <EditableText
-        className="itemName"
         role="button"
         tabIndex="-1"
         widthSize="20"
@@ -47,12 +47,11 @@ const Item = ({
         inventory={inventory}
         updateInventory={updateInventory}
         keyToUpdate="Item.itemName"
-        cssClass="itemName"
+        cssClass="activeInventoryCol3"
         isNumber={false}
         setActive={setActive}
       />
       <EditableText
-        className="maxLimit"
         role="button"
         tabIndex="-1"
         widthSize="5"
@@ -61,12 +60,12 @@ const Item = ({
         inventory={inventory}
         updateInventory={updateInventory}
         keyToUpdate="maxLimit"
-        cssClass="maxLimit"
+        cssClass="activeInventoryCol4"
         setActive={setActive}
         isNumber
       />
       <div
-        className="itemDelete vertical-align-center"
+        className="activeInventoryCol5 vertical-align-center"
         role="button"
         tabIndex="-1"
         onClick={() => handleDelete(itemName)}

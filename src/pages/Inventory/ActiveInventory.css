@@ -1,0 +1,41 @@
+.activeInventoryCol1 {
+  width: 5%;
+  color: var(--textDisabled);
+}
+
+.activeInventoryCol2 {
+  width: 5%;
+  font-size: 14px;
+  color: var(--textDisabled);
+  display: flex;
+  justify-content: center;
+}
+
+.activeInventoryCol3 {
+  width: 65%;
+}
+
+.activeInventoryCol4 {
+  width: 15%;
+  display: flex;
+  justify-content: center;
+}
+
+.activeInventoryCol5 {
+  width: 10%;
+  display: flex;
+  justify-content: center;
+}
+
+.activeInventoryCol1:hover {
+  cursor: move;
+}
+
+.activeInventoryCol3:hover,
+.activeInventoryCol4:hover {
+  cursor: text;
+}
+
+.activeInventoryCol5:hover {
+  cursor: pointer;
+}

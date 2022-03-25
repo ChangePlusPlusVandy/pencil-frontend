@@ -1,9 +1,21 @@
-#master-inventory-name {
-  margin-left: 4%;
-  width: 40%;
+.masterInventoryCol1 {
+  width: 10%;
+  font-size: 14px;
+  color: var(--textDisabled);
 }
 
-#master-inventory-price {
-  margin-left: auto;
-  margin-right: 8%;
+.masterInventoryCol2 {
+  width: 65%;
+}
+
+.masterInventoryCol3 {
+  width: 15%;
+  display: flex;
+  justify-content: center;
+}
+
+.masterInventoryCol4 {
+  width: 10%;
+  display: flex;
+  justify-content: center;
 }
