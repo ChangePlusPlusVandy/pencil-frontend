@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [currentLocation, setCurrentLocation] = useState(
-    sessionStorage.getItem('location')
+    localStorage.getItem('location')
   );
 
   /**
@@ -126,7 +126,7 @@ export const AuthProvider = ({ children }) => {
    */
   function updateLocation(location) {
     setCurrentLocation(location);
-    sessionStorage.setItem('location', location);
+    localStorage.setItem('location', location);
   }
 
   /**

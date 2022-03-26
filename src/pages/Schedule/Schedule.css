@@ -1,23 +1,24 @@
-.headerCell {
-  width: 20%;
-  display: flex;
-  justify-content: center;
+.scheduleCol1 {
+  width: 18%;
 }
 
-.itemCell {
-  width: 20%;
+.scheduleCol2 {
+  width: 22%;
 }
 
-.scheduleItem div {
-  width: 300px;
+.scheduleCol3 {
+  width: 10%;
+}
+
+.scheduleCol4 {
+  width: 17%;
+}
+
+.scheduleCol5 {
+  width: 33%;
 }
 
 .timeBox {
   display: flex;
   flex-direction: column;
-  width: 25%;
-}
-
-.bold {
-  font-weight: bold;
 }

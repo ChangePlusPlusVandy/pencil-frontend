@@ -6,8 +6,9 @@
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import { FaChevronDown, FaCheck } from 'react-icons/fa';
+import { IoMdRefresh } from 'react-icons/io';
 import { ImCross } from 'react-icons/im';
-import { Table, Space } from 'antd';
+import { Table } from 'antd';
 import { useAuth } from '../../AuthContext';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import { handleTransaction, getTransactions } from './api-transactions';
@@ -243,18 +244,17 @@ const Transactions = () => {
   };
 
   const changeLoadedData = (event) => {
-    if (event.target.innerText === view) return;
+    const type = event.target.innerText || view;
     setSelectedData([]);
-    getTransactions(currentLocation, 1, event.target.innerText).then(
-      (transactions) => {
-        if (transactions.error) console.log(transactions.error);
-        else {
-          setLoadedData([]);
-          formatData(transactions, event.target.innerText);
-          setView(event.target.innerText);
-        }
+    formatData([], type); // TODO: remove this if the reload flicker isn't wanted
+    getTransactions(currentLocation, 1, type).then((transactions) => {
+      if (transactions.error) console.log(transactions.error);
+      else {
+        setLoadedData([]);
+        formatData(transactions, type);
+        setView(type);
       }
-    );
+    });
   };
 
   const menuOptions = ['Pending', 'Approved', 'Denied'];
@@ -302,7 +302,14 @@ const Transactions = () => {
   );
 
   const rightItems = (
-    <CustomDropdown title={view} menuItems={menu} type="small" />
+    <>
+      <IoMdRefresh
+        className="refreshButton"
+        size="26"
+        onClick={changeLoadedData}
+      />
+      <CustomDropdown title={view} menuItems={menu} type="small" />
+    </>
   );
 
   return (

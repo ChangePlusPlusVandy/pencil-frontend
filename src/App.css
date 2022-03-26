@@ -40,7 +40,7 @@ body {
 
 .secondaryButton {
   font-size: 16px;
-  opacity: 75%;
+  color: var(--textSecondary);
   border: none;
   white-space: nowrap;
   text-decoration: underline;
@@ -152,7 +152,7 @@ body {
 .tableContainer {
   width: 100%;
   height: 100%;
-  padding: 2.5em 3em;
+  padding: 1.2rem 3rem 2.5rem 3rem;
   background-color: var(--bgSecondary);
   border-radius: 20px;
   font-size: 16px;
@@ -160,11 +160,6 @@ body {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
   overflow-y: scroll;
-}
-
-.tableItemHeader {
-  display: flex;
-  flex-direction: row;
 }
 
 .tableItem {
@@ -176,4 +171,75 @@ body {
   display: flex;
   align-items: center;
   transition: all 0.3s ease-in-out;
+}
+
+.tableItemHeader {
+  width: 100%;
+  padding: 0px 30px;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  color: var(--textDisabled);
+  position: sticky;
+}
+
+/* misc */
+.refreshButton {
+  margin-right: 1em;
+  transition: all 0.3s ease-in-out;
+  color: var(--textSecondary);
+}
+
+.refreshButton:hover {
+  cursor: pointer;
+  transform: rotate(180deg);
+}
+
+.tableEditButton {
+  margin-left: 8px;
+  transition: all 0.3s ease-in-out;
+}
+
+.tableEditButton:hover {
+  cursor: pointer;
+  color: var(--primaryHover);
+  transition: all 0.3s ease-in-out;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.selectedBlue {
+  color: var(--primaryHover);
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* editable text */
+.editableText {
+  width: 100px;
+  height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.editableText:disabled {
+  border: 1px solid transparent;
+  background-color: inherit;
+}
+
+.editableText:focus {
+  outline: var(--primaryHover) auto 1.5px;
+}
+
+.editableText::-webkit-outer-spin-button,
+.editableText::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.editableText {
+  -moz-appearance: textfield;
 }

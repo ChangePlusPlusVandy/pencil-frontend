@@ -41,24 +41,19 @@ const ItemPopup = ({
     });
   }, []);
 
-  const modalActionButton = (
-    <button
-      type="submit"
-      className="primaryButton"
-      disabled={!itemName || itemValue <= 0}
-      onClick={() =>
+  return (
+    <Modal
+      show={show}
+      onClose={onClose}
+      actionButtonText="Add"
+      handleAction={() =>
         onSubmit({
           itemName,
           itemValue,
         })
       }
+      actionButtonDisabled={!itemName || itemValue <= 0}
     >
-      Add
-    </button>
-  );
-
-  return (
-    <Modal show={show} onClose={onClose} actionButton={modalActionButton}>
       <div className="itemForm">
         <div className="name-area">
           <label className="inputLabel">Item Name</label>

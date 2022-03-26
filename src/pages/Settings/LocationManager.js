@@ -23,7 +23,7 @@ const LocationManager = () => {
         <h3>Current Locations</h3>
         <div
           className={`secondaryButton vertical-align-center ${
-            isLocationEditable ? 'secondaryButtonSelected' : ''
+            isLocationEditable ? 'selectedBlue' : ''
           }`}
           onClick={() => setIsLocationEditable(!isLocationEditable)}
         >
