@@ -7,6 +7,7 @@ import { GrFormAdd } from 'react-icons/gr';
 import ReactDragListView from 'react-drag-listview/lib/index';
 import { Packer } from 'docx';
 import { saveAs } from 'file-saver';
+import { Prompt } from 'react-router-dom';
 import ItemPopup from './ItemPopup';
 import {
   getInventory,
@@ -113,11 +114,17 @@ const Inventory = () => {
 
     if (result && result.error) setError(result.error);
     setChanged(false);
+    setNameEditable(false);
+    setValueEditable(false);
   };
 
   const leftItems = (
     <>
-      <div className="secondaryButton vertical-align-center" onClick={generate}>
+      <div
+        className="secondaryButton vertical-align-center"
+        onClick={generate}
+        hidden={inventoryType !== 'Active'}
+      >
         Print Inventory
         <AiFillPrinter />
       </div>
@@ -144,7 +151,7 @@ const Inventory = () => {
         disabled={!changed}
         onClick={handleSave}
       >
-        Save
+        {changed ? 'Save' : 'Saved'}
       </button>
     </>
   );
@@ -178,6 +185,10 @@ const Inventory = () => {
   return (
     <PageContainer>
       <>
+        <Prompt
+          when={changed}
+          message="You have unsaved changes. Are you sure you want to leave?"
+        />
         <ItemPopup
           show={isAddItemVisible}
           onClose={() => setAddItemVisible(false)}
@@ -185,9 +196,7 @@ const Inventory = () => {
           currentItems={inventoryData}
           inventoryType={inventoryType}
         />
-
         {error && <Errors error={error} handleError={() => setError('')} />}
-
         <TableHeader
           title={`${inventoryType} Inventory (${
             inventoryData ? inventoryData.length : 0
