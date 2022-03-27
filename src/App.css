@@ -24,13 +24,14 @@ body {
 /* Buttons Styling */
 
 .primaryButton {
-  width: 105px;
+  min-width: 105px;
   height: 32px;
   border-radius: 50px;
   border-style: none;
   background-color: var(--primary);
   transition: all 0.3s ease-in-out;
   margin: 0 10px;
+  padding: 0 20px;
 }
 
 .primaryButton:hover {

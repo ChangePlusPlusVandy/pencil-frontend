@@ -32,7 +32,6 @@
 .dark-button {
   color: var(--textColor) !important;
   background-color: var(--bgSecondary);
-  /* add a bit of dropshadow below */
   box-shadow: 0px 5px 7px -3px rgba(0, 0, 0, 0.05);
 }
 
