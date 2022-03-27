@@ -227,7 +227,7 @@ const Transactions = () => {
     <table className="expandedData">
       <tr>
         <th>Item</th>
-        <th>Qantity</th>
+        <th>Quantity</th>
         <th>Item</th>
         <th>Qantity</th>
       </tr>
