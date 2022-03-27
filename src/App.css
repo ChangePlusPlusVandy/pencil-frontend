@@ -152,7 +152,7 @@ body {
 .tableContainer {
   width: 100%;
   height: 100%;
-  padding: 1.2rem 3rem 2.5rem 3rem;
+  padding: 0rem 3rem 2.5rem 3rem;
   background-color: var(--bgSecondary);
   border-radius: 20px;
   font-size: 16px;
@@ -175,12 +175,18 @@ body {
 
 .tableItemHeader {
   width: 100%;
-  padding: 0px 30px;
+  padding: 20px 30px 10px 30px;
   display: flex;
   align-items: center;
   transition: all 0.3s ease-in-out;
   color: var(--textDisabled);
   position: sticky;
+  top: 0;
+  background-color: var(--bgSecondary);
+}
+
+.tableItemHeader.is-pinned {
+  background-color: var(--bgSecondary);
 }
 
 /* misc */
@@ -218,14 +224,27 @@ body {
   text-align: center;
 }
 
+.rotate180 {
+  transform: rotate(180deg);
+}
+
 /* editable text */
 .editableText {
-  width: 100px;
-  height: 30px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
+.editableText.small {
+  width: 100px;
+}
+
+.editableText.medium {
+  width: 200px;
+}
+
+.editableText.large {
+  width: 300px;
+}
 .editableText:disabled {
   border: 1px solid transparent;
   background-color: inherit;
