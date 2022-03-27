@@ -1,7 +1,8 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../../AuthContext';
-import Header from '../../components/Header/Header';
+import PasswordInput from '../../components/PasswordInput/PasswordInput';
 
 /**
  * Allows user to log in to the application.
@@ -34,15 +35,18 @@ const Login = () => {
 
   return (
     <div>
-      <Header />
-      <h1>Login</h1>
+      <h1>Log In</h1>
+      <p className="authSubtitle">
+        Welcome to the PENCIL Dashboard. Please enter your email and password to
+        get started.
+      </p>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="email">
+          <label>
             Email
             <input
               type="email"
-              id="email"
+              className="primaryInput"
               autoComplete="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
@@ -51,26 +55,30 @@ const Login = () => {
         </div>
         <div>
           <label htmlFor="password">
-            Password
-            <input
-              type="password"
-              id="password"
-              autoComplete="current-password"
+            <div className="passwordLabelContainer">
+              Password{' '}
+              <Link to="/forgot-password" className="forgotPasswordButton">
+                Forgot Password?
+              </Link>
+            </div>
+            <PasswordInput
+              className="primaryInput"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
           </label>
         </div>
-        <button disabled={isLoading} type="submit">
+        <button
+          disabled={isLoading}
+          type="submit"
+          className="primaryButton no-margin"
+        >
           {isLoading ? 'Loading...' : 'Login'}
         </button>
         {error && <p>{error}</p>}
       </form>
       <p>
         Don&apos;t have an account? <Link to="/register">Register</Link>
-      </p>
-      <p>
-        Forgot your password? <Link to="/forgot-password">Reset</Link>
       </p>
     </div>
   );
