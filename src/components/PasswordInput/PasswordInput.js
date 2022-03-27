@@ -19,7 +19,6 @@ const PasswordInput = ({ value, onChange, disabled }) => {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
-        style={{ width: { size } }}
       />
       {passwordType === 'password' ? (
         <AiFillEyeInvisible
