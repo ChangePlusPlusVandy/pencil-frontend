@@ -3,7 +3,7 @@ import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import PropTypes from 'prop-types';
 import './PasswordInput.css';
 
-const PasswordInput = ({ value, onChange, disabled }) => {
+const PasswordInput = ({ value, onChange, disabled, className }) => {
   const [passwordType, setPasswordType] = useState('password');
 
   const toggleType = () => {
@@ -14,7 +14,7 @@ const PasswordInput = ({ value, onChange, disabled }) => {
   return (
     <div className="vertical-align-center">
       <input
-        className="passwordInput"
+        className={className}
         type={passwordType}
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -45,8 +45,10 @@ PasswordInput.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 PasswordInput.defaultProps = {
   disabled: false,
+  className: 'passwordInput',
 };
