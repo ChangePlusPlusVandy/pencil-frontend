@@ -109,6 +109,9 @@ const Transactions = () => {
   }, []);
 
   const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      setSelectedData(selectedRows);
+    },
     getCheckboxProps: (record) => ({
       disabled: record.status !== 'Pending',
       checked: record.key in wasChecked,
@@ -126,8 +129,8 @@ const Transactions = () => {
     const tempArr = [...loadedData];
     const funnyObj = transaction;
     handleTransaction(currentLocation, toDelete, action);
-    if (action === 'Approve') funnyObj.action = 'Approved';
-    else funnyObj.action = 'Denied';
+    if (action === 'Approve') funnyObj.status = 'Approved';
+    else funnyObj.status = 'Denied';
     funnyObj.isDisabled = true;
     tempArr[tempArr.indexOf(transaction)] = funnyObj;
     setLoadedData([]);
@@ -151,8 +154,8 @@ const Transactions = () => {
       const tempArr = [...loadedData];
       const funnyObj = selectedData[i];
       handleTransaction(currentLocation, toDelete, action);
-      if (action === 'Approve') funnyObj.action = 'Approved';
-      else funnyObj.action = 'Denied';
+      if (action === 'Approve') funnyObj.status = 'Approved';
+      else funnyObj.status = 'Denied';
       funnyObj.isDisabled = true;
       tempArr[tempArr.indexOf(selectedData[i])] = funnyObj;
       setLoadedData([]);
@@ -274,7 +277,7 @@ const Transactions = () => {
       onClick={(e) => {
         fun.onExpand(fun.record, e);
       }}
-      className={`expandArrowTransaction${fun.expanded ? 'Rotate' : ''}`}
+      className={`expandArrowTransaction ${fun.expanded ? 'rotate180' : ''}`}
     />
   );
 
