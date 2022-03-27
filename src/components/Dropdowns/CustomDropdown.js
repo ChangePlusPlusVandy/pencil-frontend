@@ -9,7 +9,7 @@ import './CustomDropdown.css';
 import 'antd/dist/antd.css';
 
 const CustomDropdown = ({ title, menuItems, type }) => {
-  const menu = <div className="dropdown_menu">{menuItems}</div>;
+  const menu = <div className={`dropdown_menu ${type}`}>{menuItems}</div>;
 
   return (
     <Dropdown
