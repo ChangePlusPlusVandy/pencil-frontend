@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import ForgotPassword from './ForgotPassword';
+import PencilLogo from '../../assets/pencil-logo-crop.png';
 import './Authentication.css';
 
 const Authentication = () => {
@@ -21,7 +22,10 @@ const Authentication = () => {
       <div className="authLeftCol">Fancy Graphic</div>
       <div className="authRightCol">
         <div className="authFormContainer">
-          <p className="authPencilHeader">PENCIL</p>
+          <p className="authPencilHeader">
+            <img src={PencilLogo} alt="Pencil Logo" className="header_logo" />
+            PENCIL
+          </p>
           {toRender()}
         </div>
       </div>
