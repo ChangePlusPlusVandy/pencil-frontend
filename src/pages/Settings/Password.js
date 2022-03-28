@@ -121,8 +121,8 @@ const Profile = () => {
           </button>
         </div>
       )}
-      {error && <p className="profileError">{error}</p>}
-      {success && <p className="profileSuccess">{success}</p>}
+      {error && <p className="errorMessage">{error}</p>}
+      {success && <p className="successMessage">{success}</p>}
     </div>
   );
 };

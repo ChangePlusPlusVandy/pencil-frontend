@@ -71,7 +71,7 @@ const Profile = () => {
             onChange={(e) => setCurrentPassword(e.target.value)}
           />
         </label>
-        {error && <p className="profileError">{error}</p>}
+        {error && <p className="errorMessage">{error}</p>}
       </Modal>
       <div className="profileColHeader">
         <h3>Edit Profile</h3>
@@ -134,7 +134,7 @@ const Profile = () => {
           </button>
         </div>
       )}
-      {success && <p className="profileSuccess">{success}</p>}
+      {success && <p className="successMessage">{success}</p>}
     </div>
   );
 };

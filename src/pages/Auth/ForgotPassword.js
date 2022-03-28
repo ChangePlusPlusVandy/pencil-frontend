@@ -46,9 +46,9 @@ const ForgotPassword = () => {
           Reset Password
         </button>
       </form>
-      {message && <div>{message}</div>}
-      {error && <div>{error}</div>}
-      <p>
+      {message && <div className="successMessage">{message}</div>}
+      {error && <div className="errorMessage">{error}</div>}
+      <p className="margin-top-1">
         <Link to="/login">Back to login</Link>
       </p>
     </div>
