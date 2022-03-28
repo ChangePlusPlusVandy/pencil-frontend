@@ -12,7 +12,7 @@ const PasswordInput = ({ value, onChange, disabled, className }) => {
   };
 
   return (
-    <div className="vertical-align-center">
+    <div className="passwordInputContainer">
       <input
         className={className}
         type={passwordType}
