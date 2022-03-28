@@ -213,6 +213,16 @@ body {
   transition: all 0.3s ease-in-out;
 }
 
+.errorMessage {
+  color: rgba(240, 71, 71, 1);
+  margin-top: 5px;
+}
+
+.successMessage {
+  color: rgba(47, 181, 101, 1);
+  margin-top: 5px;
+}
+
 .bold {
   font-weight: bold;
 }
