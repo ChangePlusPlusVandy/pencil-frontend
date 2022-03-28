@@ -118,12 +118,3 @@
   padding-bottom: 30px;
   position: absolute;
 }
-
-.profileError {
-  color: rgba(240, 71, 71, 1);
-  margin-top: 5px;
-}
-
-.profileSuccess {
-  color: rgba(47, 181, 101, 1);
-}

@@ -30,6 +30,12 @@
   line-height: 72px;
   letter-spacing: 0.01em;
   margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.authPencilHeader > .header_logo {
+  height: 60px;
 }
 
 .authSubtitle {
@@ -58,4 +64,21 @@
 .forgotPasswordButton:hover {
   cursor: pointer;
   color: var(--primaryHover);
+}
+
+.margin-bottom-2 {
+  margin-bottom: 2rem;
+}
+
+.margin-top-2 {
+  margin-top: 2rem;
+}
+
+.margin-top-1 {
+  margin-top: 1rem;
+}
+
+.authRightCol .primaryButton {
+  margin-left: 0;
+  margin-top: 1.5rem;
 }
