@@ -41,43 +41,35 @@ const Login = () => {
         get started.
       </p>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            Email
-            <input
-              type="email"
-              className="primaryInput"
-              autoComplete="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-            />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="password">
-            <div className="passwordLabelContainer">
-              Password{' '}
-              <Link to="/forgot-password" className="forgotPasswordButton">
-                Forgot Password?
-              </Link>
-            </div>
-            <PasswordInput
-              className="primaryInput"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-            />
-          </label>
-        </div>
-        <button
-          disabled={isLoading}
-          type="submit"
-          className="primaryButton no-margin"
-        >
+        <label>
+          Email
+          <input
+            type="email"
+            className="primaryInput margin-bottom-2"
+            autoComplete="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+          />
+        </label>
+        <label htmlFor="password">
+          <div className="passwordLabelContainer">
+            Password{' '}
+            <Link to="/forgot-password" className="forgotPasswordButton">
+              Forgot Password?
+            </Link>
+          </div>
+          <PasswordInput
+            className="primaryInput"
+            value={password}
+            onChange={setPassword}
+          />
+        </label>
+        <button disabled={isLoading} type="submit" className="primaryButton">
           {isLoading ? 'Loading...' : 'Login'}
         </button>
-        {error && <p>{error}</p>}
+        {error && <div className="errorMessage">{error}</div>}
       </form>
-      <p>
+      <p className="margin-top-1">
         Don&apos;t have an account? <Link to="/register">Register</Link>
       </p>
     </div>

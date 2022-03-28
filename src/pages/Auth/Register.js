@@ -76,7 +76,7 @@ const Register = () => {
             <PasswordInput
               className="primaryInput"
               value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              onChange={setPassword}
             />
           </label>
         </div>
@@ -86,20 +86,16 @@ const Register = () => {
             <PasswordInput
               className="primaryInput"
               value={passwordConfirm}
-              onChange={(event) => setPasswordConfirm(event.target.value)}
+              onChange={setPasswordConfirm}
             />
           </label>
         </div>
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="primaryButton no-margin"
-        >
+        <button type="submit" disabled={isLoading} className="primaryButton">
           {isLoading ? 'Loading...' : 'Register'}
         </button>
-        {error && <p>{error}</p>}
+        {error && <p className="loginError">{error}</p>}
       </form>
-      <p>
+      <p className="margin-top-1">
         Already have an account? <Link to="/login">Login</Link>
       </p>
     </div>
