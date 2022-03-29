@@ -179,7 +179,6 @@ body {
   padding: 20px 30px 10px 30px;
   display: flex;
   align-items: center;
-  transition: all 0.3s ease-in-out;
   color: var(--textDisabled);
   position: sticky;
   top: 0;
@@ -188,6 +187,13 @@ body {
 
 .tableItemHeader.is-pinned {
   background-color: var(--bgSecondary);
+}
+
+.noTableData {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 /* misc */

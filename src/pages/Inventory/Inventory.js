@@ -1,8 +1,9 @@
+/* eslint-disable no-useless-return */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
-import { AiFillPrinter, AiOutlineEdit } from 'react-icons/ai';
+import { AiFillPrinter, AiOutlineEdit, AiOutlineCloud } from 'react-icons/ai';
 import { GrFormAdd } from 'react-icons/gr';
 import ReactDragListView from 'react-drag-listview/lib/index';
 import { Packer } from 'docx';
@@ -107,6 +108,20 @@ const Inventory = () => {
   };
 
   const handleSave = () => {
+    let invalid = false;
+    const tempInventory = inventoryData;
+    tempInventory.forEach((item) => {
+      if (item.itemName === '') {
+        setError('Item name cannot be empty');
+        invalid = true;
+      }
+      if (item.itemValue === '0') {
+        setError('Item value cannot be empty');
+        invalid = true;
+      }
+    });
+
+    if (invalid) return;
     const result =
       inventoryType === 'Active'
         ? postInventory(inventoryData, currentLocation)
@@ -205,8 +220,19 @@ const Inventory = () => {
           rightArea={rightItems}
         />
         <div className="tableContainer">
-          {tableHeaders}
-          {inventoryData && inventoryType === 'Active' ? (
+          {inventoryData && inventoryData.length <= 0 ? (
+            <div className="noTableData">
+              <h3 className="vertical-align-center">
+                No data to display
+                <AiOutlineCloud size="25" style={{ 'margin-left': '8px' }} />
+              </h3>
+            </div>
+          ) : (
+            tableHeaders
+          )}
+          {inventoryData &&
+          inventoryData.length > 0 &&
+          inventoryType === 'Active' ? (
             <ReactDragListView {...dragProps}>
               <ul className="dragList">
                 {inventoryData.map((item, index) => (
