@@ -119,6 +119,12 @@ th.ant-table-cell::before {
   color: rgba(240, 71, 71, 1);
 }
 
+.expandArrowTransaction {
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+}
+
 /* TODO: check if we need this, 
 turns the row border to red if the transaction is overloading */
 

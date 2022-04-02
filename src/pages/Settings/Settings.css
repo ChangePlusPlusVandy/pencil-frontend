@@ -76,19 +76,6 @@
   padding-left: 20px;
 }
 
-.profileBody {
-  display: flex;
-  justify-content: space-between;
-}
-
-.profileCol {
-  width: 100%;
-}
-
-.profileCol:first-child {
-  padding-right: 50px;
-}
-
 .profileColHeader,
 .locationManagerHeader {
   display: flex;
@@ -108,7 +95,7 @@
 }
 
 .profileInputContainerDisabled {
-  color: var(--textDisabled);
+  color: rgba(0, 0, 0, 0.35);
 }
 
 .profileInput {
@@ -130,9 +117,4 @@
   padding-right: 40px;
   padding-bottom: 30px;
   position: absolute;
-}
-
-.profileError {
-  color: rgba(220, 20, 60, 0.8);
-  margin-top: 5px;
 }

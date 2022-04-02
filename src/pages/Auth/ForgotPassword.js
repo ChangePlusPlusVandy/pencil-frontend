@@ -36,16 +36,19 @@ const ForgotPassword = () => {
       <h1>Forgot Password</h1>
       <form onSubmit={handleSubmit}>
         <input
+          className="primaryInput"
           type="email"
           placeholder="Email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
         />
-        <button type="submit">Reset Password</button>
+        <button type="submit" className="primaryButton no-margin">
+          Reset Password
+        </button>
       </form>
-      {message && <div>{message}</div>}
-      {error && <div>{error}</div>}
-      <p>
+      {message && <div className="successMessage">{message}</div>}
+      {error && <div className="errorMessage">{error}</div>}
+      <p className="margin-top-1">
         <Link to="/login">Back to login</Link>
       </p>
     </div>

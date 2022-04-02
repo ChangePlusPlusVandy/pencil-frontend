@@ -48,7 +48,7 @@ const Item = ({
           itemName
         ) : (
           <input
-            className="editableText"
+            className="editableText medium"
             value={localName}
             onChange={handleNameChange}
             disabled={!nameEditable}
@@ -57,7 +57,7 @@ const Item = ({
       </div>
       <div className="inventoryCol4">
         <input
-          className="editableText text-center"
+          className="editableText text-center small"
           type="number"
           min="0"
           value={localValue}
