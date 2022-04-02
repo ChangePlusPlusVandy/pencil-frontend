@@ -30,8 +30,10 @@ import './Inventory.css';
 
 const Inventory = () => {
   const [inventoryData, setInventoryData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [isAddItemVisible, setAddItemVisible] = useState(false);
   const [changed, setChanged] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const [inventoryType, setInventoryType] = useState('Active');
   const [error, setError] = useState('');
   const { currentLocation } = useAuth();
@@ -86,6 +88,7 @@ const Inventory = () => {
     setInventoryData([]);
     setNameEditable(false);
     setValueEditable(false);
+    setSearchTerm('');
     if (inventoryType === 'Active') {
       getInventory(currentLocation).then((result) => {
         if (!(result instanceof Error)) setInventoryData(result);
@@ -96,6 +99,19 @@ const Inventory = () => {
       });
     }
   }, [inventoryType]);
+
+  // filter the data based on the search term
+  useEffect(() => {
+    if (inventoryType !== 'Master') return;
+    if (searchTerm === '') {
+      setFilteredData(inventoryData);
+      return;
+    }
+    const filtered = inventoryData.filter((item) =>
+      item.itemName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredData(filtered);
+  }, [searchTerm, inventoryData]);
 
   const addItem = (formInfo) => {
     const newItem =
@@ -158,6 +174,15 @@ const Inventory = () => {
       >
         Add Item
         <AiOutlinePlus />
+      </div>
+      <div hidden={inventoryType !== 'Master'}>
+        <input
+          value={searchTerm}
+          className="searchInput"
+          autoComplete="off"
+          placeholder="Search item"
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
       </div>
     </>
   );
@@ -253,7 +278,7 @@ const Inventory = () => {
               </ul>
             </ReactDragListView>
           ) : (
-            inventoryData.map((item, index) => (
+            filteredData.map((item, index) => (
               <Item
                 key={index + item.itemName}
                 index={index}
