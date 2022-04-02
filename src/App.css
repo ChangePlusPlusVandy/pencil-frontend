@@ -152,6 +152,8 @@ body {
   font-size: 14px;
   color: red;
   font-weight: 200;
+  margin-top: 2px;
+  margin-bottom: 0;
 }
 
 /* table styling */
