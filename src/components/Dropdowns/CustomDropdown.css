@@ -13,7 +13,12 @@
 }
 
 .custom-dropdown.large {
-  width: 180px;
+  width: 200px;
+  height: 45px;
+}
+
+.custom-dropdown.medium {
+  width: 160px;
   height: 45px;
 }
 

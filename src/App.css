@@ -148,6 +148,12 @@ body {
   margin-right: 0.5em;
 }
 
+.inputSubtitle {
+  font-size: 14px;
+  color: red;
+  font-weight: 200;
+}
+
 /* table styling */
 
 .tableContainer {
