@@ -14,6 +14,7 @@ const ItemPopup = ({
   inventoryType,
 }) => {
   if (!show) return null;
+  const CHARACTER_LIMIT = 30;
   const [allItems, setAllItems] = useState([]);
   const [itemName, setItemName] = useState('');
   const [itemValue, setItemValue] = useState(''); // price or limit depending on inventoryType
@@ -52,7 +53,9 @@ const ItemPopup = ({
           itemValue,
         })
       }
-      actionButtonDisabled={!itemName || itemValue <= 0}
+      actionButtonDisabled={
+        !itemName || itemName.length > CHARACTER_LIMIT || itemValue <= 0
+      }
     >
       <div className="itemForm">
         <div className="name-area">
@@ -83,6 +86,10 @@ const ItemPopup = ({
           />
         </div>
       </div>
+
+      {itemName.length > CHARACTER_LIMIT ? (
+        <p className="inputSubtitle">Item Name too long</p>
+      ) : null}
     </Modal>
   );
 };
