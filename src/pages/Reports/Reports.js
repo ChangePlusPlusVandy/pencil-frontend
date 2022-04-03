@@ -11,7 +11,6 @@ import { IoMdRefresh } from 'react-icons/io';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import CalendarInput from './CalendarInput';
-import FilterInput from './FilterInput';
 import { getReport1 } from './api-reports';
 import { parseDate } from '../../utils/timedate';
 
@@ -51,6 +50,15 @@ const Reports = () => {
     </>
   );
 
+  const leftItems = (
+    <CalendarInput
+      fromDate={fromDate}
+      setFromDate={setFromDate}
+      untilDate={untilDate}
+      setUntilDate={setUntilDate}
+    />
+  );
+
   const rightItems = (
     <>
       <IoMdRefresh className="refreshButton" size="26" />
@@ -68,16 +76,7 @@ const Reports = () => {
         </div>
       </div>
       <div className="reportsHeaderArea">
-        <div className="reportsHeaderLeft">
-          <CalendarInput
-            fromDate={fromDate}
-            setFromDate={setFromDate}
-            untilDate={untilDate}
-            setUntilDate={setUntilDate}
-          />
-
-          <FilterInput />
-        </div>
+        <div className="reportsHeaderLeft">{leftItems}</div>
         <div className="tableHeaderRight">{rightItems}</div>
       </div>
       <div className="tableContainer">
