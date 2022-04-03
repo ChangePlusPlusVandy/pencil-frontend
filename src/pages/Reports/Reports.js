@@ -8,11 +8,13 @@ import 'pikaday/css/pikaday.css';
 import './Reports.css';
 
 import { IoMdRefresh } from 'react-icons/io';
+import { IoFilter } from 'react-icons/io5';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import CalendarInput from './CalendarInput';
 import { getReport1 } from './api-reports';
 import { parseDate } from '../../utils/timedate';
+import CustomCombobox from '../../components/Combobox/CustomCombobox';
 
 const Reports = () => {
   const [reportData, setReportData] = useState([]);
@@ -20,6 +22,7 @@ const Reports = () => {
     totalSignups: 0,
     numUniqueTeachers: 0,
   });
+  const [schoolNameList, setSchoolNameList] = useState([]);
   const [view, setView] = useState('Weekly');
   const [fromDate, setFromDate] = useState('');
   const [untilDate, setUntilDate] = useState('');
@@ -30,6 +33,9 @@ const Reports = () => {
       if (data && !data.error) {
         setReportData(data.transactions);
         setReportSummary(data.summary);
+        // generate list of unique school names
+        const schoolList = data.transactions.map((item) => item.School.name);
+        setSchoolNameList([...new Set(schoolList)]);
       }
     });
   }, [fromDate, untilDate, schoolFilter]);
@@ -51,12 +57,26 @@ const Reports = () => {
   );
 
   const leftItems = (
-    <CalendarInput
-      fromDate={fromDate}
-      setFromDate={setFromDate}
-      untilDate={untilDate}
-      setUntilDate={setUntilDate}
-    />
+    <>
+      <CalendarInput
+        fromDate={fromDate}
+        setFromDate={setFromDate}
+        untilDate={untilDate}
+        setUntilDate={setUntilDate}
+      />
+      <CustomCombobox
+        data={schoolNameList}
+        onChange={setSchoolFilter}
+        size="small"
+        placeholder="Search by school"
+        icon={
+          <IoFilter
+            size="16"
+            className={`${schoolFilter !== '' && 'selectedBlue'}`}
+          />
+        }
+      />
+    </>
   );
 
   const rightItems = (

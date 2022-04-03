@@ -10,6 +10,10 @@
   width: 55%;
 }
 
+.name-area > .customCombobox {
+  margin: 8px 0;
+}
+
 .limit-area {
   width: 35%;
 }
