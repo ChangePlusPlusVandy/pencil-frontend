@@ -82,7 +82,7 @@ const Transactions = () => {
       const { Teacher } = transactions[i];
       const formattedObj = {
         date: formatDate(new Date(transactions[i].createdAt)),
-        name: `${Teacher.firstName} ${Teacher.lastName}`,
+        name: Teacher.name,
         childNodes: formatItemData(transactions[i].TransactionItems),
         status,
         key: transactions[i].uuid,
