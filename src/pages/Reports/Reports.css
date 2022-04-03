@@ -39,14 +39,8 @@
 }
 
 .filterInput {
-  background: url('../../assets/filter-outline.svg') no-repeat scroll 8px 3px;
-  background-size: 17px 17px;
   background-color: white;
   width: 300px;
-}
-
-.reportsContainer {
-  position: relative;
 }
 
 /* table column styling */

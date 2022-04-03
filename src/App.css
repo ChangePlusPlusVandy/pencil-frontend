@@ -138,17 +138,20 @@ body {
   font-size: 16px;
 }
 
-.searchInput {
+.secondaryInput {
   width: 100%;
-  height: 28px;
+  height: 30px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 14px;
-  margin: 0.5em 0;
   padding: 0 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.primaryInput:focus, .searchInput:focus {
+.primaryInput:focus, .secondaryInput:focus {
   outline: var(--primaryHover) auto 1.5px;
 }
 
@@ -261,6 +264,10 @@ body {
 
 .rotate180 {
   transform: rotate(180deg);
+}
+
+.transparent {
+  color: transparent;
 }
 
 /* editable text */

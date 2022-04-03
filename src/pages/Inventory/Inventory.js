@@ -178,7 +178,7 @@ const Inventory = () => {
       <div hidden={inventoryType !== 'Master'}>
         <input
           value={searchTerm}
-          className="searchInput"
+          className="secondaryInput"
           autoComplete="off"
           placeholder="Search item"
           onChange={(e) => setSearchTerm(e.target.value)}

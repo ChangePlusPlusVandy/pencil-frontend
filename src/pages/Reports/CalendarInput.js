@@ -5,6 +5,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Pikaday from 'pikaday';
 import PropTypes from 'prop-types';
+import {
+  AiTwotoneCalendar,
+  AiOutlineMinus,
+  AiOutlineClose,
+} from 'react-icons/ai';
 import './CalendarInput.css';
 
 const CalendarInput = ({ fromDate, setFromDate, untilDate, setUntilDate }) => {
@@ -78,11 +83,17 @@ const CalendarInput = ({ fromDate, setFromDate, untilDate, setUntilDate }) => {
   }, [detectOutsideClickRef]);
 
   return (
-    <div ref={detectOutsideClickRef} className="reportsContainer">
+    <div ref={detectOutsideClickRef} className="calendarContainer">
       <div
-        className="reportsInput calendarInput"
+        className="secondaryInput calendarInput"
         onClick={() => setCalendarTrigger(true)}
       >
+        <AiTwotoneCalendar
+          size="18"
+          className={`calendarIcon ${
+            fromDate !== '' || untilDate !== '' ? 'selectedBlue' : ''
+          }`}
+        />
         <div
           type="button"
           className={`calendarButton ${
@@ -95,7 +106,7 @@ const CalendarInput = ({ fromDate, setFromDate, untilDate, setUntilDate }) => {
         >
           {fromDate === '' ? 'Start Date' : fromDate}
         </div>
-        -
+        <AiOutlineMinus size="20" />
         <div
           type="button"
           className={`calendarButton ${
@@ -108,6 +119,18 @@ const CalendarInput = ({ fromDate, setFromDate, untilDate, setUntilDate }) => {
         >
           {untilDate === '' ? 'End Date' : untilDate}
         </div>
+        <AiOutlineClose
+          className={`clearButton ${
+            fromDate === '' && untilDate === '' ? 'transparent' : ''
+          }`}
+          size="14"
+          onClick={() => {
+            setFromDate('');
+            setUntilDate('');
+            calendarFrom.current.value = '';
+            calendarUntil.current.value = '';
+          }}
+        />
       </div>
       <div
         className={`${calendarTrigger ? '' : 'calendarHide'}`}
