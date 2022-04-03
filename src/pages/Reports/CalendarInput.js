@@ -5,6 +5,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Pikaday from 'pikaday';
 import PropTypes from 'prop-types';
+import './CalendarInput.css';
 
 const CalendarInput = ({ fromDate, setFromDate, untilDate, setUntilDate }) => {
   const detectOutsideClickRef = useRef(null); // ref to close calendar when outisde of component is clicked
