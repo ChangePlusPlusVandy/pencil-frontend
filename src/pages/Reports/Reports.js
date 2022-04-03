@@ -8,7 +8,7 @@ import 'pikaday/css/pikaday.css';
 import './Reports.css';
 
 import { IoMdRefresh } from 'react-icons/io';
-import { IoFilter } from 'react-icons/io5';
+import { IoFilter, IoSearch } from 'react-icons/io5';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import CalendarInput from './CalendarInput';
@@ -28,6 +28,7 @@ const Reports = () => {
   const [fromDate, setFromDate] = useState('');
   const [untilDate, setUntilDate] = useState('');
   const [schoolFilter, setSchoolFilter] = useState('');
+  const [showQueries, setShowQueries] = useState(false);
 
   useEffect(() => {
     getReport1(fromDate, untilDate, schoolFilter).then((data) => {
@@ -58,10 +59,21 @@ const Reports = () => {
   );
 
   const leftItems = (
-    <div className="secondaryButton vertical-align-center">
-      Generate Report
-      <FaFileDownload size="14" />
-    </div>
+    <>
+      <div className="secondaryButton vertical-align-center">
+        Generate Report
+        <FaFileDownload size="14" />
+      </div>
+      <div
+        className={`secondaryButton vertical-align-center ${
+          showQueries && 'selectedBlue'
+        }`}
+        onClick={() => setShowQueries(!showQueries)}
+      >
+        Search
+        <IoSearch size="14" />
+      </div>
+    </>
   );
 
   const rightItems = (
@@ -71,7 +83,7 @@ const Reports = () => {
     </>
   );
 
-  const queryItems = (
+  const queryItems = showQueries && (
     <>
       <CalendarInput
         fromDate={fromDate}
