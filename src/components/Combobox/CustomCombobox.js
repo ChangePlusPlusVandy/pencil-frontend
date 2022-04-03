@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Combobox } from '@headlessui/react';
 import { FaCheck } from 'react-icons/fa';
 import { HiSelector } from 'react-icons/hi';
+import { AiOutlineClose } from 'react-icons/ai';
 import './CustomCombobox.css';
 
 const CustomCombobox = ({
@@ -40,6 +41,13 @@ const CustomCombobox = ({
           />
           <Combobox.Button className="comboboxButton vertical-align-center">
             {icon}
+          </Combobox.Button>
+          <Combobox.Button
+            className={`vertical-align-center comboboxClearButton ${
+              selectedData === '' && 'transparent'
+            }`}
+          >
+            <AiOutlineClose size="16" onClick={() => setSelectedData('')} />
           </Combobox.Button>
         </div>
         <Combobox.Options className="comboboxOptions">

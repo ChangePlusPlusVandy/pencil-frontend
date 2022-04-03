@@ -34,6 +34,25 @@
   color: var(--textSecondary);
 }
 
+.comboboxClearButton {
+  margin-left: -50px;
+  border: none;
+  background: none;
+  font-size: 1.5em;
+  color: var(--textDisabled);
+  transition: all 0.2s ease-in-out;
+}
+
+.comboboxClearButton:hover {
+  cursor: pointer;
+  color: var(--primaryHover);
+}
+
+.comboboxClearButton.transparent:hover {
+  color: transparent !important;
+  cursor: default !important;
+}
+
 .comboboxOptions {
   position: absolute;
   max-height: 250px;

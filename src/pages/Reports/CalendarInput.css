@@ -40,6 +40,11 @@
   color: var(--primaryHover);
 }
 
+.clearButton.transparent:hover {
+  color: transparent !important;
+  cursor: default !important;
+}
+
 /* Hide prev and next button */
 .pika-prev,
 .pika-next {
