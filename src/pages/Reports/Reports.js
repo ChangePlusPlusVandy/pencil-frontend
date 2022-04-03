@@ -15,6 +15,7 @@ import CalendarInput from './CalendarInput';
 import { getReport1 } from './api-reports';
 import { parseDate } from '../../utils/timedate';
 import CustomCombobox from '../../components/Combobox/CustomCombobox';
+import TableHeader from '../../components/TableHeader/TableHeader';
 
 const Reports = () => {
   const [reportData, setReportData] = useState([]);
@@ -57,6 +58,20 @@ const Reports = () => {
   );
 
   const leftItems = (
+    <div className="secondaryButton vertical-align-center">
+      Generate Report
+      <FaFileDownload size="14" />
+    </div>
+  );
+
+  const rightItems = (
+    <>
+      <IoMdRefresh className="refreshButton" size="26" />
+      <CustomDropdown title={view} menuItems={menu} type="small" />
+    </>
+  );
+
+  const queryItems = (
     <>
       <CalendarInput
         fromDate={fromDate}
@@ -79,26 +94,14 @@ const Reports = () => {
     </>
   );
 
-  const rightItems = (
-    <>
-      <IoMdRefresh className="refreshButton" size="26" />
-      <CustomDropdown title={view} menuItems={menu} type="small" />
-    </>
-  );
-
   return (
     <PageContainer>
-      <div className="reportsHeader">
-        <div className="tableHeaderTitle">Reports</div>
-        <div className="secondaryButton vertical-align-center">
-          Generate Report
-          <FaFileDownload size="14" />
-        </div>
-      </div>
-      <div className="reportsHeaderArea">
-        <div className="reportsHeaderLeft">{leftItems}</div>
-        <div className="tableHeaderRight">{rightItems}</div>
-      </div>
+      <TableHeader
+        title="Reports"
+        leftArea={leftItems}
+        rightArea={rightItems}
+      />
+      <div className="reportsQueryArea">{queryItems}</div>
       <div className="tableContainer">
         <div className="reportSummary">
           <p>

@@ -123,7 +123,7 @@ const CalendarInput = ({ fromDate, setFromDate, untilDate, setUntilDate }) => {
           className={`clearButton ${
             fromDate === '' && untilDate === '' ? 'transparent' : ''
           }`}
-          size="14"
+          size="16"
           onClick={() => {
             setFromDate('');
             setUntilDate('');
