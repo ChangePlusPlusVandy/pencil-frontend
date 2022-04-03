@@ -1,36 +1,37 @@
 /* eslint-disable consistent-return */
-const getReport1 = async (startDate, endDate) => {
-  try {
-    const endpoint = 'http://localhost:8080/api/reports/report1';
-    const query = `startDate=${startDate}%2000:00:00&endDate=${endDate}%2000:00:00`;
+const formatDateTime = (date) => {
+  // format startDate from month/day/year to year-month-day
+  // and add 00:00:00 to the end of the date
+  if (!date || date === '') return '';
+  const dateArray = date.split('/');
+  const dateFormatted = `${dateArray[2]}-${dateArray[0]}-${dateArray[1]}`;
+  const time = '00:00:00';
+  return `${dateFormatted}T${time}.000`;
+};
 
-    const response = await fetch(`${endpoint}?${query}`);
+const getReport1 = async (startDate, endDate, schoolId) => {
+  try {
+    console.log(startDate, endDate, schoolId);
+    const from = formatDateTime(startDate);
+    const to = formatDateTime(endDate);
+    const query = `startDate=${from}&endDate=${to}&school=${schoolId}`;
+    const response = await fetch(`/api/reports/report1?${query}`);
     return await response.json();
   } catch (err) {
     console.log(err);
   }
 };
 
-const getReport2 = async (startDate, endDate) => {
+const getReport5 = async (startDate, endDate, schoolId) => {
   try {
-    const endpoint = 'http://localhost:8080/api/reports/report2';
-    const query = `startDate=${startDate}%2000:00:00&endDate=${endDate}%2000:00:00`;
-
-    const response = await fetch(`${endpoint}?${query}`);
+    const from = formatDateTime(startDate);
+    const to = formatDateTime(endDate);
+    const query = `startDate=${from}&endDate=${to}&school=${schoolId}`;
+    const response = await fetch(`/api/reports/report5?${query}`);
     return await response.json();
   } catch (err) {
     console.log(err);
   }
 };
 
-const getReport5 = async (startDate, endDate) => {
-  try {
-    const endpoint = 'http://localhost:8080/api/reports/report5';
-    const query = `startDate=${startDate}%2000:00:00&endDate=${endDate}%2000:00:00`;
-
-    const response = await fetch(`${endpoint}?${query}`);
-    return await response.json();
-  } catch (err) {
-    console.log(err);
-  }
-};
+export { getReport1, getReport5 };
