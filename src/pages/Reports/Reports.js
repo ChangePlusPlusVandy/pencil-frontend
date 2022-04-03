@@ -59,25 +59,22 @@ const Reports = () => {
   );
 
   const leftItems = (
-    <>
-      <div className="secondaryButton vertical-align-center">
-        Generate Report
-        <FaFileDownload size="14" />
-      </div>
-      <div
-        className={`secondaryButton vertical-align-center ${
-          showQueries && 'selectedBlue'
-        }`}
-        onClick={() => setShowQueries(!showQueries)}
-      >
-        Search
-        <IoSearch size="14" />
-      </div>
-    </>
+    <div className="secondaryButton vertical-align-center">
+      Generate Report
+      <FaFileDownload size="14" />
+    </div>
   );
 
   const rightItems = (
     <>
+      <div
+        className={`searchButton vertical-align-center ${
+          showQueries && 'selectedBlue'
+        }`}
+        onClick={() => setShowQueries(!showQueries)}
+      >
+        <IoSearch size="24" />
+      </div>
       <IoMdRefresh className="refreshButton" size="26" />
       <CustomDropdown title={view} menuItems={menu} type="small" />
     </>
