@@ -3,6 +3,25 @@
   align-items: baseline;
 }
 
+.reportSummary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-around;
+  margin: 1.5rem 4rem 0 4rem;
+  font-size: 18px;
+}
+
+.reportSummary p {
+  margin: 0 1rem 0 0;
+  display: flex;
+  align-items: center;
+}
+
+.blueText {
+  font-size: 22px;
+  color: var(--primary);
+}
+
 .reportsHeaderArea {
   display: flex;
   flex-direction: row;
@@ -127,4 +146,25 @@
 .calendar-theme .pika-button:hover {
   color: #fff !important;
   background: #50b9e8 !important;
+}
+
+/* table column styling */
+.generalReportCol1 {
+  width: 10%;
+}
+
+.generalReportCol2 {
+  width: 18%;
+}
+
+.generalReportCol3 {
+  width: 25%;
+}
+
+.generalReportCol4 {
+  width: 32%;
+}
+
+.generalReportCol5 {
+  width: 15%;
 }

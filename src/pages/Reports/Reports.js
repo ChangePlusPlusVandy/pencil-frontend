@@ -17,7 +17,10 @@ import { parseDate } from '../../utils/timedate';
 
 const Reports = () => {
   const [reportData, setReportData] = useState([]);
-  const [reportSummary, setReportSummary] = useState({});
+  const [reportSummary, setReportSummary] = useState({
+    totalSignups: 0,
+    numUniqueTeachers: 0,
+  });
   const [view, setView] = useState('Weekly');
   const [fromDate, setFromDate] = useState('');
   const [untilDate, setUntilDate] = useState('');
@@ -51,14 +54,6 @@ const Reports = () => {
   const rightItems = (
     <>
       <IoMdRefresh className="refreshButton" size="26" />
-      <button
-        type="button"
-        className="primaryButton"
-        // disabled={}
-        // onClick={}
-      >
-        View Stats
-      </button>
       <CustomDropdown title={view} menuItems={menu} type="small" />
     </>
   );
@@ -86,12 +81,25 @@ const Reports = () => {
         <div className="tableHeaderRight">{rightItems}</div>
       </div>
       <div className="tableContainer">
+        <div className="reportSummary">
+          <p>
+            <p className="blueText">{reportSummary.totalSignups}</p>Total
+            Signups
+          </p>
+          <p>
+            <p className="blueText">{reportSummary.numUniqueTeachers}</p>Unique
+            Teachers
+          </p>
+          <p>
+            <p className="blueText">0%</p>No Show Rate
+          </p>
+        </div>
         <div className="tableItemHeader">
-          <div className="scheduleCol1">Date</div>
-          <div className="scheduleCol2">Teacher Name</div>
-          <div className="scheduleCol3">Email</div>
-          <div className="scheduleCol4">School</div>
-          <div className="scheduleCol5">Total Product Value</div>
+          <div className="generalReportCol1">Date</div>
+          <div className="generalReportCol2">Teacher Name</div>
+          <div className="generalReportCol3">Email</div>
+          <div className="generalReportCol4">School</div>
+          <div className="generalReportCol5">Total Product Value</div>
         </div>
         <div>
           {reportData.map((transaction) => {
@@ -100,11 +108,13 @@ const Reports = () => {
             const schoolName = transaction.School.name;
             return (
               <div className="tableItem">
-                <div className="scheduleCol1">{date}</div>
-                <div className="scheduleCol2">{`${firstName} ${lastName}`}</div>
-                <div className="scheduleCol3">{email}</div>
-                <div className="scheduleCol4">{schoolName}</div>
-                <div className="scheduleCol5">{transaction.totalItemPrice}</div>
+                <div className="generalReportCol1">{date}</div>
+                <div className="generalReportCol2">{`${firstName} ${lastName}`}</div>
+                <div className="generalReportCol3">{email}</div>
+                <div className="generalReportCol4">{schoolName}</div>
+                <div className="generalReportCol5">
+                  $ {transaction.totalItemPrice}
+                </div>
               </div>
             );
           })}
