@@ -4,9 +4,7 @@
  * @returns {Object} - All transaction objects with information about transaction
  */
 const getSchedules = (location) => {
-  const response = fetch(
-    `http://localhost:8080/api/schedule/getSchedule/${location}`
-  )
+  const response = fetch(`api/schedule/${location}/getSchedule`)
     .then((data) => data.json())
     .catch((err) => ({
       err: `Error retrieving schedule ${err}`,
