@@ -138,12 +138,12 @@ const Reports = () => {
         <div>
           {reportData.map((transaction) => {
             const date = formatDate(new Date(transaction.createdAt));
-            const { firstName, lastName, email } = transaction.Teacher;
+            const { name, email } = transaction.Teacher;
             const schoolName = transaction.School.name;
             return (
               <div className="tableItem">
                 <div className="generalReportCol1">{date}</div>
-                <div className="generalReportCol2">{`${firstName} ${lastName}`}</div>
+                <div className="generalReportCol2">{name}</div>
                 <div className="generalReportCol3">{email}</div>
                 <div className="generalReportCol4">{schoolName}</div>
                 <div className="generalReportCol5">
