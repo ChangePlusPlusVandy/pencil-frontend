@@ -156,7 +156,9 @@ const Transactions = () => {
     const result = selectedData.map((a) => a.key);
     if (result.indexOf(transaction.key) !== -1) {
       setSelectedData([]);
-      setSelectedData(selectedData.splice(result.indexOf(transaction.key), 1));
+      setSelectedData((datas) =>
+        datas.splice(result.indexOf(transaction.key), 1)
+      );
     }
   };
 
