@@ -9,25 +9,25 @@ const formatDateTime = (date) => {
   return `${dateFormatted}T${time}.000`;
 };
 
-const getReport1 = async (startDate, endDate, schoolId) => {
+const getReport1 = async (startDate, endDate, schoolId, location) => {
   try {
     console.log(startDate, endDate, schoolId);
     const from = formatDateTime(startDate);
     const to = formatDateTime(endDate);
     const query = `startDate=${from}&endDate=${to}&school=${schoolId}`;
-    const response = await fetch(`/api/reports/report1?${query}`);
+    const response = await fetch(`/api/${location}/reports/report1?${query}`);
     return await response.json();
   } catch (err) {
     console.log(err);
   }
 };
 
-const getReport5 = async (startDate, endDate, schoolId) => {
+const getReport5 = async (startDate, endDate, schoolId, location) => {
   try {
     const from = formatDateTime(startDate);
     const to = formatDateTime(endDate);
     const query = `startDate=${from}&endDate=${to}&school=${schoolId}`;
-    const response = await fetch(`/api/reports/report5?${query}`);
+    const response = await fetch(`/api/${location}/reports/report5?${query}`);
     return await response.json();
   } catch (err) {
     console.log(err);

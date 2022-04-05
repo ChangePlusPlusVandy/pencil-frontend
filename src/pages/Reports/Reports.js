@@ -16,6 +16,7 @@ import { getReport1 } from './api-reports';
 import { parseDate } from '../../utils/timedate';
 import CustomCombobox from '../../components/Combobox/CustomCombobox';
 import TableHeader from '../../components/TableHeader/TableHeader';
+import { useAuth } from '../../AuthContext';
 
 const Reports = () => {
   const [reportData, setReportData] = useState([]);
@@ -29,17 +30,20 @@ const Reports = () => {
   const [untilDate, setUntilDate] = useState('');
   const [schoolFilter, setSchoolFilter] = useState('');
   const [showQueries, setShowQueries] = useState(false);
+  const { currentLocation } = useAuth();
 
   useEffect(() => {
-    getReport1(fromDate, untilDate, schoolFilter).then((data) => {
-      if (data && !data.error) {
-        setReportData(data.transactions);
-        setReportSummary(data.summary);
-        // generate list of unique school names
-        const schoolList = data.transactions.map((item) => item.School.name);
-        setSchoolNameList([...new Set(schoolList)]);
+    getReport1(fromDate, untilDate, schoolFilter, currentLocation).then(
+      (data) => {
+        if (data && !data.error) {
+          setReportData(data.transactions);
+          setReportSummary(data.summary);
+          // generate list of unique school names
+          const schoolList = data.transactions.map((item) => item.School.name);
+          setSchoolNameList([...new Set(schoolList)]);
+        }
       }
-    });
+    );
   }, [fromDate, untilDate, schoolFilter]);
 
   const formatDate = (dateObj) => {
