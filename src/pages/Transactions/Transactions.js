@@ -87,7 +87,7 @@ const Transactions = () => {
       const { Teacher } = transactions[i];
       const formattedObj = {
         date: formatDate(new Date(transactions[i].createdAt)),
-        name: Teacher.name,
+        name: `${Teacher.firstName} ${Teacher.lastName}`,
         childNodes: formatItemData(transactions[i].TransactionItems),
         status,
         key: transactions[i].uuid,
@@ -107,6 +107,7 @@ const Transactions = () => {
 
   useEffect(() => {
     getTransactions(currentLocation, 'Pending').then((transactions) => {
+      console.log(transactions);
       if (transactions.error) {
         setError(transactions.error);
       } else {
@@ -114,7 +115,6 @@ const Transactions = () => {
         setView('Pending');
         formatData(transactions, 'Pending');
         console.log('Data loaded!');
-        console.log(transactions);
       }
     });
   }, []);
