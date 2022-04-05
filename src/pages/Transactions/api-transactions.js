@@ -1,7 +1,7 @@
-const getPendingTransactions = async (location, page) => {
+const getPendingTransactions = async (location, perpage = 10, previous = 0) => {
   try {
     const response = await fetch(
-      `/api/${location}/transaction/pending?page=${page}`
+      `/api/${location}/transaction/pending?perPage=${perpage}&previous=${previous}`
     );
     return await response.json();
   } catch (err) {
@@ -10,9 +10,15 @@ const getPendingTransactions = async (location, page) => {
   }
 };
 
-const getApprovedTransactions = async (location) => {
+const getApprovedTransactions = async (
+  location,
+  perpage = 10,
+  previous = 0
+) => {
   try {
-    const response = await fetch(`/api/${location}/transaction/approved`);
+    const response = await fetch(
+      `/api/${location}/transaction/approved?perPage=${perpage}&previous=${previous}`
+    );
     return await response.json();
   } catch (err) {
     console.log(err);
@@ -20,9 +26,11 @@ const getApprovedTransactions = async (location) => {
   }
 };
 
-const getDeniedTransactions = async (location) => {
+const getDeniedTransactions = async (location, perpage = 10, previous = 0) => {
   try {
-    const response = await fetch(`/api/${location}/transaction/denied`);
+    const response = await fetch(
+      `/api/${location}/transaction/denied?perPage=${perpage}&previous=${previous}`
+    );
     return await response.json();
   } catch (err) {
     console.log(err);
@@ -30,10 +38,13 @@ const getDeniedTransactions = async (location) => {
   }
 };
 
-const getTransactions = async (location, page, type) => {
-  if (type === 'Pending') return getPendingTransactions(location, page);
-  if (type === 'Approved') return getApprovedTransactions(location, page);
-  if (type === 'Denied') return getDeniedTransactions(location, page);
+const getTransactions = async (location, type, previous = 0, perpage = 10) => {
+  if (type === 'Pending')
+    return getPendingTransactions(location, perpage, previous);
+  if (type === 'Approved')
+    return getApprovedTransactions(location, perpage, previous);
+  if (type === 'Denied')
+    return getDeniedTransactions(location, perpage, previous);
   return false;
 };
 
