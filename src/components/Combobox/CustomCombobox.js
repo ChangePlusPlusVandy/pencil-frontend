@@ -4,9 +4,17 @@ import PropTypes from 'prop-types';
 import { Combobox } from '@headlessui/react';
 import { FaCheck } from 'react-icons/fa';
 import { HiSelector } from 'react-icons/hi';
+import { AiOutlineClose } from 'react-icons/ai';
 import './CustomCombobox.css';
 
-const CustomCombobox = ({ data, onChange, disabled }) => {
+const CustomCombobox = ({
+  data,
+  onChange,
+  disabled,
+  size,
+  placeholder,
+  icon,
+}) => {
   if (disabled) return <div />;
 
   const [selectedData, setSelectedData] = useState('');
@@ -26,12 +34,20 @@ const CustomCombobox = ({ data, onChange, disabled }) => {
       <Combobox value={selectedData} onChange={setSelectedData}>
         <div className="vertical-align-center">
           <Combobox.Input
+            placeholder={placeholder}
             autoComplete="off"
-            className="comboboxInput"
+            className={`comboboxInput ${size}`}
             onChange={(event) => setQuery(event.target.value)}
           />
           <Combobox.Button className="comboboxButton vertical-align-center">
-            <HiSelector />
+            {icon}
+          </Combobox.Button>
+          <Combobox.Button
+            className={`vertical-align-center comboboxClearButton ${
+              selectedData === '' && 'transparent'
+            }`}
+          >
+            <AiOutlineClose size="16" onClick={() => setSelectedData('')} />
           </Combobox.Button>
         </div>
         <Combobox.Options className="comboboxOptions">
@@ -42,9 +58,9 @@ const CustomCombobox = ({ data, onChange, disabled }) => {
               <Combobox.Option key={item} value={item}>
                 {({ active, selected }) => (
                   <li
-                    className={`${
-                      selected ? 'selectedOption' : 'comboboxOption'
-                    } ${active ? ' activeOption' : ''}`}
+                    className={`comboboxOption ${size}
+                    ${selected && 'selectedOption'} 
+                    ${active && 'activeOption'}`}
                   >
                     {selected && <FaCheck />}
                     {item}
@@ -65,8 +81,14 @@ CustomCombobox.propTypes = {
   data: PropTypes.arrayOf(PropTypes.string).isRequired,
   onChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
+  size: PropTypes.string,
+  placeholder: PropTypes.string,
+  icon: PropTypes.element,
 };
 
 CustomCombobox.defaultProps = {
   disabled: false,
+  size: 'large',
+  placeholder: '',
+  icon: <HiSelector />,
 };

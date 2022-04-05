@@ -12,6 +12,9 @@ const Profile = () => {
   const [isProfileEditable, setIsProfileEditable] = useState(false);
   const [username, setUsername] = useState(currentUser.displayName);
   const [email, setEmail] = useState(currentUser.email);
+  // tempUsername and tempEmail is used to update the values of input tags
+  const [tempUsername, setTempUsername] = useState(currentUser.displayName);
+  const [tempEmail, setTempEmail] = useState(currentUser.email);
   const [currentPassword, setCurrentPassword] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -19,12 +22,15 @@ const Profile = () => {
   const [success, setSuccess] = useState('');
 
   const handleSave = () => {
-    if (email !== currentUser.email) {
+    if (tempEmail !== currentUser.email) {
+      // prompt user to enter password if email is changed
       setIsModalVisible(true);
       return;
     }
     // just change the display name, no need for modal
-    changeDisplayName(username);
+    changeDisplayName(tempUsername);
+    setUsername(tempUsername);
+    setEmail(tempEmail);
     setSuccess('Display name successfully changed');
     setIsProfileEditable(false);
   };
@@ -34,7 +40,8 @@ const Profile = () => {
     try {
       // reauthenticate first
       await reauthenticate(currentPassword);
-      await changeEmail(email);
+      await changeEmail(tempEmail);
+      await changeDisplayName(tempUsername);
     } catch (err) {
       setError(err.message);
       setSuccess('');
@@ -42,12 +49,27 @@ const Profile = () => {
       return;
     }
 
+    setUsername(tempUsername);
+    setEmail(tempEmail);
     setCurrentPassword('');
-    setSuccess('Email successfully changed');
+    setSuccess('Changes successfully saved');
     setError('');
     setIsProfileEditable(false);
     setIsModalVisible(false);
     setIsLoading(false);
+  };
+
+  const resetFields = () => {
+    // reset display and email
+    setTempUsername(username);
+    setTempEmail(email);
+  };
+
+  const handleCancelChanges = () => {
+    if (isProfileEditable) {
+      resetFields();
+    }
+    setIsProfileEditable(!isProfileEditable);
   };
 
   return (
@@ -79,7 +101,7 @@ const Profile = () => {
           className={`secondaryButton vertical-align-center ${
             isProfileEditable ? 'selectedBlue' : ''
           }`}
-          onClick={() => setIsProfileEditable(!isProfileEditable)}
+          onClick={handleCancelChanges}
         >
           Edit
           <HiPencil />
@@ -96,16 +118,16 @@ const Profile = () => {
           Display name
           <input
             className="profileInput"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={tempUsername}
+            onChange={(e) => setTempUsername(e.target.value)}
             disabled={!isProfileEditable}
           />
         </div>
         <div className="profileEntryTitle">
           Email
           <input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={tempEmail}
+            onChange={(e) => setTempEmail(e.target.value)}
             className="profileInput"
             disabled={!isProfileEditable}
           />
@@ -113,20 +135,17 @@ const Profile = () => {
       </div>
       {isProfileEditable && (
         <div className="profileActionButton">
-          <div
-            className="secondaryButton"
-            onClick={() => setIsProfileEditable(false)}
-          >
+          <div className="secondaryButton" onClick={handleCancelChanges}>
             Cancel
           </div>
           <button
             type="button"
             className="primaryButton"
             disabled={
-              username === '' ||
-              email === '' ||
-              (username === currentUser.displayName &&
-                email === currentUser.email)
+              tempUsername === '' ||
+              tempEmail === '' ||
+              (tempUsername === currentUser.displayName &&
+                tempEmail === currentUser.email)
             }
             onClick={handleSave}
           >

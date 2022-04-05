@@ -21,11 +21,47 @@ const Schedule = () => {
   useEffect(() => {
     if (!currentLocation) alert('Please select a location');
     getSchedules(currentLocation).then((items) => {
+      console.log(items);
       if (items && !items.error) {
         setScheduleData(items);
       }
     });
   }, []);
+
+  const itemMap = () => {
+    const items = [];
+    for (let i = 0; i < scheduleData.length; i += 1) {
+      for (let j = 0; j < scheduleData[i].ScheduleItems.length; j += 1) {
+        const item = scheduleData[i].ScheduleItems[j];
+        const startDay = new Date(scheduleData[i].start_date);
+        const endDay = new Date(scheduleData[i].end_date);
+        items.push(
+          <div className="tableItem">
+            <div className="scheduleCol1 timeBox">
+              <div>{item.date}</div>
+              <div className="bold">{startDay.toLocaleDateString('en-US')}</div>
+              <div className="bold">
+                {startDay.toLocaleTimeString('en-US', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}{' '}
+                -{' '}
+                {endDay.toLocaleTimeString('en-US', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              </div>
+            </div>
+            <div className="scheduleCol2 bold">{item.Teacher.name}</div>
+            <div className="scheduleCol3">{item.Teacher.pencilId}</div>
+            <div className="scheduleCol4">{item.Teacher.phone}</div>
+            <div className="scheduleCol5">{item.Teacher.School.name}</div>
+          </div>
+        );
+      }
+    }
+    return items;
+  };
 
   const refreshData = () => {
     setScheduleData([]);
@@ -90,29 +126,7 @@ const Schedule = () => {
           <div className="scheduleCol4">Phone Number</div>
           <div className="scheduleCol5">School</div>
         </div>
-        {scheduleData.map((item) => {
-          const fullName = item.name;
-          const phoneNumber = item.phone;
-          const schoolName = item.school;
-          const date = formatDate(new Date(item.start_time));
-          const time = formatTime(
-            new Date(item.start_time),
-            new Date(item.end_time)
-          );
-          const pencilId = 'N/A';
-          return (
-            <div className="tableItem">
-              <div className="scheduleCol1 timeBox">
-                <div>{date}</div>
-                <div className="bold">{time}</div>
-              </div>
-              <div className="scheduleCol2 bold">{fullName}</div>
-              <div className="scheduleCol3">{pencilId}</div>
-              <div className="scheduleCol4">{phoneNumber}</div>
-              <div className="scheduleCol5">{schoolName}</div>
-            </div>
-          );
-        })}
+        {itemMap()}
       </div>
     </PageContainer>
   );
