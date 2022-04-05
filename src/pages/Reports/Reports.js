@@ -59,25 +59,22 @@ const Reports = () => {
   );
 
   const leftItems = (
-    <>
-      <div className="secondaryButton vertical-align-center">
-        Generate Report
-        <FaFileDownload size="14" />
-      </div>
-      <div
-        className={`secondaryButton vertical-align-center ${
-          showQueries && 'selectedBlue'
-        }`}
-        onClick={() => setShowQueries(!showQueries)}
-      >
-        Search
-        <IoSearch size="14" />
-      </div>
-    </>
+    <div className="secondaryButton vertical-align-center">
+      Generate Report
+      <FaFileDownload size="14" />
+    </div>
   );
 
   const rightItems = (
     <>
+      <div
+        className={`searchButton vertical-align-center ${
+          showQueries && 'selectedBlue'
+        }`}
+        onClick={() => setShowQueries(!showQueries)}
+      >
+        <IoSearch size="24" />
+      </div>
       <IoMdRefresh className="refreshButton" size="26" />
       <CustomDropdown title={view} menuItems={menu} type="small" />
     </>
@@ -138,12 +135,12 @@ const Reports = () => {
         <div>
           {reportData.map((transaction) => {
             const date = formatDate(new Date(transaction.createdAt));
-            const { firstName, lastName, email } = transaction.Teacher;
+            const { name, email } = transaction.Teacher;
             const schoolName = transaction.School.name;
             return (
               <div className="tableItem">
                 <div className="generalReportCol1">{date}</div>
-                <div className="generalReportCol2">{`${firstName} ${lastName}`}</div>
+                <div className="generalReportCol2">{name}</div>
                 <div className="generalReportCol3">{email}</div>
                 <div className="generalReportCol4">{schoolName}</div>
                 <div className="generalReportCol5">
