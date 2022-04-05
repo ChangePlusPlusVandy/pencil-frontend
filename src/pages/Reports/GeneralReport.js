@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useAuth } from '../../AuthContext';
-import { getReport1 } from './api-reports';
+import { getGeneralReport } from './api-reports';
 import { formatDateDMY } from '../../utils/timedate';
+import './GeneralReport.css';
 
 const GeneralReport = ({
   fromDate,
@@ -25,7 +26,7 @@ const GeneralReport = ({
         if (item.School.name === schoolFilter) schoolUuid = item.School.uuid;
       });
     }
-    getReport1(fromDate, untilDate, schoolUuid, currentLocation).then(
+    getGeneralReport(fromDate, untilDate, schoolUuid, currentLocation).then(
       (data) => {
         if (data && !data.error) {
           setReportData(data.transactions);
