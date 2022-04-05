@@ -21,7 +21,8 @@ const Schedule = () => {
   useEffect(() => {
     if (!currentLocation) alert('Please select a location');
     getSchedules(currentLocation).then((items) => {
-      if (items && !items.error) {
+      if (items && !items.err) {
+        console.log(items);
         setScheduleData(items);
       }
     });
