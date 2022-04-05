@@ -91,8 +91,8 @@ const Transactions = () => {
         childNodes: formatItemData(transactions[i].TransactionItems),
         status,
         key: transactions[i].uuid,
-        isDeniedDisabled: status === 'Denied',
-        isApproveDisabled: !(status === 'Pending'),
+        isDeniedDisabled: !(status === 'Pending'),
+        isApproveDisabled: status === 'Approved',
       };
       formattedData.push(formattedObj);
     }
