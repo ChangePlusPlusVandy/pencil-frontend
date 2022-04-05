@@ -33,7 +33,13 @@ const Reports = () => {
   const { currentLocation } = useAuth();
 
   useEffect(() => {
-    getReport1(fromDate, untilDate, schoolFilter, currentLocation).then(
+    let schoolUuid = '';
+    if (schoolFilter && reportData) {
+      reportData.forEach((item) => {
+        if (item.School.name === schoolFilter) schoolUuid = item.School.uuid;
+      });
+    }
+    getReport1(fromDate, untilDate, schoolUuid, currentLocation).then(
       (data) => {
         if (data && !data.error) {
           setReportData(data.transactions);
