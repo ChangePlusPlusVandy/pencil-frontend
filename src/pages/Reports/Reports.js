@@ -9,6 +9,7 @@ import './Reports.css';
 import { IoMdRefresh } from 'react-icons/io';
 import { IoFilter, IoSearch } from 'react-icons/io5';
 import GeneralReport from './GeneralReport';
+import ProductReport from './ProductReport';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import CalendarInput from './CalendarInput';
@@ -78,6 +79,30 @@ const Reports = () => {
     </>
   );
 
+  const returnReport = (reportType) => {
+    if (reportType === 'General') {
+      return (
+        <GeneralReport
+          fromDate={fromDate}
+          untilDate={untilDate}
+          schoolFilter={schoolFilter}
+          setSchoolNameList={setSchoolNameList}
+        />
+      );
+    }
+    if (reportType === 'Product') {
+      return (
+        <ProductReport
+          fromDate={fromDate}
+          untilDate={untilDate}
+          schoolFilter={schoolFilter}
+          setSchoolNameList={setSchoolNameList}
+        />
+      );
+    }
+    return <div>No report to show</div>;
+  };
+
   return (
     <PageContainer>
       <TableHeader
@@ -86,12 +111,7 @@ const Reports = () => {
         rightArea={rightItems}
       />
       <div className="reportsQueryArea">{queryItems}</div>
-      <GeneralReport
-        fromDate={fromDate}
-        untilDate={untilDate}
-        schoolFilter={schoolFilter}
-        setSchoolNameList={setSchoolNameList}
-      />
+      {returnReport(view)}
     </PageContainer>
   );
 };
