@@ -24,6 +24,31 @@ const Reports = () => {
   const [schoolFilter, setSchoolFilter] = useState('');
   const [showQueries, setShowQueries] = useState(false);
 
+  const dateToString = (date) => {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  };
+
+  const setThisWeek = () => {
+    const today = new Date();
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+    const first = new Date(today.setDate(diff));
+    const last = new Date(today.setDate(diff + 6));
+    setFromDate(dateToString(first));
+    setUntilDate(dateToString(last));
+  };
+
+  const setThisMonth = () => {
+    const today = new Date();
+    const first = new Date(today.getFullYear(), today.getMonth(), 1);
+    const last = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    setFromDate(dateToString(first));
+    setUntilDate(dateToString(last));
+  };
+
   const menuOptions = ['General', 'Product', 'No Show']; // TODO: this needs to be updated
 
   const menu = (
@@ -58,12 +83,20 @@ const Reports = () => {
 
   const queryItems = showQueries && (
     <>
-      <CalendarInput
-        fromDate={fromDate}
-        setFromDate={setFromDate}
-        untilDate={untilDate}
-        setUntilDate={setUntilDate}
-      />
+      <div className="vertical-align-center">
+        <CalendarInput
+          fromDate={fromDate}
+          setFromDate={setFromDate}
+          untilDate={untilDate}
+          setUntilDate={setUntilDate}
+        />
+        <div className="secondaryButton" onClick={setThisWeek}>
+          This Week
+        </div>
+        <div className="secondaryButton" onClick={setThisMonth}>
+          This Month
+        </div>
+      </div>
       <CustomCombobox
         data={schoolNameList}
         onChange={setSchoolFilter}
