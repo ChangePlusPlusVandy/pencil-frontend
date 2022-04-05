@@ -5,13 +5,17 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
-import { FaChevronDown, FaCheck } from 'react-icons/fa';
+import { FaChevronDown, FaCheck } from 'react-icons/fa'; //  Add deny/approve function, add no data page
 import { IoMdRefresh } from 'react-icons/io';
 import { ImCross } from 'react-icons/im';
 import { Table } from 'antd';
 import { useAuth } from '../../AuthContext';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
-import { handleTransaction, getTransactions } from './api-transactions';
+import {
+  handleTransaction,
+  getTransactions,
+  getPendingTransactions,
+} from './api-transactions';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import './Transactions.css';
 import TableHeader from '../../components/TableHeader/TableHeader';
@@ -40,7 +44,7 @@ function isOverload(data, index) {
 }
 
 const Transactions = () => {
-  const [numItems, setNumItems] = useState(10);
+  const [prevItems, setPrevItems] = useState(10);
   const [loadedData, setLoadedData] = useState([]);
   const [rawData, setRawData] = useState([]);
   const [view, setView] = useState('Pending');
@@ -54,6 +58,7 @@ const Transactions = () => {
     for (let i = 0; i < items.length; i += 2) {
       let itemName2 = '';
       let maxLimit2 = '0';
+      console.log(items[i]);
       if (items[i + 1]) {
         itemName2 = items[i + 1].Item.itemName;
       }
@@ -76,7 +81,7 @@ const Transactions = () => {
     return formattedData;
   };
 
-  const formatData = (transactions, status) => {
+  const formatData = (transactions, status, isLoadMore = false) => {
     const formattedData = [];
     for (let i = 0; i < transactions.length; i += 1) {
       const { Teacher } = transactions[i];
@@ -86,16 +91,23 @@ const Transactions = () => {
         childNodes: formatItemData(transactions[i].TransactionItems),
         status,
         key: transactions[i].uuid,
-        isDisabled: !(status === 'Pending'),
+        isDeniedDisabled: status === 'Denied',
+        isApproveDisabled: !(status === 'Pending'),
       };
       formattedData.push(formattedObj);
     }
-    setRawData(transactions);
-    setLoadedData(formattedData);
+    if (!isLoadMore) {
+      setRawData(transactions);
+      setLoadedData(formattedData);
+    } else if (transactions.length !== 0) {
+      setRawData([...rawData, ...transactions]);
+      setLoadedData([...loadedData, ...formattedData]);
+    }
   };
 
   useEffect(() => {
-    getTransactions(currentLocation, 1, 'Pending').then((transactions) => {
+    getTransactions(currentLocation, 'Pending').then((transactions) => {
+      console.log(transactions);
       if (transactions.error) {
         setError(transactions.error);
       } else {
@@ -194,7 +206,7 @@ const Transactions = () => {
       render: (text, record) => (
         <div
           className=" roundButton approve-button"
-          hidden={record.isDisabled}
+          hidden={record.isApproveDisabled}
           onClick={(e) => handleClick(e, record, 'Approve')}
           onKeyDown={() => {}}
           role="button"
@@ -211,7 +223,7 @@ const Transactions = () => {
       render: (text, record) => (
         <div
           className="roundButton deny-button"
-          hidden={record.isDisabled}
+          hidden={record.isDeniedDisabled}
           onClick={(e) => handleClick(e, record, 'Deny')}
           onKeyDown={() => {}}
           role="button"
@@ -229,7 +241,7 @@ const Transactions = () => {
         <th>Item</th>
         <th>Quantity</th>
         <th>Item</th>
-        <th>Qantity</th>
+        <th>Quantity</th>
       </tr>
       {record.childNodes.map((item) => (
         <tr className="expandedTableRow">
@@ -242,15 +254,25 @@ const Transactions = () => {
     </table>
   );
 
-  const loadMore = () => {
-    setNumItems(numItems + 50);
+  const loadMore = (type) => {
+    getTransactions(currentLocation, type, prevItems, prevItems + 50).then(
+      (transactions) => {
+        if (transactions.error) console.log(transactions.error);
+        else {
+          formatData(transactions, type, true);
+          setView(type);
+        }
+      }
+    );
+    setPrevItems(prevItems + 50);
   };
 
   const changeLoadedData = (event) => {
     const type = event.target.innerText || view;
     setSelectedData([]);
+    setPrevItems(10);
     formatData([], type); // TODO: remove this if the reload flicker isn't wanted
-    getTransactions(currentLocation, 1, type).then((transactions) => {
+    getTransactions(currentLocation, type).then((transactions) => {
       if (transactions.error) console.log(transactions.error);
       else {
         setLoadedData([]);
@@ -356,9 +378,17 @@ const Transactions = () => {
           />
         )}
         <div className="horizontal-align-center">
-          <button type="button" className="primaryButton" onClick={loadMore}>
-            Load 50
-          </button>
+          {loadedData.length === prevItems ? (
+            <button
+              type="button"
+              className="primaryButton"
+              onClick={() => loadMore(view)}
+            >
+              Load 50
+            </button>
+          ) : (
+            <> </>
+          )}
         </div>
       </div>
     </PageContainer>
