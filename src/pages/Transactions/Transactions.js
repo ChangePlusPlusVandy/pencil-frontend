@@ -1,12 +1,18 @@
 /* eslint-disable no-param-reassign */
+
 /* eslint-disable guard-for-in */
+
 /* eslint-disable no-restricted-syntax */
+
 /* eslint-disable jsx-a11y/no-static-element-interactions */
+
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import { FaChevronDown, FaCheck } from 'react-icons/fa'; //  Add deny/approve function, add no data page
+
 import { IoMdRefresh } from 'react-icons/io';
 import { ImCross } from 'react-icons/im';
 import { Table } from 'antd';
@@ -20,31 +26,13 @@ import TableHeader from '../../components/TableHeader/TableHeader';
 import { parseDate } from '../../utils/timedate';
 
 const formatDate = (dateObj) => {
-  const { day, date, month, year, ampmTime } = parseDate(dateObj);
-  // TODO: check if this is the correct format
-  // currently using material design suggested format
+  const { day, date, month, ampmTime } = parseDate(dateObj);
   return `${day}, ${date} ${month}, ${ampmTime}`;
 };
 
-function isOverload(data, index) {
-  for (const i in data.transactionItems) {
-    console.log(data);
-    if (
-      parseInt(data.transactionItems[i].itemsTaken1, 10) >
-        parseInt(data.transactionItems[i].maxLimit1, 10) ||
-      parseInt(data.transactionItems[i].itemsTaken2, 10) >
-        parseInt(data.transactionItems[i].maxLimit2, 10)
-    ) {
-      return true;
-    }
-  }
-  return false;
-}
-
 const Transactions = () => {
   const [prevItems, setPrevItems] = useState(10);
-  const [formattedData, setFormattedData] = useState([]);
-  const [rawData, setRawData] = useState([]);
+  const [data, setData] = useState([]);
   const [view, setView] = useState('Pending');
   const [selectedData, setSelectedData] = useState([]);
   const [wasChecked, setWasChecked] = useState([]);
@@ -52,42 +40,21 @@ const Transactions = () => {
   const { currentLocation } = useAuth();
 
   const formatData = (transactions, status, isLoadMore = false) => {
-    const result = [];
-    for (let i = 0; i < transactions.length; i += 1) {
-      const { Teacher } = transactions[i];
-      const formattedObj = {
-        date: formatDate(new Date(transactions[i].createdAt)),
-        name: Teacher.name,
-        transactionItems: transactions[i].TransactionItems,
-        // childNodes: formatItemData(transactions[i].TransactionItems),
-        status,
-        key: transactions[i].uuid,
-        isDeniedDisabled: !(status === 'Pending'),
-        isApproveDisabled: status === 'Approved',
-      };
-      result.push(formattedObj);
-    }
-    if (!isLoadMore) {
-      setRawData(transactions);
-      setFormattedData(result);
-    } else if (transactions.length !== 0) {
-      setRawData([...rawData, ...transactions]);
-      setFormattedData([...formattedData, ...result]);
-    }
+    const result = transactions.map((item) => ({
+      uuid: item.uuid,
+      date: formatDate(new Date(item.createdAt)),
+      teacherName: item.Teacher.name,
+      transactionItems: item.TransactionItems,
+      status,
+    }));
+    if (!isLoadMore) setData(result);
+    else if (transactions.length !== 0) setData([...data, ...result]);
   };
 
   useEffect(() => {
     getTransactions(currentLocation, 'Pending').then((transactions) => {
-      console.log(transactions);
-      if (transactions.error) {
-        setError(transactions.error);
-      } else {
-        setFormattedData([]);
-        setView('Pending');
-        formatData(transactions, 'Pending');
-        console.log('Data loaded!');
-        console.log(transactions);
-      }
+      if (transactions.error) setError(transactions.error);
+      else formatData(transactions, 'Pending');
     });
   }, []);
 
@@ -96,66 +63,52 @@ const Transactions = () => {
       setSelectedData(selectedRows);
     },
     getCheckboxProps: (record) => ({
-      disabled: record.status !== 'Pending' || record.key in wasChecked,
       // checked: true,
+      disabled: record.status !== 'Pending' || record.uuid in wasChecked,
     }),
   };
 
   const handleClick = (e, transaction, action) => {
-    e.preventDefault();
-    let toDelete = {};
-    for (let j = 0; j < rawData.length; j += 1) {
-      if (rawData[j].uuid === transaction.key) {
-        toDelete = rawData[j];
-      }
-    }
-    const tempArr = [...formattedData];
-    const funnyObj = transaction;
-    handleTransaction(currentLocation, toDelete, action);
-    if (action === 'Approve') funnyObj.status = 'Approved';
-    else funnyObj.status = 'Denied';
-    funnyObj.isDisabled = true;
-    funnyObj.isApproveDisabled = true;
-    funnyObj.isDeniedDisabled = true;
-    tempArr[tempArr.indexOf(transaction)] = funnyObj;
-    setFormattedData([]);
-    setFormattedData(tempArr);
+    handleTransaction(currentLocation, transaction.uuid, action);
+    // find the index of the transaction in the data array,
+    // and change the status based on the action
+    setData((prevData) => {
+      const temp = [...prevData];
+      temp[temp.indexOf(transaction)].status =
+        action === 'Approve' ? 'Approved' : 'Denied';
+      return temp;
+    });
+
     setWasChecked((prevChecked) => {
-      prevChecked.push(transaction.key);
+      prevChecked.push(transaction.uuid);
       return prevChecked;
     });
-    const result = selectedData.map((a) => a.key);
-    if (result.indexOf(transaction.key) !== -1) {
+
+    // remove transaction from selected data if exists
+    const selectedUuid = selectedData.map((a) => a.uuid);
+    if (selectedUuid.includes(transaction.uuid)) {
       setSelectedData([]);
       setSelectedData((datas) =>
-        datas.splice(result.indexOf(transaction.key), 1)
+        datas.splice(selectedUuid.indexOf(transaction.uuid), 1)
       );
     }
   };
 
   const handleSelected = (action) => {
-    const transactionArr = [];
-    for (let i = 0; i < selectedData.length; i += 1) {
-      transactionArr.push(selectedData[i].key);
-      let toDelete = {};
-      for (let j = 0; j < rawData.length; j += 1) {
-        if (rawData[j].uuid === selectedData[i].key) {
-          toDelete = rawData[j];
-        }
-      }
-      const tempArr = [...formattedData];
-      const funnyObj = selectedData[i];
-      handleTransaction(currentLocation, toDelete, action);
-      if (action === 'Approve') funnyObj.status = 'Approved';
-      else funnyObj.status = 'Denied';
-      funnyObj.isDisabled = true;
-      funnyObj.isApproveDisabled = true;
-      funnyObj.isDeniedDisabled = true;
-      tempArr[tempArr.indexOf(selectedData[i])] = funnyObj;
-      setFormattedData([]);
-      setFormattedData(tempArr);
-    }
-    setWasChecked(transactionArr.concat(wasChecked));
+    // handle each transaction in selected data
+    selectedData.forEach((transaction) => {
+      handleTransaction(currentLocation, transaction.uuid, action);
+      setData((prevData) => {
+        const temp = [...prevData];
+        temp[temp.indexOf(transaction)].status =
+          action === 'Approve' ? 'Approved' : 'Denied';
+        return temp;
+      });
+    });
+
+    // clear selected data
+    const selectedUuid = selectedData.map((a) => a.uuid);
+    setWasChecked(selectedUuid.concat(wasChecked));
     setSelectedData([]);
   };
 
@@ -168,8 +121,8 @@ const Transactions = () => {
     },
     {
       title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'teacherName',
+      key: 'teacherName',
       width: '35%',
     },
     {
@@ -188,7 +141,7 @@ const Transactions = () => {
       render: (text, record) => (
         <div
           className=" roundButton approve-button"
-          hidden={record.isApproveDisabled}
+          hidden={record.status !== 'Pending' && view !== 'Denied'}
           onClick={(e) => handleClick(e, record, 'Approve')}
           onKeyDown={() => {}}
           role="button"
@@ -205,7 +158,7 @@ const Transactions = () => {
       render: (text, record) => (
         <div
           className="roundButton deny-button"
-          hidden={record.isDeniedDisabled}
+          hidden={record.status !== 'Pending'}
           onClick={(e) => handleClick(e, record, 'Deny')}
           onKeyDown={() => {}}
           role="button"
@@ -218,17 +171,9 @@ const Transactions = () => {
   ];
 
   const handleTransactionItemsChange = (items, trxUuid) => {
-    setRawData((prevData) => {
+    setData((prevData) => {
       prevData.map((transaction) => {
-        if (transaction.uuid === trxUuid) transaction.TransactionItems = items;
-        return transaction;
-      });
-      return prevData;
-    });
-
-    setFormattedData((prevData) => {
-      prevData.map((transaction) => {
-        if (transaction.key === trxUuid) transaction.transactionItems = items;
+        if (transaction.uuid === trxUuid) transaction.transactionItems = items;
         return transaction;
       });
       return prevData;
@@ -237,7 +182,7 @@ const Transactions = () => {
 
   const expandedRowRender = (record) => (
     <Subtable
-      uuid={record.key}
+      uuid={record.uuid}
       data={record.transactionItems}
       transactionType={view}
       status={record.status}
@@ -263,10 +208,11 @@ const Transactions = () => {
     setSelectedData([]);
     setPrevItems(10);
     formatData([], type); // TODO: remove this if the reload flicker isn't wanted
+
     getTransactions(currentLocation, type).then((transactions) => {
       if (transactions.error) console.log(transactions.error);
       else {
-        setFormattedData([]);
+        setData([]);
         formatData(transactions, type);
         setView(type);
       }
@@ -339,37 +285,37 @@ const Transactions = () => {
         {view === 'Pending' ? (
           <Table
             expandIcon={(props) => customExpandIcon(props)}
-            rowKey="key"
+            rowKey="uuid"
             columns={columns}
             rowSelection={{ ...rowSelection }}
-            dataSource={formattedData}
+            dataSource={data}
             expandable={{
               expandedRowRender,
+
               rowExpandable(record) {
                 return record?.transactionItems?.length;
               },
             }}
-            // pagination={{ pageSize: numItems, position: ['none'] }}
             pagination={false}
           />
         ) : (
           <Table
             expandIcon={(props) => customExpandIcon(props)}
             columns={columns}
-            dataSource={formattedData}
+            dataSource={data}
             rowClassName="transactionTableItem"
             expandable={{
               expandedRowRender,
+
               rowExpandable(record) {
                 return record.transactionItems.length;
               },
             }}
-            // pagination={{ pageSize: numItems, position: ['none'] }}
             pagination={false}
           />
         )}
         <div className="horizontal-align-center">
-          {formattedData.length === prevItems ? (
+          {data && data.length === prevItems ? (
             <button
               type="button"
               className="primaryButton"
@@ -387,3 +333,20 @@ const Transactions = () => {
 };
 
 export default Transactions;
+
+function isOverload(data, index) {
+  for (const i in data.transactionItems) {
+    console.log(data);
+
+    if (
+      parseInt(data.transactionItems[i].itemsTaken1, 10) >
+        parseInt(data.transactionItems[i].maxLimit1, 10) ||
+      parseInt(data.transactionItems[i].itemsTaken2, 10) >
+        parseInt(data.transactionItems[i].maxLimit2, 10)
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
