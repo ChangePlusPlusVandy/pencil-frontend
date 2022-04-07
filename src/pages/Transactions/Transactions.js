@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -11,11 +12,8 @@ import { ImCross } from 'react-icons/im';
 import { Table } from 'antd';
 import { useAuth } from '../../AuthContext';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
-import {
-  handleTransaction,
-  getTransactions,
-  getPendingTransactions,
-} from './api-transactions';
+import Subtable from './Subtable';
+import { handleTransaction, getTransactions } from './api-transactions';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import './Transactions.css';
 import TableHeader from '../../components/TableHeader/TableHeader';
@@ -29,13 +27,13 @@ const formatDate = (dateObj) => {
 };
 
 function isOverload(data, index) {
-  for (const i in data.childNodes) {
+  for (const i in data.transactionItems) {
     console.log(data);
     if (
-      parseInt(data.childNodes[i].itemsTaken1, 10) >
-        parseInt(data.childNodes[i].maxLimit1, 10) ||
-      parseInt(data.childNodes[i].itemsTaken2, 10) >
-        parseInt(data.childNodes[i].maxLimit2, 10)
+      parseInt(data.transactionItems[i].itemsTaken1, 10) >
+        parseInt(data.transactionItems[i].maxLimit1, 10) ||
+      parseInt(data.transactionItems[i].itemsTaken2, 10) >
+        parseInt(data.transactionItems[i].maxLimit2, 10)
     ) {
       return true;
     }
@@ -45,7 +43,7 @@ function isOverload(data, index) {
 
 const Transactions = () => {
   const [prevItems, setPrevItems] = useState(10);
-  const [loadedData, setLoadedData] = useState([]);
+  const [formattedData, setFormattedData] = useState([]);
   const [rawData, setRawData] = useState([]);
   const [view, setView] = useState('Pending');
   const [selectedData, setSelectedData] = useState([]);
@@ -53,55 +51,28 @@ const Transactions = () => {
   const [error, setError] = useState('');
   const { currentLocation } = useAuth();
 
-  const formatItemData = (items) => {
-    const formattedData = [];
-    for (let i = 0; i < items.length; i += 2) {
-      let itemName2 = '';
-      let maxLimit2 = '0';
-      console.log(items[i]);
-      if (items[i + 1]) {
-        itemName2 = items[i + 1].Item.itemName;
-      }
-      let itemsTaken2 = '';
-
-      if (items[i + 1]) {
-        itemsTaken2 = String(items[i + 1].amountTaken);
-        maxLimit2 = String(items[i + 1].maxLimit);
-      }
-      const newObj = {
-        itemName1: items[i].Item.itemName,
-        itemsTaken1: String(items[i].amountTaken),
-        maxLimit1: String(items[i].maxLimit),
-        itemName2,
-        itemsTaken2,
-        maxLimit2,
-      };
-      formattedData.push(newObj);
-    }
-    return formattedData;
-  };
-
   const formatData = (transactions, status, isLoadMore = false) => {
-    const formattedData = [];
+    const result = [];
     for (let i = 0; i < transactions.length; i += 1) {
       const { Teacher } = transactions[i];
       const formattedObj = {
         date: formatDate(new Date(transactions[i].createdAt)),
         name: Teacher.name,
-        childNodes: formatItemData(transactions[i].TransactionItems),
+        transactionItems: transactions[i].TransactionItems,
+        // childNodes: formatItemData(transactions[i].TransactionItems),
         status,
         key: transactions[i].uuid,
         isDeniedDisabled: !(status === 'Pending'),
         isApproveDisabled: status === 'Approved',
       };
-      formattedData.push(formattedObj);
+      result.push(formattedObj);
     }
     if (!isLoadMore) {
       setRawData(transactions);
-      setLoadedData(formattedData);
+      setFormattedData(result);
     } else if (transactions.length !== 0) {
       setRawData([...rawData, ...transactions]);
-      setLoadedData([...loadedData, ...formattedData]);
+      setFormattedData([...formattedData, ...result]);
     }
   };
 
@@ -111,7 +82,7 @@ const Transactions = () => {
       if (transactions.error) {
         setError(transactions.error);
       } else {
-        setLoadedData([]);
+        setFormattedData([]);
         setView('Pending');
         formatData(transactions, 'Pending');
         console.log('Data loaded!');
@@ -138,7 +109,7 @@ const Transactions = () => {
         toDelete = rawData[j];
       }
     }
-    const tempArr = [...loadedData];
+    const tempArr = [...formattedData];
     const funnyObj = transaction;
     handleTransaction(currentLocation, toDelete, action);
     if (action === 'Approve') funnyObj.status = 'Approved';
@@ -147,8 +118,8 @@ const Transactions = () => {
     funnyObj.isApproveDisabled = true;
     funnyObj.isDeniedDisabled = true;
     tempArr[tempArr.indexOf(transaction)] = funnyObj;
-    setLoadedData([]);
-    setLoadedData(tempArr);
+    setFormattedData([]);
+    setFormattedData(tempArr);
     setWasChecked((prevChecked) => {
       prevChecked.push(transaction.key);
       return prevChecked;
@@ -172,7 +143,7 @@ const Transactions = () => {
           toDelete = rawData[j];
         }
       }
-      const tempArr = [...loadedData];
+      const tempArr = [...formattedData];
       const funnyObj = selectedData[i];
       handleTransaction(currentLocation, toDelete, action);
       if (action === 'Approve') funnyObj.status = 'Approved';
@@ -181,8 +152,8 @@ const Transactions = () => {
       funnyObj.isApproveDisabled = true;
       funnyObj.isDeniedDisabled = true;
       tempArr[tempArr.indexOf(selectedData[i])] = funnyObj;
-      setLoadedData([]);
-      setLoadedData(tempArr);
+      setFormattedData([]);
+      setFormattedData(tempArr);
     }
     setWasChecked(transactionArr.concat(wasChecked));
     setSelectedData([]);
@@ -246,23 +217,32 @@ const Transactions = () => {
     },
   ];
 
+  const handleTransactionItemsChange = (items, trxUuid) => {
+    setRawData((prevData) => {
+      prevData.map((transaction) => {
+        if (transaction.uuid === trxUuid) transaction.TransactionItems = items;
+        return transaction;
+      });
+      return prevData;
+    });
+
+    setFormattedData((prevData) => {
+      prevData.map((transaction) => {
+        if (transaction.key === trxUuid) transaction.transactionItems = items;
+        return transaction;
+      });
+      return prevData;
+    });
+  };
+
   const expandedRowRender = (record) => (
-    <table className="expandedData">
-      <tr>
-        <th>Item</th>
-        <th>Quantity</th>
-        <th>Item</th>
-        <th>Quantity</th>
-      </tr>
-      {record.childNodes.map((item) => (
-        <tr className="expandedTableRow">
-          <td>{item.itemName1}</td>
-          <td>{item.itemsTaken1}</td>
-          <td>{item.itemName2}</td>
-          <td>{item.itemsTaken2}</td>
-        </tr>
-      ))}
-    </table>
+    <Subtable
+      uuid={record.key}
+      data={record.transactionItems}
+      transactionType={view}
+      status={record.status}
+      onChange={handleTransactionItemsChange}
+    />
   );
 
   const loadMore = (type) => {
@@ -286,7 +266,7 @@ const Transactions = () => {
     getTransactions(currentLocation, type).then((transactions) => {
       if (transactions.error) console.log(transactions.error);
       else {
-        setLoadedData([]);
+        setFormattedData([]);
         formatData(transactions, type);
         setView(type);
       }
@@ -362,11 +342,11 @@ const Transactions = () => {
             rowKey="key"
             columns={columns}
             rowSelection={{ ...rowSelection }}
-            dataSource={loadedData}
+            dataSource={formattedData}
             expandable={{
               expandedRowRender,
               rowExpandable(record) {
-                return record?.childNodes?.length;
+                return record?.transactionItems?.length;
               },
             }}
             // pagination={{ pageSize: numItems, position: ['none'] }}
@@ -376,12 +356,12 @@ const Transactions = () => {
           <Table
             expandIcon={(props) => customExpandIcon(props)}
             columns={columns}
-            dataSource={loadedData}
+            dataSource={formattedData}
             rowClassName="transactionTableItem"
             expandable={{
               expandedRowRender,
               rowExpandable(record) {
-                return record.childNodes.length;
+                return record.transactionItems.length;
               },
             }}
             // pagination={{ pageSize: numItems, position: ['none'] }}
@@ -389,7 +369,7 @@ const Transactions = () => {
           />
         )}
         <div className="horizontal-align-center">
-          {loadedData.length === prevItems ? (
+          {formattedData.length === prevItems ? (
             <button
               type="button"
               className="primaryButton"
