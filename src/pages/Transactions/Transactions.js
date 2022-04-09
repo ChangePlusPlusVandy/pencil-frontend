@@ -125,8 +125,8 @@ const Transactions = () => {
       setSelectedData(selectedRows);
     },
     getCheckboxProps: (record) => ({
-      disabled: record.status !== 'Pending',
-      checked: record.key in wasChecked,
+      disabled: record.status !== 'Pending' || record.key in wasChecked,
+      // checked: true,
     }),
   };
 
@@ -144,6 +144,8 @@ const Transactions = () => {
     if (action === 'Approve') funnyObj.status = 'Approved';
     else funnyObj.status = 'Denied';
     funnyObj.isDisabled = true;
+    funnyObj.isApproveDisabled = true;
+    funnyObj.isDeniedDisabled = true;
     tempArr[tempArr.indexOf(transaction)] = funnyObj;
     setLoadedData([]);
     setLoadedData(tempArr);
@@ -151,6 +153,13 @@ const Transactions = () => {
       prevChecked.push(transaction.key);
       return prevChecked;
     });
+    const result = selectedData.map((a) => a.key);
+    if (result.indexOf(transaction.key) !== -1) {
+      setSelectedData([]);
+      setSelectedData((datas) =>
+        datas.splice(result.indexOf(transaction.key), 1)
+      );
+    }
   };
 
   const handleSelected = (action) => {
@@ -169,6 +178,8 @@ const Transactions = () => {
       if (action === 'Approve') funnyObj.status = 'Approved';
       else funnyObj.status = 'Denied';
       funnyObj.isDisabled = true;
+      funnyObj.isApproveDisabled = true;
+      funnyObj.isDeniedDisabled = true;
       tempArr[tempArr.indexOf(selectedData[i])] = funnyObj;
       setLoadedData([]);
       setLoadedData(tempArr);

@@ -61,6 +61,11 @@ export const getMonthName = (dateObject) => {
   }
 };
 
+/**
+ * Date object parser - parses all the important information from a date object
+ * @param {Object} dateObject - date object
+ * @returns parsed object with date, month, year, day, hour, minute, second, ampmTime
+ */
 export const parseDate = (dateObject) => ({
   date: dateObject.getDate(),
   month: getMonthName(dateObject),
@@ -75,3 +80,14 @@ export const parseDate = (dateObject) => ({
     hour12: true,
   }),
 });
+
+/**
+ * Date formatter function
+ * @param {Object} dateObj - date object
+ * @returns formatted date string in format: "5 Jan 2020"
+ */
+export const formatDateDMY = (dateObj) => {
+  const { date, month, year } = parseDate(dateObj);
+
+  return `${date} ${month} ${year}`;
+};

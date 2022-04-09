@@ -1,54 +1,55 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable import/no-unresolved */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FaFileDownload } from 'react-icons/fa';
 import 'pikaday/css/pikaday.css';
 import './Reports.css';
 
 import { IoMdRefresh } from 'react-icons/io';
 import { IoFilter, IoSearch } from 'react-icons/io5';
+import GeneralReport from './GeneralReport';
+import ProductReport from './ProductReport';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import CalendarInput from './CalendarInput';
-import { getReport1 } from './api-reports';
-import { parseDate } from '../../utils/timedate';
 import CustomCombobox from '../../components/Combobox/CustomCombobox';
 import TableHeader from '../../components/TableHeader/TableHeader';
 
 const Reports = () => {
-  const [reportData, setReportData] = useState([]);
-  const [reportSummary, setReportSummary] = useState({
-    totalSignups: 0,
-    numUniqueTeachers: 0,
-  });
   const [schoolNameList, setSchoolNameList] = useState([]);
-  const [view, setView] = useState('Weekly');
+  const [view, setView] = useState('General');
   const [fromDate, setFromDate] = useState('');
   const [untilDate, setUntilDate] = useState('');
   const [schoolFilter, setSchoolFilter] = useState('');
   const [showQueries, setShowQueries] = useState(false);
 
-  useEffect(() => {
-    getReport1(fromDate, untilDate, schoolFilter).then((data) => {
-      if (data && !data.error) {
-        setReportData(data.transactions);
-        setReportSummary(data.summary);
-        // generate list of unique school names
-        const schoolList = data.transactions.map((item) => item.School.name);
-        setSchoolNameList([...new Set(schoolList)]);
-      }
-    });
-  }, [fromDate, untilDate, schoolFilter]);
-
-  const formatDate = (dateObj) => {
-    const { date, month, year } = parseDate(dateObj);
-
-    return `${date} ${month} ${year}`;
+  const dateToString = (date) => {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
   };
 
-  const menuOptions = ['Weekly', 'School', 'No Show']; // TODO: this needs to be updated
+  const setThisWeek = () => {
+    const today = new Date();
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+    const first = new Date(today.setDate(diff));
+    const last = new Date(today.setDate(diff + 6));
+    setFromDate(dateToString(first));
+    setUntilDate(dateToString(last));
+  };
+
+  const setThisMonth = () => {
+    const today = new Date();
+    const first = new Date(today.getFullYear(), today.getMonth(), 1);
+    const last = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    setFromDate(dateToString(first));
+    setUntilDate(dateToString(last));
+  };
+
+  const menuOptions = ['General', 'Product', 'No Show']; // TODO: this needs to be updated
 
   const menu = (
     <>
@@ -82,12 +83,20 @@ const Reports = () => {
 
   const queryItems = showQueries && (
     <>
-      <CalendarInput
-        fromDate={fromDate}
-        setFromDate={setFromDate}
-        untilDate={untilDate}
-        setUntilDate={setUntilDate}
-      />
+      <div className="vertical-align-center">
+        <CalendarInput
+          fromDate={fromDate}
+          setFromDate={setFromDate}
+          untilDate={untilDate}
+          setUntilDate={setUntilDate}
+        />
+        <div className="secondaryButton" onClick={setThisWeek}>
+          This Week
+        </div>
+        <div className="secondaryButton" onClick={setThisMonth}>
+          This Month
+        </div>
+      </div>
       <CustomCombobox
         data={schoolNameList}
         onChange={setSchoolFilter}
@@ -103,6 +112,30 @@ const Reports = () => {
     </>
   );
 
+  const returnReport = (reportType) => {
+    if (reportType === 'General') {
+      return (
+        <GeneralReport
+          fromDate={fromDate}
+          untilDate={untilDate}
+          schoolFilter={schoolFilter}
+          setSchoolNameList={setSchoolNameList}
+        />
+      );
+    }
+    if (reportType === 'Product') {
+      return (
+        <ProductReport
+          fromDate={fromDate}
+          untilDate={untilDate}
+          schoolFilter={schoolFilter}
+          setSchoolNameList={setSchoolNameList}
+        />
+      );
+    }
+    return <div>No report to show</div>;
+  };
+
   return (
     <PageContainer>
       <TableHeader
@@ -111,46 +144,7 @@ const Reports = () => {
         rightArea={rightItems}
       />
       <div className="reportsQueryArea">{queryItems}</div>
-      <div className="tableContainer">
-        <div className="reportSummary">
-          <p>
-            <p className="blueText">{reportSummary.totalSignups}</p>Total
-            Signups
-          </p>
-          <p>
-            <p className="blueText">{reportSummary.numUniqueTeachers}</p>Unique
-            Teachers
-          </p>
-          <p>
-            <p className="blueText">0%</p>No Show Rate
-          </p>
-        </div>
-        <div className="tableItemHeader">
-          <div className="generalReportCol1">Date</div>
-          <div className="generalReportCol2">Teacher Name</div>
-          <div className="generalReportCol3">Email</div>
-          <div className="generalReportCol4">School</div>
-          <div className="generalReportCol5">Total Product Value</div>
-        </div>
-        <div>
-          {reportData.map((transaction) => {
-            const date = formatDate(new Date(transaction.createdAt));
-            const { name, email } = transaction.Teacher;
-            const schoolName = transaction.School.name;
-            return (
-              <div className="tableItem">
-                <div className="generalReportCol1">{date}</div>
-                <div className="generalReportCol2">{name}</div>
-                <div className="generalReportCol3">{email}</div>
-                <div className="generalReportCol4">{schoolName}</div>
-                <div className="generalReportCol5">
-                  $ {transaction.totalItemPrice}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      {returnReport(view)}
     </PageContainer>
   );
 };
