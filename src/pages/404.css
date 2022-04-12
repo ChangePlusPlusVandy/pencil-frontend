@@ -1,0 +1,22 @@
+.logo404 {
+  margin: 120px 100px;
+  padding-bottom: 50px;
+}
+
+.logo404 h2 {
+  font-size: 34px;
+  font-weight: normal;
+  line-height: 2.5rem;
+  width: 450px;
+}
+
+.logo404 p {
+  font-size: 16px;
+  font-weight: lighter;
+  margin-bottom: 30px;
+}
+
+.logo404 .primaryButton {
+  padding: 10px 50px;
+  color: black;
+}
