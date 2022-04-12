@@ -32,21 +32,23 @@ const LocationDropdown = () => {
   };
 
   useEffect(() => {
-    getAllLocations().then((result) => {
-      if (result instanceof Error) {
-        // eslint-disable-next-line no-alert
-        alert(
-          'Something went wrong in the backend Server. Please contact the developer team.'
-        );
-      } else if (result) setAllLocations(result);
-    });
+    getAllLocations()
+      .then((result) => {
+        if (result instanceof Error) {
+          // eslint-disable-next-line no-alert
+          alert(
+            'Something went wrong in the backend Server. Please contact the developer team.'
+          );
+        } else if (result) setAllLocations(result);
+      })
+      .catch((err) => console.log(allLocations));
   }, []);
 
   const menu = (
     <>
-      {allLocations.map((loc) => (
-        <a onClick={handleClick}>{loc.name}</a>
-      ))}
+      {allLocations.length
+        ? allLocations.map((loc) => <a onClick={handleClick}>{loc.name}</a>)
+        : null}
       <div className="horizontal_line" />
       <a
         className="secondaryButton vertical-align-center no-margin"
