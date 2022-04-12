@@ -7,7 +7,7 @@ import { IoMdRefresh } from 'react-icons/io';
 import { useAuth } from '../../AuthContext';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import { getSchedules } from './api-schedule';
-import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
+import CalendarInput from '../Reports/CalendarInput';
 import 'antd/dist/antd.css';
 import './Schedule.css';
 import TableHeader from '../../components/TableHeader/TableHeader';
@@ -21,6 +21,8 @@ const Schedule = () => {
   const [page, setPage] = useState(1);
   const { currentLocation } = useAuth();
   const [displayButton, setDisplayButton] = useState(true);
+  const [fromDate, setFromDate] = useState('');
+  const [untilDate, setUntilDate] = useState('');
 
   useEffect(() => {
     if (!currentLocation) alert('Please select a location');
@@ -91,18 +93,6 @@ const Schedule = () => {
     return `${parsedStartTime} - ${parsedEndTime}`;
   };
 
-  const menuOptions = ['Today', 'Upcoming', 'Past'];
-
-  const menu = (
-    <>
-      {menuOptions
-        .filter((option) => option !== view)
-        .map((option) => (
-          <a onClick={(e) => setView(e.target.innerText)}>{option}</a>
-        ))}
-    </>
-  );
-
   const leftItems = (
     <div className="secondaryButton vertical-align-center">
       Print Schedule
@@ -113,7 +103,12 @@ const Schedule = () => {
   const rightItems = (
     <>
       <IoMdRefresh className="refreshButton" size="26" onClick={refreshData} />
-      <CustomDropdown title={view} menuItems={menu} type="small" />
+      <CalendarInput
+        fromDate={fromDate}
+        setFromDate={setFromDate}
+        untilDate={untilDate}
+        setUntilDate={setUntilDate}
+      />
     </>
   );
 
