@@ -36,6 +36,14 @@ const Schedule = () => {
     });
   }, [view]);
 
+  const dateRangeIsValid = (startDay) => {
+    if (!fromDate || !untilDate) return true;
+    const fromDateObj = new Date(fromDate);
+    const untilDateObj = new Date(untilDate);
+    untilDateObj.setDate(untilDateObj.getDate() + 1);
+    return startDay >= fromDateObj && startDay <= untilDateObj;
+  };
+
   const itemMap = () => {
     const items = [];
     for (let i = 0; i < scheduleData.length; i += 1) {
@@ -43,29 +51,33 @@ const Schedule = () => {
         const item = scheduleData[i].ScheduleItems[j];
         const startDay = new Date(scheduleData[i].start_date);
         const endDay = new Date(scheduleData[i].end_date);
-        items.push(
-          <div className="tableItem">
-            <div className="scheduleCol1 timeBox">
-              <div>{item.date}</div>
-              <div className="bold">{startDay.toLocaleDateString('en-US')}</div>
-              <div className="bold">
-                {startDay.toLocaleTimeString('en-US', {
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}{' '}
-                -{' '}
-                {endDay.toLocaleTimeString('en-US', {
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
+        if (dateRangeIsValid(startDay)) {
+          items.push(
+            <div className="tableItem">
+              <div className="scheduleCol1 timeBox">
+                <div>{item.date}</div>
+                <div className="bold">
+                  {startDay.toLocaleDateString('en-US')}
+                </div>
+                <div className="bold">
+                  {startDay.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}{' '}
+                  -{' '}
+                  {endDay.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </div>
               </div>
+              <div className="scheduleCol2 bold">{item.Teacher.name}</div>
+              <div className="scheduleCol3">{item.Teacher.pencilId}</div>
+              <div className="scheduleCol4">{item.Teacher.phone}</div>
+              <div className="scheduleCol5">{item.Teacher.School.name}</div>
             </div>
-            <div className="scheduleCol2 bold">{item.Teacher.name}</div>
-            <div className="scheduleCol3">{item.Teacher.pencilId}</div>
-            <div className="scheduleCol4">{item.Teacher.phone}</div>
-            <div className="scheduleCol5">{item.Teacher.School.name}</div>
-          </div>
-        );
+          );
+        }
       }
     }
     return items;
