@@ -151,7 +151,8 @@ body {
   align-items: center;
 }
 
-.primaryInput:focus, .secondaryInput:focus {
+.primaryInput:focus,
+.secondaryInput:focus {
   outline: var(--primaryHover) auto 1.5px;
 }
 
@@ -191,7 +192,6 @@ body {
   border-radius: 15px;
   margin: 15px auto;
   display: flex;
-  align-items: center;
   transition: all 0.3s ease-in-out;
 }
 

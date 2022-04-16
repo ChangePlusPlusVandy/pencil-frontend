@@ -1,3 +1,4 @@
+/* eslint-disable react/self-closing-comp */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -11,98 +12,73 @@ import CalendarInput from '../Reports/CalendarInput';
 import 'antd/dist/antd.css';
 import './Schedule.css';
 import TableHeader from '../../components/TableHeader/TableHeader';
-import { parseDate } from '../../utils/timedate';
-
-const loadCount = 1;
 
 const Schedule = () => {
   const [scheduleData, setScheduleData] = useState([]);
-  const [view, setView] = useState('Today');
-  const [page, setPage] = useState(1);
   const { currentLocation } = useAuth();
-  const [displayButton, setDisplayButton] = useState(true);
   const [fromDate, setFromDate] = useState('');
   const [untilDate, setUntilDate] = useState('');
 
   useEffect(() => {
     if (!currentLocation) alert('Please select a location');
-    getSchedules(currentLocation, view, page).then((items) => {
-      console.log(items);
+    getSchedules(currentLocation, fromDate, untilDate).then((items) => {
       if (items && !items.error) {
-        setScheduleData((prev) => [...prev, ...items]);
-        setDisplayButton(items.length === loadCount);
-        setPage((prev) => prev + 1);
+        setScheduleData(items);
       }
     });
-  }, [view]);
+  }, [fromDate, untilDate]);
 
-  const dateRangeIsValid = (startDay) => {
-    if (!fromDate || !untilDate) return true;
-    const fromDateObj = new Date(fromDate);
-    const untilDateObj = new Date(untilDate);
-    untilDateObj.setDate(untilDateObj.getDate() + 1);
-    return startDay >= fromDateObj && startDay <= untilDateObj;
+  const dateToString = (date) => {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
   };
 
-  const itemMap = () => {
-    const items = [];
-    for (let i = 0; i < scheduleData.length; i += 1) {
-      for (let j = 0; j < scheduleData[i].ScheduleItems.length; j += 1) {
-        const item = scheduleData[i].ScheduleItems[j];
-        const startDay = new Date(scheduleData[i].start_date);
-        const endDay = new Date(scheduleData[i].end_date);
-        if (dateRangeIsValid(startDay)) {
-          items.push(
-            <div className="tableItem">
-              <div className="scheduleCol1 timeBox">
-                <div>{item.date}</div>
-                <div className="bold">
-                  {startDay.toLocaleDateString('en-US')}
-                </div>
-                <div className="bold">
-                  {startDay.toLocaleTimeString('en-US', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}{' '}
-                  -{' '}
-                  {endDay.toLocaleTimeString('en-US', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                </div>
-              </div>
-              <div className="scheduleCol2 bold">{item.Teacher.name}</div>
-              <div className="scheduleCol3">{item.Teacher.pencilId}</div>
-              <div className="scheduleCol4">{item.Teacher.phone}</div>
-              <div className="scheduleCol5">{item.Teacher.School.name}</div>
-            </div>
-          );
-        }
-      }
-    }
-    return items;
+  const setToday = () => {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.getMonth() + 1;
+    const year = today.getFullYear();
+    setFromDate(`${month}/${day}/${year}`);
+    setUntilDate(`${month}/${day}/${year}`);
   };
+
+  const setThisWeek = () => {
+    const today = new Date();
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+    const first = new Date(today.setDate(diff));
+    const last = new Date(today.setDate(diff + 6));
+    setFromDate(dateToString(first));
+    setUntilDate(dateToString(last));
+  };
+
+  const getScheduleTimeSlot = (startDay, endDay, scheduleItemData) => (
+    <>
+      <div>{scheduleItemData.date}</div>
+      <div className="bold">{startDay.toLocaleDateString('en-US')}</div>
+      <div className="bold">
+        {startDay.toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+        })}{' '}
+        -{' '}
+        {endDay.toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+        })}
+      </div>
+    </>
+  );
 
   const refreshData = () => {
     setScheduleData([]);
-    getSchedules(currentLocation).then((items) => {
+    getSchedules(currentLocation, fromDate, untilDate).then((items) => {
       if (!items.err) {
         setScheduleData(items);
       }
     });
-  };
-
-  const formatDate = (dateObj) => {
-    const { date, month, year } = parseDate(dateObj);
-
-    return `${date} ${month} ${year}`;
-  };
-
-  const formatTime = (startDateObj, endDateObj) => {
-    const parsedStartTime = parseDate(startDateObj).ampmTime;
-    const parsedEndTime = parseDate(endDateObj).ampmTime;
-
-    return `${parsedStartTime} - ${parsedEndTime}`;
   };
 
   const leftItems = (
@@ -115,6 +91,12 @@ const Schedule = () => {
   const rightItems = (
     <>
       <IoMdRefresh className="refreshButton" size="26" onClick={refreshData} />
+      <div className="secondaryButton" onClick={setToday}>
+        Today
+      </div>
+      <div className="secondaryButton" onClick={setThisWeek}>
+        This Week
+      </div>
       <CalendarInput
         fromDate={fromDate}
         setFromDate={setFromDate}
@@ -139,15 +121,64 @@ const Schedule = () => {
           <div className="scheduleCol4">Phone Number</div>
           <div className="scheduleCol5">School</div>
         </div>
-        {itemMap()}
+        {scheduleData.map((scheduleTimeSlot) => {
+          if (scheduleTimeSlot.ScheduleItems.length === 0) return;
 
-        {displayButton && (
-          <div className="horizontal-align-center">
-            <button type="button" className="primaryButton">
-              Load 50
-            </button>
-          </div>
-        )}
+          const dataForTableItem = {
+            dateAndTime: null,
+            name: [],
+            id: [],
+            phone: [],
+            school: [],
+          };
+
+          scheduleTimeSlot.ScheduleItems.forEach((scheduleItem, slotIndex) => {
+            const startDay = new Date(scheduleTimeSlot.start_date);
+            const endDay = new Date(scheduleTimeSlot.end_date);
+            const scheduleItemData = scheduleTimeSlot.ScheduleItems[slotIndex];
+            // add the date to the table just once
+            if (slotIndex === 0) {
+              dataForTableItem.dateAndTime = [
+                startDay,
+                endDay,
+                scheduleItemData,
+              ];
+            }
+            // add remaining info to the table
+            dataForTableItem.name.push(scheduleItemData.Teacher.name);
+            dataForTableItem.id.push(scheduleItemData.Teacher.pencilId);
+            dataForTableItem.phone.push(scheduleItemData.Teacher.phone);
+            dataForTableItem.school.push(scheduleItemData.Teacher.School.name);
+          });
+          // eslint-disable-next-line consistent-return
+          return (
+            <div className="tableItem">
+              <div className="scheduleCol1 timeBox">
+                {getScheduleTimeSlot(...dataForTableItem.dateAndTime)}
+              </div>
+              <div className="scheduleCol2 bold">
+                {dataForTableItem.name.map((teacherName) => (
+                  <div>{teacherName}</div>
+                ))}
+              </div>
+              <div className="scheduleCol3">
+                {dataForTableItem.id.map((teacherId) => (
+                  <div>{teacherId}</div>
+                ))}
+              </div>
+              <div className="scheduleCol4">
+                {dataForTableItem.phone.map((teacherPhone) => (
+                  <div>{teacherPhone}</div>
+                ))}
+              </div>
+              <div className="scheduleCol5">
+                {dataForTableItem.school.map((schoolName) => (
+                  <div>{schoolName}</div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </PageContainer>
   );
