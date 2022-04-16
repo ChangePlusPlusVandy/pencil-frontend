@@ -17,8 +17,6 @@ const LocationDropdown = () => {
 
   const handleClick = (e) => {
     updateLocation(e.target.innerText);
-    updateLocation(e.target.innerText);
-    updateLocation(e.target.innerText);
     window.location.reload();
   };
 
@@ -27,7 +25,6 @@ const LocationDropdown = () => {
   };
 
   const handleClose = () => {
-    console.log();
     setAddLocationVisible(false);
   };
 
@@ -38,7 +35,10 @@ const LocationDropdown = () => {
         alert(
           'Something went wrong in the backend Server. Please contact the developer team.'
         );
-      } else if (result) setAllLocations(result);
+      } else if (result)
+        setAllLocations(
+          result.filter((location) => location.name !== currentLocation)
+        );
     });
   }, []);
 

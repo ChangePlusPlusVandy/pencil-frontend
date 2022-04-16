@@ -13,20 +13,26 @@ import './Schedule.css';
 import TableHeader from '../../components/TableHeader/TableHeader';
 import { parseDate } from '../../utils/timedate';
 
+const loadCount = 1;
+
 const Schedule = () => {
   const [scheduleData, setScheduleData] = useState([]);
   const [view, setView] = useState('Today');
+  const [page, setPage] = useState(1);
   const { currentLocation } = useAuth();
+  const [displayButton, setDisplayButton] = useState(true);
 
   useEffect(() => {
     if (!currentLocation) alert('Please select a location');
-    getSchedules(currentLocation).then((items) => {
+    getSchedules(currentLocation, view, page).then((items) => {
       console.log(items);
       if (items && !items.error) {
-        setScheduleData(items);
+        setScheduleData((prev) => [...prev, ...items]);
+        setDisplayButton(items.length === loadCount);
+        setPage((prev) => prev + 1);
       }
     });
-  }, []);
+  }, [view]);
 
   const itemMap = () => {
     const items = [];
@@ -127,6 +133,14 @@ const Schedule = () => {
           <div className="scheduleCol5">School</div>
         </div>
         {itemMap()}
+
+        {displayButton && (
+          <div className="horizontal-align-center">
+            <button type="button" className="primaryButton">
+              Load 50
+            </button>
+          </div>
+        )}
       </div>
     </PageContainer>
   );
