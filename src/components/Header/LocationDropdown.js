@@ -44,9 +44,9 @@ const LocationDropdown = () => {
 
   const menu = (
     <>
-      {allLocations.map((loc) => (
-        <a onClick={handleClick}>{loc.name}</a>
-      ))}
+      {allLocations.length
+        ? allLocations.map((loc) => <a onClick={handleClick}>{loc.name}</a>)
+        : null}
       <div className="horizontal_line" />
       <a
         className="secondaryButton vertical-align-center no-margin"

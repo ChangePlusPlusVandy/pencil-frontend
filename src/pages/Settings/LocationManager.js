@@ -32,16 +32,17 @@ const LocationManager = () => {
         </div>
       </div>
       <ul>
-        {locations.map((item, index) => (
-          <div
-            className={`locationRow ${
-              isLocationEditable ? 'editableLocationRow' : ''
-            }`}
-          >
-            <div className="locationName">{item.name}</div>
-            <div>{item.address}</div>
-          </div>
-        ))}
+        {locations.length &&
+          locations.map((item, index) => (
+            <div
+              className={`locationRow ${
+                isLocationEditable ? 'editableLocationRow' : ''
+              }`}
+            >
+              <div className="locationName">{item.name}</div>
+              <div>{item.address}</div>
+            </div>
+          ))}
       </ul>
       {isLocationEditable && (
         <div className="profileActionButton">
