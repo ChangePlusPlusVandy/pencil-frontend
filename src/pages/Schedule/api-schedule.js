@@ -3,10 +3,16 @@
  *
  * @returns {Object} - All transaction objects with information about transaction
  */
-const getSchedules = (location, mode, page) => {
-  const response = fetch(
-    `api/schedule/${location}/getSchedule?mode=${mode}&page=${page}`
-  )
+const getSchedules = (location, startDate, endDate) => {
+  console.log('Getting Schedules:', startDate, endDate);
+  const from = startDate && new Date(startDate).toISOString();
+  let to = endDate && new Date(endDate);
+  if (endDate) {
+    to.setDate(to.getDate() + 1);
+    to = to.toISOString();
+  }
+  const query = `startDate=${from}&endDate=${to}`;
+  const response = fetch(`api/schedule/${location}/getSchedule?${query}`)
     .then((data) => data.json())
     .catch((err) => ({
       err: `Error retrieving schedule ${err}`,

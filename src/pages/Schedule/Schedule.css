@@ -18,6 +18,13 @@
   width: 33%;
 }
 
+.scheduleCol2,
+.scheduleCol3,
+.scheduleCol4,
+.scheduleCol5 {
+  align-self: center;
+}
+
 .timeBox {
   display: flex;
   flex-direction: column;
