@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import './Subtable.css';
 
 const Subtable = ({ uuid, data, transactionType, status, onChange }) => {
   const [localData, setLocalData] = useState(data);
@@ -48,6 +49,7 @@ const Subtable = ({ uuid, data, transactionType, status, onChange }) => {
   }, [localData]);
 
   const handleLocalChange = (e, itemUuid) => {
+    console.log('value of e: ', e.target.value);
     const { value } = e.target;
     setLocalData((prevData) => {
       prevData.map((item) => {
@@ -58,34 +60,37 @@ const Subtable = ({ uuid, data, transactionType, status, onChange }) => {
       });
       return prevData;
     });
+    setFormattedData(formatItemData(localData));
   };
 
   return (
-    <div>
-      <table className="expandedData">
-        <tr>
-          <th>Item</th>
-          <th>Quantity</th>
-          <th>Item</th>
-          <th>Quantity</th>
-        </tr>
-        {formattedData.map((item) => (
-          <div className="expandedTableRow">
-            <td>{item.itemName1}</td>
+    <div className="subtableContainer">
+      <div className="subtableRow bold">
+        <div className="subtableCol1">Item</div>
+        <div className="subtableCol2">Quantity</div>
+        <div className="subtableCol3">Item</div>
+        <div className="subtableCol4">Quantity</div>
+      </div>
+      {formattedData.map((item) => (
+        <div className="subtableRow">
+          <div className="subtableCol1">{item.itemName1}</div>
+          <div className="subtableCol2">
             <input
               className="editableText small"
               value={item.itemsTaken1}
               onChange={(e) => handleLocalChange(e, item.itemUuid1)}
             />
-            <td>{item.itemName2}</td>
+          </div>
+          <div className="subtableCol3">{item.itemName2}</div>
+          <div className="subtableCol4">
             <input
               className="editableText small"
               value={item.itemsTaken2}
               onChange={(e) => handleLocalChange(e, item.itemUuid2)}
             />
           </div>
-        ))}
-      </table>
+        </div>
+      ))}
     </div>
   );
 };

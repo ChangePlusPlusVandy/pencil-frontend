@@ -1,0 +1,34 @@
+.subtableContainer {
+  padding: 1rem 6rem;
+}
+
+.subtableRow {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.subtableCol1 {
+  width: 15%;
+}
+
+.subtableCol2 {
+  width: 35%;
+  text-align: center;
+}
+
+.subtableCol2 > .editableText {
+  text-align: center;
+}
+
+.subtableCol3 {
+  width: 15%;
+}
+
+.subtableCol4 {
+  width: 35%;
+  text-align: center;
+}
+
+.subtableCol4> .editableText {
+    text-align: center;
+}
