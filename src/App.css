@@ -24,13 +24,14 @@ body {
 /* Buttons Styling */
 
 .primaryButton {
-  width: 105px;
+  min-width: 105px;
   height: 32px;
   border-radius: 50px;
   border-style: none;
   background-color: var(--primary);
   transition: all 0.3s ease-in-out;
   margin: 0 10px;
+  padding: 0 20px;
 }
 
 .primaryButton:hover {
@@ -137,7 +138,20 @@ body {
   font-size: 16px;
 }
 
-.primaryInput:focus {
+.secondaryInput {
+  width: 100%;
+  height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 0 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.primaryInput:focus, .secondaryInput:focus {
   outline: var(--primaryHover) auto 1.5px;
 }
 
@@ -147,12 +161,20 @@ body {
   margin-right: 0.5em;
 }
 
+.inputSubtitle {
+  font-size: 14px;
+  color: red;
+  font-weight: 200;
+  margin-top: 2px;
+  margin-bottom: 0;
+}
+
 /* table styling */
 
 .tableContainer {
   width: 100%;
   height: 100%;
-  padding: 1.2rem 3rem 2.5rem 3rem;
+  padding: 0rem 3rem 2.5rem 3rem;
   background-color: var(--bgSecondary);
   border-radius: 20px;
   font-size: 16px;
@@ -175,12 +197,24 @@ body {
 
 .tableItemHeader {
   width: 100%;
-  padding: 0px 30px;
+  padding: 20px 30px 10px 30px;
   display: flex;
   align-items: center;
-  transition: all 0.3s ease-in-out;
   color: var(--textDisabled);
   position: sticky;
+  top: 0;
+  background-color: var(--bgSecondary);
+}
+
+.tableItemHeader.is-pinned {
+  background-color: var(--bgSecondary);
+}
+
+.noTableData {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 /* misc */
@@ -206,6 +240,16 @@ body {
   transition: all 0.3s ease-in-out;
 }
 
+.errorMessage {
+  color: rgba(240, 71, 71, 1);
+  margin-top: 5px;
+}
+
+.successMessage {
+  color: rgba(47, 181, 101, 1);
+  margin-top: 5px;
+}
+
 .bold {
   font-weight: bold;
 }
@@ -218,14 +262,31 @@ body {
   text-align: center;
 }
 
+.rotate180 {
+  transform: rotate(180deg);
+}
+
+.transparent {
+  color: transparent;
+}
+
 /* editable text */
 .editableText {
-  width: 100px;
-  height: 30px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
+.editableText.small {
+  width: 100px;
+}
+
+.editableText.medium {
+  width: 200px;
+}
+
+.editableText.large {
+  width: 300px;
+}
 .editableText:disabled {
   border: 1px solid transparent;
   background-color: inherit;

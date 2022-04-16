@@ -5,11 +5,12 @@ import { useHistory } from 'react-router-dom';
 import './Settings.css';
 
 import { HiUser } from 'react-icons/hi';
-import { FaMapMarkerAlt } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaLock } from 'react-icons/fa';
 import { AiFillHome } from 'react-icons/ai';
 import SettingsHeader from './SettingsHeader';
 import LocationManager from './LocationManager';
 import Profile from './Profile';
+import Password from './Password';
 
 const Settings = () => {
   const [selected, setSelected] = useState('Profile');
@@ -42,6 +43,19 @@ const Settings = () => {
                 <HiUser size="24px" style={{ marginRight: '0.5vw' }} />
                 Profile
               </div>
+              {/* Password */}
+              <div
+                className={`settingNavRow ${
+                  selected === 'Password' ? 'navRow-active' : ''
+                }`}
+                onClick={() => handleClick('Password')}
+                onKeyDown={() => {}}
+                role="button"
+                tabIndex={0}
+              >
+                <FaLock size="24px" style={{ marginRight: '0.5vw' }} />
+                Password
+              </div>
               {/* Location Manager */}
               <div
                 className={`settingNavRow ${
@@ -66,6 +80,7 @@ const Settings = () => {
             </div>
           </div>
           {selected === 'Profile' && <Profile />}
+          {selected === 'Password' && <Password />}
           {selected === 'Location' && <LocationManager />}
         </div>
       </div>

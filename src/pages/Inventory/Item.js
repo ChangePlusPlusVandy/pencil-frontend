@@ -26,7 +26,7 @@ const Item = ({
   };
 
   const handleValueChange = (e) => {
-    const value = parseInt(e.target.value, 10);
+    const value = parseFloat(e.target.value);
     setLocalValue(value);
     updateItem(uuid, valueKey, value, true);
   };
@@ -48,7 +48,7 @@ const Item = ({
           itemName
         ) : (
           <input
-            className="editableText"
+            className="editableText medium"
             value={localName}
             onChange={handleNameChange}
             disabled={!nameEditable}
@@ -57,9 +57,10 @@ const Item = ({
       </div>
       <div className="inventoryCol4">
         <input
-          className="editableText text-center"
+          className="editableText text-center small"
           type="number"
           min="0"
+          step={`${type === 'active' ? '1' : '0.01'}`}
           value={localValue}
           onChange={handleValueChange}
           disabled={!valueEditable}
@@ -71,6 +72,7 @@ const Item = ({
         tabIndex="-1"
         onClick={() => handleDelete(uuid)}
         onKeyPress={() => {}}
+        hidden={type === 'master'}
       >
         <CgTrash size="20" color="F04747" />
       </div>

@@ -17,8 +17,6 @@ const LocationDropdown = () => {
 
   const handleClick = (e) => {
     updateLocation(e.target.innerText);
-    updateLocation(e.target.innerText);
-    updateLocation(e.target.innerText);
     window.location.reload();
   };
 
@@ -27,21 +25,21 @@ const LocationDropdown = () => {
   };
 
   const handleClose = () => {
-    console.log();
     setAddLocationVisible(false);
   };
 
   useEffect(() => {
-    getAllLocations()
-      .then((result) => {
-        if (result instanceof Error) {
-          // eslint-disable-next-line no-alert
-          alert(
-            'Something went wrong in the backend Server. Please contact the developer team.'
-          );
-        } else if (result) setAllLocations(result);
-      })
-      .catch((err) => console.log(allLocations));
+    getAllLocations().then((result) => {
+      if (result instanceof Error) {
+        // eslint-disable-next-line no-alert
+        alert(
+          'Something went wrong in the backend Server. Please contact the developer team.'
+        );
+      } else if (result)
+        setAllLocations(
+          result.filter((location) => location.name !== currentLocation)
+        );
+    });
   }, []);
 
   const menu = (

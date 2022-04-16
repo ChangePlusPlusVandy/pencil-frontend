@@ -1,6 +1,8 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../../AuthContext';
+import PasswordInput from '../../components/PasswordInput/PasswordInput';
 
 /**
  * Allows user to register.
@@ -46,6 +48,7 @@ const Register = () => {
           <label htmlFor="name">
             Name
             <input
+              className="primaryInput"
               type="text"
               id="name"
               autoComplete="name"
@@ -58,6 +61,7 @@ const Register = () => {
           <label htmlFor="email">
             Email
             <input
+              className="primaryInput"
               type="email"
               id="email"
               autoComplete="email"
@@ -67,35 +71,31 @@ const Register = () => {
           </label>
         </div>
         <div>
-          <label htmlFor="password">
+          <label>
             Password
-            <input
-              type="password"
-              id="password"
-              autoComplete="new-password"
+            <PasswordInput
+              className="primaryInput"
               value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              onChange={setPassword}
             />
           </label>
         </div>
         <div>
-          <label htmlFor="passwordConfirm">
+          <label>
             Confirm Password
-            <input
-              type="password"
-              id="passwordConfirm"
-              autoComplete="new-password"
+            <PasswordInput
+              className="primaryInput"
               value={passwordConfirm}
-              onChange={(event) => setPasswordConfirm(event.target.value)}
+              onChange={setPasswordConfirm}
             />
           </label>
         </div>
-        <button type="submit" disabled={isLoading}>
+        <button type="submit" disabled={isLoading} className="primaryButton">
           {isLoading ? 'Loading...' : 'Register'}
         </button>
-        {error && <p>{error}</p>}
+        {error && <p className="loginError">{error}</p>}
       </form>
-      <p>
+      <p className="margin-top-1">
         Already have an account? <Link to="/login">Login</Link>
       </p>
     </div>

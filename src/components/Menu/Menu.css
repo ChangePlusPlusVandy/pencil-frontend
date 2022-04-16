@@ -5,11 +5,10 @@
   border-width: 0px;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
-  margin-right: 5px;
-  margin-left: 5px;
   cursor: pointer;
-  padding-top: 10px;
-  padding-bottom: 13px;
+  margin: 0 5px;
+  padding: 8px 0;
+  transition: all 0.3s ease-in-out;
 }
 
 .menuButton:hover {
@@ -33,6 +32,7 @@
 .dark-button {
   color: var(--textColor) !important;
   background-color: var(--bgSecondary);
+  box-shadow: 0px 5px 7px -3px rgba(0, 0, 0, 0.05);
 }
 
 .dark-button:hover {

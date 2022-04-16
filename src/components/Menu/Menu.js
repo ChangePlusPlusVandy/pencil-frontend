@@ -30,7 +30,7 @@ const Menu = () => {
   return (
     <div className="menu">
       <div>
-        <Link to="/dashboard" className="link" tabindex="-1">
+        <Link to="/dashboard" className="link" tabIndex="-1">
           <button
             type="button"
             className={`menuButton ${menu === 0 ? 'dark-button' : ''}`}
@@ -39,7 +39,7 @@ const Menu = () => {
             <text className="menuOptionText">Dashboard</text>{' '}
           </button>
         </Link>
-        <Link to="/inventory" className="link" tabindex="-1">
+        <Link to="/inventory" className="link" tabIndex="-1">
           <button
             type="button"
             className={`menuButton ${menu === 1 ? 'dark-button' : ''}`}
@@ -48,7 +48,7 @@ const Menu = () => {
             <text className="menuOptionText">Inventory</text>
           </button>
         </Link>
-        <Link to="/reports" className="link" tabindex="-1">
+        <Link to="/reports" className="link" tabIndex="-1">
           <button
             type="button"
             className={`menuButton ${menu === 2 ? 'dark-button' : ''}`}
@@ -57,7 +57,7 @@ const Menu = () => {
             <text className="menuOptionText">Reports</text>
           </button>
         </Link>
-        <Link to="/schedule" className="link" tabindex="-1">
+        <Link to="/schedule" className="link" tabIndex="-1">
           <button
             type="button"
             className={`menuButton ${menu === 3 ? 'dark-button' : ''}`}
@@ -66,7 +66,7 @@ const Menu = () => {
             <text className="menuOptionText">Schedule</text>
           </button>
         </Link>
-        <Link to="/transactions" className="link" tabindex="-1">
+        <Link to="/transactions" className="link" tabIndex="-1">
           <button
             type="button"
             className={`menuButton ${menu === 4 ? 'dark-button' : ''}`}

@@ -6,6 +6,8 @@ import Modal from '../Modal/Modal';
 
 const AddLocation = ({ show, onClose }) => {
   if (!show) return null;
+
+  const CHARACTER_LIMIT = 18;
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
 
@@ -17,13 +19,16 @@ const AddLocation = ({ show, onClose }) => {
     window.location.reload();
   };
 
+  const validateInput = () =>
+    !name || name.length > CHARACTER_LIMIT || !address;
+
   return (
     <Modal
       show={show}
       onClose={onClose}
       actionButtonText="Add"
       handleAction={handleSubmit}
-      actionButtonDisabled={!name || !address}
+      actionButtonDisabled={validateInput()}
     >
       <label className="inputLabel">
         Location Name
@@ -33,6 +38,9 @@ const AddLocation = ({ show, onClose }) => {
           autoComplete="off"
           onChange={(e) => setName(e.target.value)}
         />
+        {name.length > CHARACTER_LIMIT ? (
+          <p className="inputSubtitle">Input length too long</p>
+        ) : null}
       </label>
       <label className="inputLabel">
         Full Address

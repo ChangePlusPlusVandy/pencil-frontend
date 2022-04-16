@@ -1,0 +1,84 @@
+.authContainer {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.authLeftCol {
+  width: 50vw;
+  background-color: var(--primary);
+}
+
+.authRightCol {
+  background-color: var(--bgSecondary);
+  width: 50vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 5rem;
+}
+
+.authFormContainer {
+  min-width: 20vw;
+  max-width: 30vw;
+}
+
+.authPencilHeader {
+  font-family: Bitter;
+  font-size: 60px;
+  font-weight: 500;
+  line-height: 72px;
+  letter-spacing: 0.01em;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.authPencilHeader > .header_logo {
+  height: 60px;
+}
+
+.authSubtitle {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 16px;
+  color: var(--textSecondary);
+}
+
+.passwordLabelContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.forgotPasswordButton {
+  text-align: right;
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+  margin: 0;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  color: var(--textSecondary);
+}
+
+.forgotPasswordButton:hover {
+  cursor: pointer;
+  color: var(--primaryHover);
+}
+
+.margin-bottom-2 {
+  margin-bottom: 2rem;
+}
+
+.margin-top-2 {
+  margin-top: 2rem;
+}
+
+.margin-top-1 {
+  margin-top: 1rem;
+}
+
+.authRightCol .primaryButton {
+  margin-left: 0;
+  margin-top: 1.5rem;
+}

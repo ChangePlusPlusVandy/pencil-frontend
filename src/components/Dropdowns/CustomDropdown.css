@@ -13,13 +13,18 @@
 }
 
 .custom-dropdown.large {
-  width: 180px;
-  height: 50px;
+  width: 200px;
+  height: 45px;
+}
+
+.custom-dropdown.medium {
+  width: 160px;
+  height: 45px;
 }
 
 .custom-dropdown.small {
   width: 170px;
-  height: 32px;
+  height: 36px;
   cursor: pointer;
 }
 
@@ -52,6 +57,11 @@
   margin-top: -10px;
   display: flex;
   flex-direction: column;
+}
+
+.dropdown_menu.small {
+  margin-top: -6px;
+  padding-bottom: 5px !important;
 }
 
 .dropdown_menu > a {
