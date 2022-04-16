@@ -30,7 +30,7 @@ const LocationDropdown = () => {
 
   useEffect(() => {
     getAllLocations().then((result) => {
-      if (result instanceof Error) {
+      if (result.error) {
         // eslint-disable-next-line no-alert
         alert(
           'Something went wrong in the backend Server. Please contact the developer team.'

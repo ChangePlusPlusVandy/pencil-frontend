@@ -1,18 +1,12 @@
 /* eslint-disable no-param-reassign */
-
 /* eslint-disable guard-for-in */
-
 /* eslint-disable no-restricted-syntax */
-
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
-import { FaChevronDown, FaCheck } from 'react-icons/fa'; //  Add deny/approve function, add no data page
-
+import { FaChevronDown, FaCheck } from 'react-icons/fa';
 import { IoMdRefresh } from 'react-icons/io';
 import { ImCross } from 'react-icons/im';
 import { Table } from 'antd';
@@ -291,7 +285,6 @@ const Transactions = () => {
             dataSource={data}
             expandable={{
               expandedRowRender,
-
               rowExpandable(record) {
                 return record?.transactionItems?.length;
               },
@@ -306,9 +299,8 @@ const Transactions = () => {
             rowClassName="transactionTableItem"
             expandable={{
               expandedRowRender,
-
               rowExpandable(record) {
-                return record.transactionItems.length;
+                return record?.transactionItems?.length;
               },
             }}
             pagination={false}
