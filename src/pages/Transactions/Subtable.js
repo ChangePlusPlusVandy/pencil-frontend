@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './Subtable.css';
 
-const Subtable = ({ uuid, data, transactionType, status, onChange }) => {
+const Subtable = ({ uuid, data, onChange, transactionType, status }) => {
   const [localData, setLocalData] = useState(data);
   const [formattedData, setFormattedData] = useState([]);
 
@@ -45,22 +45,23 @@ const Subtable = ({ uuid, data, transactionType, status, onChange }) => {
 
   useEffect(() => {
     onChange(localData, uuid);
-    setFormattedData(formatItemData(localData));
   }, [localData]);
 
   const handleLocalChange = (e, itemUuid) => {
-    console.log('value of e: ', e.target.value);
     const { value } = e.target;
-    setLocalData((prevData) => {
+    setFormattedData((prevData) =>
       prevData.map((item) => {
-        if (item.Item.uuid === itemUuid) {
-          item.amountTaken = value;
-        }
+        if (item.itemUuid1 === itemUuid) item.itemsTaken1 = value;
+        else if (item.itemUuid2 === itemUuid) item.itemsTaken2 = value;
         return item;
-      });
-      return prevData;
-    });
-    setFormattedData(formatItemData(localData));
+      })
+    );
+    setLocalData((prevData) =>
+      prevData.map((item) => {
+        if (item.Item.uuid === itemUuid) item.amountTaken = parseInt(value, 10);
+        return item;
+      })
+    );
   };
 
   return (

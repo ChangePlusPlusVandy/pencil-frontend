@@ -13,7 +13,11 @@ import { Table } from 'antd';
 import { useAuth } from '../../AuthContext';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import Subtable from './Subtable';
-import { handleTransaction, getTransactions } from './api-transactions';
+import {
+  handleTransaction,
+  getTransactions,
+  approveDeniedTransaction,
+} from './api-transactions';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import './Transactions.css';
 import TableHeader from '../../components/TableHeader/TableHeader';
@@ -63,7 +67,15 @@ const Transactions = () => {
   };
 
   const handleClick = (e, transaction, action) => {
-    handleTransaction(currentLocation, transaction.uuid, action);
+    if (view === 'Denied') {
+      approveDeniedTransaction(
+        currentLocation,
+        transaction.uuid,
+        transaction.transactionItems
+      );
+    } else {
+      handleTransaction(currentLocation, transaction.uuid, action);
+    }
     // find the index of the transaction in the data array,
     // and change the status based on the action
     setData((prevData) => {
@@ -165,22 +177,21 @@ const Transactions = () => {
   ];
 
   const handleTransactionItemsChange = (items, trxUuid) => {
-    setData((prevData) => {
+    setData((prevData) =>
       prevData.map((transaction) => {
         if (transaction.uuid === trxUuid) transaction.transactionItems = items;
         return transaction;
-      });
-      return prevData;
-    });
+      })
+    );
   };
 
   const expandedRowRender = (record) => (
     <Subtable
       uuid={record.uuid}
       data={record.transactionItems}
+      onChange={handleTransactionItemsChange}
       transactionType={view}
       status={record.status}
-      onChange={handleTransactionItemsChange}
     />
   );
 
@@ -293,6 +304,7 @@ const Transactions = () => {
           />
         ) : (
           <Table
+            rowKey="uuid"
             expandIcon={(props) => customExpandIcon(props)}
             columns={columns}
             dataSource={data}
