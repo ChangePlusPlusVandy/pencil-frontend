@@ -56,7 +56,7 @@ const approveTransaction = async (location, uuid) => {
     return await response.json();
   } catch (err) {
     console.log(err);
-    return { error: 'Teacher not found' };
+    return { error: `Transaction not processed: ${err.error}` };
   }
 };
 
@@ -68,7 +68,7 @@ const denyTransaction = async (location, uuid) => {
     return await response.json();
   } catch (err) {
     console.log(err);
-    return { error: 'Teacher not found' };
+    return { error: `Transaction not processed: ${err.error}` };
   }
 };
 
@@ -78,11 +78,31 @@ const handleTransaction = async (location, uuid, action) => {
   return false;
 };
 
+const approveDeniedTransaction = async (location, uuid, items) => {
+  try {
+    const response = await fetch(
+      `/api/${location}/transaction/approveDenied/${uuid}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({ items }),
+      }
+    );
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: `Transaction not processed: ${err.error}` };
+  }
+};
+
 // eslint-disable-next-line import/prefer-default-export
 export {
   getPendingTransactions,
   approveTransaction,
   denyTransaction,
+  approveDeniedTransaction,
   getApprovedTransactions,
   getDeniedTransactions,
   getTransactions,
