@@ -147,7 +147,10 @@ const Transactions = () => {
       render: (text, record) => (
         <div
           className=" roundButton approve-button"
-          hidden={record.status !== 'Pending' && view !== 'Denied'}
+          hidden={
+            (record.status !== 'Pending' && view !== 'Denied') ||
+            (view === 'Denied' && record.status === 'Approved')
+          }
           onClick={(e) => handleClick(e, record, 'Approve')}
           onKeyDown={() => {}}
           role="button"

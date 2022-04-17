@@ -78,6 +78,7 @@ const Subtable = ({ uuid, data, onChange, transactionType, status }) => {
           <div className="subtableCol2">
             <input
               className="editableText small"
+              disabled={transactionType !== 'Denied' || status !== 'Denied'}
               value={item.itemsTaken1}
               onChange={(e) => handleLocalChange(e, item.itemUuid1)}
             />
@@ -86,6 +87,7 @@ const Subtable = ({ uuid, data, onChange, transactionType, status }) => {
           <div className="subtableCol4">
             <input
               className="editableText small"
+              disabled={transactionType !== 'Denied' || status !== 'Denied'}
               value={item.itemsTaken2}
               onChange={(e) => handleLocalChange(e, item.itemUuid2)}
             />
