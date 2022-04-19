@@ -17,8 +17,6 @@ const LocationDropdown = () => {
 
   const handleClick = (e) => {
     updateLocation(e.target.innerText);
-    updateLocation(e.target.innerText);
-    updateLocation(e.target.innerText);
     window.location.reload();
   };
 
@@ -27,26 +25,28 @@ const LocationDropdown = () => {
   };
 
   const handleClose = () => {
-    console.log();
     setAddLocationVisible(false);
   };
 
   useEffect(() => {
     getAllLocations().then((result) => {
-      if (result instanceof Error) {
+      if (result.error) {
         // eslint-disable-next-line no-alert
         alert(
           'Something went wrong in the backend Server. Please contact the developer team.'
         );
-      } else if (result) setAllLocations(result);
+      } else if (result)
+        setAllLocations(
+          result.filter((location) => location.name !== currentLocation)
+        );
     });
   }, []);
 
   const menu = (
     <>
-      {allLocations.map((loc) => (
-        <a onClick={handleClick}>{loc.name}</a>
-      ))}
+      {allLocations.length
+        ? allLocations.map((loc) => <a onClick={handleClick}>{loc.name}</a>)
+        : null}
       <div className="horizontal_line" />
       <a
         className="secondaryButton vertical-align-center no-margin"

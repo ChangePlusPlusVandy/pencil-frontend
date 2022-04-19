@@ -23,4 +23,19 @@ const createNewLocation = async (req) => {
   }
 };
 
-export { getAllLocations, createNewLocation };
+const updateLocation = async (uuid, name, address) => {
+  try {
+    const response = await fetch(`/api/location/update/${uuid}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ uuid, name, address }),
+    });
+    return await response.json();
+  } catch (err) {
+    return err;
+  }
+};
+
+export { getAllLocations, createNewLocation, updateLocation };

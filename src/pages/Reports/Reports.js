@@ -16,6 +16,8 @@ import CalendarInput from './CalendarInput';
 import CustomCombobox from '../../components/Combobox/CustomCombobox';
 import TableHeader from '../../components/TableHeader/TableHeader';
 
+const menuOption = ['General', 'Product', 'No Show'];
+
 const Reports = () => {
   const [schoolNameList, setSchoolNameList] = useState([]);
   const [view, setView] = useState('General');
@@ -23,6 +25,9 @@ const Reports = () => {
   const [untilDate, setUntilDate] = useState('');
   const [schoolFilter, setSchoolFilter] = useState('');
   const [showQueries, setShowQueries] = useState(false);
+  const [menuOptions, setMenuOptions] = useState(
+    menuOption.filter((val) => val !== view)
+  ); // TODO: this needs to be updated
 
   const dateToString = (date) => {
     const day = date.getDate();
@@ -49,12 +54,19 @@ const Reports = () => {
     setUntilDate(dateToString(last));
   };
 
-  const menuOptions = ['General', 'Product', 'No Show']; // TODO: this needs to be updated
-
   const menu = (
     <>
       {menuOptions.map((option) => (
-        <a onClick={(e) => setView(e.target.innerText)}>{option}</a>
+        <a
+          onClick={(e) => {
+            setMenuOptions(
+              menuOption.filter((menuO) => menuO !== e.target.innerText)
+            );
+            setView(e.target.innerText);
+          }}
+        >
+          {option}
+        </a>
       ))}
     </>
   );

@@ -2,6 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable import/no-unresolved */
 import React, { useState, useEffect } from 'react';
 import {
   AiFillPrinter,
@@ -240,7 +241,7 @@ const Inventory = () => {
         {error && <Errors error={error} handleError={() => setError('')} />}
         <TableHeader
           title={`${inventoryType} Inventory (${
-            inventoryData ? inventoryData.length : 0
+            inventoryData.length ? inventoryData.length : 0
           })`}
           leftArea={leftItems}
           rightArea={rightItems}
@@ -261,20 +262,21 @@ const Inventory = () => {
           inventoryType === 'Active' ? (
             <ReactDragListView {...dragProps}>
               <ul className="dragList">
-                {inventoryData.map((item, index) => (
-                  <Item
-                    key={index + item['Item.itemName']}
-                    index={index}
-                    uuid={item.uuid}
-                    itemName={item['Item.itemName']}
-                    itemValue={item.maxLimit}
-                    updateItem={updateItem}
-                    handleDelete={handleDelete}
-                    valueEditable={valueEditable}
-                    setChanged={setChanged}
-                    type="active"
-                  />
-                ))}
+                {inventoryData.length &&
+                  inventoryData.map((item, index) => (
+                    <Item
+                      key={index + item['Item.itemName']}
+                      index={index}
+                      uuid={item.uuid}
+                      itemName={item['Item.itemName']}
+                      itemValue={item.maxLimit}
+                      updateItem={updateItem}
+                      handleDelete={handleDelete}
+                      valueEditable={valueEditable}
+                      setChanged={setChanged}
+                      type="active"
+                    />
+                  ))}
               </ul>
             </ReactDragListView>
           ) : (
