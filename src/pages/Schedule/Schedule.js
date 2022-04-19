@@ -4,6 +4,8 @@
 import React, { useState, useEffect } from 'react';
 import { AiFillPrinter } from 'react-icons/ai';
 import { IoMdRefresh } from 'react-icons/io';
+import { saveAs } from 'file-saver';
+import { Packer } from 'docx';
 import { useAuth } from '../../AuthContext';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import { getSchedules } from './api-schedule';
@@ -12,6 +14,7 @@ import 'antd/dist/antd.css';
 import './Schedule.css';
 import TableHeader from '../../components/TableHeader/TableHeader';
 import { parseDate } from '../../utils/timedate';
+import printForm from '../../utils/printSchedule';
 
 const Schedule = () => {
   const [scheduleData, setScheduleData] = useState([]);
@@ -27,6 +30,19 @@ const Schedule = () => {
       }
     });
   }, []);
+
+  const generate = () => {
+    console.log(scheduleData);
+    // const doc = printForm(scheduleData);
+    // let today = new Date();
+    // const dd = String(today.getDate()).padStart(2, '0');
+    // const mm = String(today.getMonth() + 1).padStart(2, '0');
+    // const yyyy = today.getFullYear();
+    // today = `${mm}-${dd}-${yyyy}`;
+    // Packer.toBlob(doc).then((blob) => {
+    //   saveAs(blob, `PencilForm.${today}.docx`);
+    // });
+  };
 
   const itemMap = () => {
     const items = [];
