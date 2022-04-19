@@ -1,14 +1,18 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect, useState } from 'react';
 import { HiPencil } from 'react-icons/hi';
 import { getAllSchools, addSchool } from './api-settings';
+import Modal from '../../components/Modal/Modal';
 
 const SchoolManager = () => {
   const [schools, setSchools] = useState([]);
   const [localSchools, setLocalSchools] = useState([]);
   const [isSchoolEditable, setIsSchoolEditable] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [newSchoolName, setNewSchoolName] = useState('');
 
   useEffect(() => {
     getAllSchools().then((data) => {
@@ -32,11 +36,45 @@ const SchoolManager = () => {
     );
   };
 
+  const handleModalSave = () => {
+    addSchool(newSchoolName).then((data) => {
+      setSchools([...schools, data]);
+      setLocalSchools([...localSchools, data]);
+      setNewSchoolName('');
+      setIsModalVisible(false);
+    });
+  };
+
   return (
     <div className="settingsBody">
+      <Modal
+        show={isModalVisible}
+        onClose={() => {
+          setIsModalVisible(false);
+          setNewSchoolName('');
+        }}
+        actionButtonText="Add"
+        handleAction={handleModalSave}
+        actionButtonDisabled={newSchoolName === ''}
+      >
+        <label className="inputLabel">
+          New School Name
+          <input
+            type="text"
+            className="primaryInput"
+            value={newSchoolName}
+            onChange={(e) => setNewSchoolName(e.target.value)}
+          />
+        </label>
+      </Modal>
       <div className="locationManagerHeader">
         <h3>Current Schools</h3>
-        <div className="secondaryButton">Add School</div>
+        <div
+          className="secondaryButton"
+          onClick={() => setIsModalVisible(true)}
+        >
+          Add School
+        </div>
         <div
           className={`secondaryButton vertical-align-center ${
             isSchoolEditable ? 'selectedBlue' : ''
