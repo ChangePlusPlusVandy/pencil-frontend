@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
 import {
   WidthType,
@@ -12,11 +13,11 @@ import {
 } from 'docx';
 
 const columnTitles = [
-  ['Date/Time:', 1, 19],
+  ['Time:', 1, 15],
   ['Name:', 1, 10],
-  ['Pencil ID:', 1, 6],
+  ['Pencil ID:', 1, 5],
   ['Phone Number:', 1, 20],
-  ['School:', 1, 22],
+  ['School:', 1, 20],
 ];
 const columnCells = columnTitles.map(
   (title) =>
@@ -36,7 +37,6 @@ const columnCells = columnTitles.map(
           alignment: AlignmentType.CENTER,
         }),
       ],
-      columnSpan: title[1],
     })
 );
 
@@ -53,46 +53,22 @@ function pushRowArr(splitItems) {
 
   for (const itemArr of splitItems) {
     const singleRow = [];
-    for (const item of itemArr) {
+    for (const property in itemArr) {
       singleRow.push(
         new TableCell({
           children: [
             new Paragraph({
               children: [
                 new TextRun({
-                  text: item['Item.itemName'],
-                  bold: true,
-                  font: 'Calibri',
+                  text: itemArr[property],
                   size: 22,
-                }),
-              ],
-            }),
-          ],
-          // width: { size: 100 / 8 * 2, type: WidthType.PERCENTAGE }
-        })
-      );
-      singleRow.push(
-        new TableCell({
-          children: [
-            new Paragraph({
-              children: [
-                new TextRun({
-                  text: item.maxLimit.toString(),
-                  bold: true,
                   font: 'Calibri',
-                  size: 22,
                 }),
               ],
               alignment: AlignmentType.CENTER,
             }),
           ],
-          // width: { size: 100 / 8 * 1, type: WidthType.PERCENTAGE }
-        })
-      );
-      singleRow.push(
-        new TableCell({
-          children: [new Paragraph('      ')],
-          // width: { size: 100 / 8 * 1, type: WidthType.PERCENTAGE }
+          height: { value: 900, rule: HeightRule.EXACT },
         })
       );
     }

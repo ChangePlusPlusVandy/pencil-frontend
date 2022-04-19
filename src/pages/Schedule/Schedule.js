@@ -1,3 +1,5 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -31,6 +33,40 @@ const Schedule = () => {
       }
     });
   }, [fromDate, untilDate]);
+
+  const generate = () => {
+    console.log(scheduleData);
+    const formattedData = [];
+    for (const item in scheduleData) {
+      for (const teacher in scheduleData[item].ScheduleItems) {
+        const start = new Date(scheduleData[item].start_date);
+        const end = new Date(scheduleData[item].end_date);
+        formattedData.push({
+          time: `${start.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+          })} - ${end.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+          })}`,
+          name: scheduleData[item].ScheduleItems[teacher].Teacher.name,
+          pencilId: scheduleData[item].ScheduleItems[teacher].Teacher.pencilId,
+          phone: scheduleData[item].ScheduleItems[teacher].Teacher.phone,
+          school: scheduleData[item].ScheduleItems[teacher].Teacher.School.name,
+        });
+      }
+    }
+    console.log(formattedData);
+    const doc = printForm(formattedData);
+    let today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    today = `${mm}-${dd}-${yyyy}`;
+    Packer.toBlob(doc).then((blob) => {
+      saveAs(blob, `PencilSchedule.${today}.docx`);
+    });
+  };
 
   const dateToString = (date) => {
     const day = date.getDate();
@@ -86,7 +122,7 @@ const Schedule = () => {
   };
 
   const leftItems = (
-    <div className="secondaryButton vertical-align-center">
+    <div className="secondaryButton vertical-align-center" onClick={generate}>
       Print Schedule
       <AiFillPrinter />
     </div>
@@ -154,6 +190,7 @@ const Schedule = () => {
             dataForTableItem.phone.push(scheduleItemData.Teacher.phone);
             dataForTableItem.school.push(scheduleItemData.Teacher.School.name);
           });
+
           // eslint-disable-next-line consistent-return
           return (
             <div className="tableItem">
