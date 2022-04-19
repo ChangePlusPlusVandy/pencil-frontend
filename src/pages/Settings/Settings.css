@@ -123,3 +123,12 @@
   padding-bottom: 30px;
   position: absolute;
 }
+
+/* School Manager Styles */
+.schoolManagerHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
