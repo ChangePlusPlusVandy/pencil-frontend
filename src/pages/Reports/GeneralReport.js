@@ -32,7 +32,9 @@ const GeneralReport = ({
           setReportData(data.transactions);
           setReportSummary(data.summary);
           // generate list of unique school names
-          const schoolList = data.transactions.map((item) => item.School.name);
+          const schoolList = data.transactions
+            ? data.transactions.map((item) => item.School.name)
+            : [];
           setSchoolNameList([...new Set(schoolList)]);
         }
       }
@@ -41,18 +43,21 @@ const GeneralReport = ({
 
   return (
     <div className="tableContainer">
-      <div className="reportSummary">
-        <p>
-          <p className="blueText">{reportSummary.totalSignups}</p>Total Signups
-        </p>
-        <p>
-          <p className="blueText">{reportSummary.numUniqueTeachers}</p>Unique
-          Teachers
-        </p>
-        <p>
-          <p className="blueText">0%</p>No Show Rate
-        </p>
-      </div>
+      {reportSummary && (
+        <div className="reportSummary">
+          <p>
+            <p className="blueText">{reportSummary.totalSignups}</p>Total
+            Signups
+          </p>
+          <p>
+            <p className="blueText">{reportSummary.numUniqueTeachers}</p>Unique
+            Teachers
+          </p>
+          <p>
+            <p className="blueText">0%</p>No Show Rate
+          </p>
+        </div>
+      )}
       <div className="tableItemHeader">
         <div className="generalReportCol1">Date</div>
         <div className="generalReportCol2">Teacher Name</div>
@@ -61,22 +66,23 @@ const GeneralReport = ({
         <div className="generalReportCol5">Total Product Value</div>
       </div>
       <div>
-        {reportData.map((transaction) => {
-          const date = formatDateDMY(new Date(transaction.createdAt));
-          const { name, email } = transaction.Teacher;
-          const schoolName = transaction.School.name;
-          return (
-            <div className="tableItem">
-              <div className="generalReportCol1">{date}</div>
-              <div className="generalReportCol2">{name}</div>
-              <div className="generalReportCol3">{email}</div>
-              <div className="generalReportCol4">{schoolName}</div>
-              <div className="generalReportCol5">
-                $ {transaction.totalItemPrice}
+        {reportData &&
+          reportData.map((transaction) => {
+            const date = formatDateDMY(new Date(transaction.createdAt));
+            const { name, email } = transaction.Teacher;
+            const schoolName = transaction.School.name;
+            return (
+              <div className="tableItem">
+                <div className="generalReportCol1">{date}</div>
+                <div className="generalReportCol2">{name}</div>
+                <div className="generalReportCol3">{email}</div>
+                <div className="generalReportCol4">{schoolName}</div>
+                <div className="generalReportCol5">
+                  $ {transaction.totalItemPrice}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </div>
   );
