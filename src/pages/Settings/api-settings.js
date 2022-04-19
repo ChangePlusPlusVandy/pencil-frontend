@@ -15,7 +15,7 @@ const addSchool = async (data) => {
         'Content-Type': 'application/json',
       },
       method: 'POST',
-      body: JSON.stringify(data),
+      body: JSON.stringify({ name: data }),
     });
     return await response.json();
   } catch (err) {
