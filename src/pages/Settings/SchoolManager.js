@@ -75,7 +75,7 @@ const SchoolManager = () => {
         >
           Add School
         </div>
-        <div
+        {/* <div
           className={`secondaryButton vertical-align-center ${
             isSchoolEditable ? 'selectedBlue' : ''
           }`}
@@ -83,7 +83,7 @@ const SchoolManager = () => {
         >
           Edit
           <HiPencil />
-        </div>
+        </div> */}
       </div>
       <ul>
         {localSchools.length &&

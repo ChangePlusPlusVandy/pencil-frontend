@@ -49,6 +49,9 @@
   border-radius: 20px;
   margin: auto;
   margin-left: 30px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  overflow-y: scroll;
 }
 
 .settingsBody > ul {
