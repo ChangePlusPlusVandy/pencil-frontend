@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { AiTwotoneCalendar } from 'react-icons/ai';
+import { BsFillPersonFill } from 'react-icons/bs';
+import Card from '../../components/Card/Card';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import { useAuth } from '../../AuthContext';
 import './Dashboard.css';
@@ -14,11 +17,19 @@ const Dashboard = () => {
       <div className="dashboardContainer">
         <div className="dashboardLeft">
           <p>Today at a glance</p>
-          <div className="cardRegular">
-            <div>$12343</div>
-            <div>Total value donated</div>
-            <div>Icon</div>
-          </div>
+          <Card
+            value="$12345"
+            title="Total value donated"
+            icon={<AiTwotoneCalendar size="28" />}
+            valueColor="rgba(47, 181, 101, 0.84)"
+            size="wide"
+          />
+          <Card
+            value="$12345"
+            title="Average value taken per teacher"
+            icon={<BsFillPersonFill size="28" />}
+            valueColor="rgba(47, 181, 101, 0.84)"
+          />
         </div>
         <div className="dashboardRight">{currentYear} at a glance</div>
       </div>

@@ -13,16 +13,3 @@
 .dashboardRight {
   width: 60%;
 }
-
-.cardRegular {
-  background-color: var(--bgSecondary);
-  border-radius: 20px;
-  height: 200px;
-  width: 200px;
-  padding: 10px 15px;
-}
-
-.cardLong {
-  height: 160px;
-  width: 350px;
-}
