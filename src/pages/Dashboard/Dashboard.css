@@ -1,15 +1,37 @@
 .dashboardContainer {
   display: flex;
   flex-direction: row;
-  /* align-items: center; */
   justify-content: space-between;
   height: 100%;
 }
 
+.dashboardTitle {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: var(--textSecondary);
+  margin-bottom: 1em;
+}
+
 .dashboardLeft {
-  width: 40%;
+  display: flex;
+  flex-direction: column;
 }
 
 .dashboardRight {
-  width: 60%;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardRow {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 30px;
+}
+
+.cardRow > * {
+  margin-right: 30px;
+}
+
+.cardRow > :last-child {
+  margin-right: 0;
 }
