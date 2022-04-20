@@ -77,6 +77,15 @@ const Transactions = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (!mulSchoolFilter.length) return;
+    let allfilled = true;
+    mulSchoolFilter.forEach((curval) => {
+      if (curval === '') allfilled = false;
+    });
+    setAllowApproval(allfilled);
+  }, [mulSchoolFilter]);
+
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       setSelectedData(selectedRows);
@@ -127,15 +136,6 @@ const Transactions = () => {
     }
   };
 
-  useEffect(() => {
-    if (!mulSchoolFilter.length) return;
-    let allfilled = true;
-    mulSchoolFilter.forEach((curval) => {
-      if (curval === '') allfilled = false;
-    });
-    setAllowApproval(allfilled);
-  }, [mulSchoolFilter]);
-
   const handleSelected = (action) => {
     // handle each transaction in selected data
     const unverifiedArr = selectedData.filter((a) => !a.schoolVerified);
@@ -160,6 +160,15 @@ const Transactions = () => {
       setWasChecked(selectedUuid.concat(wasChecked));
       setSelectedData([]);
     }
+  };
+
+  const handleTransactionItemsChange = (items, trxUuid) => {
+    setData((prevData) =>
+      prevData.map((transaction) => {
+        if (transaction.uuid === trxUuid) transaction.transactionItems = items;
+        return transaction;
+      })
+    );
   };
 
   const columns = [
@@ -228,15 +237,6 @@ const Transactions = () => {
       ),
     },
   ];
-
-  const handleTransactionItemsChange = (items, trxUuid) => {
-    setData((prevData) =>
-      prevData.map((transaction) => {
-        if (transaction.uuid === trxUuid) transaction.transactionItems = items;
-        return transaction;
-      })
-    );
-  };
 
   const expandedRowRender = (record) => (
     <Subtable
