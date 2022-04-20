@@ -47,7 +47,6 @@ function pushRowArr(splitItems) {
     new TableRow({
       children: columnCells,
       width: { size: 100, type: WidthType.PERCENTAGE },
-      height: { value: 900, rule: HeightRule.EXACT },
     }),
   ];
 
@@ -68,15 +67,12 @@ function pushRowArr(splitItems) {
               alignment: AlignmentType.CENTER,
             }),
           ],
-          height: { value: 900, rule: HeightRule.EXACT },
         })
       );
     }
     rowsArr.push(
       new TableRow({
         children: singleRow,
-        height: { value: 300, rule: HeightRule.EXACT },
-        // width: { size: 100 / newTitles.length, type: WidthType.PERCENTAGE }
       })
     );
   }

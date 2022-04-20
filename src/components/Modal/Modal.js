@@ -20,7 +20,7 @@ const Modal = ({
           {children}
           <div className="modal-button-group">
             <button type="button" className="secondaryButton" onClick={onClose}>
-              Close
+              Cancel
             </button>
             <button
               type="button"

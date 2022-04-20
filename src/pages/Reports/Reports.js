@@ -36,6 +36,10 @@ const Reports = () => {
     return `${month}/${day}/${year}`;
   };
 
+  const printReport = () => {
+    console.log('nadha');
+  };
+
   const setThisWeek = () => {
     const today = new Date();
     const day = today.getDay();
@@ -72,7 +76,10 @@ const Reports = () => {
   );
 
   const leftItems = (
-    <div className="secondaryButton vertical-align-center">
+    <div
+      className="secondaryButton vertical-align-center"
+      onClick={() => printReport}
+    >
       Generate Report
       <FaFileDownload size="14" />
     </div>

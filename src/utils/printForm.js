@@ -191,7 +191,7 @@ function pushRowArr(splitItems) {
     rowsArr.push(
       new TableRow({
         children: singleRow,
-        height: { value: 300, rule: HeightRule.EXACT },
+        //  height: { value: 300, rule: HeightRule.EXACT },
         // width: { size: 100 / newTitles.length, type: WidthType.PERCENTAGE }
       })
     );

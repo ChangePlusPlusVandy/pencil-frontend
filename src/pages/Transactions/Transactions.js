@@ -22,6 +22,7 @@ import PageContainer from '../../components/PageContainer/PageContainer';
 import './Transactions.css';
 import TableHeader from '../../components/TableHeader/TableHeader';
 import { parseDate } from '../../utils/timedate';
+import Modal from '../../components/Modal/Modal';
 
 const formatDate = (dateObj) => {
   const { day, date, month, ampmTime } = parseDate(dateObj);
@@ -36,12 +37,16 @@ const Transactions = () => {
   const [wasChecked, setWasChecked] = useState([]);
   const [error, setError] = useState('');
   const { currentLocation } = useAuth();
+  const [showPopup, setShowPopup] = useState(false);
 
   const formatData = (transactions, status, isLoadMore = false) => {
     const result = transactions.map((item) => ({
       uuid: item.uuid,
       date: formatDate(new Date(item.createdAt)),
       teacherName: item.Teacher.name,
+      schoolName: item.Teacher.School.name,
+      schoolId: item.Teacher.School.uuid,
+      schoolVerified: item.Teacher.School.verified,
       transactionItems: item.TransactionItems,
       status,
     }));
@@ -51,6 +56,7 @@ const Transactions = () => {
 
   useEffect(() => {
     getTransactions(currentLocation, 'Pending').then((transactions) => {
+      console.log(transactions);
       if (transactions.error) setError(transactions.error);
       else formatData(transactions, 'Pending');
     });
@@ -67,6 +73,11 @@ const Transactions = () => {
   };
 
   const handleClick = (e, transaction, action) => {
+    console.log(transaction);
+    if (!transaction.schoolVerified) {
+      setShowPopup(true);
+      return;
+    }
     if (view === 'Denied') {
       approveDeniedTransaction(
         currentLocation,
@@ -123,13 +134,19 @@ const Transactions = () => {
       title: 'Date/Time',
       dataIndex: 'date',
       key: 'date',
-      width: '25%',
+      width: '20%',
     },
     {
       title: 'Name',
       dataIndex: 'teacherName',
       key: 'teacherName',
-      width: '35%',
+      width: '30%',
+    },
+    {
+      title: 'School',
+      dataIndex: 'schoolName',
+      key: 'schoolName',
+      width: '30%',
     },
     {
       title: 'Status',
@@ -197,6 +214,10 @@ const Transactions = () => {
       status={record.status}
     />
   );
+
+  const updateSchoolName = () => {
+    console.log('here');
+  };
 
   const loadMore = (type) => {
     getTransactions(currentLocation, type, prevItems, prevItems + 50).then(
@@ -335,6 +356,19 @@ const Transactions = () => {
           )}
         </div>
       </div>
+      <Modal
+        show={showPopup}
+        onClose={() => setShowPopup(false)}
+        actionButtonText="Update School"
+        handleAction={updateSchoolName}
+        actionButtonDisabled=""
+      >
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+        <label className="inputLabel">
+          New School Name
+          <input type="text" className="primaryInput" />
+        </label>
+      </Modal>
     </PageContainer>
   );
 };

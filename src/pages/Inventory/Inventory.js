@@ -55,7 +55,11 @@ const Inventory = () => {
   };
 
   const handleDelete = (uuid) => {
-    const newData = inventoryData.filter((item) => item.uuid !== uuid);
+    console.log(inventoryData);
+    const checkVal = inventoryData.findIndex((item) => uuid === item.uuid);
+    const newData = [...inventoryData];
+    newData[checkVal].archived = true;
+
     setInventoryData(newData);
     setChanged(true);
   };
@@ -122,7 +126,11 @@ const Inventory = () => {
             maxLimit: formInfo.itemValue,
             itemOrder: inventoryData.length,
           }
-        : { itemName: formInfo.itemName, itemPrice: formInfo.itemValue };
+        : {
+            itemName: formInfo.itemName,
+            itemPrice: formInfo.itemValue,
+            archived: false,
+          };
 
     setInventoryData([...inventoryData, newItem]);
     setAddItemVisible(false);
@@ -258,43 +266,47 @@ const Inventory = () => {
             tableHeaders
           )}
           {inventoryData &&
-          inventoryData.length > 0 &&
+          inventoryData.length &&
           inventoryType === 'Active' ? (
             <ReactDragListView {...dragProps}>
               <ul className="dragList">
-                {inventoryData.length &&
-                  inventoryData.map((item, index) => (
-                    <Item
-                      key={index + item['Item.itemName']}
-                      index={index}
-                      uuid={item.uuid}
-                      itemName={item['Item.itemName']}
-                      itemValue={item.maxLimit}
-                      updateItem={updateItem}
-                      handleDelete={handleDelete}
-                      valueEditable={valueEditable}
-                      setChanged={setChanged}
-                      type="active"
-                    />
-                  ))}
+                {inventoryData.map((item, index) => (
+                  <Item
+                    key={index + item['Item.itemName']}
+                    index={index}
+                    uuid={item.uuid}
+                    itemName={item['Item.itemName']}
+                    itemValue={item.maxLimit}
+                    updateItem={updateItem}
+                    handleDelete={handleDelete}
+                    valueEditable={valueEditable}
+                    setChanged={setChanged}
+                    type="active"
+                  />
+                ))}
               </ul>
             </ReactDragListView>
           ) : (
-            filteredData.map((item, index) => (
-              <Item
-                key={index + item.itemName}
-                index={index}
-                uuid={item.uuid}
-                itemName={item.itemName}
-                itemValue={item.itemPrice}
-                updateItem={updateItem}
-                handleDelete={handleDelete}
-                nameEditable={nameEditable}
-                valueEditable={valueEditable}
-                setChanged={setChanged}
-                type="master"
-              />
-            ))
+            filteredData.map((item, index) => {
+              console.log(item);
+              return (
+                !item.archived && (
+                  <Item
+                    key={index + item.itemName}
+                    index={index}
+                    uuid={item.uuid}
+                    itemName={item.itemName}
+                    itemValue={item.itemPrice}
+                    updateItem={updateItem}
+                    handleDelete={handleDelete}
+                    nameEditable={nameEditable}
+                    valueEditable={valueEditable}
+                    setChanged={setChanged}
+                    type="master"
+                  />
+                )
+              );
+            })
           )}
         </div>
       </>
