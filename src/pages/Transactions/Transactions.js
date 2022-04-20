@@ -97,7 +97,6 @@ const Transactions = () => {
   };
 
   const handleClick = (e, transaction, action) => {
-    console.log(action);
     if (action === 'Approve' && !transaction.schoolVerified) {
       setSingleSelected(transaction);
       setShowPopup(true);
@@ -148,7 +147,6 @@ const Transactions = () => {
         handleTransaction(currentLocation, transaction.uuid, action);
         setData((prevData) => {
           const temp = [...prevData];
-          console.log(temp.indexOf(transaction));
           temp[temp.indexOf(transaction)].status =
             action === 'Approve' ? 'Approved' : 'Denied';
           return temp;
@@ -291,16 +289,9 @@ const Transactions = () => {
             mulSchoolFilter[newSchoolIndex]
           );
         }
-        console.log(newSchoolIndex);
         setData((prevData) => {
           const temp = [...prevData];
           const mulItemIndex = temp.indexOf(multipleSelected[newSchoolIndex]);
-          console.log(
-            prevData,
-            multipleSelected[newSchoolIndex],
-            multipleSelected,
-            newSchoolIndex
-          );
           temp[mulItemIndex].status = 'Approved';
           temp[mulItemIndex].schoolName = mulSchoolFilter[newSchoolIndex];
           return temp;
