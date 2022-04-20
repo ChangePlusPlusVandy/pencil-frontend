@@ -46,6 +46,10 @@ const Transactions = () => {
   const [schoolNameList, setSchoolNameList] = useState([]);
   const [schoolFilter, setSchoolFilter] = useState('');
   const [singleSelected, setSingleSelected] = useState(false);
+  const [showMulPopup, setShowMulPopup] = useState(false);
+  const [multipleSelected, setMultipleSelected] = useState([]);
+  const [mulSchoolFilter, setMulSchoolFilter] = useState([]);
+  const [allowApproval, setAllowApproval] = useState(false);
 
   const formatData = (transactions, status, isLoadMore = false) => {
     const result = transactions.map((item) => ({
@@ -84,6 +88,7 @@ const Transactions = () => {
   };
 
   const handleClick = (e, transaction, action) => {
+    console.log(action);
     if (action === 'Approve' && !transaction.schoolVerified) {
       setSingleSelected(transaction);
       setShowPopup(true);
@@ -122,22 +127,39 @@ const Transactions = () => {
     }
   };
 
+  useEffect(() => {
+    if (!mulSchoolFilter.length) return;
+    let allfilled = true;
+    mulSchoolFilter.forEach((curval) => {
+      if (curval === '') allfilled = false;
+    });
+    setAllowApproval(allfilled);
+  }, [mulSchoolFilter]);
+
   const handleSelected = (action) => {
     // handle each transaction in selected data
-    selectedData.forEach((transaction) => {
-      handleTransaction(currentLocation, transaction.uuid, action);
-      setData((prevData) => {
-        const temp = [...prevData];
-        temp[temp.indexOf(transaction)].status =
-          action === 'Approve' ? 'Approved' : 'Denied';
-        return temp;
+    const unverifiedArr = selectedData.filter((a) => !a.schoolVerified);
+    if (action === 'Approve' && unverifiedArr.length) {
+      setMulSchoolFilter(Array(unverifiedArr.length).fill(''));
+      setShowMulPopup(true);
+      setMultipleSelected(unverifiedArr);
+    } else {
+      selectedData.forEach((transaction) => {
+        handleTransaction(currentLocation, transaction.uuid, action);
+        setData((prevData) => {
+          const temp = [...prevData];
+          console.log(temp.indexOf(transaction));
+          temp[temp.indexOf(transaction)].status =
+            action === 'Approve' ? 'Approved' : 'Denied';
+          return temp;
+        });
       });
-    });
 
-    // clear selected data
-    const selectedUuid = selectedData.map((a) => a.uuid);
-    setWasChecked(selectedUuid.concat(wasChecked));
-    setSelectedData([]);
+      // clear selected data
+      const selectedUuid = selectedData.map((a) => a.uuid);
+      setWasChecked(selectedUuid.concat(wasChecked));
+      setSelectedData([]);
+    }
   };
 
   const columns = [
@@ -249,6 +271,58 @@ const Transactions = () => {
     });
     setSchoolFilter('');
     setShowPopup(false);
+  };
+
+  const updateMulSchoolName = async () => {
+    let newSchoolIndex = 0;
+    selectedData.forEach(async (transaction) => {
+      if (!transaction.schoolVerified) {
+        if (view === 'Denied') {
+          await approveDeniedTransactionWithNewSchool(
+            currentLocation,
+            multipleSelected[newSchoolIndex].uuid,
+            multipleSelected[newSchoolIndex].transactionItems,
+            mulSchoolFilter[newSchoolIndex]
+          );
+        } else {
+          await approveTransactionWithNewSchool(
+            currentLocation,
+            multipleSelected[newSchoolIndex].uuid,
+            mulSchoolFilter[newSchoolIndex]
+          );
+        }
+        console.log(newSchoolIndex);
+        setData((prevData) => {
+          const temp = [...prevData];
+          const mulItemIndex = temp.indexOf(multipleSelected[newSchoolIndex]);
+          console.log(
+            prevData,
+            multipleSelected[newSchoolIndex],
+            multipleSelected,
+            newSchoolIndex
+          );
+          temp[mulItemIndex].status = 'Approved';
+          temp[mulItemIndex].schoolName = mulSchoolFilter[newSchoolIndex];
+          return temp;
+        });
+        newSchoolIndex += 1;
+      } else {
+        await handleTransaction(currentLocation, transaction.uuid, 'Approve');
+        setData((prevData) => {
+          const temp = [...prevData];
+          temp[temp.indexOf(transaction)].status = 'Approved';
+          return temp;
+        });
+      }
+    });
+
+    // clear selected data
+    const selectedUuid = selectedData.map((a) => a.uuid);
+    setWasChecked(selectedUuid.concat(wasChecked));
+    setSelectedData([]);
+    setMulSchoolFilter([]);
+    setMultipleSelected([]);
+    setShowMulPopup(false);
   };
 
   const loadMore = (type) => {
@@ -411,6 +485,43 @@ const Transactions = () => {
           />
         </label>
       </Modal>
+      <Modal
+        show={showMulPopup}
+        onClose={() => setShowMulPopup(false)}
+        actionButtonText="Approve Transaction"
+        handleAction={updateMulSchoolName}
+        actionButtonDisabled={!allowApproval}
+      >
+        {multipleSelected.map((item, index) => (
+          <>
+            <h3 style={{ color: 'rgb(240, 56, 56)' }}>
+              {item.teacherName}&apos;s school &quot;{item.schoolName}&quot; is
+              not a verified.
+            </h3>
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+            <label className="inputLabel">
+              New School Name
+              <CustomCombobox
+                data={schoolNameList}
+                onChange={(selected) => {
+                  const temp = [...mulSchoolFilter];
+                  temp[index] = selected;
+                  setMulSchoolFilter(temp);
+                }}
+                size="small"
+                placeholder="Search by school"
+                icon={
+                  <IoFilter
+                    size="16"
+                    className={`${schoolFilter !== '' && 'selectedBlue'}`}
+                  />
+                }
+              />
+            </label>
+            <br />
+          </>
+        ))}
+      </Modal>
     </PageContainer>
   );
 };
@@ -419,8 +530,6 @@ export default Transactions;
 
 function isOverload(data, index) {
   for (const i in data.transactionItems) {
-    console.log(data);
-
     if (
       parseInt(data.transactionItems[i].itemsTaken1, 10) >
         parseInt(data.transactionItems[i].maxLimit1, 10) ||
