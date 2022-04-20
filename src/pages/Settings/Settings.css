@@ -49,6 +49,9 @@
   border-radius: 20px;
   margin: auto;
   margin-left: 30px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  overflow-y: scroll;
 }
 
 .settingsBody > ul {
@@ -60,20 +63,25 @@
   display: flex;
   background-color: #f6f6f6;
   margin: auto;
-  padding: 20px;
+  padding: 15px 20px;
   border-radius: 20px;
   margin-bottom: 20px;
   font-size: 16px;
 }
 
-.editableLocationRow {
-  background-color: #eaf6fc;
+.locationRow .editableText {
+  width: 100%;
+  padding: 2px 8px;
+  margin-right: 10px;
 }
 
-.locationName {
-  font-weight: 600;
-  width: 200px;
-  padding-left: 20px;
+.locationRowCol1 {
+  width: 25%;
+  margin-right: 2%;
+} 
+
+.locationRowCol2 {
+  width: 73%;
 }
 
 .profileColHeader,
@@ -117,4 +125,13 @@
   padding-right: 40px;
   padding-bottom: 30px;
   position: absolute;
+}
+
+/* School Manager Styles */
+.schoolManagerHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }

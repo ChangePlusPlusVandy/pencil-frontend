@@ -2,20 +2,40 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect, useState } from 'react';
 import { HiPencil } from 'react-icons/hi';
-import { getAllLocations } from '../../components/Header/api-locations';
+import {
+  getAllLocations,
+  updateLocation,
+} from '../../components/Header/api-locations';
 
 const LocationManager = () => {
   const [locations, setLocations] = useState([]);
+  const [localLocations, setLocalLocations] = useState([]);
   const [isLocationEditable, setIsLocationEditable] = useState(false);
-
-  const parseLocationObjectToArray = (locationObj) =>
-    Object.keys(locationObj).map((key) => locationObj[key]);
 
   useEffect(() => {
     getAllLocations().then((data) => {
       setLocations(data);
+      setLocalLocations(data);
     });
   }, []);
+
+  const handleSave = (e) => {
+    e.preventDefault();
+    localLocations.forEach((location) => {
+      updateLocation(location.uuid, location.name, location.address);
+    });
+    setIsLocationEditable(false);
+  };
+
+  const handleChange = (e, uuid) => {
+    const { name, value } = e.target;
+    setLocalLocations((prevState) =>
+      prevState.map((location) => {
+        if (location.uuid === uuid) return { ...location, [name]: value };
+        return location;
+      })
+    );
+  };
 
   return (
     <div className="settingsBody">
@@ -32,16 +52,29 @@ const LocationManager = () => {
         </div>
       </div>
       <ul>
-        {locations.map((item, index) => (
-          <div
-            className={`locationRow ${
-              isLocationEditable ? 'editableLocationRow' : ''
-            }`}
-          >
-            <div className="locationName">{item.name}</div>
-            <div>{item.address}</div>
-          </div>
-        ))}
+        {localLocations.length &&
+          localLocations.map((item, index) => (
+            <div className="locationRow">
+              <div className="locationRowCol1">
+                <input
+                  className="editableText"
+                  disabled={!isLocationEditable}
+                  name="name"
+                  value={item.name}
+                  onChange={(e) => handleChange(e, item.uuid)}
+                />
+              </div>
+              <div className="locationRowCol2">
+                <input
+                  className="editableText"
+                  disabled={!isLocationEditable}
+                  name="address"
+                  value={item.address}
+                  onChange={(e) => handleChange(e, item.uuid)}
+                />
+              </div>
+            </div>
+          ))}
       </ul>
       {isLocationEditable && (
         <div className="profileActionButton">
@@ -49,11 +82,17 @@ const LocationManager = () => {
             className="secondaryButton"
             onClick={() => {
               setIsLocationEditable(false);
+              setLocalLocations(locations);
             }}
           >
             Cancel
           </div>
-          <button type="button" className="primaryButton">
+          <button
+            type="button"
+            className="primaryButton"
+            onClick={handleSave}
+            disabled={locations === localLocations}
+          >
             Save
           </button>
         </div>

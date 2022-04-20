@@ -5,7 +5,6 @@ const getPendingTransactions = async (location, perpage = 10, previous = 0) => {
     );
     return await response.json();
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
@@ -21,8 +20,17 @@ const getApprovedTransactions = async (
     );
     return await response.json();
   } catch (err) {
-    console.log(err);
     return err;
+  }
+};
+
+const getVerifiedSchools = async () => {
+  try {
+    const response = await fetch('/api/school/verified');
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: `Transaction not processed: ${err.error}` };
   }
 };
 
@@ -33,7 +41,6 @@ const getDeniedTransactions = async (location, perpage = 10, previous = 0) => {
     );
     return await response.json();
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
@@ -48,50 +55,99 @@ const getTransactions = async (location, type, previous = 0, perpage = 10) => {
   return false;
 };
 
-const approveTransaction = async (location, data) => {
+const approveTransaction = async (location, uuid) => {
   try {
-    console.log(data);
     const response = await fetch(
-      `/api/${location}/transaction/approve/${data.uuid}`,
+      `/api/${location}/transaction/approve/${uuid}`,
       {
-        headers: {
-          'Content-Type': 'application/json',
-        },
         method: 'POST',
-        body: JSON.stringify(data),
       }
     );
     return await response.json();
   } catch (err) {
     console.log(err);
-    return { error: 'Teacher not found' };
+    return { error: `Transaction not processed: ${err.error}` };
   }
 };
 
-const denyTransaction = async (location, data) => {
-  // TODO: fix the URI here
+const denyTransaction = async (location, uuid) => {
   try {
-    const response = await fetch(
-      `/api/${location}/transaction/deny/${data.uuid}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify(data),
-      }
-    );
+    const response = await fetch(`/api/${location}/transaction/deny/${uuid}`, {
+      method: 'POST',
+    });
     return await response.json();
   } catch (err) {
     console.log(err);
-    return { error: 'Teacher not found' };
+    return { error: `Transaction not processed: ${err.error}` };
   }
 };
 
-const handleTransaction = async (location, data, action) => {
-  if (action === 'Approve') return approveTransaction(location, data);
-  if (action === 'Deny') return denyTransaction(location, data);
+const handleTransaction = async (location, uuid, action) => {
+  if (action === 'Approve') return approveTransaction(location, uuid);
+  if (action === 'Deny') return denyTransaction(location, uuid);
   return false;
+};
+
+const approveDeniedTransaction = async (location, uuid, items) => {
+  try {
+    const response = await fetch(
+      `/api/${location}/transaction/approveDenied/${uuid}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({ items }),
+      }
+    );
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: `Transaction not processed: ${err.error}` };
+  }
+};
+
+const approveTransactionWithNewSchool = async (location, uuid, schoolName) => {
+  try {
+    const response = await fetch(
+      `/api/${location}/transaction/approve/${uuid}?newSchool=1`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({ schoolName }),
+      }
+    );
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: `Transaction not processed: ${err.error}` };
+  }
+};
+
+const approveDeniedTransactionWithNewSchool = async (
+  location,
+  uuid,
+  items,
+  schoolName
+) => {
+  try {
+    const response = await fetch(
+      `/api/${location}/transaction/approveDenied/${uuid}?newSchool=1`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({ schoolName, items }),
+      }
+    );
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: `Transaction not processed: ${err.error}` };
+  }
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -99,25 +155,12 @@ export {
   getPendingTransactions,
   approveTransaction,
   denyTransaction,
+  approveDeniedTransaction,
   getApprovedTransactions,
   getDeniedTransactions,
   getTransactions,
   handleTransaction,
+  getVerifiedSchools,
+  approveDeniedTransactionWithNewSchool,
+  approveTransactionWithNewSchool,
 };
-
-// const getAllTransactions = async (location) => {
-//   try {
-//     const response = await fetch(
-//       `/api/${location}/form/transaction/transactions`
-//     );
-
-//     if (!response.json().body.error) {
-//       return await response.json();
-//     }
-//     console.log('Error retrieving transactions');
-//     return { error: 'Error retrieving transactions' };
-//   } catch (err) {
-//     console.log(err);
-//     return { error: 'Teacher not found' };
-//   }
-// };

@@ -7,18 +7,16 @@ import './Settings.css';
 import { HiUser } from 'react-icons/hi';
 import { FaMapMarkerAlt, FaLock } from 'react-icons/fa';
 import { AiFillHome } from 'react-icons/ai';
+import { IoSchool } from 'react-icons/io5';
 import SettingsHeader from './SettingsHeader';
 import LocationManager from './LocationManager';
+import SchoolManager from './SchoolManager';
 import Profile from './Profile';
 import Password from './Password';
 
 const Settings = () => {
   const [selected, setSelected] = useState('Profile');
   const history = useHistory();
-
-  const handleClick = (value) => {
-    setSelected(value);
-  };
 
   return (
     <>
@@ -35,7 +33,7 @@ const Settings = () => {
                 className={`settingNavRow ${
                   selected === 'Profile' ? 'navRow-active' : ''
                 }`}
-                onClick={() => handleClick('Profile')}
+                onClick={() => setSelected('Profile')}
                 onKeyDown={() => {}}
                 role="button"
                 tabIndex={0}
@@ -48,7 +46,7 @@ const Settings = () => {
                 className={`settingNavRow ${
                   selected === 'Password' ? 'navRow-active' : ''
                 }`}
-                onClick={() => handleClick('Password')}
+                onClick={() => setSelected('Password')}
                 onKeyDown={() => {}}
                 role="button"
                 tabIndex={0}
@@ -61,13 +59,26 @@ const Settings = () => {
                 className={`settingNavRow ${
                   selected === 'Location' ? 'navRow-active' : ''
                 }`}
-                onClick={() => handleClick('Location')}
+                onClick={() => setSelected('Location')}
                 onKeyDown={() => {}}
                 role="button"
                 tabIndex={0}
               >
                 <FaMapMarkerAlt size="23px" style={{ marginRight: '0.5vw' }} />
                 Location Manager
+              </div>
+              {/* School Manager */}
+              <div
+                className={`settingNavRow ${
+                  selected === 'School' ? 'navRow-active' : ''
+                }`}
+                onClick={() => setSelected('School')}
+                onKeyDown={() => {}}
+                role="button"
+                tabIndex={0}
+              >
+                <IoSchool size="23px" style={{ marginRight: '0.5vw' }} />
+                School Manager
               </div>
             </div>
             {/* Back to Dashboard */}
@@ -82,6 +93,7 @@ const Settings = () => {
           {selected === 'Profile' && <Profile />}
           {selected === 'Password' && <Password />}
           {selected === 'Location' && <LocationManager />}
+          {selected === 'School' && <SchoolManager />}
         </div>
       </div>
     </>

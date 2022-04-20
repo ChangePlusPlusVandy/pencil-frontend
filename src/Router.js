@@ -4,13 +4,14 @@ import PrivateRoute from './pages/PrivateRoute';
 
 // Routes
 import Profile from './pages/Auth/Profile';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/Dashboard/Dashboard';
 import Inventory from './pages/Inventory/Inventory';
 import Transactions from './pages/Transactions/Transactions';
 import Schedule from './pages/Schedule/Schedule';
 import Settings from './pages/Settings/Settings';
 import Reports from './pages/Reports/Reports';
 import Authentication from './pages/Auth/Authentication';
+import NotFound from './pages/404';
 
 /**
  * Router for dashboard.
@@ -32,6 +33,7 @@ const Router = () => (
     <PrivateRoute exact path="/dashboard" component={Dashboard} />
     <PrivateRoute exact path="/schedule" component={Schedule} />
     <PrivateRoute exact path="/settings" component={Settings} />
+    <Route path="*" component={NotFound} />
   </Switch>
 );
 

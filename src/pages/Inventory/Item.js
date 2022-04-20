@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { CgTrash } from 'react-icons/cg';
+import { BiArchiveIn } from 'react-icons/bi';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import './Inventory.css';
 
@@ -72,9 +73,12 @@ const Item = ({
         tabIndex="-1"
         onClick={() => handleDelete(uuid)}
         onKeyPress={() => {}}
-        hidden={type === 'master'}
       >
-        <CgTrash size="20" color="F04747" />
+        {type === 'active' ? (
+          <CgTrash size="20" color="F04747" />
+        ) : (
+          <BiArchiveIn size="20" color="F04747" />
+        )}
       </div>
     </li>
   );

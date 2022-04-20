@@ -2,6 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable import/no-unresolved */
 import React, { useState, useEffect } from 'react';
 import {
   AiFillPrinter,
@@ -54,7 +55,11 @@ const Inventory = () => {
   };
 
   const handleDelete = (uuid) => {
-    const newData = inventoryData.filter((item) => item.uuid !== uuid);
+    console.log(inventoryData);
+    const checkVal = inventoryData.findIndex((item) => uuid === item.uuid);
+    const newData = [...inventoryData];
+    newData[checkVal].archived = true;
+
     setInventoryData(newData);
     setChanged(true);
   };
@@ -121,7 +126,11 @@ const Inventory = () => {
             maxLimit: formInfo.itemValue,
             itemOrder: inventoryData.length,
           }
-        : { itemName: formInfo.itemName, itemPrice: formInfo.itemValue };
+        : {
+            itemName: formInfo.itemName,
+            itemPrice: formInfo.itemValue,
+            archived: false,
+          };
 
     setInventoryData([...inventoryData, newItem]);
     setAddItemVisible(false);
@@ -240,7 +249,7 @@ const Inventory = () => {
         {error && <Errors error={error} handleError={() => setError('')} />}
         <TableHeader
           title={`${inventoryType} Inventory (${
-            inventoryData ? inventoryData.length : 0
+            inventoryData.length ? inventoryData.length : 0
           })`}
           leftArea={leftItems}
           rightArea={rightItems}
@@ -257,7 +266,7 @@ const Inventory = () => {
             tableHeaders
           )}
           {inventoryData &&
-          inventoryData.length > 0 &&
+          inventoryData.length &&
           inventoryType === 'Active' ? (
             <ReactDragListView {...dragProps}>
               <ul className="dragList">
@@ -278,21 +287,24 @@ const Inventory = () => {
               </ul>
             </ReactDragListView>
           ) : (
-            filteredData.map((item, index) => (
-              <Item
-                key={index + item.itemName}
-                index={index}
-                uuid={item.uuid}
-                itemName={item.itemName}
-                itemValue={item.itemPrice}
-                updateItem={updateItem}
-                handleDelete={handleDelete}
-                nameEditable={nameEditable}
-                valueEditable={valueEditable}
-                setChanged={setChanged}
-                type="master"
-              />
-            ))
+            filteredData.map(
+              (item, index) =>
+                !item.archived && (
+                  <Item
+                    key={index + item.itemName}
+                    index={index}
+                    uuid={item.uuid}
+                    itemName={item.itemName}
+                    itemValue={item.itemPrice}
+                    updateItem={updateItem}
+                    handleDelete={handleDelete}
+                    nameEditable={nameEditable}
+                    valueEditable={valueEditable}
+                    setChanged={setChanged}
+                    type="master"
+                  />
+                )
+            )
           )}
         </div>
       </>
