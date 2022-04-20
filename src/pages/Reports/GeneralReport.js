@@ -35,6 +35,7 @@ const GeneralReport = ({
           const schoolList = data.transactions
             ? data.transactions.map((item) => item.School.name)
             : [];
+          console.log(schoolList);
           setSchoolNameList([...new Set(schoolList)]);
         }
       }

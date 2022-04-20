@@ -24,6 +24,16 @@ const getApprovedTransactions = async (
   }
 };
 
+const getVerifiedSchools = async () => {
+  try {
+    const response = await fetch('/api/school/verified');
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: `Transaction not processed: ${err.error}` };
+  }
+};
+
 const getDeniedTransactions = async (location, perpage = 10, previous = 0) => {
   try {
     const response = await fetch(
@@ -97,6 +107,49 @@ const approveDeniedTransaction = async (location, uuid, items) => {
   }
 };
 
+const approveTransactionWithNewSchool = async (location, uuid, schoolName) => {
+  try {
+    const response = await fetch(
+      `/api/${location}/transaction/approve/${uuid}?newSchool=1`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({ schoolName }),
+      }
+    );
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: `Transaction not processed: ${err.error}` };
+  }
+};
+
+const approveDeniedTransactionWithNewSchool = async (
+  location,
+  uuid,
+  items,
+  schoolName
+) => {
+  try {
+    const response = await fetch(
+      `/api/${location}/transaction/approveDenied/${uuid}?newSchool=1`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({ schoolName, items }),
+      }
+    );
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: `Transaction not processed: ${err.error}` };
+  }
+};
+
 // eslint-disable-next-line import/prefer-default-export
 export {
   getPendingTransactions,
@@ -107,21 +160,7 @@ export {
   getDeniedTransactions,
   getTransactions,
   handleTransaction,
+  getVerifiedSchools,
+  approveDeniedTransactionWithNewSchool,
+  approveTransactionWithNewSchool,
 };
-
-// const getAllTransactions = async (location) => {
-//   try {
-//     const response = await fetch(
-//       `/api/${location}/form/transaction/transactions`
-//     );
-
-//     if (!response.json().body.error) {
-//       return await response.json();
-//     }
-//     console.log('Error retrieving transactions');
-//     return { error: 'Error retrieving transactions' };
-//   } catch (err) {
-//     console.log(err);
-//     return { error: 'Teacher not found' };
-//   }
-// };

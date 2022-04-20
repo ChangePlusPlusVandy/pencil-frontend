@@ -287,9 +287,8 @@ const Inventory = () => {
               </ul>
             </ReactDragListView>
           ) : (
-            filteredData.map((item, index) => {
-              console.log(item);
-              return (
+            filteredData.map(
+              (item, index) =>
                 !item.archived && (
                   <Item
                     key={index + item.itemName}
@@ -305,8 +304,7 @@ const Inventory = () => {
                     type="master"
                   />
                 )
-              );
-            })
+            )
           )}
         </div>
       </>
