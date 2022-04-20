@@ -4,7 +4,7 @@ import PrivateRoute from './pages/PrivateRoute';
 
 // Routes
 import Profile from './pages/Auth/Profile';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/Dashboard/Dashboard';
 import Inventory from './pages/Inventory/Inventory';
 import Transactions from './pages/Transactions/Transactions';
 import Schedule from './pages/Schedule/Schedule';
