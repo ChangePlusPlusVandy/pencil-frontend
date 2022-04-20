@@ -10,6 +10,7 @@ import { FaChevronDown, FaCheck } from 'react-icons/fa';
 import { IoMdRefresh } from 'react-icons/io';
 import { ImCross } from 'react-icons/im';
 import { Table } from 'antd';
+import { IoFilter } from 'react-icons/io5';
 import { useAuth } from '../../AuthContext';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import Subtable from './Subtable';
@@ -17,12 +18,16 @@ import {
   handleTransaction,
   getTransactions,
   approveDeniedTransaction,
+  getVerifiedSchools,
+  approveDeniedTransactionWithNewSchool,
+  approveTransactionWithNewSchool,
 } from './api-transactions';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import './Transactions.css';
 import TableHeader from '../../components/TableHeader/TableHeader';
 import { parseDate } from '../../utils/timedate';
 import Modal from '../../components/Modal/Modal';
+import CustomCombobox from '../../components/Combobox/CustomCombobox';
 
 const formatDate = (dateObj) => {
   const { day, date, month, ampmTime } = parseDate(dateObj);
@@ -38,6 +43,13 @@ const Transactions = () => {
   const [error, setError] = useState('');
   const { currentLocation } = useAuth();
   const [showPopup, setShowPopup] = useState(false);
+  const [schoolNameList, setSchoolNameList] = useState([]);
+  const [schoolFilter, setSchoolFilter] = useState('');
+  const [singleSelected, setSingleSelected] = useState(false);
+  const [showMulPopup, setShowMulPopup] = useState(false);
+  const [multipleSelected, setMultipleSelected] = useState([]);
+  const [mulSchoolFilter, setMulSchoolFilter] = useState([]);
+  const [allowApproval, setAllowApproval] = useState(false);
 
   const formatData = (transactions, status, isLoadMore = false) => {
     const result = transactions.map((item) => ({
@@ -56,11 +68,23 @@ const Transactions = () => {
 
   useEffect(() => {
     getTransactions(currentLocation, 'Pending').then((transactions) => {
-      console.log(transactions);
       if (transactions.error) setError(transactions.error);
       else formatData(transactions, 'Pending');
     });
+    getVerifiedSchools().then((schools) => {
+      const schoolList = schools ? schools.map((item) => item.name) : [];
+      setSchoolNameList([...new Set(schoolList)]);
+    });
   }, []);
+
+  useEffect(() => {
+    if (!mulSchoolFilter.length) return;
+    let allfilled = true;
+    mulSchoolFilter.forEach((curval) => {
+      if (curval === '') allfilled = false;
+    });
+    setAllowApproval(allfilled);
+  }, [mulSchoolFilter]);
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -73,8 +97,8 @@ const Transactions = () => {
   };
 
   const handleClick = (e, transaction, action) => {
-    console.log(transaction);
-    if (!transaction.schoolVerified) {
+    if (action === 'Approve' && !transaction.schoolVerified) {
+      setSingleSelected(transaction);
       setShowPopup(true);
       return;
     }
@@ -113,20 +137,36 @@ const Transactions = () => {
 
   const handleSelected = (action) => {
     // handle each transaction in selected data
-    selectedData.forEach((transaction) => {
-      handleTransaction(currentLocation, transaction.uuid, action);
-      setData((prevData) => {
-        const temp = [...prevData];
-        temp[temp.indexOf(transaction)].status =
-          action === 'Approve' ? 'Approved' : 'Denied';
-        return temp;
+    const unverifiedArr = selectedData.filter((a) => !a.schoolVerified);
+    if (action === 'Approve' && unverifiedArr.length) {
+      setMulSchoolFilter(Array(unverifiedArr.length).fill(''));
+      setShowMulPopup(true);
+      setMultipleSelected(unverifiedArr);
+    } else {
+      selectedData.forEach((transaction) => {
+        handleTransaction(currentLocation, transaction.uuid, action);
+        setData((prevData) => {
+          const temp = [...prevData];
+          temp[temp.indexOf(transaction)].status =
+            action === 'Approve' ? 'Approved' : 'Denied';
+          return temp;
+        });
       });
-    });
 
-    // clear selected data
-    const selectedUuid = selectedData.map((a) => a.uuid);
-    setWasChecked(selectedUuid.concat(wasChecked));
-    setSelectedData([]);
+      // clear selected data
+      const selectedUuid = selectedData.map((a) => a.uuid);
+      setWasChecked(selectedUuid.concat(wasChecked));
+      setSelectedData([]);
+    }
+  };
+
+  const handleTransactionItemsChange = (items, trxUuid) => {
+    setData((prevData) =>
+      prevData.map((transaction) => {
+        if (transaction.uuid === trxUuid) transaction.transactionItems = items;
+        return transaction;
+      })
+    );
   };
 
   const columns = [
@@ -196,15 +236,6 @@ const Transactions = () => {
     },
   ];
 
-  const handleTransactionItemsChange = (items, trxUuid) => {
-    setData((prevData) =>
-      prevData.map((transaction) => {
-        if (transaction.uuid === trxUuid) transaction.transactionItems = items;
-        return transaction;
-      })
-    );
-  };
-
   const expandedRowRender = (record) => (
     <Subtable
       uuid={record.uuid}
@@ -215,8 +246,74 @@ const Transactions = () => {
     />
   );
 
-  const updateSchoolName = () => {
-    console.log('here');
+  const updateSchoolName = async () => {
+    if (view === 'Denied') {
+      approveDeniedTransactionWithNewSchool(
+        currentLocation,
+        singleSelected.uuid,
+        singleSelected.transactionItems,
+        schoolFilter
+      );
+    } else {
+      approveTransactionWithNewSchool(
+        currentLocation,
+        singleSelected.uuid,
+        schoolFilter
+      );
+    }
+    setData((prevData) => {
+      const temp = [...prevData];
+      temp[temp.indexOf(singleSelected)].status = 'Approved';
+      temp[temp.indexOf(singleSelected)].schoolName = schoolFilter;
+      return temp;
+    });
+    setSchoolFilter('');
+    setShowPopup(false);
+  };
+
+  const updateMulSchoolName = async () => {
+    let newSchoolIndex = 0;
+    selectedData.forEach(async (transaction) => {
+      if (!transaction.schoolVerified) {
+        if (view === 'Denied') {
+          await approveDeniedTransactionWithNewSchool(
+            currentLocation,
+            multipleSelected[newSchoolIndex].uuid,
+            multipleSelected[newSchoolIndex].transactionItems,
+            mulSchoolFilter[newSchoolIndex]
+          );
+        } else {
+          await approveTransactionWithNewSchool(
+            currentLocation,
+            multipleSelected[newSchoolIndex].uuid,
+            mulSchoolFilter[newSchoolIndex]
+          );
+        }
+        setData((prevData) => {
+          const temp = [...prevData];
+          const mulItemIndex = temp.indexOf(multipleSelected[newSchoolIndex]);
+          temp[mulItemIndex].status = 'Approved';
+          temp[mulItemIndex].schoolName = mulSchoolFilter[newSchoolIndex];
+          return temp;
+        });
+        newSchoolIndex += 1;
+      } else {
+        await handleTransaction(currentLocation, transaction.uuid, 'Approve');
+        setData((prevData) => {
+          const temp = [...prevData];
+          temp[temp.indexOf(transaction)].status = 'Approved';
+          return temp;
+        });
+      }
+    });
+
+    // clear selected data
+    const selectedUuid = selectedData.map((a) => a.uuid);
+    setWasChecked(selectedUuid.concat(wasChecked));
+    setSelectedData([]);
+    setMulSchoolFilter([]);
+    setMultipleSelected([]);
+    setShowMulPopup(false);
   };
 
   const loadMore = (type) => {
@@ -250,15 +347,9 @@ const Transactions = () => {
 
   const menuOptions = ['Pending', 'Approved', 'Denied'];
 
-  const menu = (
-    <>
-      {menuOptions
-        .filter((option) => option !== view)
-        .map((option) => (
-          <a onClick={(e) => changeLoadedData(e)}>{option}</a>
-        ))}
-    </>
-  );
+  const menu = menuOptions
+    .filter((option) => option !== view)
+    .map((option) => <a onClick={(e) => changeLoadedData(e)}>{option}</a>);
 
   const customExpandIcon = (fun) => (
     <FaChevronDown
@@ -359,15 +450,68 @@ const Transactions = () => {
       <Modal
         show={showPopup}
         onClose={() => setShowPopup(false)}
-        actionButtonText="Update School"
+        actionButtonText="Approve Transaction"
         handleAction={updateSchoolName}
-        actionButtonDisabled=""
+        actionButtonDisabled={!schoolFilter}
       >
+        {singleSelected && (
+          <h3 style={{ color: 'rgb(219, 56, 56)' }}>
+            &quot;{singleSelected.schoolName}&quot; is not a verified school.
+          </h3>
+        )}
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label className="inputLabel">
           New School Name
-          <input type="text" className="primaryInput" />
+          <CustomCombobox
+            data={schoolNameList}
+            onChange={setSchoolFilter}
+            size="small"
+            placeholder="Search by school"
+            icon={
+              <IoFilter
+                size="16"
+                className={`${schoolFilter !== '' && 'selectedBlue'}`}
+              />
+            }
+          />
         </label>
+      </Modal>
+      <Modal
+        show={showMulPopup}
+        onClose={() => setShowMulPopup(false)}
+        actionButtonText="Approve Transaction"
+        handleAction={updateMulSchoolName}
+        actionButtonDisabled={!allowApproval}
+      >
+        {multipleSelected.map((item, index) => (
+          <>
+            <h3 style={{ color: 'rgb(240, 56, 56)' }}>
+              {item.teacherName}&apos;s school &quot;{item.schoolName}&quot; is
+              not a verified.
+            </h3>
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+            <label className="inputLabel">
+              New School Name
+              <CustomCombobox
+                data={schoolNameList}
+                onChange={(selected) => {
+                  const temp = [...mulSchoolFilter];
+                  temp[index] = selected;
+                  setMulSchoolFilter(temp);
+                }}
+                size="small"
+                placeholder="Search by school"
+                icon={
+                  <IoFilter
+                    size="16"
+                    className={`${schoolFilter !== '' && 'selectedBlue'}`}
+                  />
+                }
+              />
+            </label>
+            <br />
+          </>
+        ))}
       </Modal>
     </PageContainer>
   );
@@ -377,8 +521,6 @@ export default Transactions;
 
 function isOverload(data, index) {
   for (const i in data.transactionItems) {
-    console.log(data);
-
     if (
       parseInt(data.transactionItems[i].itemsTaken1, 10) >
         parseInt(data.transactionItems[i].maxLimit1, 10) ||
