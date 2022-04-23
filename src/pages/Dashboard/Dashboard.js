@@ -11,11 +11,13 @@ import PageContainer from '../../components/PageContainer/PageContainer';
 import { useAuth } from '../../AuthContext';
 import { getDailyStats, getYearlyStats } from './api-dashboard';
 import { formatDollar } from '../../utils/stringFormatters';
+import { formatDateDMY } from '../../utils/timedate';
 import './Dashboard.css';
 
 const Dashboard = () => {
   const { currentUser, currentLocation } = useAuth();
   const currentYear = new Date().getFullYear();
+  const DMY = formatDateDMY(new Date());
   const [dailyStats, setDailyStats] = useState([]);
   const [yearlyStats, setYearlyStats] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -38,19 +40,36 @@ const Dashboard = () => {
       {!isLoading && (
         <div className="dashboardContainer">
           <div className="dashboardLeft">
-            <p className="dashboardTitle">Today at a glance</p>
+            <p className="dashboardTitle">Today at a glance - {DMY}</p>
             <div className="cardRow">
               <Card
                 value={dailyStats.numAppointments}
                 title="Appointments scheduled today"
                 icon={<AiTwotoneCalendar size="30" />}
-                valueColor="rgba(47, 181, 101, 0.84)"
+                valueColor="rgba(241, 189, 56, 0.8)"
               />
               <Card
                 value="1"
-                title="Something else"
+                title="Total value donated"
                 icon={<BsFillPersonFill size="28" />}
-                valueColor="rgba(241, 189, 56, 0.8)"
+                valueColor="rgba(47, 181, 101, 0.84)"
+                size="wide"
+              />
+            </div>
+            <p className="dashboardTitle">This month at a glance</p>
+            <div className="cardRow">
+              <Card
+                value={dailyStats.numAppointments}
+                title="Total value donated"
+                icon={<AiTwotoneCalendar size="30" />}
+                valueColor="rgba(47, 181, 101, 0.84)"
+                size="wide"
+              />
+              <Card
+                value="1"
+                title="Teachers shopped"
+                icon={<BsFillPersonFill size="28" />}
+                valueColor="rgba(113, 195, 231, 1)"
               />
             </div>
           </div>
@@ -71,6 +90,9 @@ const Dashboard = () => {
                 valueColor="rgba(241, 189, 56, 0.8)"
               />
             </div>
+            <p className="dashboardTitle" style={{ visibility: 'hidden' }}>
+              This will be hidden
+            </p>
             <div className="cardRow">
               <Card
                 value={yearlyStats.numAppointments}
