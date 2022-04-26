@@ -6,10 +6,10 @@
 }
 
 .dashboardTitle {
-  font-size: 1.5em;
+  font-size: 18px;
   font-weight: bold;
   color: var(--textSecondary);
-  margin-bottom: 1em;
+  margin-bottom: 12px;
 }
 
 .dashboardLeft {
@@ -25,7 +25,7 @@
 .cardRow {
   display: flex;
   flex-direction: row;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .cardRow > * {
@@ -35,3 +35,4 @@
 .cardRow > :last-child {
   margin-right: 0;
 }
+
