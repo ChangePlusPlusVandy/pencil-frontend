@@ -72,7 +72,7 @@ const Transactions = () => {
       else formatData(transactions, 'Pending');
     });
     getVerifiedSchools().then((schools) => {
-      const schoolList = schools ? schools.map((item) => item.name) : [];
+      const schoolList = !schools.error ? schools.map((item) => item.name) : [];
       setSchoolNameList([...new Set(schoolList)]);
     });
   }, []);
