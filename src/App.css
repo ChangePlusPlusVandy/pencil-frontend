@@ -193,6 +193,7 @@ body {
   margin: 15px auto;
   display: flex;
   transition: all 0.3s ease-in-out;
+  overflow-wrap: break-word;
 }
 
 .tableItemHeader {
