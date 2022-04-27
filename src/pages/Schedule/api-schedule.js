@@ -12,7 +12,9 @@ const getSchedules = (location, startDate, endDate) => {
     to = to.toISOString();
   }
   const query = `startDate=${from}&endDate=${to}`;
-  const response = fetch(`api/schedule/${location}/getSchedule?${query}`)
+  const response = fetch(
+    `${process.env.REACT_APP_PROXY}/api/schedule/${location}/getSchedule?${query}`
+  )
     .then((data) => data.json())
     .catch((err) => ({
       err: `Error retrieving schedule ${err}`,

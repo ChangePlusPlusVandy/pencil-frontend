@@ -1,7 +1,7 @@
 const getPendingTransactions = async (location, perpage = 10, previous = 0) => {
   try {
     const response = await fetch(
-      `/api/${location}/transaction/pending?perPage=${perpage}&previous=${previous}`
+      `${process.env.REACT_APP_PROXY}/api/${location}/transaction/pending?perPage=${perpage}&previous=${previous}`
     );
     return await response.json();
   } catch (err) {
@@ -16,7 +16,7 @@ const getApprovedTransactions = async (
 ) => {
   try {
     const response = await fetch(
-      `/api/${location}/transaction/approved?perPage=${perpage}&previous=${previous}`
+      `${process.env.REACT_APP_PROXY}/api/${location}/transaction/approved?perPage=${perpage}&previous=${previous}`
     );
     return await response.json();
   } catch (err) {
@@ -26,7 +26,9 @@ const getApprovedTransactions = async (
 
 const getVerifiedSchools = async () => {
   try {
-    const response = await fetch('/api/school/verified');
+    const response = await fetch(
+      `${process.env.REACT_APP_PROXY}/api/school/verified`
+    );
     return await response.json();
   } catch (err) {
     console.log(err);
@@ -37,7 +39,7 @@ const getVerifiedSchools = async () => {
 const getDeniedTransactions = async (location, perpage = 10, previous = 0) => {
   try {
     const response = await fetch(
-      `/api/${location}/transaction/denied?perPage=${perpage}&previous=${previous}`
+      `${process.env.REACT_APP_PROXY}/api/${location}/transaction/denied?perPage=${perpage}&previous=${previous}`
     );
     return await response.json();
   } catch (err) {
@@ -58,7 +60,7 @@ const getTransactions = async (location, type, previous = 0, perpage = 10) => {
 const approveTransaction = async (location, uuid) => {
   try {
     const response = await fetch(
-      `/api/${location}/transaction/approve/${uuid}`,
+      `${process.env.REACT_APP_PROXY}/api/${location}/transaction/approve/${uuid}`,
       {
         method: 'POST',
       }
@@ -72,9 +74,12 @@ const approveTransaction = async (location, uuid) => {
 
 const denyTransaction = async (location, uuid) => {
   try {
-    const response = await fetch(`/api/${location}/transaction/deny/${uuid}`, {
-      method: 'POST',
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_PROXY}/api/${location}/transaction/deny/${uuid}`,
+      {
+        method: 'POST',
+      }
+    );
     return await response.json();
   } catch (err) {
     console.log(err);
@@ -91,7 +96,7 @@ const handleTransaction = async (location, uuid, action) => {
 const approveDeniedTransaction = async (location, uuid, items) => {
   try {
     const response = await fetch(
-      `/api/${location}/transaction/approveDenied/${uuid}`,
+      `${process.env.REACT_APP_PROXY}/api/${location}/transaction/approveDenied/${uuid}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -110,7 +115,7 @@ const approveDeniedTransaction = async (location, uuid, items) => {
 const approveTransactionWithNewSchool = async (location, uuid, schoolName) => {
   try {
     const response = await fetch(
-      `/api/${location}/transaction/approve/${uuid}?newSchool=1`,
+      `${process.env.REACT_APP_PROXY}/api/${location}/transaction/approve/${uuid}?newSchool=1`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -134,7 +139,7 @@ const approveDeniedTransactionWithNewSchool = async (
 ) => {
   try {
     const response = await fetch(
-      `/api/${location}/transaction/approveDenied/${uuid}?newSchool=1`,
+      `${process.env.REACT_APP_PROXY}/api/${location}/transaction/approveDenied/${uuid}?newSchool=1`,
       {
         headers: {
           'Content-Type': 'application/json',

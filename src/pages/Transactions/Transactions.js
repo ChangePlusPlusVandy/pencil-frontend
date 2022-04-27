@@ -483,35 +483,37 @@ const Transactions = () => {
         handleAction={updateMulSchoolName}
         actionButtonDisabled={!allowApproval}
       >
-        {multipleSelected.map((item, index) => (
-          <>
-            <h3 style={{ color: 'rgb(240, 56, 56)' }}>
-              {item.teacherName}&apos;s school &quot;{item.schoolName}&quot; is
-              not a verified.
-            </h3>
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="inputLabel">
-              New School Name
-              <CustomCombobox
-                data={schoolNameList}
-                onChange={(selected) => {
-                  const temp = [...mulSchoolFilter];
-                  temp[index] = selected;
-                  setMulSchoolFilter(temp);
-                }}
-                size="small"
-                placeholder="Search by school"
-                icon={
-                  <IoFilter
-                    size="16"
-                    className={`${schoolFilter !== '' && 'selectedBlue'}`}
-                  />
-                }
-              />
-            </label>
-            <br />
-          </>
-        ))}
+        <div className="all-items">
+          {multipleSelected.map((item, index) => (
+            <>
+              <h3 style={{ color: 'rgb(240, 56, 56)' }}>
+                {item.teacherName}&apos;s school &quot;{item.schoolName}&quot;
+                is not verified.
+              </h3>
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+              <label className="inputLabel">
+                New School Name
+                <CustomCombobox
+                  data={schoolNameList}
+                  onChange={(selected) => {
+                    const temp = [...mulSchoolFilter];
+                    temp[index] = selected;
+                    setMulSchoolFilter(temp);
+                  }}
+                  size="small"
+                  placeholder="Search by school"
+                  icon={
+                    <IoFilter
+                      size="16"
+                      className={`${schoolFilter !== '' && 'selectedBlue'}`}
+                    />
+                  }
+                />
+              </label>
+              <br />
+            </>
+          ))}
+        </div>
       </Modal>
     </PageContainer>
   );

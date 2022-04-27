@@ -1,7 +1,9 @@
 /* eslint-disable consistent-return */
 
 const getInventory = async (location) => {
-  const response = await fetch(`/api/${location}/form/getShopForm`);
+  const response = await fetch(
+    `${process.env.REACT_APP_PROXY}/api/${location}/form/getShopForm`
+  );
   return response.json();
 };
 
@@ -12,13 +14,16 @@ const postInventory = async (data, location) => {
       // eslint-disable-next-line no-param-reassign
       data[i].itemOrder = i;
     }
-    const response = await fetch(`/api/${location}/form/updateSupply`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'PUT',
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_PROXY}/api/${location}/form/updateSupply`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'PUT',
+        body: JSON.stringify(data),
+      }
+    );
     return await response.json();
   } catch (err) {
     console.log(err);
@@ -27,12 +32,15 @@ const postInventory = async (data, location) => {
 
 const getMasterInv = async () => {
   try {
-    const response = await fetch(`/api/masterInventory/getAllItems`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'GET',
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_PROXY}/api/masterInventory/getAllItems`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'GET',
+      }
+    );
 
     return await response.json();
   } catch (err) {
@@ -42,13 +50,16 @@ const getMasterInv = async () => {
 
 const postMasterInv = async (data) => {
   try {
-    const response = await fetch(`/api/masterInventory/updateMasterInventory`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'PUT',
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_PROXY}/api/masterInventory/updateMasterInventory`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'PUT',
+        body: JSON.stringify(data),
+      }
+    );
     return await response.json();
   } catch (err) {
     console.log(err);

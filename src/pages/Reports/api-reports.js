@@ -7,7 +7,9 @@ const getGeneralReport = async (startDate, endDate, schoolId, location) => {
     const to = endDate && new Date(endDate);
     if (endDate) to.setDate(to.getDate() + 1);
     const query = `startDate=${from}&endDate=${to}&school=${schoolId}`;
-    const response = await fetch(`/api/${location}/reports/report1?${query}`);
+    const response = await fetch(
+      `${process.env.REACT_APP_PROXY}/api/${location}/reports/report1?${query}`
+    );
     return await response.json();
   } catch (err) {
     console.log(err);
@@ -23,7 +25,9 @@ const getProductReport = async (startDate, endDate, schoolId, location) => {
       to = to.toISOString();
     }
     const query = `startDate=${from}&endDate=${to}&school=${schoolId}`;
-    const response = await fetch(`/api/${location}/reports/report4?${query}`);
+    const response = await fetch(
+      `${process.env.REACT_APP_PROXY}/api/${location}/reports/report4?${query}`
+    );
     return await response.json();
   } catch (err) {
     console.log(err);
@@ -39,7 +43,9 @@ const getReport5 = async (startDate, endDate, schoolId, location) => {
       to = to.toISOString();
     }
     const query = `startDate=${from}&endDate=${to}&school=${schoolId}`;
-    const response = await fetch(`/api/${location}/reports/report5?${query}`);
+    const response = await fetch(
+      `${process.env.REACT_APP_PROXY}/api/${location}/reports/report5?${query}`
+    );
     return await response.json();
   } catch (err) {
     console.log(err);
