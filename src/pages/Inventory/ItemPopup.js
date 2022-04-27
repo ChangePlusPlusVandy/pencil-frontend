@@ -98,7 +98,7 @@ ItemPopup.propTypes = {
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  currentItems: PropTypes.arrayOf(PropTypes.object),
+  currentItems: PropTypes.arrayOf(PropTypes.objectOf),
   inventoryType: PropTypes.string.isRequired,
 };
 

@@ -102,7 +102,7 @@ export default Subtable;
 
 Subtable.propTypes = {
   uuid: PropTypes.string.isRequired,
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  data: PropTypes.arrayOf(PropTypes.objectOf).isRequired,
   transactionType: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
