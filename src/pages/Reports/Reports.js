@@ -78,7 +78,7 @@ const Reports = () => {
   const leftItems = (
     <div
       className="secondaryButton vertical-align-center"
-      onClick={() => printReport}
+      onClick={() => printReport()}
     >
       Generate Report
       <FaFileDownload size="14" />
