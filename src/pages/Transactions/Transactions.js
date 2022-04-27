@@ -68,6 +68,7 @@ const Transactions = () => {
 
   useEffect(() => {
     getTransactions(currentLocation, 'Pending').then((transactions) => {
+      console.log(transactions);
       if (transactions.error) setError(transactions.error);
       else formatData(transactions, 'Pending');
     });

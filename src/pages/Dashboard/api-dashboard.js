@@ -1,9 +1,9 @@
+import axios from '../../axios';
+
 const getDailyStats = async (location) => {
   try {
-    const response = await fetch(
-      `${process.env.REACT_APP_PROXY}/api/${location}/dashboard/dailystats`
-    );
-    return await response.json();
+    const response = await axios.get(`/${location}/dashboard/dailystats`);
+    return response.data;
   } catch (err) {
     console.log(err);
     return err;
@@ -12,10 +12,8 @@ const getDailyStats = async (location) => {
 
 const getYearlyStats = async (location) => {
   try {
-    const response = await fetch(
-      `${process.env.REACT_APP_PROXY}/api/${location}/dashboard/yearlystats`
-    );
-    return await response.json();
+    const response = await axios.get(`/${location}/dashboard/yearlystats`);
+    return response.data;
   } catch (err) {
     console.log(err);
     return err;

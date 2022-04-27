@@ -6,6 +6,7 @@
     "@ant-design/icons": "^4.7.0",
     "@headlessui/react": "^1.5.0",
     "antd": "^4.18.7",
+    "axios": "^0.27.2",
     "docx": "^7.3.0",
     "file-saver": "^2.0.5",
     "firebase": "^8.10.0",

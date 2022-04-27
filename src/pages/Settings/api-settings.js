@@ -1,7 +1,9 @@
+import axios from '../../axios';
+
 const getAllSchools = async () => {
   try {
-    const response = await fetch(`${process.env.REACT_APP_PROXY}/api/school`);
-    return await response.json();
+    const response = await axios.get(`/school`);
+    return response.data;
   } catch (err) {
     console.log(err);
     return err;
@@ -10,17 +12,8 @@ const getAllSchools = async () => {
 
 const addSchool = async (data) => {
   try {
-    const response = await fetch(
-      `${process.env.REACT_APP_PROXY}/api/school/create`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify({ name: data }),
-      }
-    );
-    return await response.json();
+    const response = await axios.post(`/school/create`, { name: data });
+    return response.data;
   } catch (err) {
     console.log(err);
     return err;
