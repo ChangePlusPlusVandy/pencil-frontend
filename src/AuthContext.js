@@ -6,6 +6,7 @@ import React, {
   createContext,
   useMemo,
 } from 'react';
+import axios from './axios';
 import firebase from './firebase';
 
 const AuthContext = createContext();
@@ -47,6 +48,14 @@ export const AuthProvider = ({ children }) => {
           if (token) {
             localStorage.setItem('@token', token);
           }
+          axios.interceptors.request.use(
+            (config) => {
+              // eslint-disable-next-line no-param-reassign
+              config.headers.Authorization = `Bearer ${token}`;
+              return config;
+            },
+            (error) => Promise.reject(error)
+          );
         },
         (error) => {
           console.log(error);
@@ -77,6 +86,7 @@ export const AuthProvider = ({ children }) => {
    * @return {Object} - User object.
    * */
   function logout() {
+    localStorage.removeItem('@token');
     return firebase.auth().signOut();
   }
 
