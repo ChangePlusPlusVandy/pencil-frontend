@@ -522,7 +522,7 @@ const Transactions = () => {
 
 export default Transactions;
 
-function isOverload(data, index) {
+const isOverload = (data, index) => {
   for (const i in data.transactionItems) {
     if (
       parseInt(data.transactionItems[i].itemsTaken1, 10) >
@@ -535,4 +535,4 @@ function isOverload(data, index) {
   }
 
   return false;
-}
+};

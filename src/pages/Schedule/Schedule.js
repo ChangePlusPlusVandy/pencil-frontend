@@ -16,7 +16,6 @@ import CalendarInput from '../Reports/CalendarInput';
 import 'antd/dist/antd.css';
 import './Schedule.css';
 import TableHeader from '../../components/TableHeader/TableHeader';
-import { parseDate } from '../../utils/timedate';
 import printForm from '../../utils/printSchedule';
 
 const Schedule = () => {
