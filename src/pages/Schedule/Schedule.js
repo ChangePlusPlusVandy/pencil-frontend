@@ -147,79 +147,86 @@ const Schedule = () => {
 
   return (
     <PageContainer>
-      <TableHeader
-        title="Schedule"
-        leftArea={leftItems}
-        rightArea={rightItems}
-      />
-      <div className="tableContainer">
-        <div className="tableItemHeader">
-          <div className="scheduleCol1">Date/Time</div>
-          <div className="scheduleCol2">Name</div>
-          <div className="scheduleCol3">Pencil ID</div>
-          <div className="scheduleCol4">Phone Number</div>
-          <div className="scheduleCol5">School</div>
+      <>
+        <TableHeader
+          title="Schedule"
+          leftArea={leftItems}
+          rightArea={rightItems}
+        />
+        <div className="tableContainer">
+          <div className="tableItemHeader">
+            <div className="scheduleCol1">Date/Time</div>
+            <div className="scheduleCol2">Name</div>
+            <div className="scheduleCol3">Pencil ID</div>
+            <div className="scheduleCol4">Phone Number</div>
+            <div className="scheduleCol5">School</div>
+          </div>
+          {scheduleData.map((scheduleTimeSlot) => {
+            if (scheduleTimeSlot.ScheduleItems.length === 0) return;
+
+            const dataForTableItem = {
+              dateAndTime: null,
+              name: [],
+              id: [],
+              phone: [],
+              school: [],
+            };
+
+            scheduleTimeSlot.ScheduleItems.forEach(
+              (scheduleItem, slotIndex) => {
+                const startDay = new Date(scheduleTimeSlot.start_date);
+                const endDay = new Date(scheduleTimeSlot.end_date);
+                const scheduleItemData =
+                  scheduleTimeSlot.ScheduleItems[slotIndex];
+                // add the date to the table just once
+                if (slotIndex === 0) {
+                  dataForTableItem.dateAndTime = [
+                    startDay,
+                    endDay,
+                    scheduleItemData,
+                  ];
+                }
+                // add remaining info to the table
+                dataForTableItem.name.push(scheduleItemData.Teacher.name);
+                dataForTableItem.id.push(scheduleItemData.Teacher.pencilId);
+                dataForTableItem.phone.push(scheduleItemData.Teacher.phone);
+                dataForTableItem.school.push(
+                  scheduleItemData.Teacher.School.name
+                );
+              }
+            );
+
+            // eslint-disable-next-line consistent-return
+            return (
+              <div className="tableItem">
+                <div className="scheduleCol1 timeBox">
+                  {getScheduleTimeSlot(...dataForTableItem.dateAndTime)}
+                </div>
+                <div className="scheduleCol2 bold">
+                  {dataForTableItem.name.map((teacherName) => (
+                    <div>{teacherName}</div>
+                  ))}
+                </div>
+                <div className="scheduleCol3">
+                  {dataForTableItem.id.map((teacherId) => (
+                    <div>{teacherId}</div>
+                  ))}
+                </div>
+                <div className="scheduleCol4">
+                  {dataForTableItem.phone.map((teacherPhone) => (
+                    <div>{teacherPhone}</div>
+                  ))}
+                </div>
+                <div className="scheduleCol5">
+                  {dataForTableItem.school.map((schoolName) => (
+                    <div>{schoolName}</div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
-        {scheduleData.map((scheduleTimeSlot) => {
-          if (scheduleTimeSlot.ScheduleItems.length === 0) return;
-
-          const dataForTableItem = {
-            dateAndTime: null,
-            name: [],
-            id: [],
-            phone: [],
-            school: [],
-          };
-
-          scheduleTimeSlot.ScheduleItems.forEach((scheduleItem, slotIndex) => {
-            const startDay = new Date(scheduleTimeSlot.start_date);
-            const endDay = new Date(scheduleTimeSlot.end_date);
-            const scheduleItemData = scheduleTimeSlot.ScheduleItems[slotIndex];
-            // add the date to the table just once
-            if (slotIndex === 0) {
-              dataForTableItem.dateAndTime = [
-                startDay,
-                endDay,
-                scheduleItemData,
-              ];
-            }
-            // add remaining info to the table
-            dataForTableItem.name.push(scheduleItemData.Teacher.name);
-            dataForTableItem.id.push(scheduleItemData.Teacher.pencilId);
-            dataForTableItem.phone.push(scheduleItemData.Teacher.phone);
-            dataForTableItem.school.push(scheduleItemData.Teacher.School.name);
-          });
-
-          // eslint-disable-next-line consistent-return
-          return (
-            <div className="tableItem">
-              <div className="scheduleCol1 timeBox">
-                {getScheduleTimeSlot(...dataForTableItem.dateAndTime)}
-              </div>
-              <div className="scheduleCol2 bold">
-                {dataForTableItem.name.map((teacherName) => (
-                  <div>{teacherName}</div>
-                ))}
-              </div>
-              <div className="scheduleCol3">
-                {dataForTableItem.id.map((teacherId) => (
-                  <div>{teacherId}</div>
-                ))}
-              </div>
-              <div className="scheduleCol4">
-                {dataForTableItem.phone.map((teacherPhone) => (
-                  <div>{teacherPhone}</div>
-                ))}
-              </div>
-              <div className="scheduleCol5">
-                {dataForTableItem.school.map((schoolName) => (
-                  <div>{schoolName}</div>
-                ))}
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      </>
     </PageContainer>
   );
 };

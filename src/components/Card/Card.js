@@ -17,14 +17,16 @@ const Card = ({ value, title, icon, valueColor, size }) => (
 export default Card;
 
 Card.propTypes = {
-  value: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  title: PropTypes.string,
+  icon: PropTypes.node.isRequired,
   valueColor: PropTypes.string,
   size: PropTypes.string,
 };
 
 Card.defaultProps = {
+  value: '0',
+  title: 'Empty card',
   valueColor: '#000',
   size: '',
 };
