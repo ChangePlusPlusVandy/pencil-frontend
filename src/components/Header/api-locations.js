@@ -6,7 +6,7 @@ const getAllLocations = async () => {
     const response = await axios.get(`/location/locations`);
     return response.data;
   } catch (err) {
-    return err;
+    return { error: err };
   }
 };
 
