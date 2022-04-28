@@ -1,6 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 import axios from 'axios';
 import firebase from 'firebase';
+import { setupCache } from 'axios-cache-adapter';
+
+const cache = setupCache({
+  maxAge: 15 * 60 * 1000,
+});
 
 async function refreshAccessToken() {
   const user = firebase.auth().currentUser;
@@ -14,6 +19,7 @@ const axiosInstance = axios.create({
   headers: {
     authorization: `Bearer ${localStorage.getItem('@token')}`,
   },
+  adapter: cache.adapter,
 });
 
 axiosInstance.interceptors.response.use(
