@@ -22,7 +22,7 @@ const getDailyStats = async (location) => {
   }
 };
 
-const monthlyStats = async (location) => {
+const getMonthlyStats = async (location) => {
   try {
     const monthStart = new Date().setDate(1);
     const monthEnd = new Date();
@@ -66,4 +66,4 @@ const getYearlyStats = async (location) => {
   }
 };
 
-export { getDailyStats, monthlyStats, getYearlyStats };
+export { getDailyStats, getMonthlyStats, getYearlyStats };
