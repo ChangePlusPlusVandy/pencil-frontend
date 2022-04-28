@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './Menu.css';
 
 const Menu = () => {
-  const [menu, setMenu] = useState(0);
+  const [menu, setMenu] = useState(null);
 
   useEffect(() => {
     switch (window.location.href.split('/')[3]) {

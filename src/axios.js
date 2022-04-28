@@ -4,7 +4,7 @@ import firebase from 'firebase';
 import { setupCache } from 'axios-cache-adapter';
 
 const cache = setupCache({
-  maxAge: 15 * 60 * 1000,
+  maxAge: 5 * 60 * 1000,
 });
 
 async function refreshAccessToken() {
