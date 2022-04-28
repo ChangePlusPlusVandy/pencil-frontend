@@ -19,14 +19,17 @@ const Dashboard = () => {
   const currentYear = new Date().getFullYear();
   const DMY = formatDateDMY(new Date());
   const [dailyStats, setDailyStats] = useState([]);
+  const [monthlyStats, setMonthlyStats] = useState([]);
   const [yearlyStats, setYearlyStats] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(async () => {
     try {
       const daily = await getDailyStats(currentLocation);
+      const monthly = await getYearlyStats(currentLocation);
       const yearly = await getYearlyStats(currentLocation);
       setDailyStats(daily);
+      setMonthlyStats(monthly);
       setYearlyStats(yearly);
       setIsLoading(false);
     } catch (err) {
@@ -76,7 +79,7 @@ const Dashboard = () => {
           <div className="dashboardRight">
             <p className="dashboardTitle">{currentYear} at a glance</p>
             <div className="cardRow">
-              <Card
+              {/* <Card
                 value={formatDollar(yearlyStats.totalValue, true)}
                 title="Total value donated"
                 icon={<AiFillDollarCircle size="30" />}
@@ -88,13 +91,13 @@ const Dashboard = () => {
                 title="Average value taken per teacher"
                 icon={<BsFillPersonFill size="28" />}
                 valueColor="rgba(241, 189, 56, 0.8)"
-              />
+              /> */}
             </div>
             <p className="dashboardTitle" style={{ visibility: 'hidden' }}>
               This will be hidden
             </p>
             <div className="cardRow">
-              <Card
+              {/* <Card
                 value={yearlyStats.numAppointments}
                 title="Teachers shopped"
                 icon={<AiFillShopping size="32" />}
@@ -106,7 +109,7 @@ const Dashboard = () => {
                 icon={<FaPencilAlt size="28" />}
                 valueColor="rgba(47, 181, 101, 0.84)"
                 size="wide"
-              />
+              /> */}
             </div>
           </div>
         </div>
