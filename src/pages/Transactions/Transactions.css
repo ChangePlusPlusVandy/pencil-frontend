@@ -119,6 +119,11 @@ th.ant-table-cell::before {
   color: rgba(240, 71, 71, 1);
 }
 
+.all-items {
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
 .expandArrowTransaction {
   display: flex;
   align-items: center;

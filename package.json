@@ -6,6 +6,7 @@
     "@ant-design/icons": "^4.7.0",
     "@headlessui/react": "^1.5.0",
     "antd": "^4.18.7",
+    "axios": "^0.27.2",
     "docx": "^7.3.0",
     "file-saver": "^2.0.5",
     "firebase": "^8.10.0",
@@ -28,7 +29,6 @@
     "lint-fix": "eslint ./ --fix",
     "format": "prettier --write \"**/*.{js,jsx,md}\""
   },
-  "proxy": "http://ec2-3-130-177-151.us-east-2.compute.amazonaws.com:8080/",
   "browserslist": {
     "production": [
       ">0.2%",

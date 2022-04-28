@@ -1,3 +1,5 @@
+import axios from '../../axios';
+
 const getDailyStats = async (location) => {
   try {
     const todayStart = new Date().setHours(0, 0, 0);

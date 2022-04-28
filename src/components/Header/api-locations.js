@@ -1,8 +1,10 @@
 /* eslint-disable import/prefer-default-export */
+import axios from '../../axios';
+
 const getAllLocations = async () => {
   try {
-    const response = await fetch('/api/location/locations');
-    return await response.json();
+    const response = await axios.get(`/location/locations`);
+    return response.data;
   } catch (err) {
     return err;
   }
@@ -10,14 +12,8 @@ const getAllLocations = async () => {
 
 const createNewLocation = async (req) => {
   try {
-    const response = await fetch('/api/location/create', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(req),
-    });
-    return await response.json();
+    const response = await axios.post(`/location/create`, req);
+    return response.data;
   } catch (err) {
     return err;
   }
@@ -25,14 +21,12 @@ const createNewLocation = async (req) => {
 
 const updateLocation = async (uuid, name, address) => {
   try {
-    const response = await fetch(`/api/location/update/${uuid}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ uuid, name, address }),
+    const response = await axios.put(`/location/update/${uuid}`, {
+      uuid,
+      name,
+      address,
     });
-    return await response.json();
+    return response.data;
   } catch (err) {
     return err;
   }

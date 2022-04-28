@@ -37,8 +37,21 @@ export const AuthProvider = ({ children }) => {
    * @param {Object} {password} - Password of user.
    * @return {Object} - User object.
    * */
-  function login(email, password) {
-    return firebase.auth().signInWithEmailAndPassword(email, password);
+  async function login(email, password) {
+    return firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(
+        async (result) => {
+          const token = await firebase.auth()?.currentUser?.getIdToken(true);
+          if (token) {
+            localStorage.setItem('@token', token);
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   /**

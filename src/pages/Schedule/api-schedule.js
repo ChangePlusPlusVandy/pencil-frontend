@@ -1,3 +1,5 @@
+import axios from '../../axios';
+
 /**
  * Retrieves all transactions from Transaction database from Backend
  *
@@ -12,8 +14,9 @@ const getSchedules = (location, startDate, endDate) => {
     to = to.toISOString();
   }
   const query = `startDate=${from}&endDate=${to}`;
-  const response = fetch(`api/schedule/${location}/getSchedule?${query}`)
-    .then((data) => data.json())
+  const response = axios
+    .get(`/schedule/${location}/getSchedule?${query}`)
+    .then((res) => res.data)
     .catch((err) => ({
       err: `Error retrieving schedule ${err}`,
     }));
