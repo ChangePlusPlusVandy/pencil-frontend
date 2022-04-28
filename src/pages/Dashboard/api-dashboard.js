@@ -4,7 +4,6 @@ const getDailyStats = async (location) => {
   try {
     const todayStart = new Date().setHours(0, 0, 0);
     const todayEnd = new Date().setHours(23, 59, 59);
-    console.log(todayStart);
     const response = await axios.get(`/${location}/dashboard/dailystats`, {
       startDate: todayStart,
       endDate: todayEnd,
