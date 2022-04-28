@@ -23,7 +23,7 @@ const CalendarInput = ({ fromDate, setFromDate, untilDate, setUntilDate }) => {
   const calendarFromButton = useRef(null);
   const calendarUntilButton = useRef(null);
 
-  const dateToString = (date, format) => {
+  const dateToString = (date) => {
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();

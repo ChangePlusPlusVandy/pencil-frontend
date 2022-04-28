@@ -7,7 +7,6 @@ import {
   TableCell,
   Paragraph,
   Document,
-  HeightRule,
   AlignmentType,
   TextRun,
 } from 'docx';

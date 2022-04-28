@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(
-        async (result) => {
+        async () => {
           const token = await firebase.auth()?.currentUser?.getIdToken(true);
           if (token) {
             localStorage.setItem('@token', token);
