@@ -1,10 +1,11 @@
+import axios from '../../axios';
+
 /**
  * Retrieves all transactions from Transaction database from Backend
  *
  * @returns {Object} - All transaction objects with information about transaction
  */
 const getSchedules = (location, startDate, endDate) => {
-  console.log('Getting Schedules:', startDate, endDate);
   const from = startDate && new Date(startDate).toISOString();
   let to = endDate && new Date(endDate);
   if (endDate) {
@@ -12,8 +13,13 @@ const getSchedules = (location, startDate, endDate) => {
     to = to.toISOString();
   }
   const query = `startDate=${from}&endDate=${to}`;
-  const response = fetch(`api/schedule/${location}/getSchedule?${query}`)
-    .then((data) => data.json())
+  const reqUrl =
+    from && to
+      ? `/schedule/${location}/getSchedule?${query}`
+      : `/schedule/${location}/getSchedule`;
+  const response = axios
+    .get(reqUrl)
+    .then((res) => res.data)
     .catch((err) => ({
       err: `Error retrieving schedule ${err}`,
     }));

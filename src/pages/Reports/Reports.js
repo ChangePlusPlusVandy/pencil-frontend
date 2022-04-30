@@ -78,7 +78,7 @@ const Reports = () => {
   const leftItems = (
     <div
       className="secondaryButton vertical-align-center"
-      onClick={() => printReport}
+      onClick={() => printReport()}
     >
       Generate Report
       <FaFileDownload size="14" />
@@ -157,13 +157,15 @@ const Reports = () => {
 
   return (
     <PageContainer>
-      <TableHeader
-        title="Reports"
-        leftArea={leftItems}
-        rightArea={rightItems}
-      />
-      <div className="reportsQueryArea">{queryItems}</div>
-      {returnReport(view)}
+      <>
+        <TableHeader
+          title="Reports"
+          leftArea={leftItems}
+          rightArea={rightItems}
+        />
+        <div className="reportsQueryArea">{queryItems}</div>
+        {returnReport(view)}
+      </>
     </PageContainer>
   );
 };

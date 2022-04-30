@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './Menu.css';
 
 const Menu = () => {
-  const [menu, setMenu] = useState(0);
+  const [menu, setMenu] = useState(null);
 
   useEffect(() => {
     switch (window.location.href.split('/')[3]) {
@@ -36,7 +36,7 @@ const Menu = () => {
             className={`menuButton ${menu === 0 ? 'dark-button' : ''}`}
             onClick={() => setMenu(0)}
           >
-            <text className="menuOptionText">Dashboard</text>{' '}
+            <div className="menuOptionText">Dashboard</div>{' '}
           </button>
         </Link>
         <Link to="/inventory" className="link" tabIndex="-1">
@@ -45,7 +45,7 @@ const Menu = () => {
             className={`menuButton ${menu === 1 ? 'dark-button' : ''}`}
             onClick={() => setMenu(1)}
           >
-            <text className="menuOptionText">Inventory</text>
+            <div className="menuOptionText">Inventory</div>
           </button>
         </Link>
         <Link to="/reports" className="link" tabIndex="-1">
@@ -54,7 +54,7 @@ const Menu = () => {
             className={`menuButton ${menu === 2 ? 'dark-button' : ''}`}
             onClick={() => setMenu(2)}
           >
-            <text className="menuOptionText">Reports</text>
+            <div className="menuOptionText">Reports</div>
           </button>
         </Link>
         <Link to="/schedule" className="link" tabIndex="-1">
@@ -63,7 +63,7 @@ const Menu = () => {
             className={`menuButton ${menu === 3 ? 'dark-button' : ''}`}
             onClick={() => setMenu(3)}
           >
-            <text className="menuOptionText">Schedule</text>
+            <div className="menuOptionText">Schedule</div>
           </button>
         </Link>
         <Link to="/transactions" className="link" tabIndex="-1">
@@ -72,7 +72,7 @@ const Menu = () => {
             className={`menuButton ${menu === 4 ? 'dark-button' : ''}`}
             onClick={() => setMenu(4)}
           >
-            <text className="menuOptionText">Transactions</text>
+            <div className="menuOptionText">Transactions</div>
           </button>
         </Link>
       </div>

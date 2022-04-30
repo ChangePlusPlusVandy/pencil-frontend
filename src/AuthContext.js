@@ -6,6 +6,7 @@ import React, {
   createContext,
   useMemo,
 } from 'react';
+import axios from './axios';
 import firebase from './firebase';
 
 const AuthContext = createContext();
@@ -37,8 +38,29 @@ export const AuthProvider = ({ children }) => {
    * @param {Object} {password} - Password of user.
    * @return {Object} - User object.
    * */
-  function login(email, password) {
-    return firebase.auth().signInWithEmailAndPassword(email, password);
+  async function login(email, password) {
+    return firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(
+        async () => {
+          const token = await firebase.auth()?.currentUser?.getIdToken(true);
+          if (token) {
+            localStorage.setItem('@token', token);
+          }
+          axios.interceptors.request.use(
+            (config) => {
+              // eslint-disable-next-line no-param-reassign
+              config.headers.Authorization = `Bearer ${token}`;
+              return config;
+            },
+            (error) => Promise.reject(error)
+          );
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   /**
@@ -64,6 +86,7 @@ export const AuthProvider = ({ children }) => {
    * @return {Object} - User object.
    * */
   function logout() {
+    localStorage.removeItem('@token');
     return firebase.auth().signOut();
   }
 

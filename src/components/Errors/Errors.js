@@ -9,7 +9,7 @@ const Errors = ({ error, handleError }) => {
   return (
     <div className="error">
       <IoWarningOutline size={60} />
-      <text className="errorMsg">Error Message : {error}</text>
+      <div className="errorMsg">Error Message : {error}</div>
       <AiOutlineCloseCircle
         size={20}
         onClick={handleError}

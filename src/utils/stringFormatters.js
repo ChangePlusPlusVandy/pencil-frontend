@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/prefer-default-export
 export const formatDollar = (num, noDecimal = false) => {
-  console.log('num', num);
+  if (num == null || num === undefined) return num;
   let formatted = num.toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',

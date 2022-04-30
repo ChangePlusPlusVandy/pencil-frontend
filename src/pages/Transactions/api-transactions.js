@@ -1,9 +1,21 @@
-const getPendingTransactions = async (location, perpage = 10, previous = 0) => {
+import axios from '../../axios';
+
+const DEF_PER_PAGE = 10;
+const DEF_PREVIOUS = 0;
+
+const getPendingTransactions = async (
+  location,
+  perPage = DEF_PER_PAGE,
+  previous = DEF_PREVIOUS
+) => {
   try {
-    const response = await fetch(
-      `/api/${location}/transaction/pending?perPage=${perpage}&previous=${previous}`
-    );
-    return await response.json();
+    const reqUrl =
+      perPage === DEF_PER_PAGE && previous === DEF_PREVIOUS
+        ? `/${location}/transaction/pending`
+        : `/${location}/transaction/pending?perPage=${perPage}&previous=${previous}`;
+    const response = await axios.get(reqUrl);
+    console.log(response);
+    return response.data;
   } catch (err) {
     return err;
   }
@@ -11,14 +23,14 @@ const getPendingTransactions = async (location, perpage = 10, previous = 0) => {
 
 const getApprovedTransactions = async (
   location,
-  perpage = 10,
-  previous = 0
+  perPage = DEF_PER_PAGE,
+  previous = DEF_PREVIOUS
 ) => {
   try {
-    const response = await fetch(
-      `/api/${location}/transaction/approved?perPage=${perpage}&previous=${previous}`
+    const response = await axios.get(
+      `/${location}/transaction/approved?perPage=${perPage}&previous=${previous}`
     );
-    return await response.json();
+    return response.data;
   } catch (err) {
     return err;
   }
@@ -26,44 +38,51 @@ const getApprovedTransactions = async (
 
 const getVerifiedSchools = async () => {
   try {
-    const response = await fetch('/api/school/verified');
-    return await response.json();
+    const response = await axios.get(`/school/verified`);
+
+    return response.data;
   } catch (err) {
     console.log(err);
     return { error: `Transaction not processed: ${err.error}` };
   }
 };
 
-const getDeniedTransactions = async (location, perpage = 10, previous = 0) => {
+const getDeniedTransactions = async (
+  location,
+  perPage = DEF_PER_PAGE,
+  previous = DEF_PREVIOUS
+) => {
   try {
-    const response = await fetch(
-      `/api/${location}/transaction/denied?perPage=${perpage}&previous=${previous}`
+    const response = await axios.get(
+      `/${location}/transaction/denied?perPage=${perPage}&previous=${previous}`
     );
-    return await response.json();
+    return response.data;
   } catch (err) {
     return err;
   }
 };
 
-const getTransactions = async (location, type, previous = 0, perpage = 10) => {
+const getTransactions = async (
+  location,
+  type,
+  previous = DEF_PREVIOUS,
+  perPage = DEF_PER_PAGE
+) => {
   if (type === 'Pending')
-    return getPendingTransactions(location, perpage, previous);
+    return getPendingTransactions(location, perPage, previous);
   if (type === 'Approved')
-    return getApprovedTransactions(location, perpage, previous);
+    return getApprovedTransactions(location, perPage, previous);
   if (type === 'Denied')
-    return getDeniedTransactions(location, perpage, previous);
+    return getDeniedTransactions(location, perPage, previous);
   return false;
 };
 
 const approveTransaction = async (location, uuid) => {
   try {
-    const response = await fetch(
-      `/api/${location}/transaction/approve/${uuid}`,
-      {
-        method: 'POST',
-      }
+    const response = await axios.post(
+      `/${location}/transaction/approve/${uuid}`
     );
-    return await response.json();
+    return response.data;
   } catch (err) {
     console.log(err);
     return { error: `Transaction not processed: ${err.error}` };
@@ -72,10 +91,8 @@ const approveTransaction = async (location, uuid) => {
 
 const denyTransaction = async (location, uuid) => {
   try {
-    const response = await fetch(`/api/${location}/transaction/deny/${uuid}`, {
-      method: 'POST',
-    });
-    return await response.json();
+    const response = await axios.post(`/${location}/transaction/deny/${uuid}`);
+    return response.data;
   } catch (err) {
     console.log(err);
     return { error: `Transaction not processed: ${err.error}` };
@@ -90,17 +107,11 @@ const handleTransaction = async (location, uuid, action) => {
 
 const approveDeniedTransaction = async (location, uuid, items) => {
   try {
-    const response = await fetch(
-      `/api/${location}/transaction/approveDenied/${uuid}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify({ items }),
-      }
+    const response = await axios.post(
+      `/${location}/transaction/approveDenied/${uuid}`,
+      { items }
     );
-    return await response.json();
+    return response.data;
   } catch (err) {
     console.log(err);
     return { error: `Transaction not processed: ${err.error}` };
@@ -109,17 +120,11 @@ const approveDeniedTransaction = async (location, uuid, items) => {
 
 const approveTransactionWithNewSchool = async (location, uuid, schoolName) => {
   try {
-    const response = await fetch(
-      `/api/${location}/transaction/approve/${uuid}?newSchool=1`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify({ schoolName }),
-      }
+    const response = await axios.post(
+      `/${location}/transaction/approve/${uuid}?newSchool=1`,
+      { schoolName }
     );
-    return await response.json();
+    return response.data;
   } catch (err) {
     console.log(err);
     return { error: `Transaction not processed: ${err.error}` };
@@ -133,17 +138,11 @@ const approveDeniedTransactionWithNewSchool = async (
   schoolName
 ) => {
   try {
-    const response = await fetch(
-      `/api/${location}/transaction/approveDenied/${uuid}?newSchool=1`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify({ schoolName, items }),
-      }
+    const response = await axios.post(
+      `/${location}/transaction/approveDenied/${uuid}?newSchool=1`,
+      { schoolName, items }
     );
-    return await response.json();
+    return response.data;
   } catch (err) {
     console.log(err);
     return { error: `Transaction not processed: ${err.error}` };
