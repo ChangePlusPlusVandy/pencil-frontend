@@ -25,7 +25,7 @@ import { useAuth } from '../../AuthContext';
 import InventoryToggle from './InventoryToggle';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import TableHeader from '../../components/TableHeader/TableHeader';
-import Errors from '../../components/Errors/Errors';
+import Error from '../../components/Error/Error';
 import Item from './Item';
 import './Inventory.css';
 
@@ -246,7 +246,7 @@ const Inventory = () => {
           currentItems={inventoryData}
           inventoryType={inventoryType}
         />
-        {error && <Errors error={error} handleError={() => setError('')} />}
+        {error && <Error error={error} handleError={() => setError('')} />}
         <TableHeader
           title={`${inventoryType} Inventory (${
             inventoryData.length ? inventoryData.length : 0

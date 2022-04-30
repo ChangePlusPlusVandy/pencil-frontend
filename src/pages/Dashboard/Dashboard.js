@@ -6,6 +6,7 @@ import {
 } from 'react-icons/ai';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { FaPencilAlt } from 'react-icons/fa';
+import { Alert } from 'antd';
 import Card from '../../components/Card/Card';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import { useAuth } from '../../AuthContext';
@@ -26,6 +27,7 @@ const Dashboard = () => {
   const [monthlyStats, setMonthlyStats] = useState([]);
   const [yearlyStats, setYearlyStats] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(async () => {
     try {
@@ -37,13 +39,14 @@ const Dashboard = () => {
       setYearlyStats(yearly);
       setIsLoading(false);
     } catch (err) {
-      console.log(err);
+      console.log(err, 'huh');
     }
   }, []);
 
   return (
     <PageContainer>
       <>
+        {error && <Alert message="Welcome to Pencil!" type="error" showIcon />}
         <h1>Good afternoon, {currentUser.displayName.split(' ')[0]}! </h1>
         {!isLoading && (
           <div className="dashboardContainer">
