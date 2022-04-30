@@ -1,5 +1,6 @@
 /* eslint-disable consistent-return */
 
+// TODO: RENAME ALL USAGES TO getWeeklyReport
 const getGeneralReport = async (startDate, endDate, schoolId, location) => {
   try {
     console.log('Generating General Report:', startDate, endDate, schoolId);
@@ -9,6 +10,25 @@ const getGeneralReport = async (startDate, endDate, schoolId, location) => {
     const query = `startDate=${from}&endDate=${to}&school=${schoolId}`;
     const response = await fetch(`/api/${location}/reports/report1?${query}`);
     return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const printWeeklyReport = async (startDate, endDate, schoolId, location) => {
+  try {
+    console.log('Printing Weekly Report:', startDate, endDate, schoolId);
+
+    // Format query parameters
+    const from = startDate && new Date(startDate).toISOString();
+    const to = endDate && new Date(endDate);
+    if (endDate) to.setDate(to.getDate() + 1);
+
+    // Send query
+    const query = `startDate=${from}&endDate=${to}&school=${schoolId}`;
+    const response = await fetch(
+      `/api/${location}/reports/printReport1?${query}`
+    );
   } catch (err) {
     console.log(err);
   }
