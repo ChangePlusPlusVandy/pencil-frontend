@@ -30,7 +30,7 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
       const accessToken = await refreshAccessToken();
       localStorage.setItem('@token', accessToken);
-      axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+      axiosInstance.defaults.headers.authorization = `Bearer ${accessToken}`;
       return axiosInstance(originalRequest);
     }
     return Promise.reject(error);

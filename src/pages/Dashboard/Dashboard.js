@@ -6,9 +6,11 @@ import {
 } from 'react-icons/ai';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { FaPencilAlt } from 'react-icons/fa';
+import { Alert } from 'antd';
 import Card from '../../components/Card/Card';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import { useAuth } from '../../AuthContext';
+import Error from '../../components/Error/Error';
 import {
   getDailyStats,
   getMonthlyStats,
@@ -26,16 +28,35 @@ const Dashboard = () => {
   const [monthlyStats, setMonthlyStats] = useState([]);
   const [yearlyStats, setYearlyStats] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [errorDescription, setErrorDescription] = useState(null);
 
   useEffect(async () => {
     try {
       const daily = await getDailyStats(currentLocation);
       const monthly = await getMonthlyStats(currentLocation);
       const yearly = await getYearlyStats(currentLocation);
-      setDailyStats(daily);
-      setMonthlyStats(monthly);
-      setYearlyStats(yearly);
-      setIsLoading(false);
+      if (daily.error) {
+        setError(daily.error.message);
+        if (daily.error.response) {
+          setErrorDescription(daily.error.response.data.error);
+        }
+      } else if (monthly.error) {
+        setError(monthly.error.message);
+        if (monthly.error.response) {
+          setErrorDescription(monthly.error.response.data.error);
+        }
+      } else if (yearly.error) {
+        setError(yearly.error.message);
+        if (yearly.error.response) {
+          setErrorDescription(yearly.error.response.data.error);
+        }
+      } else {
+        setDailyStats(daily);
+        setMonthlyStats(monthly);
+        setYearlyStats(yearly);
+        setIsLoading(false);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -44,8 +65,15 @@ const Dashboard = () => {
   return (
     <PageContainer>
       <>
+        {error && (
+          <Error
+            error={error}
+            description={errorDescription}
+            setError={setError}
+          />
+        )}
         <h1>Good afternoon, {currentUser.displayName.split(' ')[0]}! </h1>
-        {!isLoading && (
+        {!isLoading && !error && (
           <div className="dashboardContainer">
             <div className="dashboardLeft">
               <p className="dashboardTitle">Today at a glance - {DMY}</p>
