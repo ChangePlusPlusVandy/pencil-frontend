@@ -4,13 +4,14 @@
 
 import React, { useEffect, useState } from 'react';
 import { TiPlus } from 'react-icons/ti';
+import PropTypes from 'prop-types';
 import { useAuth } from '../../AuthContext';
 import { getAllLocations } from './api-locations';
 import AddLocation from './AddLocation';
 import CustomDropdown from '../Dropdowns/CustomDropdown';
 import 'antd/dist/antd.css';
 
-const LocationDropdown = () => {
+const LocationDropdown = ({ setError }) => {
   const { currentLocation, updateLocation } = useAuth();
   const [allLocations, setAllLocations] = useState([]);
   const [isAddLocationVisible, setAddLocationVisible] = useState(false);
@@ -31,10 +32,7 @@ const LocationDropdown = () => {
   useEffect(() => {
     getAllLocations().then((result) => {
       if (result.error) {
-        // eslint-disable-next-line no-alert
-        alert(
-          'Something went wrong in the backend Server. Please contact the developer team.'
-        );
+        setError(result.error.message);
       } else if (result)
         setAllLocations(
           result.filter((location) => location.name !== currentLocation)
@@ -45,7 +43,11 @@ const LocationDropdown = () => {
   const menu = (
     <>
       {allLocations.length
-        ? allLocations.map((loc) => <a onClick={handleClick}>{loc.name}</a>)
+        ? allLocations.map((loc, index) => (
+            <a key={loc.name} onClick={handleClick}>
+              {loc.name}
+            </a>
+          ))
         : null}
       <div className="horizontal_line" />
       <a
@@ -67,6 +69,10 @@ const LocationDropdown = () => {
       />
     </>
   );
+};
+
+LocationDropdown.propTypes = {
+  setError: PropTypes.func.isRequired,
 };
 
 export default LocationDropdown;

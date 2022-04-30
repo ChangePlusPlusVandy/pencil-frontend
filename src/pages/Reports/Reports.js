@@ -157,13 +157,15 @@ const Reports = () => {
 
   return (
     <PageContainer>
-      <TableHeader
-        title="Reports"
-        leftArea={leftItems}
-        rightArea={rightItems}
-      />
-      <div className="reportsQueryArea">{queryItems}</div>
-      {returnReport(view)}
+      <>
+        <TableHeader
+          title="Reports"
+          leftArea={leftItems}
+          rightArea={rightItems}
+        />
+        <div className="reportsQueryArea">{queryItems}</div>
+        {returnReport(view)}
+      </>
     </PageContainer>
   );
 };

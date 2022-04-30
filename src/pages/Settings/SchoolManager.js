@@ -3,7 +3,6 @@
 
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect, useState } from 'react';
-import { HiPencil } from 'react-icons/hi';
 import { getAllSchools, addSchool } from './api-settings';
 import Modal from '../../components/Modal/Modal';
 

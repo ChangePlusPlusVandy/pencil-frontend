@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Header.css';
 import { useHistory } from 'react-router-dom';
 import PencilLogo from '../../assets/pencil-logo-crop.png';
 
 import HeaderDropdown from './HeaderDropdown';
 import LocationDropdown from './LocationDropdown';
+import Error from '../Error/Error';
 
 import { useAuth } from '../../AuthContext';
 
@@ -13,13 +14,22 @@ const Header = () => {
   const history = useHistory();
   const location = currentLocation ? `PENCIL-${currentLocation}` : 'PENCIL';
 
+  const [error, setError] = useState(null);
+
   const handleNavigation = () => {
-    console.log('PRESSED');
     history.push(`/`);
   };
 
   return (
     <div className="header">
+      {error && (
+        <Error
+          error={error}
+          description="Unable to retrieve locations. Please contact the development team."
+          setError={setError}
+        />
+      )}
+
       <div
         className="header_left"
         onKeyPress={() => {}}
@@ -31,7 +41,7 @@ const Header = () => {
         <p className="header_title">{location}</p>
       </div>
       <div className="header_right">
-        <LocationDropdown />
+        <LocationDropdown setError={setError} />
         <HeaderDropdown />
       </div>
     </div>

@@ -6,7 +6,7 @@ const getAllLocations = async () => {
     const response = await axios.get(`/location/locations`);
     return response.data;
   } catch (err) {
-    return err;
+    return { error: err };
   }
 };
 
@@ -15,7 +15,7 @@ const createNewLocation = async (req) => {
     const response = await axios.post(`/location/create`, req);
     return response.data;
   } catch (err) {
-    return err;
+    return { error: err };
   }
 };
 
@@ -28,7 +28,7 @@ const updateLocation = async (uuid, name, address) => {
     });
     return response.data;
   } catch (err) {
-    return err;
+    return { error: err };
   }
 };
 

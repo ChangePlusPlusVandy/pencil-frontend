@@ -1,18 +1,27 @@
 import axios from '../../axios';
 
+const DEF_PER_PAGE = 10;
+const DEF_PREVIOUS = 0;
+
 // Returns all pending transactions
 // @param location: string
 // @param perpage: number - number of locations to be added
 // @param previous: number - number of locations currently loaded
 // @returns: array of transactions
-const getPendingTransactions = async (location, perpage = 10, previous = 0) => {
+const getPendingTransactions = async (
+  location,
+  perPage = DEF_PER_PAGE,
+  previous = DEF_PREVIOUS
+) => {
   try {
-    const response = await axios.get(
-      `/${location}/transaction/pending?perPage=${perpage}&previous=${previous}`
-    );
+    const reqUrl =
+      perPage === DEF_PER_PAGE && previous === DEF_PREVIOUS
+        ? `/${location}/transaction/pending`
+        : `/${location}/transaction/pending?perPage=${perPage}&previous=${previous}`;
+    const response = await axios.get(reqUrl);
     return response.data;
-  } catch (err) {
-    return err;
+  } catch (error) {
+    return { error };
   }
 };
 
@@ -23,16 +32,16 @@ const getPendingTransactions = async (location, perpage = 10, previous = 0) => {
 // @returns: array of transactions
 const getApprovedTransactions = async (
   location,
-  perpage = 10,
-  previous = 0
+  perPage = DEF_PER_PAGE,
+  previous = DEF_PREVIOUS
 ) => {
   try {
     const response = await axios.get(
-      `/${location}/transaction/approved?perPage=${perpage}&previous=${previous}`
+      `/${location}/transaction/approved?perPage=${perPage}&previous=${previous}`
     );
     return response.data;
-  } catch (err) {
-    return err;
+  } catch (error) {
+    return { error };
   }
 };
 
@@ -43,9 +52,8 @@ const getVerifiedSchools = async () => {
     const response = await axios.get(`/school/verified`);
 
     return response.data;
-  } catch (err) {
-    console.log(err);
-    return { error: `Transaction not processed: ${err.error}` };
+  } catch (error) {
+    return { error };
   }
 };
 
@@ -54,14 +62,18 @@ const getVerifiedSchools = async () => {
 // @param perpage: number - number of locations to be added
 // @param previous: number - number of locations currently loaded
 // @returns: array of transactions
-const getDeniedTransactions = async (location, perpage = 10, previous = 0) => {
+const getDeniedTransactions = async (
+  location,
+  perPage = DEF_PER_PAGE,
+  previous = DEF_PREVIOUS
+) => {
   try {
     const response = await axios.get(
-      `/${location}/transaction/denied?perPage=${perpage}&previous=${previous}`
+      `/${location}/transaction/denied?perPage=${perPage}&previous=${previous}`
     );
     return response.data;
-  } catch (err) {
-    return err;
+  } catch (error) {
+    return { error };
   }
 };
 
@@ -71,13 +83,18 @@ const getDeniedTransactions = async (location, perpage = 10, previous = 0) => {
 //  @param perpage: number - number of locations to be added
 //  @param previous: number - number of locations currently loaded
 //  @returns: array of transactions of type type
-const getTransactions = async (location, type, previous = 0, perpage = 10) => {
+const getTransactions = async (
+  location,
+  type,
+  previous = DEF_PREVIOUS,
+  perPage = DEF_PER_PAGE
+) => {
   if (type === 'Pending')
-    return getPendingTransactions(location, perpage, previous);
+    return getPendingTransactions(location, perPage, previous);
   if (type === 'Approved')
-    return getApprovedTransactions(location, perpage, previous);
+    return getApprovedTransactions(location, perPage, previous);
   if (type === 'Denied')
-    return getDeniedTransactions(location, perpage, previous);
+    return getDeniedTransactions(location, perPage, previous);
   return false;
 };
 

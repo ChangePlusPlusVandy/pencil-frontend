@@ -6,7 +6,6 @@ import axios from '../../axios';
  * @returns {Object} - All transaction objects with information about transaction
  */
 const getSchedules = (location, startDate, endDate) => {
-  console.log('Getting Schedules:', startDate, endDate);
   const from = startDate && new Date(startDate).toISOString();
   let to = endDate && new Date(endDate);
   if (endDate) {
@@ -14,12 +13,14 @@ const getSchedules = (location, startDate, endDate) => {
     to = to.toISOString();
   }
   const query = `startDate=${from}&endDate=${to}`;
+  const reqUrl =
+    from && to
+      ? `/schedule/${location}/getSchedule?${query}`
+      : `/schedule/${location}/getSchedule`;
   const response = axios
-    .get(`/schedule/${location}/getSchedule?${query}`)
+    .get(reqUrl)
     .then((res) => res.data)
-    .catch((err) => ({
-      err: `Error retrieving schedule ${err}`,
-    }));
+    .catch((err) => console.log(err));
   console.log(response);
   return response;
 };

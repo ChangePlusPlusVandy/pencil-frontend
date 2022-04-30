@@ -8,7 +8,11 @@ const getGeneralReport = async (startDate, endDate, schoolId, location) => {
     const to = endDate && new Date(endDate);
     if (endDate) to.setDate(to.getDate() + 1);
     const query = `startDate=${from}&endDate=${to}&school=${schoolId}`;
-    const response = await axios.get(`/${location}/reports/report1?${query}`);
+    const reqUrl =
+      from && to && schoolId
+        ? `/${location}/reports/report1?${query}`
+        : `/${location}/reports/report1`;
+    const response = await axios.get(reqUrl);
     return response.data;
   } catch (err) {
     console.log(err);
