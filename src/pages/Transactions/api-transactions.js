@@ -14,10 +14,9 @@ const getPendingTransactions = async (
         ? `/${location}/transaction/pending`
         : `/${location}/transaction/pending?perPage=${perPage}&previous=${previous}`;
     const response = await axios.get(reqUrl);
-    console.log(response);
     return response.data;
-  } catch (err) {
-    return err;
+  } catch (error) {
+    return { error };
   }
 };
 
@@ -31,8 +30,8 @@ const getApprovedTransactions = async (
       `/${location}/transaction/approved?perPage=${perPage}&previous=${previous}`
     );
     return response.data;
-  } catch (err) {
-    return err;
+  } catch (error) {
+    return { error };
   }
 };
 
@@ -41,9 +40,8 @@ const getVerifiedSchools = async () => {
     const response = await axios.get(`/school/verified`);
 
     return response.data;
-  } catch (err) {
-    console.log(err);
-    return { error: `Transaction not processed: ${err.error}` };
+  } catch (error) {
+    return { error };
   }
 };
 
@@ -57,8 +55,8 @@ const getDeniedTransactions = async (
       `/${location}/transaction/denied?perPage=${perPage}&previous=${previous}`
     );
     return response.data;
-  } catch (err) {
-    return err;
+  } catch (error) {
+    return { error };
   }
 };
 

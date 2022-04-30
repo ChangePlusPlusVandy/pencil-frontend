@@ -12,7 +12,7 @@ const getDailyStats = async (location) => {
     return response.data;
   } catch (err) {
     console.log(err);
-    return err;
+    return { error: err };
   }
 };
 

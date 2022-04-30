@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [currentLocation, setCurrentLocation] = useState(
-    localStorage.getItem('location') || 'Nashville' // TODO: change this to prompt user for location
+    localStorage.getItem('location')
   );
 
   /**

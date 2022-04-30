@@ -14,6 +14,7 @@ import { IoFilter } from 'react-icons/io5';
 import { useAuth } from '../../AuthContext';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import Subtable from './Subtable';
+import Error from '../../components/Error/Error';
 import {
   handleTransaction,
   getTransactions,
@@ -68,8 +69,8 @@ const Transactions = () => {
 
   useEffect(() => {
     getTransactions(currentLocation, 'Pending').then((transactions) => {
-      console.log(transactions);
-      if (transactions.error) setError(transactions.error);
+      console.log(transactions.error);
+      if (transactions.error) console.log(transactions.error.message);
       else formatData(transactions, 'Pending');
     });
     getVerifiedSchools().then((schools) => {
@@ -363,6 +364,7 @@ const Transactions = () => {
 
   const leftItems = (
     <>
+      {error && <Error error={error} setError={setError} />}
       <button
         type="button"
         className="secondaryButton vertical-align-center statusApproved"
