@@ -51,6 +51,10 @@ const Transactions = () => {
   const [mulSchoolFilter, setMulSchoolFilter] = useState([]);
   const [allowApproval, setAllowApproval] = useState(false);
 
+  // Formats the data to be in a readable format for the table
+  // @param transactions: array - data to be formatted
+  // @param status: string - status of the transaction
+  // @param isLoadMore: true if the data is being loaded after pressing the "Load More" button
   const formatData = (transactions, status, isLoadMore = false) => {
     const result = transactions.map((item) => ({
       uuid: item.uuid,
@@ -66,9 +70,9 @@ const Transactions = () => {
     else if (transactions.length !== 0) setData([...data, ...result]);
   };
 
+  // Gets the pending transactions and verified schools from the server
   useEffect(() => {
     getTransactions(currentLocation, 'Pending').then((transactions) => {
-      console.log(transactions);
       if (transactions.error) setError(transactions.error);
       else formatData(transactions, 'Pending');
     });
@@ -78,6 +82,7 @@ const Transactions = () => {
     });
   }, []);
 
+  // Allows approval for all schools
   useEffect(() => {
     if (!mulSchoolFilter.length) return;
     let allfilled = true;
@@ -87,6 +92,7 @@ const Transactions = () => {
     setAllowApproval(allfilled);
   }, [mulSchoolFilter]);
 
+  // Handles the selection of transactions in table - ie, when a row is checked
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       setSelectedData(selectedRows);
@@ -97,6 +103,7 @@ const Transactions = () => {
     }),
   };
 
+  // Handles click of approve or deny button for a single transaction
   const handleClick = (e, transaction, action) => {
     if (action === 'Approve' && !transaction.schoolVerified) {
       setSingleSelected(transaction);
@@ -121,6 +128,7 @@ const Transactions = () => {
       return temp;
     });
 
+    // add the transaction to the wasChecked array so it cannot be checked/approved/denied again
     setWasChecked((prevChecked) => {
       prevChecked.push(transaction.uuid);
       return prevChecked;
@@ -136,6 +144,7 @@ const Transactions = () => {
     }
   };
 
+  // Handles click of approve or deny button for multiple transactions
   const handleSelected = (action) => {
     // handle each transaction in selected data
     const unverifiedArr = selectedData.filter((a) => !a.schoolVerified);
@@ -161,6 +170,10 @@ const Transactions = () => {
     }
   };
 
+  // Handles the change of items taken for a transaction
+  // @param items: array - items taken for a transaction
+  // @param trxUuid: string - uuid of the transaction
+  // @return object - updated transaction
   const handleTransactionItemsChange = (items, trxUuid) => {
     setData((prevData) =>
       prevData.map((transaction) => {
@@ -170,6 +183,7 @@ const Transactions = () => {
     );
   };
 
+  // Defines the columns for the table
   const columns = [
     {
       title: 'Date/Time',
@@ -237,6 +251,8 @@ const Transactions = () => {
     },
   ];
 
+  // Creates subtable when a transaction is expanded to show items taken
+  // @param record: object - record of row being expanded
   const expandedRowRender = (record) => (
     <Subtable
       uuid={record.uuid}
@@ -247,6 +263,7 @@ const Transactions = () => {
     />
   );
 
+  // Handles school name change
   const updateSchoolName = async () => {
     if (view === 'Denied') {
       approveDeniedTransactionWithNewSchool(
@@ -272,6 +289,7 @@ const Transactions = () => {
     setShowPopup(false);
   };
 
+  // Updates the school name for multiple selected transactions
   const updateMulSchoolName = async () => {
     let newSchoolIndex = 0;
     selectedData.forEach(async (transaction) => {
@@ -317,6 +335,8 @@ const Transactions = () => {
     setShowMulPopup(false);
   };
 
+  // Loads more transactions when the user presses the load more button
+  // @param type: string - type of transactions to load
   const loadMore = (type) => {
     getTransactions(currentLocation, type, prevItems, prevItems + 50).then(
       (transactions) => {
@@ -330,11 +350,13 @@ const Transactions = () => {
     setPrevItems(prevItems + 50);
   };
 
+  // Changes data loaded in table
+  // @param event: object - event object
   const changeLoadedData = (event) => {
     const type = event.target.innerText || view;
     setSelectedData([]);
     setPrevItems(10);
-    formatData([], type); // TODO: remove this if the reload flicker isn't wanted
+    formatData([], type);
 
     getTransactions(currentLocation, type).then((transactions) => {
       if (transactions.error) console.log(transactions.error);
@@ -346,12 +368,15 @@ const Transactions = () => {
     });
   };
 
+  // Types of transactions that can be loaded
   const menuOptions = ['Pending', 'Approved', 'Denied'];
 
+  // Changes the options present in the menu based on the current view
   const menu = menuOptions
     .filter((option) => option !== view)
     .map((option) => <a onClick={(e) => changeLoadedData(e)}>{option}</a>);
 
+  // Creates button that expands a transaction to show items taken
   const customExpandIcon = (fun) => (
     <FaChevronDown
       onClick={(e) => {
@@ -361,6 +386,7 @@ const Transactions = () => {
     />
   );
 
+  // Defines items present at top left of screen
   const leftItems = (
     <>
       <button
@@ -384,6 +410,7 @@ const Transactions = () => {
     </>
   );
 
+  // Defines items present at top right of screen
   const rightItems = (
     <>
       <IoMdRefresh
