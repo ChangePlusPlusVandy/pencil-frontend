@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
           axios.interceptors.request.use(
             (config) => {
               // eslint-disable-next-line no-param-reassign
-              config.headers.Authorization = `Bearer ${token}`;
+              config.headers.authorization = `Bearer ${token}`;
               return config;
             },
             (error) => Promise.reject(error)
@@ -87,6 +87,15 @@ export const AuthProvider = ({ children }) => {
    * */
   function logout() {
     localStorage.removeItem('@token');
+    axios.interceptors.request.use(
+      (config) => {
+        // eslint-disable-next-line no-param-reassign
+        config.headers.authorization = null;
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
+
     return firebase.auth().signOut();
   }
 

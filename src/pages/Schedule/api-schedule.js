@@ -20,9 +20,7 @@ const getSchedules = (location, startDate, endDate) => {
   const response = axios
     .get(reqUrl)
     .then((res) => res.data)
-    .catch((err) => ({
-      err: `Error retrieving schedule ${err}`,
-    }));
+    .catch((err) => console.log(err));
   console.log(response);
   return response;
 };
