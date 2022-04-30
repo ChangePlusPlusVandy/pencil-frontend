@@ -1,8 +1,6 @@
-/* eslint-disable no-useless-return */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable import/no-unresolved */
 import React, { useState, useEffect } from 'react';
 import {
   AiFillPrinter,
