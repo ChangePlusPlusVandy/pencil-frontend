@@ -42,6 +42,7 @@ const Inventory = () => {
   const [valueEditable, setValueEditable] = useState(false);
   const valueUnit = inventoryType === 'Active' ? 'Quantity' : 'Price ($)';
 
+  // Creates docx of form and saves it to computer
   const generate = () => {
     const doc = printForm(inventoryData);
     let today = new Date();
@@ -54,8 +55,9 @@ const Inventory = () => {
     });
   };
 
+  // Deletes item from inventory
+  // @param uuid - uuid of item to delete
   const handleDelete = (uuid) => {
-    console.log(inventoryData);
     const checkVal = inventoryData.findIndex((item) => uuid === item.uuid);
     const newData = [...inventoryData];
     newData[checkVal].archived = true;
@@ -64,6 +66,11 @@ const Inventory = () => {
     setChanged(true);
   };
 
+  // Updates item in inventory
+  // @param uuid - uuid of item to update
+  // @param keyToUpdate - key of item to update
+  // @param newValue - value of item to update
+  // @param isNumber - bool of if new value is a number
   const updateItem = (uuid, keyToUpdate, newValue, isNumber) => {
     const tempInventory = inventoryData;
     tempInventory.find((x) => x.uuid === uuid)[keyToUpdate] = isNumber
@@ -73,6 +80,7 @@ const Inventory = () => {
     setChanged(true);
   };
 
+  // Changes order of items in inventory
   const dragProps = {
     onDragEnd(fromIndex, toIndex) {
       const newData = inventoryData; // reorders the item
@@ -89,6 +97,7 @@ const Inventory = () => {
     lineClassName: 'dragLine',
   };
 
+  // Changes view of inventory when inventoryType is changed
   useEffect(() => {
     setInventoryData([]);
     setNameEditable(false);
@@ -118,6 +127,8 @@ const Inventory = () => {
     setFilteredData(filtered);
   }, [searchTerm, inventoryData]);
 
+  // Adds item to inventory
+  // @param formInfo - object of form info
   const addItem = (formInfo) => {
     const newItem =
       inventoryType === 'Active'
@@ -137,6 +148,7 @@ const Inventory = () => {
     setChanged(true);
   };
 
+  // Saves inventory to database
   const handleSave = () => {
     let invalid = false;
     const tempInventory = inventoryData;
@@ -163,6 +175,7 @@ const Inventory = () => {
     setValueEditable(false);
   };
 
+  // List of items to display in top left of screen
   const leftItems = (
     <>
       <div
@@ -196,6 +209,7 @@ const Inventory = () => {
     </>
   );
 
+  // List of items to display in top right of screen
   const rightItems = (
     <>
       <InventoryToggle onChange={setInventoryType} />
@@ -210,6 +224,7 @@ const Inventory = () => {
     </>
   );
 
+  // List of table headers
   const tableHeaders = (
     <div className="tableItemHeader">
       <div className="inventoryCol1" />

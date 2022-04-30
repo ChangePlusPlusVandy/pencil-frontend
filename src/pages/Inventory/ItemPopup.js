@@ -19,6 +19,7 @@ const ItemPopup = ({
   const [itemName, setItemName] = useState('');
   const [itemValue, setItemValue] = useState(''); // price or limit depending on inventoryType
 
+  // Updates allItems
   useEffect(() => {
     if (inventoryType !== 'Active') return;
     // only carry out if Active inventory
