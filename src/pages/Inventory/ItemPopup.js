@@ -24,13 +24,9 @@ const ItemPopup = ({
     if (inventoryType !== 'Active') return;
     // only carry out if Active inventory
     getMasterInv().then((result) => {
-      if (result instanceof Error) {
-        // eslint-disable-next-line no-alert
-        alert(
-          'Something went wrong in the backend server. Please contact the developer team'
-        );
-        console.log(result);
-      } else {
+      if (result.error) {
+        console.log(result.error);
+      } else if (result) {
         const currentItemNames = currentItems.map(
           (item) => item['Item.itemName'] // extract the item names from the currentItems
         );

@@ -103,11 +103,15 @@ const Inventory = () => {
     setSearchTerm('');
     if (inventoryType === 'Active') {
       getInventory(currentLocation).then((result) => {
-        if (!(result instanceof Error)) setInventoryData(result);
+        if (result.error) {
+          setError(result.error);
+        } else if (result) setInventoryData(result);
       });
     } else {
       getMasterInv().then((result) => {
-        if (!(result instanceof Error)) setInventoryData(result);
+        if (result.error) {
+          setError(result.error);
+        } else if (result) setInventoryData(result);
       });
     }
   }, [inventoryType]);
