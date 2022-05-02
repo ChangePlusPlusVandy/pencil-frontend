@@ -8,7 +8,6 @@ import './Authentication.css';
 
 const Authentication = () => {
   const location = useLocation();
-  console.log(location.pathname);
 
   const toRender = () => {
     if (location.pathname === '/login') return <Login />;
