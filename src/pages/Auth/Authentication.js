@@ -19,7 +19,7 @@ const Authentication = () => {
 
   return (
     <div className="authContainer">
-      <div className="authLeftCol">Fancy Graphic</div>
+      <div className="authLeftCol" />
       <div className="authRightCol">
         <div className="authFormContainer">
           <p className="authPencilHeader">

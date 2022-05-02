@@ -6,12 +6,15 @@
 
 .authLeftCol {
   width: 50vw;
-  background-color: var(--primary);
+  background-color: var(--bgPrimary);
+  background-image: url("../../assets/Group143.svg");
+  background-position-x: -120px;
+  background-position-y: -20px;
 }
 
 .authRightCol {
   background-color: var(--bgSecondary);
-  width: 50vw;
+  width: 65vw;
   display: flex;
   flex-direction: column;
   justify-content: center;

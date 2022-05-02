@@ -54,7 +54,11 @@ const Login = () => {
         <label htmlFor="password">
           <div className="passwordLabelContainer">
             Password{' '}
-            <Link to="/forgot-password" className="forgotPasswordButton">
+            <Link
+              to="/forgot-password"
+              className="forgotPasswordButton"
+              tabIndex={-1}
+            >
               Forgot Password?
             </Link>
           </div>
