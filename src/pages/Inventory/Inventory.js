@@ -35,6 +35,7 @@ const Inventory = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [inventoryType, setInventoryType] = useState('Active');
   const [error, setError] = useState('');
+  const [errorDescription, setErrorDescription] = useState('');
   const { currentLocation } = useAuth();
   const [nameEditable, setNameEditable] = useState(false);
   const [valueEditable, setValueEditable] = useState(false);
@@ -96,23 +97,26 @@ const Inventory = () => {
   };
 
   // Changes view of inventory when inventoryType is changed
-  useEffect(() => {
+  useEffect(async () => {
     setInventoryData([]);
     setNameEditable(false);
     setValueEditable(false);
     setSearchTerm('');
-    if (inventoryType === 'Active') {
-      getInventory(currentLocation).then((result) => {
-        if (result.error) {
-          setError(result.error);
-        } else if (result) setInventoryData(result);
-      });
-    } else {
-      getMasterInv().then((result) => {
-        if (result.error) {
-          setError(result.error);
-        } else if (result) setInventoryData(result);
-      });
+    try {
+      if (inventoryType === 'Active') {
+        await getInventory(currentLocation).then((result) => {
+          setInventoryData(result);
+        });
+      } else {
+        await getMasterInv().then((result) => {
+          setInventoryData(result);
+        });
+      }
+    } catch (err) {
+      setError(err.message);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
+      }
     }
   }, [inventoryType]);
 
@@ -151,7 +155,7 @@ const Inventory = () => {
   };
 
   // Saves inventory to database
-  const handleSave = () => {
+  const handleSave = async () => {
     let invalid = false;
     const tempInventory = inventoryData;
     tempInventory.forEach((item) => {
@@ -166,15 +170,21 @@ const Inventory = () => {
     });
 
     if (invalid) return;
-    const result =
-      inventoryType === 'Active'
-        ? postInventory(inventoryData, currentLocation)
-        : postMasterInv(inventoryData);
-
-    if (result && result.error) setError(result.error);
-    setChanged(false);
-    setNameEditable(false);
-    setValueEditable(false);
+    try {
+      if (inventoryType === 'Active') {
+        await postInventory(inventoryData, currentLocation);
+      } else {
+        await postMasterInv(inventoryData);
+      }
+      setChanged(false);
+      setNameEditable(false);
+      setValueEditable(false);
+    } catch (err) {
+      setError(err.message);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
+      }
+    }
   };
 
   // List of items to display in top left of screen
@@ -263,7 +273,13 @@ const Inventory = () => {
           currentItems={inventoryData}
           inventoryType={inventoryType}
         />
-        {error && <Error error={error} handleError={() => setError('')} />}
+        {error && (
+          <Error
+            error={error}
+            description={errorDescription}
+            setError={setError}
+          />
+        )}
         <TableHeader
           title={`${inventoryType} Inventory (${
             inventoryData.length ? inventoryData.length : 0

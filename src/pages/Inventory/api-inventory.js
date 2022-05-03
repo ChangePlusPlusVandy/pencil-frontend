@@ -5,8 +5,12 @@ import axios from '../../axios';
 // @param location: string
 // @returns: response from server
 const getInventory = async (location) => {
-  const response = await axios.get(`/${location}/form/getShopForm`);
-  return response.data;
+  try {
+    const response = await axios.get(`/${location}/form/getShopForm`);
+    return response.data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
 };
 
 // Changes the shop inventory for a location
@@ -22,7 +26,7 @@ const postInventory = async (data, location) => {
     const response = await axios.put(`/${location}/form/updateSupply`, data);
     return response.data;
   } catch (err) {
-    console.log(err);
+    return Promise.reject(err);
   }
 };
 

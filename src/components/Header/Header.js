@@ -14,7 +14,8 @@ const Header = () => {
   const history = useHistory();
   const location = currentLocation ? `PENCIL-${currentLocation}` : 'PENCIL';
 
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
+  const [errorDescription, setErrorDescription] = useState('');
 
   const handleNavigation = () => {
     history.push(`/`);
@@ -25,7 +26,7 @@ const Header = () => {
       {error && (
         <Error
           error={error}
-          description="Unable to retrieve locations. Please contact the development team."
+          description={errorDescription}
           setError={setError}
         />
       )}
@@ -41,7 +42,10 @@ const Header = () => {
         <p className="header_title">{location}</p>
       </div>
       <div className="header_right">
-        <LocationDropdown setError={setError} />
+        <LocationDropdown
+          setError={setError}
+          setErrorDescription={setErrorDescription}
+        />
         <HeaderDropdown />
       </div>
     </div>
