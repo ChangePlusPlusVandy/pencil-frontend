@@ -7,7 +7,10 @@ const Error = ({ error, description, setError }) => (
   <Alert
     className="error"
     message={error}
-    description={description}
+    description={
+      description ||
+      'Please contact the development team if this issue persists.'
+    }
     type="error"
     showIcon
     closable

@@ -26,6 +26,7 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     if (error.response.status === 403 && !originalRequest._retry) {
+      console.log('refreshing token'); // DO NOT REMOVE
       originalRequest._retry = true;
       const accessToken = await refreshAccessToken();
       localStorage.setItem('@token', accessToken);

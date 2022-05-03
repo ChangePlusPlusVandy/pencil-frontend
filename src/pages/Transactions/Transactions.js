@@ -170,7 +170,7 @@ const Transactions = () => {
   };
 
   // Handles click of approve or deny button for multiple transactions
-  const handleSelected = (action) => {
+  const handleSelected = async (action) => {
     // handle each transaction in selected data
     const unverifiedArr = selectedData.filter((a) => !a.schoolVerified);
     if (action === 'Approve' && unverifiedArr.length) {
@@ -178,20 +178,30 @@ const Transactions = () => {
       setShowMulPopup(true);
       setMultipleSelected(unverifiedArr);
     } else {
-      selectedData.forEach((transaction) => {
-        handleTransaction(currentLocation, transaction.uuid, action);
-        setData((prevData) => {
-          const temp = [...prevData];
-          temp[temp.indexOf(transaction)].status =
-            action === 'Approve' ? 'Approved' : 'Denied';
-          return temp;
-        });
-      });
-
-      // clear selected data
-      const selectedUuid = selectedData.map((a) => a.uuid);
-      setWasChecked(selectedUuid.concat(wasChecked));
-      setSelectedData([]);
+      try {
+        await Promise.all(
+          selectedData.map(async (transaction) => {
+            await handleTransaction(currentLocation, transaction.uuid, action);
+            setData((prevData) => {
+              const temp = [...prevData];
+              temp[temp.indexOf(transaction)].status =
+                action === 'Approve' ? 'Approved' : 'Denied';
+              return temp;
+            });
+          })
+        );
+        // clear selected data
+        const selectedUuid = selectedData.map((a) => a.uuid);
+        setWasChecked(selectedUuid.concat(wasChecked));
+        setSelectedData([]);
+        setError('');
+        setErrorDescription('');
+      } catch (err) {
+        setError(err.message);
+        if (err.response.data && Object.keys(err.response.data).length) {
+          setErrorDescription(err.response.data);
+        }
+      }
     }
   };
 
@@ -290,28 +300,37 @@ const Transactions = () => {
 
   // Handles school name change
   const updateSchoolName = async () => {
-    if (view === 'Denied') {
-      approveDeniedTransactionWithNewSchool(
-        currentLocation,
-        singleSelected.uuid,
-        singleSelected.transactionItems,
-        schoolFilter
-      );
-    } else {
-      approveTransactionWithNewSchool(
-        currentLocation,
-        singleSelected.uuid,
-        schoolFilter
-      );
+    try {
+      if (view === 'Denied') {
+        await approveDeniedTransactionWithNewSchool(
+          currentLocation,
+          singleSelected.uuid,
+          singleSelected.transactionItems,
+          schoolFilter
+        );
+      } else {
+        await approveTransactionWithNewSchool(
+          currentLocation,
+          singleSelected.uuid,
+          schoolFilter
+        );
+      }
+      setData((prevData) => {
+        const temp = [...prevData];
+        temp[temp.indexOf(singleSelected)].status = 'Approved';
+        temp[temp.indexOf(singleSelected)].schoolName = schoolFilter;
+        return temp;
+      });
+      setSchoolFilter('');
+      setShowPopup(false);
+      setError('');
+      setErrorDescription('');
+    } catch (err) {
+      setError(err.message);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
+      }
     }
-    setData((prevData) => {
-      const temp = [...prevData];
-      temp[temp.indexOf(singleSelected)].status = 'Approved';
-      temp[temp.indexOf(singleSelected)].schoolName = schoolFilter;
-      return temp;
-    });
-    setSchoolFilter('');
-    setShowPopup(false);
   };
 
   // Updates the school name for multiple selected transactions
@@ -362,35 +381,49 @@ const Transactions = () => {
 
   // Loads more transactions when the user presses the load more button
   // @param type: string - type of transactions to load
-  const loadMore = (type) => {
-    getTransactions(currentLocation, type, prevItems, prevItems + 50).then(
-      (transactions) => {
-        if (transactions.error) console.log(transactions.error);
-        else {
-          formatData(transactions, type, true);
-          setView(type);
-        }
+  const loadMore = async (type) => {
+    try {
+      await getTransactions(
+        currentLocation,
+        type,
+        prevItems,
+        prevItems + 50
+      ).then((transactions) => {
+        formatData(transactions, type, true);
+        setView(type);
+      });
+      setPrevItems(prevItems + 50);
+      setError('');
+      setErrorDescription('');
+    } catch (err) {
+      setError(err.message);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
       }
-    );
-    setPrevItems(prevItems + 50);
+    }
   };
 
   // Changes data loaded in table
   // @param event: object - event object
-  const changeLoadedData = (event) => {
+  const changeLoadedData = async (event) => {
     const type = event.target.innerText || view;
     setSelectedData([]);
     setPrevItems(10);
     formatData([], type);
-
-    getTransactions(currentLocation, type).then((transactions) => {
-      if (transactions.error) console.log(transactions.error);
-      else {
+    try {
+      await getTransactions(currentLocation, type).then((transactions) => {
         setData([]);
         formatData(transactions, type);
         setView(type);
+      });
+      setError('');
+      setErrorDescription('');
+    } catch (err) {
+      setError(err.message);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
       }
-    });
+    }
   };
 
   // Types of transactions that can be loaded
