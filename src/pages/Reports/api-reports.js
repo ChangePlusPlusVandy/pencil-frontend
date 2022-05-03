@@ -20,9 +20,21 @@ const getGeneralReport = async (startDate, endDate, schoolId, location) => {
   }
 };
 
-const printWeeklyReport = async (startDate, endDate, schoolId, location) => {
+const printWeeklyReport = async (
+  startDate,
+  endDate,
+  schoolId,
+  location,
+  reportName
+) => {
   try {
     console.log('Printing Weekly Report:', startDate, endDate, schoolId);
+
+    const reportEndpoints = {
+      General: 'printReport1',
+      'No Show': 'printReport3',
+      Product: 'printReport4',
+    };
 
     // Format query parameters
     const from = startDate && new Date(startDate).toISOString();
@@ -31,13 +43,39 @@ const printWeeklyReport = async (startDate, endDate, schoolId, location) => {
 
     // Send query
     const query = `startDate=${from}&endDate=${to}&school=${schoolId}`;
+
     const response = await fetch(
-      `/api/${location}/reports/printReport1?${query}`
+      `/api/${location}/reports/${reportEndpoints[reportName]}?${query}`
     );
   } catch (err) {
     console.log(err);
   }
 };
+
+// const printWeeklyReport = async (
+//   startDate,
+//   endDate,
+//   schoolId,
+//   location,
+//   reportName
+// ) => {
+//   try {
+//     console.log('Printing Weekly Report:', startDate, endDate, schoolId);
+
+//     // Format query parameters
+//     const from = startDate && new Date(startDate).toISOString();
+//     const to = endDate && new Date(endDate);
+//     if (endDate) to.setDate(to.getDate() + 1);
+
+//     // Send query
+//     const query = `startDate=${from}&endDate=${to}&school=${schoolId}`;
+//     const response = await fetch(
+//       `/api/${location}/reports/printReport1?${query}`
+//     );
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
 const getProductReport = async (startDate, endDate, schoolId, location) => {
   try {
@@ -71,4 +109,4 @@ const getReport5 = async (startDate, endDate, schoolId, location) => {
   }
 };
 
-export { getGeneralReport, getProductReport, getReport5 };
+export { getGeneralReport, getProductReport, getReport5, printWeeklyReport };

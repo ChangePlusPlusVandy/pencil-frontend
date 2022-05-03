@@ -15,6 +15,7 @@ import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import CalendarInput from './CalendarInput';
 import CustomCombobox from '../../components/Combobox/CustomCombobox';
 import TableHeader from '../../components/TableHeader/TableHeader';
+import { printWeeklyReport } from './api-reports';
 
 const menuOption = ['General', 'Product', 'No Show'];
 
@@ -34,10 +35,6 @@ const Reports = () => {
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
     return `${month}/${day}/${year}`;
-  };
-
-  const printReport = () => {
-    console.log('nadha');
   };
 
   const setThisWeek = () => {
@@ -78,7 +75,10 @@ const Reports = () => {
   const leftItems = (
     <div
       className="secondaryButton vertical-align-center"
-      onClick={() => printReport()}
+      // FIXME: PLACEHOLDER LOCATION
+      onClick={() =>
+        printWeeklyReport(fromDate, untilDate, schoolFilter, 'Nashville', view)
+      }
     >
       Generate Report
       <FaFileDownload size="14" />
@@ -157,15 +157,13 @@ const Reports = () => {
 
   return (
     <PageContainer>
-      <>
-        <TableHeader
-          title="Reports"
-          leftArea={leftItems}
-          rightArea={rightItems}
-        />
-        <div className="reportsQueryArea">{queryItems}</div>
-        {returnReport(view)}
-      </>
+      <TableHeader
+        title="Reports"
+        leftArea={leftItems}
+        rightArea={rightItems}
+      />
+      <div className="reportsQueryArea">{queryItems}</div>
+      {returnReport(view)}
     </PageContainer>
   );
 };
