@@ -18,6 +18,7 @@ const Profile = () => {
   const [error, setError] = useState(''); // error
   const [isLoading, setIsLoading] = useState(true); // is loading
 
+  // Get user data
   useEffect(() => {
     const currentUser = getUser();
     if (currentUser) {
@@ -26,6 +27,7 @@ const Profile = () => {
     }
   }, []);
 
+  // Ensure that the passwords match
   const change = () => {
     if (firstPassword.current.value === secondPassword.current.value) {
       setConfirm(true);
@@ -34,6 +36,9 @@ const Profile = () => {
     }
   };
 
+  /** Handle password change
+   * @param e: object - event
+   * */
   const changeThePassword = async (event) => {
     event.preventDefault();
     setError('');

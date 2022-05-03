@@ -30,6 +30,9 @@ const Dashboard = () => {
   const [error, setError] = useState(null);
   const [errorDescription, setErrorDescription] = useState(null);
 
+  /**
+   * Get stats to display on dashboard
+   * */
   useEffect(async () => {
     try {
       const daily = await getDailyStats(currentLocation);

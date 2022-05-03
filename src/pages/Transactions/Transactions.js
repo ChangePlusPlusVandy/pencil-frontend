@@ -53,10 +53,12 @@ const Transactions = () => {
   const [mulSchoolFilter, setMulSchoolFilter] = useState([]);
   const [allowApproval, setAllowApproval] = useState(false);
 
-  // Formats the data to be in a readable format for the table
-  // @param transactions: array - data to be formatted
-  // @param status: string - status of the transaction
-  // @param isLoadMore: true if the data is being loaded after pressing the "Load More" button
+  /**
+   * Formats the data to be in a readable format for the table
+   * @param transactions: array - data to be formatted
+   * @param status: string - status of the transaction
+   * @param isLoadMore: true if the data is being loaded after pressing the "Load More" button
+   */
   const formatData = (transactions, status, isLoadMore = false) => {
     const result = transactions.map((item) => ({
       uuid: item.uuid,
@@ -205,10 +207,12 @@ const Transactions = () => {
     }
   };
 
-  // Handles the change of items taken for a transaction
-  // @param items: array - items taken for a transaction
-  // @param trxUuid: string - uuid of the transaction
-  // @return object - updated transaction
+  /**
+   * Handles the change of items taken for a transaction
+   * @param items: array - items taken for a transaction
+   * @param trxUuid: string - uuid of the transaction
+   * @return object - updated transaction
+   */
   const handleTransactionItemsChange = (items, trxUuid) => {
     setData((prevData) =>
       prevData.map((transaction) => {
