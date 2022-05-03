@@ -12,6 +12,7 @@ const ItemPopup = ({
   onSubmit,
   currentItems,
   inventoryType,
+  popupError,
 }) => {
   if (!show) return null;
   const CHARACTER_LIMIT = 30;
@@ -23,10 +24,8 @@ const ItemPopup = ({
   useEffect(() => {
     if (inventoryType !== 'Active') return;
     // only carry out if Active inventory
-    getMasterInv().then((result) => {
-      if (result.error) {
-        console.log(result.error);
-      } else if (result) {
+    try {
+      getMasterInv().then((result) => {
         const currentItemNames = currentItems.map(
           (item) => item['Item.itemName'] // extract the item names from the currentItems
         );
@@ -35,8 +34,10 @@ const ItemPopup = ({
           .map((item) => item.itemName)
           .filter((item) => !currentItemNames.includes(item));
         setAllItems(itemNames);
-      }
-    });
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }, []);
 
   return (
@@ -84,6 +85,10 @@ const ItemPopup = ({
         </div>
       </div>
 
+      {popupError && (
+        <p style={{ color: 'red', position: 'absolute' }}>{popupError}</p>
+      )}
+
       {itemName.length > CHARACTER_LIMIT ? (
         <p className="inputSubtitle">Item Name too long</p>
       ) : null}
@@ -97,10 +102,12 @@ ItemPopup.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   currentItems: PropTypes.arrayOf(PropTypes.objectOf),
   inventoryType: PropTypes.string.isRequired,
+  popupError: PropTypes.string,
 };
 
 ItemPopup.defaultProps = {
   currentItems: [],
+  popupError: '',
 };
 
 export default ItemPopup;

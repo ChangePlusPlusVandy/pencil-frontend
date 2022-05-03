@@ -38,7 +38,7 @@ const getMasterInv = async () => {
 
     return response.data;
   } catch (err) {
-    console.log(err);
+    return Promise.reject(err);
   }
 };
 
@@ -53,7 +53,7 @@ const postMasterInv = async (data) => {
     );
     return response.data;
   } catch (err) {
-    console.log(err);
+    return Promise.reject(err);
   }
 };
 

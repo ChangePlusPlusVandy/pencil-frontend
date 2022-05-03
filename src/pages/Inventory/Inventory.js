@@ -35,6 +35,7 @@ const Inventory = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [inventoryType, setInventoryType] = useState('Active');
   const [error, setError] = useState('');
+  const [popupError, setPopupError] = useState('');
   const [errorDescription, setErrorDescription] = useState('');
   const { currentLocation } = useAuth();
   const [nameEditable, setNameEditable] = useState(false);
@@ -52,6 +53,11 @@ const Inventory = () => {
     Packer.toBlob(doc).then((blob) => {
       saveAs(blob, `PencilForm.${today}.docx`);
     });
+  };
+
+  const changeInventoryType = (type) => {
+    setInventoryType(type);
+    setChanged(false);
   };
 
   // Deletes item from inventory
@@ -104,20 +110,20 @@ const Inventory = () => {
     setSearchTerm('');
     try {
       if (inventoryType === 'Active') {
-        await getInventory(currentLocation).then((result) => {
-          setInventoryData(result);
-        });
+        const invData = await getInventory(currentLocation);
+
+        setInventoryData(invData);
       } else {
-        await getMasterInv().then((result) => {
-          setInventoryData(result);
-        });
+        const invData = await getMasterInv();
+        setInventoryData(invData);
       }
     } catch (err) {
       setError(err.message);
-      if (err.response.data && Object.keys(err.response.data).length) {
+      if (err.response?.data && Object.keys(err.response.data).length) {
         setErrorDescription(err.response.data);
       }
     }
+    console.log(inventoryData, 'inventoryData');
   }, [inventoryType]);
 
   // filter the data based on the search term
@@ -131,11 +137,21 @@ const Inventory = () => {
       item.itemName.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredData(filtered);
+    console.log(inventoryData);
   }, [searchTerm, inventoryData]);
 
   // Adds item to inventory
   // @param formInfo - object of form info
   const addItem = (formInfo) => {
+    if (
+      inventoryType !== 'Active' &&
+      inventoryData.findIndex(
+        (item) => item['Item.itemName'] === formInfo.itemName
+      )
+    ) {
+      setPopupError('Item already exists in inventory');
+      return;
+    }
     const newItem =
       inventoryType === 'Active'
         ? {
@@ -152,6 +168,7 @@ const Inventory = () => {
     setInventoryData([...inventoryData, newItem]);
     setAddItemVisible(false);
     setChanged(true);
+    setPopupError('');
   };
 
   // Saves inventory to database
@@ -224,7 +241,7 @@ const Inventory = () => {
   // List of items to display in top right of screen
   const rightItems = (
     <>
-      <InventoryToggle onChange={setInventoryType} />
+      <InventoryToggle onChange={changeInventoryType} />
       <button
         type="button"
         className="primaryButton"
@@ -268,10 +285,14 @@ const Inventory = () => {
       <>
         <ItemPopup
           show={isAddItemVisible}
-          onClose={() => setAddItemVisible(false)}
+          onClose={() => {
+            setAddItemVisible(false);
+            setPopupError('');
+          }}
           onSubmit={addItem}
           currentItems={inventoryData}
           inventoryType={inventoryType}
+          popupError={popupError}
         />
         {error && (
           <Error
