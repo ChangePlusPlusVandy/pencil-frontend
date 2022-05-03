@@ -42,6 +42,7 @@ const Transactions = () => {
   const [selectedData, setSelectedData] = useState([]);
   const [wasChecked, setWasChecked] = useState([]);
   const [error, setError] = useState('');
+  const [errorDescription, setErrorDescription] = useState('');
   const { currentLocation } = useAuth();
   const [showPopup, setShowPopup] = useState(false);
   const [schoolNameList, setSchoolNameList] = useState([]);
@@ -72,16 +73,28 @@ const Transactions = () => {
   };
 
   // Gets the pending transactions and verified schools from the server
-  useEffect(() => {
-    getTransactions(currentLocation, 'Pending').then((transactions) => {
-      console.log(transactions.error);
-      if (transactions.error) console.log(transactions.error.message);
-      else formatData(transactions, 'Pending');
-    });
-    getVerifiedSchools().then((schools) => {
-      const schoolList = !schools.error ? schools.map((item) => item.name) : [];
-      setSchoolNameList([...new Set(schoolList)]);
-    });
+  useEffect(async () => {
+    try {
+      await getTransactions(currentLocation, 'Pending').then((transactions) => {
+        console.log(transactions.error);
+        if (transactions.error) console.log(transactions.error.message);
+        else formatData(transactions, 'Pending');
+      });
+      await getVerifiedSchools().then((schools) => {
+        const schoolList = !schools.error
+          ? schools.map((item) => item.name)
+          : [];
+        setSchoolNameList([...new Set(schoolList)]);
+      });
+      setError('');
+      setErrorDescription('');
+    } catch (err) {
+      console.log(err);
+      setError(err.message);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
+      }
+    }
   }, []);
 
   // Allows approval for all schools
@@ -96,7 +109,7 @@ const Transactions = () => {
 
   // Handles the selection of transactions in table - ie, when a row is checked
   const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
+    onChange: (_, selectedRows) => {
       setSelectedData(selectedRows);
     },
     getCheckboxProps: (record) => ({
@@ -106,43 +119,53 @@ const Transactions = () => {
   };
 
   // Handles click of approve or deny button for a single transaction
-  const handleClick = (e, transaction, action) => {
+  const handleClick = async (_, transaction, action) => {
     if (action === 'Approve' && !transaction.schoolVerified) {
       setSingleSelected(transaction);
       setShowPopup(true);
       return;
     }
-    if (view === 'Denied') {
-      approveDeniedTransaction(
-        currentLocation,
-        transaction.uuid,
-        transaction.transactionItems
-      );
-    } else {
-      handleTransaction(currentLocation, transaction.uuid, action);
-    }
-    // find the index of the transaction in the data array,
-    // and change the status based on the action
-    setData((prevData) => {
-      const temp = [...prevData];
-      temp[temp.indexOf(transaction)].status =
-        action === 'Approve' ? 'Approved' : 'Denied';
-      return temp;
-    });
+    try {
+      if (view === 'Denied') {
+        await approveDeniedTransaction(
+          currentLocation,
+          transaction.uuid,
+          transaction.transactionItems
+        );
+      } else {
+        await handleTransaction(currentLocation, transaction.uuid, action);
+      }
+      setError('');
+      setErrorDescription('');
+      // find the index of the transaction in the data array,
+      // and change the status based on the action
+      setData((prevData) => {
+        const temp = [...prevData];
+        temp[temp.indexOf(transaction)].status =
+          action === 'Approve' ? 'Approved' : 'Denied';
+        return temp;
+      });
 
-    // add the transaction to the wasChecked array so it cannot be checked/approved/denied again
-    setWasChecked((prevChecked) => {
-      prevChecked.push(transaction.uuid);
-      return prevChecked;
-    });
+      // add the transaction to the wasChecked array so it cannot be checked/approved/denied again
+      setWasChecked((prevChecked) => {
+        prevChecked.push(transaction.uuid);
+        return prevChecked;
+      });
 
-    // remove transaction from selected data if exists
-    const selectedUuid = selectedData.map((a) => a.uuid);
-    if (selectedUuid.includes(transaction.uuid)) {
-      setSelectedData([]);
-      setSelectedData((datas) =>
-        datas.splice(selectedUuid.indexOf(transaction.uuid), 1)
-      );
+      // remove transaction from selected data if exists
+      const selectedUuid = selectedData.map((a) => a.uuid);
+      if (selectedUuid.includes(transaction.uuid)) {
+        setSelectedData([]);
+        setSelectedData((datas) =>
+          datas.splice(selectedUuid.indexOf(transaction.uuid), 1)
+        );
+      }
+    } catch (err) {
+      console.log(err);
+      setError(err.message);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
+      }
     }
   };
 
@@ -391,7 +414,13 @@ const Transactions = () => {
   // Defines items present at top left of screen
   const leftItems = (
     <>
-      {error && <Error error={error} setError={setError} />}
+      {error && (
+        <Error
+          error={error}
+          description={errorDescription}
+          setError={setError}
+        />
+      )}
       <button
         type="button"
         className="secondaryButton vertical-align-center statusApproved"

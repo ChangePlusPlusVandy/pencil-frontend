@@ -20,8 +20,8 @@ const getPendingTransactions = async (
         : `/${location}/transaction/pending?perPage=${perPage}&previous=${previous}`;
     const response = await axios.get(reqUrl);
     return response.data;
-  } catch (error) {
-    return { error };
+  } catch (err) {
+    return Promise.reject(err);
   }
 };
 
@@ -40,8 +40,8 @@ const getApprovedTransactions = async (
       `/${location}/transaction/approved?perPage=${perPage}&previous=${previous}`
     );
     return response.data;
-  } catch (error) {
-    return { error };
+  } catch (err) {
+    return Promise.reject(err);
   }
 };
 
@@ -52,8 +52,8 @@ const getVerifiedSchools = async () => {
     const response = await axios.get(`/school/verified`);
 
     return response.data;
-  } catch (error) {
-    return { error };
+  } catch (err) {
+    return Promise.reject(err);
   }
 };
 
@@ -72,8 +72,8 @@ const getDeniedTransactions = async (
       `/${location}/transaction/denied?perPage=${perPage}&previous=${previous}`
     );
     return response.data;
-  } catch (error) {
-    return { error };
+  } catch (err) {
+    return Promise.reject(err);
   }
 };
 
@@ -109,8 +109,7 @@ const approveTransaction = async (location, uuid) => {
     );
     return response.data;
   } catch (err) {
-    console.log(err);
-    return { error: `Transaction not processed: ${err.error}` };
+    return Promise.reject(err);
   }
 };
 
@@ -123,8 +122,7 @@ const denyTransaction = async (location, uuid) => {
     const response = await axios.post(`/${location}/transaction/deny/${uuid}`);
     return response.data;
   } catch (err) {
-    console.log(err);
-    return { error: `Transaction not processed: ${err.error}` };
+    return Promise.reject(err);
   }
 };
 
@@ -152,8 +150,7 @@ const approveDeniedTransaction = async (location, uuid, items) => {
     );
     return response.data;
   } catch (err) {
-    console.log(err);
-    return { error: `Transaction not processed: ${err.error}` };
+    return Promise.reject(err);
   }
 };
 
@@ -170,8 +167,7 @@ const approveTransactionWithNewSchool = async (location, uuid, schoolName) => {
     );
     return response.data;
   } catch (err) {
-    console.log(err);
-    return { error: `Transaction not processed: ${err.error}` };
+    return Promise.reject(err);
   }
 };
 
@@ -194,8 +190,7 @@ const approveDeniedTransactionWithNewSchool = async (
     );
     return response.data;
   } catch (err) {
-    console.log(err);
-    return { error: `Transaction not processed: ${err.error}` };
+    return Promise.reject(err);
   }
 };
 
