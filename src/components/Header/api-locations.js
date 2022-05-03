@@ -19,18 +19,4 @@ const createNewLocation = async (req) => {
   }
 };
 
-const updateLocation = async (uuid, name, address) => {
-  try {
-    const response = await axios.put(`/location/update/${uuid}`, {
-      uuid,
-      name,
-      address,
-    });
-    return response.data;
-  } catch (err) {
-    console.log('humdeedum');
-    return Promise.reject(err);
-  }
-};
-
-export { getAllLocations, createNewLocation, updateLocation };
+export { getAllLocations, createNewLocation };
