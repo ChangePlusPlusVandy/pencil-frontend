@@ -10,7 +10,6 @@ const cache = setupCache({
 async function refreshAccessToken() {
   const user = firebase.auth().currentUser;
   const token = await user.getIdToken();
-  console.log(token);
   return token;
 }
 
