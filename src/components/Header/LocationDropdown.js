@@ -11,7 +11,7 @@ import AddLocation from './AddLocation';
 import CustomDropdown from '../Dropdowns/CustomDropdown';
 import 'antd/dist/antd.css';
 
-const LocationDropdown = ({ setError }) => {
+const LocationDropdown = ({ setError, setErrorDescription }) => {
   const { currentLocation, updateLocation } = useAuth();
   const [allLocations, setAllLocations] = useState([]);
   const [isAddLocationVisible, setAddLocationVisible] = useState(false);
@@ -29,15 +29,20 @@ const LocationDropdown = ({ setError }) => {
     setAddLocationVisible(false);
   };
 
-  useEffect(() => {
-    getAllLocations().then((result) => {
-      if (result.error) {
-        setError(result.error.message);
-      } else if (result)
+  useEffect(async () => {
+    try {
+      await getAllLocations().then((result) =>
         setAllLocations(
           result.filter((location) => location.name !== currentLocation)
-        );
-    });
+        )
+      );
+    } catch (err) {
+      console.log(err);
+      setError(err.message);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
+      }
+    }
   }, []);
 
   const menu = (
@@ -73,6 +78,7 @@ const LocationDropdown = ({ setError }) => {
 
 LocationDropdown.propTypes = {
   setError: PropTypes.func.isRequired,
+  setErrorDescription: PropTypes.func.isRequired,
 };
 
 export default LocationDropdown;

@@ -11,6 +11,8 @@ const GeneralReport = ({
   untilDate,
   schoolFilter,
   setSchoolNameList,
+  setError,
+  setErrorDescription,
 }) => {
   const { currentLocation } = useAuth();
   const [reportData, setReportData] = useState([]);
@@ -19,27 +21,36 @@ const GeneralReport = ({
     numUniqueTeachers: 0,
   });
 
-  useEffect(() => {
+  useEffect(async () => {
     let schoolUuid = '';
     if (schoolFilter && reportData) {
       reportData.forEach((item) => {
         if (item.School.name === schoolFilter) schoolUuid = item.School.uuid;
       });
     }
-    getGeneralReport(fromDate, untilDate, schoolUuid, currentLocation).then(
-      (data) => {
-        if (data && !data.error) {
-          setReportData(data.transactions);
-          setReportSummary(data.summary);
-          // generate list of unique school names
-          const schoolList = data.transactions
-            ? data.transactions.map((item) => item.School.name)
-            : [];
-          console.log(schoolList);
-          setSchoolNameList([...new Set(schoolList)]);
-        }
+    try {
+      await getGeneralReport(
+        fromDate,
+        untilDate,
+        schoolUuid,
+        currentLocation
+      ).then((data) => {
+        setReportData(data.transactions);
+        setReportSummary(data.summary);
+        // generate list of unique school names
+        const schoolList = data.transactions
+          ? data.transactions.map((item) => item.School.name)
+          : [];
+        console.log(schoolList);
+        setSchoolNameList([...new Set(schoolList)]);
+      });
+    } catch (err) {
+      console.log(err.response.data);
+      setError(err.message);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
       }
-    );
+    }
   }, [fromDate, untilDate, schoolFilter]);
 
   return (
@@ -96,6 +107,8 @@ GeneralReport.propTypes = {
   untilDate: PropTypes.string,
   schoolFilter: PropTypes.string,
   setSchoolNameList: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired,
+  setErrorDescription: PropTypes.func.isRequired,
 };
 
 GeneralReport.defaultProps = {

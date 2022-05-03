@@ -35,6 +35,8 @@ const Inventory = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [inventoryType, setInventoryType] = useState('Active');
   const [error, setError] = useState('');
+  const [popupError, setPopupError] = useState('');
+  const [errorDescription, setErrorDescription] = useState('');
   const { currentLocation } = useAuth();
   const [nameEditable, setNameEditable] = useState(false);
   const [valueEditable, setValueEditable] = useState(false);
@@ -51,6 +53,11 @@ const Inventory = () => {
     Packer.toBlob(doc).then((blob) => {
       saveAs(blob, `PencilForm.${today}.docx`);
     });
+  };
+
+  const changeInventoryType = (type) => {
+    setInventoryType(type);
+    setChanged(false);
   };
 
   // Deletes item from inventory
@@ -96,24 +103,27 @@ const Inventory = () => {
   };
 
   // Changes view of inventory when inventoryType is changed
-  useEffect(() => {
+  useEffect(async () => {
     setInventoryData([]);
     setNameEditable(false);
     setValueEditable(false);
     setSearchTerm('');
-    if (inventoryType === 'Active') {
-      getInventory(currentLocation).then((result) => {
-        if (result.error) {
-          setError(result.error);
-        } else if (result) setInventoryData(result);
-      });
-    } else {
-      getMasterInv().then((result) => {
-        if (result.error) {
-          setError(result.error);
-        } else if (result) setInventoryData(result);
-      });
+    try {
+      if (inventoryType === 'Active') {
+        const invData = await getInventory(currentLocation);
+
+        setInventoryData(invData);
+      } else {
+        const invData = await getMasterInv();
+        setInventoryData(invData);
+      }
+    } catch (err) {
+      setError(err.message);
+      if (err.response?.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
+      }
     }
+    console.log(inventoryData, 'inventoryData');
   }, [inventoryType]);
 
   // filter the data based on the search term
@@ -127,11 +137,21 @@ const Inventory = () => {
       item.itemName.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredData(filtered);
+    console.log(inventoryData);
   }, [searchTerm, inventoryData]);
 
   // Adds item to inventory
   // @param formInfo - object of form info
   const addItem = (formInfo) => {
+    if (
+      inventoryType !== 'Active' &&
+      inventoryData.findIndex(
+        (item) => item['Item.itemName'] === formInfo.itemName
+      )
+    ) {
+      setPopupError('Item already exists in inventory');
+      return;
+    }
     const newItem =
       inventoryType === 'Active'
         ? {
@@ -148,10 +168,11 @@ const Inventory = () => {
     setInventoryData([...inventoryData, newItem]);
     setAddItemVisible(false);
     setChanged(true);
+    setPopupError('');
   };
 
   // Saves inventory to database
-  const handleSave = () => {
+  const handleSave = async () => {
     let invalid = false;
     const tempInventory = inventoryData;
     tempInventory.forEach((item) => {
@@ -166,15 +187,21 @@ const Inventory = () => {
     });
 
     if (invalid) return;
-    const result =
-      inventoryType === 'Active'
-        ? postInventory(inventoryData, currentLocation)
-        : postMasterInv(inventoryData);
-
-    if (result && result.error) setError(result.error);
-    setChanged(false);
-    setNameEditable(false);
-    setValueEditable(false);
+    try {
+      if (inventoryType === 'Active') {
+        await postInventory(inventoryData, currentLocation);
+      } else {
+        await postMasterInv(inventoryData);
+      }
+      setChanged(false);
+      setNameEditable(false);
+      setValueEditable(false);
+    } catch (err) {
+      setError(err.message);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
+      }
+    }
   };
 
   // List of items to display in top left of screen
@@ -214,7 +241,7 @@ const Inventory = () => {
   // List of items to display in top right of screen
   const rightItems = (
     <>
-      <InventoryToggle onChange={setInventoryType} />
+      <InventoryToggle onChange={changeInventoryType} />
       <button
         type="button"
         className="primaryButton"
@@ -258,12 +285,22 @@ const Inventory = () => {
       <>
         <ItemPopup
           show={isAddItemVisible}
-          onClose={() => setAddItemVisible(false)}
+          onClose={() => {
+            setAddItemVisible(false);
+            setPopupError('');
+          }}
           onSubmit={addItem}
           currentItems={inventoryData}
           inventoryType={inventoryType}
+          popupError={popupError}
         />
-        {error && <Error error={error} handleError={() => setError('')} />}
+        {error && (
+          <Error
+            error={error}
+            description={errorDescription}
+            setError={setError}
+          />
+        )}
         <TableHeader
           title={`${inventoryType} Inventory (${
             inventoryData.length ? inventoryData.length : 0

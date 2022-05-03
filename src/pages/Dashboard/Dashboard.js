@@ -42,7 +42,7 @@ const Dashboard = () => {
     } catch (err) {
       console.log(err);
       setError(err.message);
-      if (err.response && Object.keys(err.response.data).length) {
+      if (err.response.data && Object.keys(err.response.data).length) {
         setErrorDescription(err.response.data);
       }
     }
