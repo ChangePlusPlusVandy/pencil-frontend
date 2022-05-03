@@ -15,7 +15,7 @@ const getGeneralReport = async (startDate, endDate, schoolId, location) => {
     const response = await axios.get(reqUrl);
     return response.data;
   } catch (err) {
-    console.log(err);
+    return Promise.reject(err);
   }
 };
 
@@ -31,7 +31,7 @@ const getProductReport = async (startDate, endDate, schoolId, location) => {
     const response = await axios.get(`/${location}/reports/report4?${query}`);
     return response.data;
   } catch (err) {
-    console.log(err);
+    return Promise.reject(err);
   }
 };
 
@@ -47,7 +47,7 @@ const getReport5 = async (startDate, endDate, schoolId, location) => {
     const response = await axios.get(`/${location}/reports/report5?${query}`);
     return response.data;
   } catch (err) {
-    console.log(err);
+    return Promise.reject(err);
   }
 };
 

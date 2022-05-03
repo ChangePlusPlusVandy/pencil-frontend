@@ -1,9 +1,7 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
-/* eslint-disable react/self-closing-comp */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import { AiFillPrinter } from 'react-icons/ai';
 import { IoMdRefresh } from 'react-icons/io';
@@ -17,20 +15,30 @@ import 'antd/dist/antd.css';
 import './Schedule.css';
 import TableHeader from '../../components/TableHeader/TableHeader';
 import printForm from '../../utils/printSchedule';
+import Error from '../../components/Error/Error';
 
 const Schedule = () => {
   const [scheduleData, setScheduleData] = useState([]);
   const { currentLocation } = useAuth();
   const [fromDate, setFromDate] = useState('');
   const [untilDate, setUntilDate] = useState('');
+  const [error, setError] = useState('');
+  const [errorDescription, setErrorDescription] = useState('');
 
-  useEffect(() => {
-    if (!currentLocation) alert('Please select a location');
-    getSchedules(currentLocation, fromDate, untilDate).then((items) => {
-      if (items && !items.error) {
+  useEffect(async () => {
+    if (!currentLocation) setError('Please select a location');
+    try {
+      await getSchedules(currentLocation, fromDate, untilDate).then((items) => {
         setScheduleData(items);
+      });
+      setError('');
+      setErrorDescription('');
+    } catch (err) {
+      setError(err.message);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
       }
-    });
+    }
   }, [fromDate, untilDate]);
 
   const generate = () => {
@@ -111,13 +119,22 @@ const Schedule = () => {
     </>
   );
 
-  const refreshData = () => {
+  const refreshData = async () => {
     setScheduleData([]);
-    getSchedules(currentLocation, fromDate, untilDate).then((items) => {
-      if (!items.err) {
-        setScheduleData(items);
+    try {
+      await getSchedules(currentLocation, fromDate, untilDate).then((items) => {
+        if (!items.err) {
+          setScheduleData(items);
+        }
+      });
+      setError('');
+      setErrorDescription('');
+    } catch (err) {
+      setError(err.message);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
       }
-    });
+    }
   };
 
   const leftItems = (
@@ -147,6 +164,13 @@ const Schedule = () => {
 
   return (
     <PageContainer>
+      {error && (
+        <Error
+          error={error}
+          description={errorDescription}
+          setError={setError}
+        />
+      )}
       <>
         <TableHeader
           title="Schedule"
