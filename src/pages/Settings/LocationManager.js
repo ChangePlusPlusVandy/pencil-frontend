@@ -6,11 +6,14 @@ import {
   getAllLocations,
   updateLocation,
 } from '../../components/Header/api-locations';
+import Error from '../../components/Error/Error';
 
 const LocationManager = () => {
   const [locations, setLocations] = useState([]);
   const [localLocations, setLocalLocations] = useState([]);
   const [isLocationEditable, setIsLocationEditable] = useState(false);
+  const [error, setError] = useState('');
+  const [errorDescription, setErrorDescription] = useState('');
 
   useEffect(() => {
     getAllLocations().then((data) => {
@@ -19,12 +22,21 @@ const LocationManager = () => {
     });
   }, []);
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
-    localLocations.forEach((location) => {
-      updateLocation(location.uuid, location.name, location.address);
-    });
-    setIsLocationEditable(false);
+    try {
+      await Promise.all(
+        localLocations.map(async (location) => {
+          await updateLocation(location.uuid, location.name, location.address);
+        })
+      );
+      setIsLocationEditable(false);
+    } catch (err) {
+      setError(err.message);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
+      }
+    }
   };
 
   const handleChange = (e, uuid) => {
@@ -39,6 +51,13 @@ const LocationManager = () => {
 
   return (
     <div className="settingsBody">
+      {error && (
+        <Error
+          error={error}
+          description={errorDescription}
+          setError={setError}
+        />
+      )}
       <div className="locationManagerHeader">
         <h3>Current Locations</h3>
         <div

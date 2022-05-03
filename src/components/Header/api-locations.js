@@ -28,6 +28,7 @@ const updateLocation = async (uuid, name, address) => {
     });
     return response.data;
   } catch (err) {
+    console.log('humdeedum');
     return Promise.reject(err);
   }
 };

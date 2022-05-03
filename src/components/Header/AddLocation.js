@@ -10,13 +10,21 @@ const AddLocation = ({ show, onClose }) => {
   const CHARACTER_LIMIT = 18;
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
+  const [errorDescription, setErrorDescription] = useState('');
 
-  const handleSubmit = () => {
-    createNewLocation({ name, address }).then((res) => {
-      console.log('Location created: ', res);
-      onClose();
-    });
-    window.location.reload();
+  const handleSubmit = async () => {
+    try {
+      await createNewLocation({ name, address }).then((res) => {
+        console.log('Location created: ', res);
+        onClose();
+      });
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
+      }
+    }
   };
 
   const validateInput = () =>
@@ -51,6 +59,13 @@ const AddLocation = ({ show, onClose }) => {
           onChange={(e) => setAddress(e.target.value)}
         />
       </label>
+      <div>
+        {errorDescription && (
+          <p style={{ color: 'red', position: 'absolute' }}>
+            {errorDescription}
+          </p>
+        )}
+      </div>
     </Modal>
   );
 };
