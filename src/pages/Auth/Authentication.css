@@ -6,15 +6,27 @@
 
 .authLeftCol {
   width: 50vw;
-  background-color: var(--bgPrimary);
-  background-image: url("../../assets/Group143.svg");
-  background-position-x: -120px;
-  background-position-y: -20px;
+  background-color: var(--primary);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.authGraphic {
+  width: 70%;
+  margin-bottom: 3em;
+}
+
+.authGraphicSubtitle {
+  font-size: 2em;
+  color: var(--textSecondary);
+  font-family: Bitter;
 }
 
 .authRightCol {
   background-color: var(--bgSecondary);
-  width: 65vw;
+  width: 50vw;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -4,6 +4,7 @@ import Login from './Login';
 import Register from './Register';
 import ForgotPassword from './ForgotPassword';
 import PencilLogo from '../../assets/pencil-logo-crop.png';
+import AuthGraphic from '../../assets/auth-graphic.svg';
 import './Authentication.css';
 
 const Authentication = () => {
@@ -18,7 +19,12 @@ const Authentication = () => {
 
   return (
     <div className="authContainer">
-      <div className="authLeftCol" />
+      <div className="authLeftCol">
+        <img className="authGraphic" src={AuthGraphic} alt="pencil logo" />
+        <p className="authGraphicSubtitle">
+          Free School Supply Store for Metro Teachers
+        </p>
+      </div>
       <div className="authRightCol">
         <div className="authFormContainer">
           <p className="authPencilHeader">
