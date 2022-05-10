@@ -16,6 +16,7 @@ const NoShowReport = ({
 }) => {
   const { currentLocation } = useAuth();
   const [reportData, setReportData] = useState([]);
+  const [noShowRate, setNoShowRate] = useState(0);
 
   useEffect(async () => {
     let schoolUuid = '';
@@ -27,13 +28,13 @@ const NoShowReport = ({
     try {
       await getReport3(fromDate, untilDate, schoolUuid, currentLocation).then(
         (data) => {
-          console.log(data);
           setReportData(data.noShowList);
           // generate list of unique school names
           const schoolList = data.noShowList
             ? data.noShowList.map((item) => item.school)
             : [];
           setSchoolNameList([...new Set(schoolList)]);
+          setNoShowRate(data.noShowRate);
         }
       );
     } catch (err) {
@@ -46,22 +47,37 @@ const NoShowReport = ({
 
   return (
     <div className="tableContainer">
+      {noShowRate && (
+        <div className="reportSummary">
+          <p>
+            <p className="blueText">{noShowRate}%</p>No Show Rate
+          </p>
+        </div>
+      )}
       <div className="tableItemHeader">
-        <div className="NoShowReportCol1">Teacher Name</div>
-        <div className="NoShowReportCol2">Email</div>
-        <div className="NoShowReportCol3">School</div>
+        <div className="NoShowReportCol1">Time/Date</div>
+        <div className="NoShowReportCol2">Teacher Name</div>
+        <div className="NoShowReportCol3">Email</div>
+        <div className="NoShowReportCol4">School</div>
       </div>
       <div>
         {reportData &&
           reportData.map((teacher) => {
             // const date = formatDateDMY(new Date(teacher.createdAt));
-            const { name, email, school } = teacher;
+            const { name, email, school, date } = teacher;
+            const updateDate = new Date(date);
             return (
               <div className="tableItem">
-                {/* <div className="NoShowReportCol1">{date}</div> */}
-                <div className="NoShowReportCol1">{name}</div>
-                <div className="NoShowReportCol2">{email}</div>
-                <div className="NoShowReportCol3">{school}</div>
+                <div className="NoShowReportCol1">
+                  {updateDate.toLocaleDateString('en-US')}{' '}
+                  {updateDate.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </div>
+                <div className="NoShowReportCol2">{name}</div>
+                <div className="NoShowReportCol3">{email}</div>
+                <div className="NoShowReportCol4">{school}</div>
               </div>
             );
           })}

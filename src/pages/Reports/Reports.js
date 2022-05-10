@@ -84,7 +84,7 @@ const Reports = () => {
     </>
   );
 
-  const leftItems = (
+  const leftItems = view !== 'No Show' && (
     <div
       className="secondaryButton vertical-align-center"
       onClick={() => printReport()}
