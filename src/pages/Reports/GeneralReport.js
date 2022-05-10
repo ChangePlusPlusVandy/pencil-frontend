@@ -19,6 +19,7 @@ const GeneralReport = ({
   const [reportSummary, setReportSummary] = useState({
     totalSignups: 0,
     numUniqueTeachers: 0,
+    totalValue: 0,
   });
 
   useEffect(async () => {
@@ -66,7 +67,10 @@ const GeneralReport = ({
             Teachers
           </p>
           <p>
-            <p className="blueText">0%</p>No Show Rate
+            <p className="blueText">
+              ${(Math.round(reportSummary.totalValue * 100) / 100).toFixed(2)}
+            </p>
+            Amount Taken
           </p>
         </div>
       )}
@@ -90,7 +94,10 @@ const GeneralReport = ({
                 <div className="generalReportCol3">{email}</div>
                 <div className="generalReportCol4">{schoolName}</div>
                 <div className="generalReportCol5">
-                  $ {transaction.totalItemPrice}
+                  ${' '}
+                  {(Math.round(transaction.totalItemPrice * 100) / 100).toFixed(
+                    2
+                  )}
                 </div>
               </div>
             );

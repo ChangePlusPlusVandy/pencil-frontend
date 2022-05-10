@@ -35,6 +35,22 @@ const getProductReport = async (startDate, endDate, schoolId, location) => {
   }
 };
 
+const getReport3 = async (startDate, endDate, schoolId, location) => {
+  try {
+    const from = startDate && new Date(startDate).toISOString();
+    let to = endDate && new Date(endDate);
+    if (endDate) {
+      to.setDate(to.getDate() + 1);
+      to = to.toISOString();
+    }
+    const query = `startDate=${from}&endDate=${to}&school=${schoolId}`;
+    const response = await axios.get(`/${location}/reports/report3?${query}`);
+    return response.data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
 const getReport5 = async (startDate, endDate, schoolId, location) => {
   try {
     const from = startDate && new Date(startDate).toISOString();
@@ -51,4 +67,4 @@ const getReport5 = async (startDate, endDate, schoolId, location) => {
   }
 };
 
-export { getGeneralReport, getProductReport, getReport5 };
+export { getGeneralReport, getProductReport, getReport3, getReport5 };

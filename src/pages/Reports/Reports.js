@@ -11,6 +11,7 @@ import { IoFilter, IoSearch } from 'react-icons/io5';
 import Error from '../../components/Error/Error';
 import GeneralReport from './GeneralReport';
 import ProductReport from './ProductReport';
+import NoShowReport from './NoShowReport';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import CalendarInput from './CalendarInput';
@@ -83,7 +84,7 @@ const Reports = () => {
     </>
   );
 
-  const leftItems = (
+  const leftItems = view !== 'No Show' && (
     <div
       className="secondaryButton vertical-align-center"
       onClick={() => printReport()}
@@ -155,6 +156,18 @@ const Reports = () => {
     if (reportType === 'Product') {
       return (
         <ProductReport
+          fromDate={fromDate}
+          untilDate={untilDate}
+          schoolFilter={schoolFilter}
+          setSchoolNameList={setSchoolNameList}
+          setError={setError}
+          setErrorDescription={setErrorDescription}
+        />
+      );
+    }
+    if (reportType === 'No Show') {
+      return (
+        <NoShowReport
           fromDate={fromDate}
           untilDate={untilDate}
           schoolFilter={schoolFilter}
