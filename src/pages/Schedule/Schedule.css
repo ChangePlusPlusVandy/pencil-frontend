@@ -1,9 +1,9 @@
 .scheduleCol1 {
-  width: 18%;
+  width: 20%;
 }
 
 .scheduleCol2 {
-  width: 22%;
+  width: 30%;
 }
 
 .scheduleCol3 {
@@ -11,17 +11,12 @@
 }
 
 .scheduleCol4 {
-  width: 17%;
-}
-
-.scheduleCol5 {
-  width: 33%;
+  width: 40%;
 }
 
 .scheduleCol2,
 .scheduleCol3,
-.scheduleCol4,
-.scheduleCol5 {
+.scheduleCol4 {
   align-self: center;
 }
 

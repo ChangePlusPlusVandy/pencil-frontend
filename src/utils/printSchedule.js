@@ -15,7 +15,6 @@ const columnTitles = [
   ['Time:', 1, 15],
   ['Name:', 1, 10],
   ['Pencil ID:', 1, 5],
-  ['Phone Number:', 1, 20],
   ['School:', 1, 20],
 ];
 const columnCells = columnTitles.map(
