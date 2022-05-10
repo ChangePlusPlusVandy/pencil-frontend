@@ -5,6 +5,7 @@
 import React, { useEffect, useState } from 'react';
 import { TiPlus } from 'react-icons/ti';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../AuthContext';
 import { getAllLocations } from './api-locations';
 import AddLocation from './AddLocation';
@@ -16,9 +17,11 @@ const LocationDropdown = ({ setError, setErrorDescription }) => {
   const [allLocations, setAllLocations] = useState([]);
   const [isAddLocationVisible, setAddLocationVisible] = useState(false);
 
+  const history = useHistory();
+
   const handleClick = (e) => {
     updateLocation(e.target.innerText);
-    window.location.reload();
+    history.push('/');
   };
 
   const handleAddLocation = () => {
