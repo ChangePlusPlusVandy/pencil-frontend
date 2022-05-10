@@ -26,13 +26,14 @@ const Login = () => {
     setIsLoading(true);
     try {
       await login(email, password)
-        .then(history.push('/'))
+        .then(() => history.push('/'))
         .catch((err) => {
           setError(err.message);
         });
     } catch (err) {
       setError(err.message);
     }
+    console.log('success');
     setIsLoading(false);
   };
 

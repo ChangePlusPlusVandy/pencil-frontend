@@ -119,8 +119,8 @@ const Inventory = () => {
       }
     } catch (err) {
       setError(err.message);
-      if (err.response?.data && Object.keys(err.response.data).length) {
-        setErrorDescription(err.response.data);
+      if (err.response?.data && Object.keys(err.response?.data).length) {
+        setErrorDescription(err.response?.data);
       }
     }
     console.log(inventoryData, 'inventoryData');
@@ -198,8 +198,8 @@ const Inventory = () => {
       setValueEditable(false);
     } catch (err) {
       setError(err.message);
-      if (err.response.data && Object.keys(err.response.data).length) {
-        setErrorDescription(err.response.data);
+      if (err.response?.data && Object.keys(err.response?.data).length) {
+        setErrorDescription(err.response?.data);
       }
     }
   };
