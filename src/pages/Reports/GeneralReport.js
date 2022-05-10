@@ -23,6 +23,7 @@ const GeneralReport = ({
   });
 
   useEffect(async () => {
+    console.log(schoolFilter, 'eh');
     let schoolUuid = '';
     if (schoolFilter && reportData) {
       reportData.forEach((item) => {

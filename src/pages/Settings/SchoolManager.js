@@ -133,7 +133,7 @@ const SchoolManager = () => {
         </div>
         <ul>
           {localSchools.length &&
-            localSchools.map((item, index) => (
+            localSchools.map((item) => (
               <div className="locationRow">
                 <input
                   className="editableText"
