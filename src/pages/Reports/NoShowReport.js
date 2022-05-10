@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useAuth } from '../../AuthContext';
 import { getReport3 } from './api-reports';
-import { formatDateDMY } from '../../utils/timedate';
+// import { formatDateDMY } from '../../utils/timedate';
 import './NoShowReport.css';
 
 const NoShowReport = ({
@@ -22,7 +22,7 @@ const NoShowReport = ({
     let schoolUuid = '';
     if (schoolFilter && reportData) {
       reportData.forEach((item) => {
-        if (item.School.name === schoolFilter) schoolUuid = item.School.uuid;
+        if (item.school === schoolFilter) schoolUuid = item.schooluuid;
       });
     }
     try {

@@ -48,7 +48,7 @@ const LocationDropdown = ({ setError, setErrorDescription }) => {
   const menu = (
     <>
       {allLocations.length
-        ? allLocations.map((loc, index) => (
+        ? allLocations.map((loc) => (
             <a key={loc.name} onClick={handleClick}>
               {loc.name}
             </a>

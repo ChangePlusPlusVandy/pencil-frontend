@@ -82,7 +82,7 @@ const LocationManager = () => {
         </div>
         <ul>
           {localLocations.length &&
-            localLocations.map((item, index) => (
+            localLocations.map((item) => (
               <div className="locationRow">
                 <div className="locationRowCol1">
                   <input

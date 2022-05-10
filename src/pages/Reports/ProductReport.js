@@ -37,6 +37,7 @@ const ProductReport = ({
 
   useEffect(async () => {
     try {
+      console.log(schoolFilter, setSchoolNameList); // TEST
       await getProductReport(fromDate, untilDate, '', currentLocation).then(
         (data) => {
           setReportData(data);
