@@ -1,8 +1,6 @@
-/* eslint-disable no-useless-return */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable import/no-unresolved */
 import React, { useState, useEffect } from 'react';
 import {
   AiFillPrinter,
@@ -37,11 +35,14 @@ const Inventory = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [inventoryType, setInventoryType] = useState('Active');
   const [error, setError] = useState('');
+  const [popupError, setPopupError] = useState('');
+  const [errorDescription, setErrorDescription] = useState('');
   const { currentLocation } = useAuth();
   const [nameEditable, setNameEditable] = useState(false);
   const [valueEditable, setValueEditable] = useState(false);
   const valueUnit = inventoryType === 'Active' ? 'Quantity' : 'Price ($)';
 
+  // Creates docx of form and saves it to computer
   const generate = () => {
     const doc = printForm(inventoryData);
     let today = new Date();
@@ -54,8 +55,14 @@ const Inventory = () => {
     });
   };
 
+  const changeInventoryType = (type) => {
+    setInventoryType(type);
+    setChanged(false);
+  };
+
+  // Deletes item from inventory
+  // @param uuid - uuid of item to delete
   const handleDelete = (uuid) => {
-    console.log(inventoryData);
     const checkVal = inventoryData.findIndex((item) => uuid === item.uuid);
     const newData = [...inventoryData];
     newData[checkVal].archived = true;
@@ -64,6 +71,11 @@ const Inventory = () => {
     setChanged(true);
   };
 
+  // Updates item in inventory
+  // @param uuid - uuid of item to update
+  // @param keyToUpdate - key of item to update
+  // @param newValue - value of item to update
+  // @param isNumber - bool of if new value is a number
   const updateItem = (uuid, keyToUpdate, newValue, isNumber) => {
     const tempInventory = inventoryData;
     tempInventory.find((x) => x.uuid === uuid)[keyToUpdate] = isNumber
@@ -73,6 +85,7 @@ const Inventory = () => {
     setChanged(true);
   };
 
+  // Changes order of items in inventory
   const dragProps = {
     onDragEnd(fromIndex, toIndex) {
       const newData = inventoryData; // reorders the item
@@ -89,20 +102,28 @@ const Inventory = () => {
     lineClassName: 'dragLine',
   };
 
-  useEffect(() => {
+  // Changes view of inventory when inventoryType is changed
+  useEffect(async () => {
     setInventoryData([]);
     setNameEditable(false);
     setValueEditable(false);
     setSearchTerm('');
-    if (inventoryType === 'Active') {
-      getInventory(currentLocation).then((result) => {
-        if (!(result instanceof Error)) setInventoryData(result);
-      });
-    } else {
-      getMasterInv().then((result) => {
-        if (!(result instanceof Error)) setInventoryData(result);
-      });
+    try {
+      if (inventoryType === 'Active') {
+        const invData = await getInventory(currentLocation);
+
+        setInventoryData(invData);
+      } else {
+        const invData = await getMasterInv();
+        setInventoryData(invData);
+      }
+    } catch (err) {
+      setError(err.message);
+      if (err.response?.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
+      }
     }
+    console.log(inventoryData, 'inventoryData');
   }, [inventoryType]);
 
   // filter the data based on the search term
@@ -116,9 +137,21 @@ const Inventory = () => {
       item.itemName.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredData(filtered);
+    console.log(inventoryData);
   }, [searchTerm, inventoryData]);
 
+  // Adds item to inventory
+  // @param formInfo - object of form info
   const addItem = (formInfo) => {
+    if (
+      inventoryType !== 'Active' &&
+      inventoryData.findIndex(
+        (item) => item['Item.itemName'] === formInfo.itemName
+      )
+    ) {
+      setPopupError('Item already exists in inventory');
+      return;
+    }
     const newItem =
       inventoryType === 'Active'
         ? {
@@ -135,9 +168,11 @@ const Inventory = () => {
     setInventoryData([...inventoryData, newItem]);
     setAddItemVisible(false);
     setChanged(true);
+    setPopupError('');
   };
 
-  const handleSave = () => {
+  // Saves inventory to database
+  const handleSave = async () => {
     let invalid = false;
     const tempInventory = inventoryData;
     tempInventory.forEach((item) => {
@@ -152,17 +187,24 @@ const Inventory = () => {
     });
 
     if (invalid) return;
-    const result =
-      inventoryType === 'Active'
-        ? postInventory(inventoryData, currentLocation)
-        : postMasterInv(inventoryData);
-
-    if (result && result.error) setError(result.error);
-    setChanged(false);
-    setNameEditable(false);
-    setValueEditable(false);
+    try {
+      if (inventoryType === 'Active') {
+        await postInventory(inventoryData, currentLocation);
+      } else {
+        await postMasterInv(inventoryData);
+      }
+      setChanged(false);
+      setNameEditable(false);
+      setValueEditable(false);
+    } catch (err) {
+      setError(err.message);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
+      }
+    }
   };
 
+  // List of items to display in top left of screen
   const leftItems = (
     <>
       <div
@@ -196,9 +238,10 @@ const Inventory = () => {
     </>
   );
 
+  // List of items to display in top right of screen
   const rightItems = (
     <>
-      <InventoryToggle onChange={setInventoryType} />
+      <InventoryToggle onChange={changeInventoryType} />
       <button
         type="button"
         className="primaryButton"
@@ -210,6 +253,7 @@ const Inventory = () => {
     </>
   );
 
+  // List of table headers
   const tableHeaders = (
     <div className="tableItemHeader">
       <div className="inventoryCol1" />
@@ -241,12 +285,22 @@ const Inventory = () => {
       <>
         <ItemPopup
           show={isAddItemVisible}
-          onClose={() => setAddItemVisible(false)}
+          onClose={() => {
+            setAddItemVisible(false);
+            setPopupError('');
+          }}
           onSubmit={addItem}
           currentItems={inventoryData}
           inventoryType={inventoryType}
+          popupError={popupError}
         />
-        {error && <Error error={error} handleError={() => setError('')} />}
+        {error && (
+          <Error
+            error={error}
+            description={errorDescription}
+            setError={setError}
+          />
+        )}
         <TableHeader
           title={`${inventoryType} Inventory (${
             inventoryData.length ? inventoryData.length : 0

@@ -5,6 +5,7 @@ import './InventoryToggle.css';
 const InventoryToggle = ({ onChange }) => {
   const [selected, setSelected] = useState('Active');
 
+  // Changes view of inventory
   const handleClick = (value) => {
     setSelected(value);
     onChange(value);

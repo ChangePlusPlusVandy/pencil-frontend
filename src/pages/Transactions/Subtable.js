@@ -7,13 +7,15 @@ const Subtable = ({ uuid, data, onChange, transactionType, status }) => {
   const [localData, setLocalData] = useState(data);
   const [formattedData, setFormattedData] = useState([]);
 
+  // Formats data to be displayed in table
+  // @param itemData: array - data to be formatted
+  // @returns: array - formatted data
   const formatItemData = (itemData) => {
     const result = [];
     for (let i = 0; i < itemData.length; i += 2) {
       let itemName2 = '';
       let maxLimit2 = '0';
       let itemUuid2 = '';
-      console.log(itemData[i]);
       if (itemData[i + 1]) {
         itemName2 = itemData[i + 1].Item.itemName;
       }
@@ -39,14 +41,20 @@ const Subtable = ({ uuid, data, onChange, transactionType, status }) => {
     return result;
   };
 
+  // Updates local data and formatted data
   useEffect(() => {
     setFormattedData(formatItemData(data));
   }, []);
 
+  // Updates local data and formatted data
   useEffect(() => {
     onChange(localData, uuid);
   }, [localData]);
 
+  // Updates local data and formatted data
+  // @param e: object - event
+  // @param itemUuid: string - uuid of item to be updated
+  // @return object - updated item
   const handleLocalChange = (e, itemUuid) => {
     const { value } = e.target;
     setFormattedData((prevData) =>

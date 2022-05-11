@@ -8,7 +8,6 @@ import './Authentication.css';
 
 const Authentication = () => {
   const location = useLocation();
-  console.log(location.pathname);
 
   const toRender = () => {
     if (location.pathname === '/login') return <Login />;
@@ -19,7 +18,7 @@ const Authentication = () => {
 
   return (
     <div className="authContainer">
-      <div className="authLeftCol">Fancy Graphic</div>
+      <div className="authLeftCol" />
       <div className="authRightCol">
         <div className="authFormContainer">
           <p className="authPencilHeader">

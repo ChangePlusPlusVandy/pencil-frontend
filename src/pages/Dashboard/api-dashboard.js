@@ -11,8 +11,7 @@ const getDailyStats = async (location) => {
 
     return response.data;
   } catch (err) {
-    console.log(err);
-    return { error: err };
+    return Promise.reject(err);
   }
 };
 
@@ -27,8 +26,7 @@ const getMonthlyStats = async (location) => {
 
     return response.data;
   } catch (err) {
-    console.log(err);
-    return err;
+    return Promise.reject(err);
   }
 };
 
@@ -43,8 +41,7 @@ const getYearlyStats = async (location) => {
 
     return response.data;
   } catch (err) {
-    console.log(err);
-    return err;
+    return Promise.reject(err);
   }
 };
 

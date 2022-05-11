@@ -20,8 +20,7 @@ const getSchedules = (location, startDate, endDate) => {
   const response = axios
     .get(reqUrl)
     .then((res) => res.data)
-    .catch((err) => console.log(err));
-  console.log(response);
+    .catch((err) => Promise.reject(err));
   return response;
 };
 

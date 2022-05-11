@@ -1,13 +1,14 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaFileDownload } from 'react-icons/fa';
 import 'pikaday/css/pikaday.css';
 import './Reports.css';
 
 import { IoMdRefresh } from 'react-icons/io';
 import { IoFilter, IoSearch } from 'react-icons/io5';
+import Error from '../../components/Error/Error';
 import GeneralReport from './GeneralReport';
 import ProductReport from './ProductReport';
 import PageContainer from '../../components/PageContainer/PageContainer';
@@ -23,9 +24,11 @@ const Reports = () => {
   const [schoolNameList, setSchoolNameList] = useState([]);
   const [view, setView] = useState('General');
   const [fromDate, setFromDate] = useState('');
-  const [untilDate, setUntilDate] = useState('');
-  const [schoolFilter, setSchoolFilter] = useState('');
   const [showQueries, setShowQueries] = useState(false);
+  const [schoolFilter, setSchoolFilter] = useState('');
+  const [error, setError] = useState('');
+  const [errorDescription, setErrorDescription] = useState('');
+  const [untilDate, setUntilDate] = useState('');
   const [menuOptions, setMenuOptions] = useState(
     menuOption.filter((val) => val !== view)
   ); // TODO: this needs to be updated
@@ -36,6 +39,9 @@ const Reports = () => {
     const year = date.getFullYear();
     return `${month}/${day}/${year}`;
   };
+  useEffect(() => {
+    console.log(errorDescription, 'bruh');
+  }, [errorDescription]);
 
   const setThisWeek = () => {
     const today = new Date();
@@ -64,6 +70,8 @@ const Reports = () => {
               menuOption.filter((menuO) => menuO !== e.target.innerText)
             );
             setView(e.target.innerText);
+            setError('');
+            setErrorDescription('');
           }}
         >
           {option}
@@ -139,6 +147,8 @@ const Reports = () => {
           untilDate={untilDate}
           schoolFilter={schoolFilter}
           setSchoolNameList={setSchoolNameList}
+          setError={setError}
+          setErrorDescription={setErrorDescription}
         />
       );
     }
@@ -149,6 +159,8 @@ const Reports = () => {
           untilDate={untilDate}
           schoolFilter={schoolFilter}
           setSchoolNameList={setSchoolNameList}
+          setError={setError}
+          setErrorDescription={setErrorDescription}
         />
       );
     }
@@ -157,13 +169,22 @@ const Reports = () => {
 
   return (
     <PageContainer>
-      <TableHeader
-        title="Reports"
-        leftArea={leftItems}
-        rightArea={rightItems}
-      />
-      <div className="reportsQueryArea">{queryItems}</div>
-      {returnReport(view)}
+      {error && (
+        <Error
+          error={error}
+          description={errorDescription}
+          setError={setError}
+        />
+      )}
+      <>
+        <TableHeader
+          title="Reports"
+          leftArea={leftItems}
+          rightArea={rightItems}
+        />
+        <div className="reportsQueryArea">{queryItems}</div>
+        {returnReport(view)}
+      </>
     </PageContainer>
   );
 };

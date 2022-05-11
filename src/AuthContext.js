@@ -57,9 +57,7 @@ export const AuthProvider = ({ children }) => {
             (error) => Promise.reject(error)
           );
         },
-        (error) => {
-          console.log(error);
-        }
+        (error) => Promise.reject(error)
       );
   }
 

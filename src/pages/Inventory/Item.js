@@ -21,11 +21,17 @@ const Item = ({
   const [localValue, setLocalValue] = useState(itemValue);
   const valueKey = type === 'active' ? 'maxLimit' : 'itemPrice';
 
+  // Updates local data if name is changed
+  // @param e: object - event
+  // @returns: void
   const handleNameChange = (e) => {
     setLocalName(e.target.value);
     updateItem(uuid, 'itemName', e.target.value, false);
   };
 
+  // Updates local data if value is changed
+  // @param e: object - event
+  // @returns: void
   const handleValueChange = (e) => {
     const value = parseFloat(e.target.value);
     setLocalValue(value);

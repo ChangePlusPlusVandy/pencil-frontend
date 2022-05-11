@@ -42,6 +42,7 @@ const Transactions = () => {
   const [selectedData, setSelectedData] = useState([]);
   const [wasChecked, setWasChecked] = useState([]);
   const [error, setError] = useState('');
+  const [errorDescription, setErrorDescription] = useState('');
   const { currentLocation } = useAuth();
   const [showPopup, setShowPopup] = useState(false);
   const [schoolNameList, setSchoolNameList] = useState([]);
@@ -52,6 +53,12 @@ const Transactions = () => {
   const [mulSchoolFilter, setMulSchoolFilter] = useState([]);
   const [allowApproval, setAllowApproval] = useState(false);
 
+  /**
+   * Formats the data to be in a readable format for the table
+   * @param transactions: array - data to be formatted
+   * @param status: string - status of the transaction
+   * @param isLoadMore: true if the data is being loaded after pressing the "Load More" button
+   */
   const formatData = (transactions, status, isLoadMore = false) => {
     const result = transactions.map((item) => ({
       uuid: item.uuid,
@@ -67,18 +74,32 @@ const Transactions = () => {
     else if (transactions.length !== 0) setData([...data, ...result]);
   };
 
-  useEffect(() => {
-    getTransactions(currentLocation, 'Pending').then((transactions) => {
-      console.log(transactions.error);
-      if (transactions.error) console.log(transactions.error.message);
-      else formatData(transactions, 'Pending');
-    });
-    getVerifiedSchools().then((schools) => {
-      const schoolList = !schools.error ? schools.map((item) => item.name) : [];
-      setSchoolNameList([...new Set(schoolList)]);
-    });
+  // Gets the pending transactions and verified schools from the server
+  useEffect(async () => {
+    try {
+      await getTransactions(currentLocation, 'Pending').then((transactions) => {
+        console.log(transactions.error);
+        if (transactions.error) console.log(transactions.error.message);
+        else formatData(transactions, 'Pending');
+      });
+      await getVerifiedSchools().then((schools) => {
+        const schoolList = !schools.error
+          ? schools.map((item) => item.name)
+          : [];
+        setSchoolNameList([...new Set(schoolList)]);
+      });
+      setError('');
+      setErrorDescription('');
+    } catch (err) {
+      console.log(err);
+      setError(err.message);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
+      }
+    }
   }, []);
 
+  // Allows approval for all schools
   useEffect(() => {
     if (!mulSchoolFilter.length) return;
     let allfilled = true;
@@ -88,8 +109,9 @@ const Transactions = () => {
     setAllowApproval(allfilled);
   }, [mulSchoolFilter]);
 
+  // Handles the selection of transactions in table - ie, when a row is checked
   const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
+    onChange: (_, selectedRows) => {
       setSelectedData(selectedRows);
     },
     getCheckboxProps: (record) => ({
@@ -98,46 +120,59 @@ const Transactions = () => {
     }),
   };
 
-  const handleClick = (e, transaction, action) => {
+  // Handles click of approve or deny button for a single transaction
+  const handleClick = async (_, transaction, action) => {
     if (action === 'Approve' && !transaction.schoolVerified) {
       setSingleSelected(transaction);
       setShowPopup(true);
       return;
     }
-    if (view === 'Denied') {
-      approveDeniedTransaction(
-        currentLocation,
-        transaction.uuid,
-        transaction.transactionItems
-      );
-    } else {
-      handleTransaction(currentLocation, transaction.uuid, action);
-    }
-    // find the index of the transaction in the data array,
-    // and change the status based on the action
-    setData((prevData) => {
-      const temp = [...prevData];
-      temp[temp.indexOf(transaction)].status =
-        action === 'Approve' ? 'Approved' : 'Denied';
-      return temp;
-    });
+    try {
+      if (view === 'Denied') {
+        await approveDeniedTransaction(
+          currentLocation,
+          transaction.uuid,
+          transaction.transactionItems
+        );
+      } else {
+        await handleTransaction(currentLocation, transaction.uuid, action);
+      }
+      setError('');
+      setErrorDescription('');
+      // find the index of the transaction in the data array,
+      // and change the status based on the action
+      setData((prevData) => {
+        const temp = [...prevData];
+        temp[temp.indexOf(transaction)].status =
+          action === 'Approve' ? 'Approved' : 'Denied';
+        return temp;
+      });
 
-    setWasChecked((prevChecked) => {
-      prevChecked.push(transaction.uuid);
-      return prevChecked;
-    });
+      // add the transaction to the wasChecked array so it cannot be checked/approved/denied again
+      setWasChecked((prevChecked) => {
+        prevChecked.push(transaction.uuid);
+        return prevChecked;
+      });
 
-    // remove transaction from selected data if exists
-    const selectedUuid = selectedData.map((a) => a.uuid);
-    if (selectedUuid.includes(transaction.uuid)) {
-      setSelectedData([]);
-      setSelectedData((datas) =>
-        datas.splice(selectedUuid.indexOf(transaction.uuid), 1)
-      );
+      // remove transaction from selected data if exists
+      const selectedUuid = selectedData.map((a) => a.uuid);
+      if (selectedUuid.includes(transaction.uuid)) {
+        setSelectedData([]);
+        setSelectedData((datas) =>
+          datas.splice(selectedUuid.indexOf(transaction.uuid), 1)
+        );
+      }
+    } catch (err) {
+      console.log(err);
+      setError(err.message);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
+      }
     }
   };
 
-  const handleSelected = (action) => {
+  // Handles click of approve or deny button for multiple transactions
+  const handleSelected = async (action) => {
     // handle each transaction in selected data
     const unverifiedArr = selectedData.filter((a) => !a.schoolVerified);
     if (action === 'Approve' && unverifiedArr.length) {
@@ -145,23 +180,39 @@ const Transactions = () => {
       setShowMulPopup(true);
       setMultipleSelected(unverifiedArr);
     } else {
-      selectedData.forEach((transaction) => {
-        handleTransaction(currentLocation, transaction.uuid, action);
-        setData((prevData) => {
-          const temp = [...prevData];
-          temp[temp.indexOf(transaction)].status =
-            action === 'Approve' ? 'Approved' : 'Denied';
-          return temp;
-        });
-      });
-
-      // clear selected data
-      const selectedUuid = selectedData.map((a) => a.uuid);
-      setWasChecked(selectedUuid.concat(wasChecked));
-      setSelectedData([]);
+      try {
+        await Promise.all(
+          selectedData.map(async (transaction) => {
+            await handleTransaction(currentLocation, transaction.uuid, action);
+            setData((prevData) => {
+              const temp = [...prevData];
+              temp[temp.indexOf(transaction)].status =
+                action === 'Approve' ? 'Approved' : 'Denied';
+              return temp;
+            });
+          })
+        );
+        // clear selected data
+        const selectedUuid = selectedData.map((a) => a.uuid);
+        setWasChecked(selectedUuid.concat(wasChecked));
+        setSelectedData([]);
+        setError('');
+        setErrorDescription('');
+      } catch (err) {
+        setError(err.message);
+        if (err.response.data && Object.keys(err.response.data).length) {
+          setErrorDescription(err.response.data);
+        }
+      }
     }
   };
 
+  /**
+   * Handles the change of items taken for a transaction
+   * @param items: array - items taken for a transaction
+   * @param trxUuid: string - uuid of the transaction
+   * @return object - updated transaction
+   */
   const handleTransactionItemsChange = (items, trxUuid) => {
     setData((prevData) =>
       prevData.map((transaction) => {
@@ -171,6 +222,7 @@ const Transactions = () => {
     );
   };
 
+  // Defines the columns for the table
   const columns = [
     {
       title: 'Date/Time',
@@ -238,6 +290,8 @@ const Transactions = () => {
     },
   ];
 
+  // Creates subtable when a transaction is expanded to show items taken
+  // @param record: object - record of row being expanded
   const expandedRowRender = (record) => (
     <Subtable
       uuid={record.uuid}
@@ -248,31 +302,42 @@ const Transactions = () => {
     />
   );
 
+  // Handles school name change
   const updateSchoolName = async () => {
-    if (view === 'Denied') {
-      approveDeniedTransactionWithNewSchool(
-        currentLocation,
-        singleSelected.uuid,
-        singleSelected.transactionItems,
-        schoolFilter
-      );
-    } else {
-      approveTransactionWithNewSchool(
-        currentLocation,
-        singleSelected.uuid,
-        schoolFilter
-      );
+    try {
+      if (view === 'Denied') {
+        await approveDeniedTransactionWithNewSchool(
+          currentLocation,
+          singleSelected.uuid,
+          singleSelected.transactionItems,
+          schoolFilter
+        );
+      } else {
+        await approveTransactionWithNewSchool(
+          currentLocation,
+          singleSelected.uuid,
+          schoolFilter
+        );
+      }
+      setData((prevData) => {
+        const temp = [...prevData];
+        temp[temp.indexOf(singleSelected)].status = 'Approved';
+        temp[temp.indexOf(singleSelected)].schoolName = schoolFilter;
+        return temp;
+      });
+      setSchoolFilter('');
+      setShowPopup(false);
+      setError('');
+      setErrorDescription('');
+    } catch (err) {
+      setError(err.message);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
+      }
     }
-    setData((prevData) => {
-      const temp = [...prevData];
-      temp[temp.indexOf(singleSelected)].status = 'Approved';
-      temp[temp.indexOf(singleSelected)].schoolName = schoolFilter;
-      return temp;
-    });
-    setSchoolFilter('');
-    setShowPopup(false);
   };
 
+  // Updates the school name for multiple selected transactions
   const updateMulSchoolName = async () => {
     let newSchoolIndex = 0;
     selectedData.forEach(async (transaction) => {
@@ -318,41 +383,62 @@ const Transactions = () => {
     setShowMulPopup(false);
   };
 
-  const loadMore = (type) => {
-    getTransactions(currentLocation, type, prevItems, prevItems + 50).then(
-      (transactions) => {
-        if (transactions.error) console.log(transactions.error);
-        else {
-          formatData(transactions, type, true);
-          setView(type);
-        }
+  // Loads more transactions when the user presses the load more button
+  // @param type: string - type of transactions to load
+  const loadMore = async (type) => {
+    try {
+      await getTransactions(
+        currentLocation,
+        type,
+        prevItems,
+        prevItems + 50
+      ).then((transactions) => {
+        formatData(transactions, type, true);
+        setView(type);
+      });
+      setPrevItems(prevItems + 50);
+      setError('');
+      setErrorDescription('');
+    } catch (err) {
+      setError(err.message);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
       }
-    );
-    setPrevItems(prevItems + 50);
+    }
   };
 
-  const changeLoadedData = (event) => {
+  // Changes data loaded in table
+  // @param event: object - event object
+  const changeLoadedData = async (event) => {
     const type = event.target.innerText || view;
     setSelectedData([]);
     setPrevItems(10);
-    formatData([], type); // TODO: remove this if the reload flicker isn't wanted
-
-    getTransactions(currentLocation, type).then((transactions) => {
-      if (transactions.error) console.log(transactions.error);
-      else {
+    formatData([], type);
+    try {
+      await getTransactions(currentLocation, type).then((transactions) => {
         setData([]);
         formatData(transactions, type);
         setView(type);
+      });
+      setError('');
+      setErrorDescription('');
+    } catch (err) {
+      setError(err.message);
+      if (err.response.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
       }
-    });
+    }
   };
 
+  // Types of transactions that can be loaded
   const menuOptions = ['Pending', 'Approved', 'Denied'];
 
+  // Changes the options present in the menu based on the current view
   const menu = menuOptions
     .filter((option) => option !== view)
     .map((option) => <a onClick={(e) => changeLoadedData(e)}>{option}</a>);
 
+  // Creates button that expands a transaction to show items taken
   const customExpandIcon = (fun) => (
     <FaChevronDown
       onClick={(e) => {
@@ -362,9 +448,16 @@ const Transactions = () => {
     />
   );
 
+  // Defines items present at top left of screen
   const leftItems = (
     <>
-      {error && <Error error={error} setError={setError} />}
+      {error && (
+        <Error
+          error={error}
+          description={errorDescription}
+          setError={setError}
+        />
+      )}
       <button
         type="button"
         className="secondaryButton vertical-align-center statusApproved"
@@ -386,6 +479,7 @@ const Transactions = () => {
     </>
   );
 
+  // Defines items present at top right of screen
   const rightItems = (
     <>
       <IoMdRefresh

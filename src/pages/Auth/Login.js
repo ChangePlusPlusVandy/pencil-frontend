@@ -25,8 +25,11 @@ const Login = () => {
     event.preventDefault();
     setIsLoading(true);
     try {
-      await login(email, password);
-      history.push('/');
+      await login(email, password)
+        .then(history.push('/'))
+        .catch((err) => {
+          setError(err.message);
+        });
     } catch (err) {
       setError(err.message);
     }
@@ -54,7 +57,11 @@ const Login = () => {
         <label htmlFor="password">
           <div className="passwordLabelContainer">
             Password{' '}
-            <Link to="/forgot-password" className="forgotPasswordButton">
+            <Link
+              to="/forgot-password"
+              className="forgotPasswordButton"
+              tabIndex={-1}
+            >
               Forgot Password?
             </Link>
           </div>
@@ -64,10 +71,10 @@ const Login = () => {
             onChange={setPassword}
           />
         </label>
+        {error && <div className="errorMessage">{error}</div>}
         <button disabled={isLoading} type="submit" className="primaryButton">
           {isLoading ? 'Loading...' : 'Login'}
         </button>
-        {error && <div className="errorMessage">{error}</div>}
       </form>
       <p className="margin-top-1">
         Don&apos;t have an account? <Link to="/register">Register</Link>

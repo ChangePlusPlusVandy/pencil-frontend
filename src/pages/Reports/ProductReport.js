@@ -10,6 +10,8 @@ const ProductReport = ({
   untilDate,
   schoolFilter,
   setSchoolNameList,
+  setError,
+  setErrorDescription,
 }) => {
   const { currentLocation } = useAuth();
   const [reportData, setReportData] = useState([]);
@@ -33,12 +35,19 @@ const ProductReport = ({
   //   );
   // }, [fromDate, untilDate, schoolFilter]);
 
-  useEffect(() => {
-    getProductReport(fromDate, untilDate, '', currentLocation).then((data) => {
-      if (data && !data.error) {
-        setReportData(data);
+  useEffect(async () => {
+    try {
+      await getProductReport(fromDate, untilDate, '', currentLocation).then(
+        (data) => {
+          setReportData(data);
+        }
+      );
+    } catch (err) {
+      setError(err.message);
+      if (err.response?.data && Object.keys(err.response.data).length) {
+        setErrorDescription(err.response.data);
       }
-    });
+    }
   }, [fromDate, untilDate]);
 
   return (
@@ -81,6 +90,8 @@ ProductReport.propTypes = {
   untilDate: PropTypes.string,
   schoolFilter: PropTypes.string,
   setSchoolNameList: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired,
+  setErrorDescription: PropTypes.func.isRequired,
 };
 
 ProductReport.defaultProps = {
