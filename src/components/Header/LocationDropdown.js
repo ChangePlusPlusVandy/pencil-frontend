@@ -5,6 +5,7 @@
 import React, { useEffect, useState } from 'react';
 import { TiPlus } from 'react-icons/ti';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../AuthContext';
 import { getAllLocations } from './api-locations';
 import AddLocation from './AddLocation';
@@ -16,9 +17,11 @@ const LocationDropdown = ({ setError, setErrorDescription }) => {
   const [allLocations, setAllLocations] = useState([]);
   const [isAddLocationVisible, setAddLocationVisible] = useState(false);
 
+  const history = useHistory();
+
   const handleClick = (e) => {
     updateLocation(e.target.innerText);
-    window.location.reload();
+    history.push('/');
   };
 
   const handleAddLocation = () => {
@@ -39,8 +42,8 @@ const LocationDropdown = ({ setError, setErrorDescription }) => {
     } catch (err) {
       console.log(err);
       setError(err.message);
-      if (err.response.data && Object.keys(err.response.data).length) {
-        setErrorDescription(err.response.data);
+      if (err.response?.data && Object.keys(err.response?.data).length) {
+        setErrorDescription(err.response?.data);
       }
     }
   }, []);
@@ -48,7 +51,7 @@ const LocationDropdown = ({ setError, setErrorDescription }) => {
   const menu = (
     <>
       {allLocations.length
-        ? allLocations.map((loc, index) => (
+        ? allLocations.map((loc) => (
             <a key={loc.name} onClick={handleClick}>
               {loc.name}
             </a>

@@ -28,8 +28,8 @@ const SchoolManager = () => {
       });
     } catch (err) {
       setError(err.message);
-      if (err.response.data && Object.keys(err.response.data).length) {
-        setErrorDescription(err.response.data);
+      if (err.response?.data && Object.keys(err.response?.data).length) {
+        setErrorDescription(err.response?.data);
       }
     }
   }, []);
@@ -47,8 +47,8 @@ const SchoolManager = () => {
       setErrorDescription('');
     } catch (err) {
       setError(err.message);
-      if (err.response.data && Object.keys(err.response.data).length) {
-        setErrorDescription(err.response.data);
+      if (err.response?.data && Object.keys(err.response?.data).length) {
+        setErrorDescription(err.response?.data);
       }
     }
   };
@@ -73,8 +73,8 @@ const SchoolManager = () => {
         setPopupError('');
       });
     } catch (err) {
-      if (err.response.data && Object.keys(err.response.data).length) {
-        setPopupError(err.response.data);
+      if (err.response?.data && Object.keys(err.response?.data).length) {
+        setPopupError(err.response?.data);
       }
     }
   };
@@ -133,7 +133,7 @@ const SchoolManager = () => {
         </div>
         <ul>
           {localSchools.length &&
-            localSchools.map((item, index) => (
+            localSchools.map((item) => (
               <div className="locationRow">
                 <input
                   className="editableText"

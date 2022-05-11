@@ -26,13 +26,18 @@ const Login = () => {
     setIsLoading(true);
     try {
       await login(email, password)
+<<<<<<< HEAD
         .then(history.push('/'))
+=======
+        .then(() => history.push('/'))
+>>>>>>> 4ef88eccad073f8a6db95bc4cd019cec5b1a3491
         .catch((err) => {
           setError(err.message);
         });
     } catch (err) {
       setError(err.message);
     }
+    console.log('success');
     setIsLoading(false);
   };
 
@@ -40,8 +45,8 @@ const Login = () => {
     <div>
       <h1>Log In</h1>
       <p className="authSubtitle">
-        Welcome to the PENCIL Dashboard. Please enter your email and password to
-        get started.
+        Welcome to the PENCIL Dashboard
+        <br /> Please enter your email and password to get started
       </p>
       <form onSubmit={handleSubmit}>
         <label>

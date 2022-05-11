@@ -21,8 +21,8 @@ const AddLocation = ({ show, onClose }) => {
       window.location.reload();
     } catch (err) {
       console.log(err);
-      if (err.response.data && Object.keys(err.response.data).length) {
-        setErrorDescription(err.response.data);
+      if (err.response?.data && Object.keys(err.response?.data).length) {
+        setErrorDescription(err.response?.data);
       }
     }
   };

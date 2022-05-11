@@ -93,8 +93,8 @@ const Transactions = () => {
     } catch (err) {
       console.log(err);
       setError(err.message);
-      if (err.response.data && Object.keys(err.response.data).length) {
-        setErrorDescription(err.response.data);
+      if (err.response?.data && Object.keys(err.response?.data).length) {
+        setErrorDescription(err.response?.data);
       }
     }
   }, []);
@@ -165,8 +165,8 @@ const Transactions = () => {
     } catch (err) {
       console.log(err);
       setError(err.message);
-      if (err.response.data && Object.keys(err.response.data).length) {
-        setErrorDescription(err.response.data);
+      if (err.response?.data && Object.keys(err.response?.data).length) {
+        setErrorDescription(err.response?.data);
       }
     }
   };
@@ -200,8 +200,8 @@ const Transactions = () => {
         setErrorDescription('');
       } catch (err) {
         setError(err.message);
-        if (err.response.data && Object.keys(err.response.data).length) {
-          setErrorDescription(err.response.data);
+        if (err.response?.data && Object.keys(err.response?.data).length) {
+          setErrorDescription(err.response?.data);
         }
       }
     }
@@ -331,8 +331,8 @@ const Transactions = () => {
       setErrorDescription('');
     } catch (err) {
       setError(err.message);
-      if (err.response.data && Object.keys(err.response.data).length) {
-        setErrorDescription(err.response.data);
+      if (err.response?.data && Object.keys(err.response?.data).length) {
+        setErrorDescription(err.response?.data);
       }
     }
   };
@@ -401,8 +401,8 @@ const Transactions = () => {
       setErrorDescription('');
     } catch (err) {
       setError(err.message);
-      if (err.response.data && Object.keys(err.response.data).length) {
-        setErrorDescription(err.response.data);
+      if (err.response?.data && Object.keys(err.response?.data).length) {
+        setErrorDescription(err.response?.data);
       }
     }
   };
@@ -424,8 +424,8 @@ const Transactions = () => {
       setErrorDescription('');
     } catch (err) {
       setError(err.message);
-      if (err.response.data && Object.keys(err.response.data).length) {
-        setErrorDescription(err.response.data);
+      if (err.response?.data && Object.keys(err.response?.data).length) {
+        setErrorDescription(err.response?.data);
       }
     }
   };
@@ -620,17 +620,17 @@ const Transactions = () => {
 
 export default Transactions;
 
-const isOverload = (data, index) => {
-  for (const i in data.transactionItems) {
-    if (
-      parseInt(data.transactionItems[i].itemsTaken1, 10) >
-        parseInt(data.transactionItems[i].maxLimit1, 10) ||
-      parseInt(data.transactionItems[i].itemsTaken2, 10) >
-        parseInt(data.transactionItems[i].maxLimit2, 10)
-    ) {
-      return true;
-    }
-  }
+// const isOverload = (data, index) => {
+//   for (const i in data.transactionItems) {
+//     if (
+//       parseInt(data.transactionItems[i].itemsTaken1, 10) >
+//         parseInt(data.transactionItems[i].maxLimit1, 10) ||
+//       parseInt(data.transactionItems[i].itemsTaken2, 10) >
+//         parseInt(data.transactionItems[i].maxLimit2, 10)
+//     ) {
+//       return true;
+//     }
+//   }
 
-  return false;
-};
+//   return false;
+// };

@@ -30,7 +30,16 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
       const accessToken = await refreshAccessToken();
       localStorage.setItem('@token', accessToken);
-      axiosInstance.defaults.headers.authorization = `Bearer ${accessToken}`;
+      console.log('refreshing token', accessToken); // DO NOT REMOVE
+
+      axiosInstance.interceptors.request.use(
+        (config) => {
+          // eslint-disable-next-line no-param-reassign
+          config.headers.authorization = `Bearer ${accessToken}`;
+          return config;
+        },
+        (err) => Promise.reject(err)
+      );
       return axiosInstance(originalRequest);
     }
     return Promise.reject(error);

@@ -42,8 +42,8 @@ const LocationManager = () => {
       setErrorDescription('');
     } catch (err) {
       setError(err.message);
-      if (err.response.data && Object.keys(err.response.data).length) {
-        setErrorDescription(err.response.data);
+      if (err.response?.data && Object.keys(err.response?.data).length) {
+        setErrorDescription(err.response?.data);
       }
     }
   };
@@ -82,7 +82,7 @@ const LocationManager = () => {
         </div>
         <ul>
           {localLocations.length &&
-            localLocations.map((item, index) => (
+            localLocations.map((item) => (
               <div className="locationRow">
                 <div className="locationRowCol1">
                   <input

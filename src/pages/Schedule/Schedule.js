@@ -35,8 +35,8 @@ const Schedule = () => {
       setErrorDescription('');
     } catch (err) {
       setError(err.message);
-      if (err.response.data && Object.keys(err.response.data).length) {
-        setErrorDescription(err.response.data);
+      if (err.response?.data && Object.keys(err.response?.data).length) {
+        setErrorDescription(err.response?.data);
       }
     }
   }, [fromDate, untilDate]);
@@ -58,7 +58,6 @@ const Schedule = () => {
           })}`,
           name: scheduleData[item].ScheduleItems[teacher].Teacher.name,
           pencilId: scheduleData[item].ScheduleItems[teacher].Teacher.pencilId,
-          phone: scheduleData[item].ScheduleItems[teacher].Teacher.phone,
           school: scheduleData[item].ScheduleItems[teacher].Teacher.School.name,
         });
       }
@@ -131,8 +130,8 @@ const Schedule = () => {
       setErrorDescription('');
     } catch (err) {
       setError(err.message);
-      if (err.response.data && Object.keys(err.response.data).length) {
-        setErrorDescription(err.response.data);
+      if (err.response?.data && Object.keys(err.response?.data).length) {
+        setErrorDescription(err.response?.data);
       }
     }
   };
@@ -182,8 +181,7 @@ const Schedule = () => {
             <div className="scheduleCol1">Date/Time</div>
             <div className="scheduleCol2">Name</div>
             <div className="scheduleCol3">Pencil ID</div>
-            <div className="scheduleCol4">Phone Number</div>
-            <div className="scheduleCol5">School</div>
+            <div className="scheduleCol4">School</div>
           </div>
           {scheduleData.map((scheduleTimeSlot) => {
             if (scheduleTimeSlot.ScheduleItems.length === 0) return;
@@ -192,7 +190,6 @@ const Schedule = () => {
               dateAndTime: null,
               name: [],
               id: [],
-              phone: [],
               school: [],
             };
 
@@ -213,7 +210,6 @@ const Schedule = () => {
                 // add remaining info to the table
                 dataForTableItem.name.push(scheduleItemData.Teacher.name);
                 dataForTableItem.id.push(scheduleItemData.Teacher.pencilId);
-                dataForTableItem.phone.push(scheduleItemData.Teacher.phone);
                 dataForTableItem.school.push(
                   scheduleItemData.Teacher.School.name
                 );
@@ -237,11 +233,6 @@ const Schedule = () => {
                   ))}
                 </div>
                 <div className="scheduleCol4">
-                  {dataForTableItem.phone.map((teacherPhone) => (
-                    <div>{teacherPhone}</div>
-                  ))}
-                </div>
-                <div className="scheduleCol5">
                   {dataForTableItem.school.map((schoolName) => (
                     <div>{schoolName}</div>
                   ))}

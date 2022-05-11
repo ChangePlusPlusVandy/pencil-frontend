@@ -19,6 +19,7 @@ const GeneralReport = ({
   const [reportSummary, setReportSummary] = useState({
     totalSignups: 0,
     numUniqueTeachers: 0,
+    totalValue: 0,
   });
 
   useEffect(async () => {
@@ -35,7 +36,9 @@ const GeneralReport = ({
         schoolUuid,
         currentLocation
       ).then((data) => {
+        // FIXME: ONE OF THESE setReportData's is right -- figure out which
         setReportData(data.reportBody);
+        setReportData(data.transactions);
         setReportSummary(data.summary);
         // generate list of unique school names
         const schoolList = data.transactions
@@ -45,10 +48,10 @@ const GeneralReport = ({
         setSchoolNameList([...new Set(schoolList)]);
       });
     } catch (err) {
-      console.log(err.response.data);
+      console.log(err.response?.data);
       setError(err.message);
-      if (err.response.data && Object.keys(err.response.data).length) {
-        setErrorDescription(err.response.data);
+      if (err.response?.data && Object.keys(err.response?.data).length) {
+        setErrorDescription(err.response?.data);
       }
     }
   }, [fromDate, untilDate, schoolFilter]);
@@ -66,7 +69,10 @@ const GeneralReport = ({
             Teachers
           </p>
           <p>
-            <p className="blueText">0%</p>No Show Rate
+            <p className="blueText">
+              ${(Math.round(reportSummary.totalValue * 100) / 100).toFixed(2)}
+            </p>
+            Amount Taken
           </p>
         </div>
       )}
@@ -90,7 +96,10 @@ const GeneralReport = ({
                 <div className="generalReportCol3">{email}</div>
                 <div className="generalReportCol4">{schoolName}</div>
                 <div className="generalReportCol5">
-                  $ {transaction.totalItemPrice}
+                  ${' '}
+                  {(Math.round(transaction.totalItemPrice * 100) / 100).toFixed(
+                    2
+                  )}
                 </div>
               </div>
             );

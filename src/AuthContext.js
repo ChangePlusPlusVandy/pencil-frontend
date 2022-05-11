@@ -39,7 +39,8 @@ export const AuthProvider = ({ children }) => {
    * @return {Object} - User object.
    * */
   async function login(email, password) {
-    return firebase
+    // eslint-disable-next-line no-return-await
+    return await firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(
@@ -54,10 +55,16 @@ export const AuthProvider = ({ children }) => {
               config.headers.authorization = `Bearer ${token}`;
               return config;
             },
-            (error) => Promise.reject(error)
+            (error) => {
+              console.log(error);
+              return Promise.reject(error);
+            }
           );
         },
-        (error) => Promise.reject(error)
+        (error) => {
+          console.log(error);
+          return Promise.reject(error);
+        }
       );
   }
 
