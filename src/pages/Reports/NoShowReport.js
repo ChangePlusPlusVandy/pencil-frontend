@@ -28,7 +28,7 @@ const NoShowReport = ({
     try {
       await getReport3(fromDate, untilDate, schoolUuid, currentLocation).then(
         (data) => {
-          setReportData(data.noShowList);
+          setReportData(data.reportBody.noShowList);
           // generate list of unique school names
           const schoolList = data.noShowList
             ? data.noShowList.map((item) => item.school)

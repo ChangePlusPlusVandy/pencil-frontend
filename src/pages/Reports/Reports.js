@@ -162,8 +162,6 @@ const Reports = () => {
           setSchoolNameList={setSchoolNameList}
           setError={setError}
           setErrorDescription={setErrorDescription}
-<<<<<<< HEAD
-=======
         />
       );
     }
@@ -176,7 +174,6 @@ const Reports = () => {
           setSchoolNameList={setSchoolNameList}
           setError={setError}
           setErrorDescription={setErrorDescription}
->>>>>>> 4ef88eccad073f8a6db95bc4cd019cec5b1a3491
         />
       );
     }

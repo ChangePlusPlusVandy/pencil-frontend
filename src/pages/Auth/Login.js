@@ -26,11 +26,7 @@ const Login = () => {
     setIsLoading(true);
     try {
       await login(email, password)
-<<<<<<< HEAD
-        .then(history.push('/'))
-=======
         .then(() => history.push('/'))
->>>>>>> 4ef88eccad073f8a6db95bc4cd019cec5b1a3491
         .catch((err) => {
           setError(err.message);
         });

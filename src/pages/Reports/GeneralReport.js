@@ -38,7 +38,6 @@ const GeneralReport = ({
       ).then((data) => {
         // FIXME: ONE OF THESE setReportData's is right -- figure out which
         setReportData(data.reportBody);
-        setReportData(data.transactions);
         setReportSummary(data.summary);
         // generate list of unique school names
         const schoolList = data.transactions

@@ -1,6 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { ConsoleSqlOutlined } from '@ant-design/icons';
 import { useAuth } from '../../AuthContext';
 import { getProductReport } from './api-reports';
 import './ProductReport.css';
@@ -40,7 +41,9 @@ const ProductReport = ({
       console.log(schoolFilter, setSchoolNameList); // TEST
       await getProductReport(fromDate, untilDate, '', currentLocation).then(
         (data) => {
+          console.log('THIS IS THE DATA:', data);
           setReportData(data);
+          console.log('DATA IS SET');
         }
       );
     } catch (err) {
@@ -63,7 +66,7 @@ const ProductReport = ({
       </div>
       <div>
         {reportData &&
-          reportData.map((product) => (
+          reportData.reportBody.map((product) => (
             <div className="tableItem">
               <div className="productReportCol1">{product.itemName}</div>
               <div className="productReportCol2">{product.numTaken}</div>
