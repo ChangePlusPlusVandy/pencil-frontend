@@ -10,7 +10,7 @@ const NotFound = () => (
       <img src={Logo404} alt="404 Error" />
       <h2>Whoops... let&apos;s get you back on track.</h2>
       <p>The page you are looking for can not be found at this time.</p>
-      <Link to="/dashboard" className="primaryButton">
+      <Link to="/" className="primaryButton">
         Back to Dashboard
       </Link>
     </div>
