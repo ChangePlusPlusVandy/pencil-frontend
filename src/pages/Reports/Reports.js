@@ -96,7 +96,6 @@ const Reports = () => {
   const leftItems = (
     <div
       className="secondaryButton vertical-align-center"
-      // FIXME: PLACEHOLDER LOCATION
       onClick={() =>
         printWeeklyReport(
           fromDate,
