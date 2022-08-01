@@ -78,7 +78,6 @@ const Transactions = () => {
   useEffect(async () => {
     try {
       await getTransactions(currentLocation, 'Pending').then((transactions) => {
-        console.log(transactions.error);
         if (transactions.error) console.log(transactions.error.message);
         else formatData(transactions, 'Pending');
       });
@@ -412,7 +411,7 @@ const Transactions = () => {
   const changeLoadedData = async (event) => {
     const type = event.target.innerText || view;
     setSelectedData([]);
-    setPrevItems(10);
+    setPrevItems(50);
     formatData([], type);
     try {
       await getTransactions(currentLocation, type).then((transactions) => {
@@ -619,18 +618,3 @@ const Transactions = () => {
 };
 
 export default Transactions;
-
-// const isOverload = (data, index) => {
-//   for (const i in data.transactionItems) {
-//     if (
-//       parseInt(data.transactionItems[i].itemsTaken1, 10) >
-//         parseInt(data.transactionItems[i].maxLimit1, 10) ||
-//       parseInt(data.transactionItems[i].itemsTaken2, 10) >
-//         parseInt(data.transactionItems[i].maxLimit2, 10)
-//     ) {
-//       return true;
-//     }
-//   }
-
-//   return false;
-// };

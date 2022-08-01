@@ -10,7 +10,6 @@ const GeneralReport = ({
   fromDate,
   untilDate,
   schoolFilter,
-  setSchoolNameList,
   setError,
   setErrorDescription,
 }) => {
@@ -23,31 +22,19 @@ const GeneralReport = ({
   });
 
   useEffect(async () => {
-    console.log(schoolFilter, 'eh');
-    let schoolUuid = '';
-    if (schoolFilter && reportData) {
-      reportData.forEach((item) => {
-        if (item.School.name === schoolFilter) schoolUuid = item.School.uuid;
-      });
-    }
     try {
       await getGeneralReport(
         fromDate,
         untilDate,
-        schoolUuid,
+        schoolFilter,
         currentLocation
       ).then((data) => {
-        setReportData(data.transactions);
-        setReportSummary(data.summary);
+        setReportData([]);
+        setReportData(data.reportBody);
+        setReportSummary(data.reportStats);
         // generate list of unique school names
-        const schoolList = data.transactions
-          ? data.transactions.map((item) => item.School.name)
-          : [];
-        console.log(schoolList);
-        setSchoolNameList([...new Set(schoolList)]);
       });
     } catch (err) {
-      console.log(err.response?.data);
       setError(err.message);
       if (err.response?.data && Object.keys(err.response?.data).length) {
         setErrorDescription(err.response?.data);
@@ -83,26 +70,25 @@ const GeneralReport = ({
         <div className="generalReportCol5">Total Product Value</div>
       </div>
       <div>
-        {reportData &&
-          reportData.map((transaction) => {
-            const date = formatDateDMY(new Date(transaction.createdAt));
-            const { name, email } = transaction.Teacher;
-            const schoolName = transaction.School.name;
-            return (
-              <div className="tableItem">
-                <div className="generalReportCol1">{date}</div>
-                <div className="generalReportCol2">{name}</div>
-                <div className="generalReportCol3">{email}</div>
-                <div className="generalReportCol4">{schoolName}</div>
-                <div className="generalReportCol5">
-                  ${' '}
-                  {(Math.round(transaction.totalItemPrice * 100) / 100).toFixed(
-                    2
-                  )}
-                </div>
+        {reportData?.map((transaction) => {
+          const date = formatDateDMY(new Date(transaction.createdAt));
+          const { name, email } = transaction.Teacher;
+          const schoolName = transaction.School.name;
+          return (
+            <div className="tableItem">
+              <div className="generalReportCol1">{date}</div>
+              <div className="generalReportCol2">{name}</div>
+              <div className="generalReportCol3">{email}</div>
+              <div className="generalReportCol4">{schoolName}</div>
+              <div className="generalReportCol5">
+                ${' '}
+                {(Math.round(transaction.totalItemPrice * 100) / 100).toFixed(
+                  2
+                )}
               </div>
-            );
-          })}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -114,7 +100,6 @@ GeneralReport.propTypes = {
   fromDate: PropTypes.string,
   untilDate: PropTypes.string,
   schoolFilter: PropTypes.string,
-  setSchoolNameList: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
   setErrorDescription: PropTypes.func.isRequired,
 };

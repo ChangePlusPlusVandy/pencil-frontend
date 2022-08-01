@@ -2,15 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useAuth } from '../../AuthContext';
-import { getReport3 } from './api-reports';
-// import { formatDateDMY } from '../../utils/timedate';
+import { getNoShowReport } from './api-reports';
 import './NoShowReport.css';
 
 const NoShowReport = ({
   fromDate,
   untilDate,
   schoolFilter,
-  setSchoolNameList,
   setError,
   setErrorDescription,
 }) => {
@@ -19,24 +17,18 @@ const NoShowReport = ({
   const [noShowRate, setNoShowRate] = useState(0);
 
   useEffect(async () => {
-    let schoolUuid = '';
-    if (schoolFilter && reportData) {
-      reportData.forEach((item) => {
-        if (item.school === schoolFilter) schoolUuid = item.schooluuid;
-      });
-    }
     try {
-      await getReport3(fromDate, untilDate, schoolUuid, currentLocation).then(
-        (data) => {
-          setReportData(data.noShowList);
-          // generate list of unique school names
-          const schoolList = data.noShowList
-            ? data.noShowList.map((item) => item.school)
-            : [];
-          setSchoolNameList([...new Set(schoolList)]);
-          setNoShowRate(data.noShowRate);
-        }
-      );
+      await getNoShowReport(
+        fromDate,
+        untilDate,
+        schoolFilter,
+        currentLocation
+      ).then((data) => {
+        setReportData([]);
+        setReportData(data.reportBody);
+        // generate list of unique school names
+        setNoShowRate(data.reportStats.noShowRate);
+      });
     } catch (err) {
       setError(err.message);
       if (err.response?.data && Object.keys(err.response?.data).length) {
@@ -92,7 +84,6 @@ NoShowReport.propTypes = {
   fromDate: PropTypes.string,
   untilDate: PropTypes.string,
   schoolFilter: PropTypes.string,
-  setSchoolNameList: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
   setErrorDescription: PropTypes.func.isRequired,
 };

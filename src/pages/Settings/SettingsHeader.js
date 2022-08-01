@@ -10,7 +10,6 @@ const SettingsHeader = () => {
   const location = currentLocation ? `PENCIL-${currentLocation}` : 'PENCIL';
 
   const handleNavigation = () => {
-    console.log('PRESSED');
     history.push(`/`);
   };
 

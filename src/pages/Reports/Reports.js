@@ -6,8 +6,7 @@ import { FaFileDownload } from 'react-icons/fa';
 import 'pikaday/css/pikaday.css';
 import './Reports.css';
 
-import { IoMdRefresh } from 'react-icons/io';
-import { IoFilter, IoSearch } from 'react-icons/io5';
+import { IoFilter } from 'react-icons/io5';
 import Error from '../../components/Error/Error';
 import GeneralReport from './GeneralReport';
 import ProductReport from './ProductReport';
@@ -17,14 +16,17 @@ import CustomDropdown from '../../components/Dropdowns/CustomDropdown';
 import CalendarInput from './CalendarInput';
 import CustomCombobox from '../../components/Combobox/CustomCombobox';
 import TableHeader from '../../components/TableHeader/TableHeader';
+import { getSchools, printWeeklyReport } from './api-reports';
+import SchoolsReport from './SchoolsReport';
+import { useAuth } from '../../AuthContext';
+import TeacherReport from './TeacherReport';
 
-const menuOption = ['General', 'Product', 'No Show'];
+const menuOption = ['General', 'Teachers', 'Schools', 'Product', 'No Show'];
 
 const Reports = () => {
   const [schoolNameList, setSchoolNameList] = useState([]);
   const [view, setView] = useState('General');
   const [fromDate, setFromDate] = useState('');
-  const [showQueries, setShowQueries] = useState(false);
   const [schoolFilter, setSchoolFilter] = useState('');
   const [error, setError] = useState('');
   const [errorDescription, setErrorDescription] = useState('');
@@ -32,6 +34,7 @@ const Reports = () => {
   const [menuOptions, setMenuOptions] = useState(
     menuOption.filter((val) => val !== view)
   ); // TODO: this needs to be updated
+  const { currentLocation } = useAuth();
 
   const dateToString = (date) => {
     const day = date.getDate();
@@ -39,13 +42,19 @@ const Reports = () => {
     const year = date.getFullYear();
     return `${month}/${day}/${year}`;
   };
-  useEffect(() => {
-    console.log(errorDescription, 'bruh');
-  }, [errorDescription]);
 
-  const printReport = () => {
-    console.log('nadha');
-  };
+  useEffect(async () => {
+    try {
+      await getSchools().then((data) => {
+        setSchoolNameList(data.map((item) => item.name));
+      });
+    } catch (err) {
+      setError(err.message);
+      if (err.response?.data && Object.keys(err.response?.data).length) {
+        setErrorDescription(err.response?.data);
+      }
+    }
+  }, []);
 
   const setThisWeek = () => {
     const today = new Date();
@@ -84,10 +93,19 @@ const Reports = () => {
     </>
   );
 
-  const leftItems = view !== 'No Show' && (
+  const leftItems = (
     <div
       className="secondaryButton vertical-align-center"
-      onClick={() => printReport()}
+      // FIXME: PLACEHOLDER LOCATION
+      onClick={() =>
+        printWeeklyReport(
+          fromDate,
+          untilDate,
+          schoolFilter,
+          currentLocation,
+          view
+        )
+      }
     >
       Generate Report
       <FaFileDownload size="14" />
@@ -95,21 +113,10 @@ const Reports = () => {
   );
 
   const rightItems = (
-    <>
-      <div
-        className={`searchButton vertical-align-center ${
-          showQueries && 'selectedBlue'
-        }`}
-        onClick={() => setShowQueries(!showQueries)}
-      >
-        <IoSearch size="24" />
-      </div>
-      <IoMdRefresh className="refreshButton" size="26" />
-      <CustomDropdown title={view} menuItems={menu} type="small" />
-    </>
+    <CustomDropdown title={view} menuItems={menu} type="small" />
   );
 
-  const queryItems = showQueries && (
+  const queryItems = (
     <>
       <div className="vertical-align-center">
         <CalendarInput
@@ -147,7 +154,19 @@ const Reports = () => {
           fromDate={fromDate}
           untilDate={untilDate}
           schoolFilter={schoolFilter}
-          setSchoolNameList={setSchoolNameList}
+          schoolNameList={schoolNameList}
+          setError={setError}
+          setErrorDescription={setErrorDescription}
+        />
+      );
+    }
+    if (reportType === 'Teachers') {
+      return (
+        <TeacherReport
+          fromDate={fromDate}
+          untilDate={untilDate}
+          schoolFilter={schoolFilter}
+          schoolNameList={schoolNameList}
           setError={setError}
           setErrorDescription={setErrorDescription}
         />
@@ -159,7 +178,7 @@ const Reports = () => {
           fromDate={fromDate}
           untilDate={untilDate}
           schoolFilter={schoolFilter}
-          setSchoolNameList={setSchoolNameList}
+          schoolNameList={schoolNameList}
           setError={setError}
           setErrorDescription={setErrorDescription}
         />
@@ -171,7 +190,19 @@ const Reports = () => {
           fromDate={fromDate}
           untilDate={untilDate}
           schoolFilter={schoolFilter}
-          setSchoolNameList={setSchoolNameList}
+          schoolNameList={schoolNameList}
+          setError={setError}
+          setErrorDescription={setErrorDescription}
+        />
+      );
+    }
+    if (reportType === 'Schools') {
+      return (
+        <SchoolsReport
+          fromDate={fromDate}
+          untilDate={untilDate}
+          schoolFilter={schoolFilter}
+          schoolNameList={schoolNameList}
           setError={setError}
           setErrorDescription={setErrorDescription}
         />

@@ -15,7 +15,6 @@ const AddLocation = ({ show, onClose }) => {
   const handleSubmit = async () => {
     try {
       await createNewLocation({ name, address }).then((res) => {
-        console.log('Location created: ', res);
         onClose();
       });
       window.location.reload();

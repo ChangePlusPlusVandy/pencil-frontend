@@ -42,7 +42,6 @@ const Schedule = () => {
   }, [fromDate, untilDate]);
 
   const generate = () => {
-    console.log(scheduleData);
     const formattedData = [];
     for (const item in scheduleData) {
       for (const teacher in scheduleData[item].ScheduleItems) {
@@ -62,7 +61,6 @@ const Schedule = () => {
         });
       }
     }
-    console.log(formattedData);
     const doc = printForm(formattedData);
     let today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');

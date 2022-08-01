@@ -1,6 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { ConsoleSqlOutlined } from '@ant-design/icons';
 import { useAuth } from '../../AuthContext';
 import { getProductReport } from './api-reports';
 import './ProductReport.css';
@@ -9,7 +10,6 @@ const ProductReport = ({
   fromDate,
   untilDate,
   schoolFilter,
-  setSchoolNameList,
   setError,
   setErrorDescription,
 }) => {
@@ -37,19 +37,22 @@ const ProductReport = ({
 
   useEffect(async () => {
     try {
-      console.log(schoolFilter, setSchoolNameList); // TEST
-      await getProductReport(fromDate, untilDate, '', currentLocation).then(
-        (data) => {
-          setReportData(data);
-        }
-      );
+      await getProductReport(
+        fromDate,
+        untilDate,
+        schoolFilter,
+        currentLocation
+      ).then((data) => {
+        setReportData([]);
+        setReportData(data);
+      });
     } catch (err) {
       setError(err.message);
       if (err.response?.data && Object.keys(err.response?.data).length) {
         setErrorDescription(err.response?.data);
       }
     }
-  }, [fromDate, untilDate]);
+  }, [fromDate, untilDate, schoolFilter]);
 
   return (
     <div className="tableContainer">
@@ -62,23 +65,22 @@ const ProductReport = ({
         <div className="productReportCol6">Total Value</div>
       </div>
       <div>
-        {reportData &&
-          reportData.map((product) => (
-            <div className="tableItem">
-              <div className="productReportCol1">{product.itemName}</div>
-              <div className="productReportCol2">{product.numTaken}</div>
-              <div className="productReportCol3">{product.numShoppers}</div>
-              <div className="productReportCol4">
-                {product.percentageOfShoppers}
-              </div>
-              <div className="productReportCol5">
-                {product.percentageTakenAtMax}
-              </div>
-              <div className="productReportCol6">
-                $ {product.totalValueTaken}
-              </div>
+        {reportData?.reportBody?.map((product) => (
+          <div className="tableItem">
+            <div className="productReportCol1">{product.itemName}</div>
+            <div className="productReportCol2">{product.numTaken}</div>
+            <div className="productReportCol3">{product.numShoppers}</div>
+            <div className="productReportCol4">
+              {product.percentageOfShoppers}
             </div>
-          ))}
+            <div className="productReportCol5">
+              {product.percentageTakenAtMax}
+            </div>
+            <div className="productReportCol6">
+              $ {(Math.round(product.totalValueTaken * 100) / 100).toFixed(2)}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -90,7 +92,6 @@ ProductReport.propTypes = {
   fromDate: PropTypes.string,
   untilDate: PropTypes.string,
   schoolFilter: PropTypes.string,
-  setSchoolNameList: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
   setErrorDescription: PropTypes.func.isRequired,
 };

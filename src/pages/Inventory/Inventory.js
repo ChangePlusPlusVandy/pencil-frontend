@@ -123,7 +123,6 @@ const Inventory = () => {
         setErrorDescription(err.response?.data);
       }
     }
-    console.log(inventoryData, 'inventoryData');
   }, [inventoryType]);
 
   // filter the data based on the search term
@@ -137,7 +136,6 @@ const Inventory = () => {
       item.itemName.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredData(filtered);
-    console.log(inventoryData);
   }, [searchTerm, inventoryData]);
 
   // Adds item to inventory

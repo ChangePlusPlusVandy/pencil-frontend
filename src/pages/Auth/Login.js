@@ -33,7 +33,6 @@ const Login = () => {
     } catch (err) {
       setError(err.message);
     }
-    console.log('success');
     setIsLoading(false);
   };
 
