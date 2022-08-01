@@ -92,7 +92,7 @@ const printWeeklyReport = async (
         ? `/${location}/reports/${reportEndpoints[reportName]}?${query}`
         : `/${location}/reports/${reportEndpoints[reportName]}`;
 
-    const res1 = await axios
+    await axios
       .get(reqUrl, {
         responseType: 'blob',
       })
