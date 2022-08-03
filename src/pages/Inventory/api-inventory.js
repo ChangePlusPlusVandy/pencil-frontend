@@ -4,9 +4,12 @@ import axios from '../../axios';
 // Returns the inventory for a location
 // @param location: string
 // @returns: response from server
-const getInventory = async (location) => {
+const getInventory = async (location, refresh) => {
   try {
-    const response = await axios.get(`/${location}/form/getShopForm`);
+    console.log(refresh);
+    const response = await axios.get(
+      `/${location}/form/getShopForm${refresh ? `?refresh=${refresh}` : ''}`
+    );
     return response.data;
   } catch (err) {
     return Promise.reject(err);
@@ -32,9 +35,11 @@ const postInventory = async (data, location) => {
 
 // Returns the master inventory for all locations
 // @returns: response from server
-const getMasterInv = async () => {
+const getMasterInv = async (refresh) => {
   try {
-    const response = await axios.get(`/masterInventory/getAllItems`);
+    const response = await axios.get(
+      `/masterInventory/getAllItems${refresh ? `?refresh=${refresh}` : ''}`
+    );
 
     return response.data;
   } catch (err) {

@@ -13,6 +13,7 @@ const ItemPopup = ({
   currentItems,
   inventoryType,
   popupError,
+  itemRefresh,
 }) => {
   if (!show) return null;
   const CHARACTER_LIMIT = 30;
@@ -25,7 +26,7 @@ const ItemPopup = ({
     if (inventoryType !== 'Active') return;
     // only carry out if Active inventory
     try {
-      getMasterInv().then((result) => {
+      getMasterInv(itemRefresh).then((result) => {
         const currentItemNames = currentItems.map(
           (item) => item['Item.itemName'] // extract the item names from the currentItems
         );
@@ -103,6 +104,7 @@ ItemPopup.propTypes = {
   currentItems: PropTypes.arrayOf(PropTypes.objectOf),
   inventoryType: PropTypes.string.isRequired,
   popupError: PropTypes.string,
+  itemRefresh: PropTypes.bool.isRequired,
 };
 
 ItemPopup.defaultProps = {

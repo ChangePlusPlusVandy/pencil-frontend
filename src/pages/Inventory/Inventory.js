@@ -40,6 +40,7 @@ const Inventory = () => {
   const { currentLocation } = useAuth();
   const [nameEditable, setNameEditable] = useState(false);
   const [valueEditable, setValueEditable] = useState(false);
+  const [itemRefresh, setItemRefresh] = useState(false);
   const valueUnit = inventoryType === 'Active' ? 'Quantity' : 'Price ($)';
 
   // Creates docx of form and saves it to computer
@@ -110,11 +111,11 @@ const Inventory = () => {
     setSearchTerm('');
     try {
       if (inventoryType === 'Active') {
-        const invData = await getInventory(currentLocation);
+        const invData = await getInventory(currentLocation, itemRefresh);
 
         setInventoryData(invData);
       } else {
-        const invData = await getMasterInv();
+        const invData = await getMasterInv(itemRefresh);
         setInventoryData(invData);
       }
     } catch (err) {
@@ -142,10 +143,12 @@ const Inventory = () => {
   // @param formInfo - object of form info
   const addItem = (formInfo) => {
     if (
-      inventoryType !== 'Active' &&
       inventoryData.findIndex(
-        (item) => item['Item.itemName'] === formInfo.itemName
-      )
+        (item) =>
+          (inventoryType === 'Active'
+            ? item['Item.itemName']
+            : item.itemName) === formInfo.itemName
+      ) >= 0
     ) {
       setPopupError('Item already exists in inventory');
       return;
@@ -162,10 +165,11 @@ const Inventory = () => {
             itemPrice: formInfo.itemValue,
             archived: false,
           };
-
+    setInventoryData([]);
     setInventoryData([...inventoryData, newItem]);
     setAddItemVisible(false);
     setChanged(true);
+    setItemRefresh(true);
     setPopupError('');
   };
 
@@ -291,6 +295,8 @@ const Inventory = () => {
           currentItems={inventoryData}
           inventoryType={inventoryType}
           popupError={popupError}
+          itemRefresh={itemRefresh}
+          setItemRefresh={setItemRefresh}
         />
         {error && (
           <Error
