@@ -25,7 +25,34 @@ const Schedule = () => {
   const [error, setError] = useState('');
   const [errorDescription, setErrorDescription] = useState('');
 
+  const dateToString = (date) => {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  };
+
+  const setToday = () => {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.getMonth() + 1;
+    const year = today.getFullYear();
+    setFromDate(`${month}/${day}/${year}`);
+    setUntilDate(`${month}/${day}/${year}`);
+  };
+
+  const setThisWeek = () => {
+    const today = new Date();
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+    const first = new Date(today.setDate(diff));
+    const last = new Date(today.setDate(diff + 6));
+    setFromDate(dateToString(first));
+    setUntilDate(dateToString(last));
+  };
+
   useEffect(async () => {
+    if (!fromDate) setThisWeek();
     if (!currentLocation) setError('Please select a location');
     try {
       await getSchedules(currentLocation, fromDate, untilDate).then((items) => {
@@ -70,32 +97,6 @@ const Schedule = () => {
     Packer.toBlob(doc).then((blob) => {
       saveAs(blob, `PencilSchedule.${today}.docx`);
     });
-  };
-
-  const dateToString = (date) => {
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    return `${month}/${day}/${year}`;
-  };
-
-  const setToday = () => {
-    const today = new Date();
-    const day = today.getDate();
-    const month = today.getMonth() + 1;
-    const year = today.getFullYear();
-    setFromDate(`${month}/${day}/${year}`);
-    setUntilDate(`${month}/${day}/${year}`);
-  };
-
-  const setThisWeek = () => {
-    const today = new Date();
-    const day = today.getDay();
-    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
-    const first = new Date(today.setDate(diff));
-    const last = new Date(today.setDate(diff + 6));
-    setFromDate(dateToString(first));
-    setUntilDate(dateToString(last));
   };
 
   const getScheduleTimeSlot = (startDay, endDay, scheduleItemData) => (
