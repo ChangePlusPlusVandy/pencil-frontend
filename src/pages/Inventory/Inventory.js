@@ -66,7 +66,12 @@ const Inventory = () => {
   const handleDelete = (uuid) => {
     const checkVal = inventoryData.findIndex((item) => uuid === item.uuid);
     const newData = [...inventoryData];
-    newData[checkVal].archived = true;
+
+    if (inventoryType === 'Active') {
+      newData.splice(checkVal, 1);
+    } else if (inventoryType === 'Master') {
+      newData[checkVal].archived = true;
+    }
 
     setInventoryData(newData);
     setChanged(true);
