@@ -230,6 +230,16 @@ body {
   transform: rotate(180deg);
 }
 
+.trashButton {
+  margin-right: 1em;
+  transition: all 0.3s ease-in-out;
+  color: var(--textSecondary);
+}
+
+.trashButton:hover {
+  cursor: pointer;
+}
+
 .tableEditButton {
   margin-left: 8px;
   transition: all 0.3s ease-in-out;

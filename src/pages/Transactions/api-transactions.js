@@ -98,6 +98,17 @@ const getTransactions = async (
   return false;
 };
 
+const clearDeniedTransactions = async (location) => {
+  try {
+    const response = await axios.post(
+      `/${location}/transaction/clear-denied-transactions`
+    );
+    return response.data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
 // Approves a transaction
 // @param location: string
 // @param uuid: string - uuid of transaction to be approved
@@ -207,4 +218,5 @@ export {
   getVerifiedSchools,
   approveDeniedTransactionWithNewSchool,
   approveTransactionWithNewSchool,
+  clearDeniedTransactions,
 };

@@ -7,7 +7,7 @@
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import { FaChevronDown, FaCheck } from 'react-icons/fa';
-import { IoMdRefresh } from 'react-icons/io';
+import { IoMdRefresh, IoMdTrash } from 'react-icons/io';
 import { ImCross } from 'react-icons/im';
 import { Table } from 'antd';
 import { IoFilter } from 'react-icons/io5';
@@ -22,6 +22,7 @@ import {
   getVerifiedSchools,
   approveDeniedTransactionWithNewSchool,
   approveTransactionWithNewSchool,
+  clearDeniedTransactions,
 } from './api-transactions';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import './Transactions.css';
@@ -60,16 +61,18 @@ const Transactions = () => {
    * @param isLoadMore: true if the data is being loaded after pressing the "Load More" button
    */
   const formatData = (transactions, status, isLoadMore = false) => {
-    const result = transactions.map((item) => ({
-      uuid: item.uuid,
-      date: formatDate(new Date(item.createdAt)),
-      teacherName: item.Teacher.name,
-      schoolName: item.Teacher.School.name,
-      schoolId: item.Teacher.School.uuid,
-      schoolVerified: item.Teacher.School.verified,
-      transactionItems: item.TransactionItems,
-      status,
-    }));
+    const result = transactions
+      ? transactions.map((item) => ({
+          uuid: item.uuid,
+          date: formatDate(new Date(item.createdAt)),
+          teacherName: item.Teacher.name,
+          schoolName: item.Teacher.School.name,
+          schoolId: item.Teacher.School.uuid,
+          schoolVerified: item.Teacher.School.verified,
+          transactionItems: item.TransactionItems,
+          status,
+        }))
+      : [];
     if (!isLoadMore) setData(result);
     else if (transactions.length !== 0) setData([...data, ...result]);
   };
@@ -429,6 +432,23 @@ const Transactions = () => {
     }
   };
 
+  const deleteDeniedTransactions = async () => {
+    try {
+      await clearDeniedTransactions(currentLocation).then((transactions) => {
+        setData([]);
+        formatData(transactions, 'Denied');
+        setView('Denied');
+      });
+      setError('');
+      setErrorDescription('');
+    } catch (err) {
+      setError(err.message);
+      if (err.response?.data && Object.keys(err.response?.data).length) {
+        setErrorDescription(err.response?.data);
+      }
+    }
+  };
+
   // Types of transactions that can be loaded
   const menuOptions = ['Pending', 'Approved', 'Denied'];
 
@@ -481,6 +501,13 @@ const Transactions = () => {
   // Defines items present at top right of screen
   const rightItems = (
     <>
+      {view === 'Denied' && (
+        <IoMdTrash
+          className="trashButton"
+          size="26"
+          onClick={deleteDeniedTransactions}
+        />
+      )}
       <IoMdRefresh
         className="refreshButton"
         size="26"
